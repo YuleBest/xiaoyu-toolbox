@@ -9,10 +9,10 @@
           class="mb-6 animate-bounce"
         ></v-icon>
 
-        <h1 class="text-h2 font-weight-bold mb-4 text-primary">小于工具箱</h1>
+        <h2 class="text-h3 font-weight-bold mb-4 text-primary">小于工具箱</h2>
 
-        <p class="text-h5 text-medium-emphasis mb-8">
-          简单、高效、现代化的在线开发者工具集
+        <p class="text text-medium-emphasis mb-8">
+          简单、高效、现代化的在线工具集
         </p>
 
         <div class="d-flex justify-center gap-4">
@@ -45,7 +45,7 @@
               class="mr-2"
               color="success"
             ></v-icon>
-            <span>完全免费</span>
+            <span class="text-body-2">完全免费</span>
           </div>
           <div class="d-flex align-center">
             <v-icon
@@ -53,7 +53,7 @@
               class="mr-2"
               color="info"
             ></v-icon>
-            <span>无后台记录</span>
+            <span class="text-body-2">无后台记录</span>
           </div>
           <div class="d-flex align-center">
             <v-icon
@@ -61,7 +61,7 @@
               class="mr-2"
               color="warning"
             ></v-icon>
-            <span>极速响应</span>
+            <span class="text-body-2">极速响应</span>
           </div>
         </div>
       </v-col>

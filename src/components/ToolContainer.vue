@@ -11,7 +11,7 @@
         variant="text"
         @click="router.back()"
       ></v-btn>
-      <v-toolbar-title class="text-subtitle-1 font-weight-bold">
+      <v-toolbar-title class="text-subtitle-2 font-weight-bold">
         <v-icon
           :icon="tool?.icon"
           :color="tool?.color"
