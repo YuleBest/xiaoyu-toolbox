@@ -1,0 +1,35 @@
+[
+  {
+    "id": "qrcode",
+    "title": "二维码工具",
+    "subtitle": "生成与识别二维码",
+    "description": "快速生成自定义二维码，或识别图片中的二维码内容。支持下载生成的二维码图片。",
+    "author": "Yule",
+    "usage": "1. 生成：在“生成”标签页输入文本，即可实时预览二维码。\n2. 识别：在“识别”标签页上传或拖拽二维码图片，即可获取解析内容。",
+    "icon": "mdi-qrcode",
+    "color": "primary",
+    "path": "/qrcode"
+  },
+  {
+    "id": "base64",
+    "title": "Base64 转换",
+    "subtitle": "文本与 Base64 互转",
+    "description": "文本与 Base64 编码的相互转换，支持 UTF-8 中文与特殊字符，防止乱码。",
+    "author": "Yule",
+    "usage": "1. 编码：在左侧输入原文，右侧自动显示 Base64 编码结果。\n2. 解码：在右侧输入 Base64 字符串，左侧自动显示解码后的原文。\n3. 点击复制按钮可快速复制内容。",
+    "icon": "mdi-code-tags",
+    "color": "secondary",
+    "path": "/base64"
+  },
+  {
+    "id": "dydown",
+    "title": "抖音视频解析",
+    "subtitle": "无水印视频下载",
+    "description": "解析抖音分享链接，获取无水印视频直链和作者信息。",
+    "author": "Yule",
+    "usage": "1. 在抖音APP中复制分享链接。\n2. 粘贴到输入框中，点击“解析”。\n3. 获取下载链接或直接下载视频。",
+    "icon": "mdi-video",
+    "color": "black",
+    "path": "/dydown"
+  }
+]

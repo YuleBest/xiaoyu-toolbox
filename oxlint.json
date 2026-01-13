@@ -1,0 +1,7 @@
+{
+  "extends": ["recommended", "typescript"],
+  "rules": {
+    "no-debugger": "warn",
+    "no-console": "warn"
+  }
+}
