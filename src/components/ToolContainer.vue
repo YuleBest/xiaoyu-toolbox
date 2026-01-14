@@ -64,6 +64,37 @@
           <span class="text-caption text-disabled mr-2">作者:</span>
           <v-chip size="small">{{ tool?.author }}</v-chip>
         </div>
+
+        <template v-if="tool?.['back-end']">
+          <v-divider class="my-4"></v-divider>
+          <div class="d-flex align-center">
+            <span class="text-caption text-disabled mr-2">后端:</span>
+            <v-chip
+              v-if="
+                typeof tool['back-end'] === 'string' &&
+                tool['back-end'].startsWith('http')
+              "
+              size="small"
+              color="info"
+              variant="flat"
+              :href="tool['back-end']"
+              target="_blank"
+              prepend-icon="mdi-github"
+              link
+            >
+              开源后端
+            </v-chip>
+            <v-chip
+              v-else
+              size="small"
+              color="warning"
+              variant="tonal"
+              prepend-icon="mdi-server-network"
+            >
+              需联网
+            </v-chip>
+          </div>
+        </template>
       </aside>
     </div>
   </div>

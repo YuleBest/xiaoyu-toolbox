@@ -30,6 +30,18 @@
     "usage": "1. 在抖音APP中复制分享链接。\n2. 粘贴到输入框中，点击“解析”。\n3. 获取下载链接或直接下载视频。",
     "icon": "mdi-video",
     "color": "pink",
-    "path": "/dydown"
+    "path": "/dydown",
+    "back-end": "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/dydown.js"
+  },
+  {
+    "id": "json-yaml",
+    "title": "JSON-YAML 转换",
+    "subtitle": "配置文件格式互转",
+    "description": "方便快捷的 JSON 与 YAML 格式互转工具，支持实时校验和格式化。",
+    "author": "Yule",
+    "usage": "1. 粘贴 JSON 或 YAML 内容。\n2. 点击转换按钮即可进行格式转换。\n3. 支持一键复制和清空。",
+    "icon": "mdi-file-code-outline",
+    "color": "cyan",
+    "path": "/json-yaml"
   }
 ]
