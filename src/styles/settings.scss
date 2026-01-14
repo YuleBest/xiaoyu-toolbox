@@ -1,4 +1,5 @@
 @use "sass:string";
 @use "vuetify/settings" with (
-  $body-font-family: string.unquote('"PingFang SC", "Noto Sans SC", sans-serif')
+  $body-font-family:
+    string.unquote('"Inter", "PingFang SC", "Noto Sans SC", sans-serif')
 );

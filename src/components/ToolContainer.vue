@@ -31,7 +31,7 @@
 
     <!-- Content Area -->
     <!-- Responsive Container -->
-    <div class="responsive-container d-flex bg-grey-lighten-5">
+    <div class="responsive-container d-flex bg-background">
       <!-- Main Tool -->
       <main class="responsive-main pa-4">
         <slot></slot>
@@ -104,7 +104,7 @@ const tool = computed(() => {
 .responsive-aside {
   width: 100%;
   flex: 0 0 auto;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
   order: 1; /* Info on top on mobile */
 }
 
@@ -128,7 +128,7 @@ const tool = computed(() => {
     overflow-y: auto;
     border-top: none;
     border-bottom: none;
-    border-left: 1px solid rgba(0, 0, 0, 0.12);
+    border-left: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
     flex-shrink: 0;
     order: 2; /* Info on right */
   }

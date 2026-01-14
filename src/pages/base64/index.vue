@@ -5,7 +5,7 @@
         <v-col cols="12" md="6" class="h-100 d-flex flex-column pa-2">
           <v-card class="flex-grow-1 d-flex flex-column" border variant="flat">
             <v-card-title
-              class="py-3 px-4 bg-grey-lighten-4 text-subtitle-2 font-weight-bold d-flex align-center border-b"
+              class="py-3 px-4 bg-surface-variant text-subtitle-2 font-weight-bold d-flex align-center border-b"
             >
               <span>原文 (Text)</span>
               <v-spacer></v-spacer>
@@ -40,7 +40,7 @@
         <v-col cols="12" md="6" class="h-100 d-flex flex-column pa-2">
           <v-card class="flex-grow-1 d-flex flex-column" border variant="flat">
             <v-card-title
-              class="py-3 px-4 bg-grey-lighten-4 text-subtitle-2 font-weight-bold d-flex align-center border-b"
+              class="py-3 px-4 bg-surface-variant text-subtitle-2 font-weight-bold d-flex align-center border-b"
             >
               <span>Base64</span>
               <v-spacer></v-spacer>

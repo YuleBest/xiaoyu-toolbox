@@ -47,20 +47,28 @@
       <v-col
         v-for="tool in filteredTools"
         :key="tool.id"
-        cols="6"
+        cols="12"
         sm="6"
         md="4"
         lg="3"
       >
-        <v-card :to="tool.path" hover class="h-100 py-2" elevation="2" border>
-          <v-card-item>
+        <v-card :to="tool.path" class="h-100 tool-card" elevation="0" border>
+          <v-card-item class="pa-4">
             <template v-slot:prepend>
-              <v-avatar :color="tool.color" variant="tonal" rounded="lg">
-                <v-icon :icon="tool.icon"></v-icon>
+              <v-avatar
+                :color="tool.color"
+                variant="tonal"
+                rounded="lg"
+                size="48"
+                class="mr-2"
+              >
+                <v-icon :icon="tool.icon" size="24"></v-icon>
               </v-avatar>
             </template>
-            <v-card-title class="pt-0">{{ tool.title }}</v-card-title>
-            <v-card-subtitle class="pt-1 text-wrap">{{
+            <v-card-title class="text-subtitle-1 font-weight-bold">{{
+              tool.title
+            }}</v-card-title>
+            <v-card-subtitle class="text-caption text-wrap opacity-70">{{
               tool.subtitle
             }}</v-card-subtitle>
           </v-card-item>
@@ -113,3 +121,23 @@ const filteredTools = computed(() => {
   return result;
 });
 </script>
+
+<style scoped>
+.gap-4 {
+  gap: 16px;
+}
+
+.tool-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+  border-color: rgb(var(--v-theme-primary)) !important;
+  box-shadow: 0 10px 30px rgba(var(--v-theme-primary), 0.1) !important;
+}
+
+.opacity-70 {
+  opacity: 0.7;
+}
+</style>

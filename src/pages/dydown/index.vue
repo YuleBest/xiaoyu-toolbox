@@ -1,115 +1,228 @@
 <template>
   <ToolContainer id="dydown">
-    <v-card class="h-100 d-flex flex-column" variant="flat">
-      <div class="d-flex flex-column h-100">
-        <!-- Input Area -->
-        <v-card variant="outlined" class="mb-6">
-          <v-card-text>
-            <v-textarea
-              v-model="inputText"
-              label="粘贴抖音分享口令或链接"
-              placeholder="3.60 i@N.sE 11/17 复制此链接，打开Dou音搜索，直接观看视频！"
-              rows="3"
-              auto-grow
-              variant="outlined"
-              color="black"
-              hide-details
-              class="mb-4"
-              clearable
-            ></v-textarea>
-            <v-btn
-              block
-              color="black"
-              size="large"
-              :loading="loading"
-              @click="parseVideo"
-              prepend-icon="mdi-cloud-download"
-            >
-              解析视频
-            </v-btn>
-          </v-card-text>
-        </v-card>
-
-        <!-- Result Area -->
-        <v-expand-transition>
-          <div v-if="result" class="flex-grow-1 overflow-auto">
-            <v-card border variant="flat" class="bg-grey-lighten-5">
-              <v-card-item>
-                <template v-slot:prepend>
-                  <v-avatar color="surface" variant="flat" size="48">
-                    <v-icon icon="mdi-account" color="black"></v-icon>
-                  </v-avatar>
-                </template>
-                <v-card-title>{{ result.safeNickname }}</v-card-title>
-                <v-card-subtitle>{{ result.createTime }}</v-card-subtitle>
-              </v-card-item>
-
-              <v-card-text>
-                <!-- Video Preview -->
-                <div
-                  v-if="previewUrl"
-                  class="mb-4 bg-black rounded-lg overflow-hidden position-relative"
-                  style="min-height: 200px; max-height: 500px"
-                >
-                  <video
-                    :src="previewUrl"
-                    controls
-                    autoplay
-                    loop
-                    muted
-                    class="w-100 h-100"
-                    style="
-                      display: block;
-                      object-fit: contain;
-                      max-height: 500px;
-                    "
-                  ></video>
-                </div>
-
-                <div class="d-flex flex-wrap gap-2">
-                  <v-btn
-                    @click="downloadVideo"
-                    color="primary"
-                    prepend-icon="mdi-download"
-                    variant="flat"
-                  >
-                    下载视频
-                  </v-btn>
-                </div>
-
-                <v-text-field
-                  :model-value="fullDownloadUrl"
-                  readonly
-                  variant="outlined"
-                  density="compact"
-                  class="mt-4"
-                  label="视频下载链接"
-                  append-inner-icon="mdi-content-copy"
-                  @click:append-inner="copy(fullDownloadUrl)"
-                ></v-text-field>
-              </v-card-text>
-            </v-card>
+    <div class="max-width-800 mx-auto w-100 py-4 py-md-8">
+      <!-- Input Section -->
+      <v-card
+        variant="flat"
+        border
+        class="mb-8 rounded-xl overflow-hidden shadow-sm"
+      >
+        <v-card-text class="pa-6">
+          <div class="text-h6 font-weight-bold mb-4 d-flex align-center">
+            <v-icon
+              icon="mdi-link-variant"
+              class="mr-2"
+              color="primary"
+            ></v-icon>
+            视频解析
           </div>
-        </v-expand-transition>
+          <v-textarea
+            v-model="inputText"
+            label="粘贴抖音分享口令或链接"
+            placeholder="复制抖音视频链接，在此粘贴..."
+            rows="1"
+            auto-grow
+            variant="solo-filled"
+            flat
+            bg-color="surface-variant"
+            rounded="lg"
+            class="mb-4"
+            hide-details
+            clearable
+          ></v-textarea>
+          <v-btn
+            block
+            color="primary"
+            size="large"
+            rounded="lg"
+            :loading="loading"
+            elevation="0"
+            @click="parseVideo"
+            prepend-icon="mdi-magnify-expand"
+            class="font-weight-bold"
+          >
+            立即解析
+          </v-btn>
+        </v-card-text>
+      </v-card>
 
-        <v-alert
-          v-if="error"
-          type="error"
-          variant="tonal"
-          class="mt-4"
-          closable
-          @click:close="error = ''"
-        >
-          {{ error }}
-        </v-alert>
+      <!-- Result Section -->
+      <v-expand-transition>
+        <div v-if="result">
+          <v-card
+            border
+            variant="flat"
+            class="rounded-xl overflow-hidden shadow-md"
+          >
+            <!-- Author Info -->
+            <div class="pa-6 border-b bg-surface d-flex align-center">
+              <v-avatar color="primary" variant="tonal" size="56" class="mr-4">
+                <v-icon icon="mdi-account" size="32"></v-icon>
+              </v-avatar>
+              <div>
+                <div class="text-h6 font-weight-bold">
+                  {{ result.safeNickname }}
+                </div>
+                <div class="text-caption text-medium-emphasis">
+                  发布时间：{{ result.createTime }}
+                </div>
+              </div>
+              <v-spacer></v-spacer>
+              <v-chip
+                color="success"
+                size="small"
+                variant="flat"
+                prepend-icon="mdi-check-decagram"
+                >状态正常</v-chip
+              >
+            </div>
+
+            <!-- Content -->
+            <v-card-text class="pa-6">
+              <!-- Video Preview Area -->
+              <div
+                v-if="previewUrl"
+                class="video-preview-container mb-6 rounded-xl bg-black position-relative"
+              >
+                <video
+                  :src="previewUrl"
+                  controls
+                  autoplay
+                  loop
+                  muted
+                  playsinline
+                  class="rounded-xl"
+                ></video>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="d-flex flex-column gap-4">
+                <v-btn
+                  block
+                  color="success"
+                  size="x-large"
+                  rounded="lg"
+                  prepend-icon="mdi-download"
+                  class="font-weight-bold"
+                  elevation="0"
+                  @click="downloadVideo"
+                >
+                  下载无水印视频
+                </v-btn>
+
+                <div class="d-flex align-center gap-2">
+                  <v-text-field
+                    :model-value="fullDownloadUrl"
+                    readonly
+                    variant="outlined"
+                    density="comfortable"
+                    hide-details
+                    label="直链地址"
+                    rounded="lg"
+                    class="bg-surface"
+                  >
+                    <template v-slot:append-inner>
+                      <v-btn
+                        variant="text"
+                        icon="mdi-content-copy"
+                        color="primary"
+                        density="compact"
+                        @click="copy(fullDownloadUrl)"
+                      ></v-btn>
+                    </template>
+                  </v-text-field>
+                </div>
+              </div>
+            </v-card-text>
+          </v-card>
+        </div>
+      </v-expand-transition>
+
+      <!-- Empty State / Error Wrapper -->
+      <div
+        v-if="!result && !loading && !error"
+        class="text-center py-10 opacity-30"
+      >
+        <v-icon size="80" icon="mdi-movie-search-outline" class="mb-4"></v-icon>
+        <div class="text-h6">等待解析内容</div>
       </div>
-    </v-card>
 
-    <v-snackbar v-model="snackbar" location="top" :color="snackbarColor">
+      <v-alert
+        v-if="error"
+        type="error"
+        variant="tonal"
+        class="mt-6 rounded-lg"
+        closable
+        @click:close="error = ''"
+      >
+        {{ error }}
+      </v-alert>
+    </div>
+
+    <v-snackbar
+      v-model="snackbar"
+      location="top"
+      :color="snackbarColor"
+      rounded="lg"
+    >
       {{ snackbarText }}
     </v-snackbar>
   </ToolContainer>
 </template>
+
+<style scoped>
+.max-width-800 {
+  max-width: 800px;
+}
+
+.video-preview-container {
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  /* aspect-ratio: 9/16; removed to support all ratios */
+  max-height: 600px;
+  margin: 0 auto;
+  border: 1px solid rgba(var(--v-border-color), 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 600px) {
+  .video-preview-container {
+    max-width: 360px;
+  }
+}
+
+.video-preview-container video {
+  max-width: 100%;
+  max-height: 600px;
+  object-fit: contain; /* Ensure full video is visible */
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+.shadow-sm {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+.shadow-md {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+.opacity-30 {
+  opacity: 0.3;
+}
+
+.border-b {
+  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+</style>
 
 <script lang="ts" setup>
 import { ref, computed } from "vue";

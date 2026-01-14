@@ -29,7 +29,7 @@
     "author": "Yule",
     "usage": "1. 在抖音APP中复制分享链接。\n2. 粘贴到输入框中，点击“解析”。\n3. 获取下载链接或直接下载视频。",
     "icon": "mdi-video",
-    "color": "black",
+    "color": "pink",
     "path": "/dydown"
   }
 ]

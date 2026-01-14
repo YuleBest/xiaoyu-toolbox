@@ -63,9 +63,12 @@
           <v-window-item value="scan" class="h-100">
             <div class="d-flex flex-column align-center justify-center h-100">
               <div
-                class="d-flex flex-column align-center justify-center border-dashed rounded-lg pa-10 cursor-pointer bg-white w-100 hover-bg"
+                class="d-flex flex-column align-center justify-center border-dashed rounded-lg pa-10 cursor-pointer bg-surface-variant w-100 hover-bg"
                 style="
-                  border-color: #e0e0e0;
+                  border-color: rgba(
+                    var(--v-border-color),
+                    var(--v-border-opacity)
+                  );
                   border-width: 2px;
                   min-height: 250px;
                 "
@@ -250,6 +253,6 @@ const showSnackbar = (text: string, color: string = "info") => {
   transition: background-color 0.2s;
 }
 .hover-bg:hover {
-  background-color: #f5f5f5 !important;
+  background-color: rgba(var(--v-theme-primary), 0.05) !important;
 }
 </style>
