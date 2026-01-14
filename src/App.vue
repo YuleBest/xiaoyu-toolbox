@@ -1,9 +1,12 @@
 <template>
   <v-app :theme="theme">
     <v-app-bar elevation="0" color="surface" class="border-b">
-      <v-app-bar-title class="font-weight-bold text-primary">
+      <p
+        class="font-weight-bold text-primary text-h6"
+        style="margin-left: 20px"
+      >
         小于工具箱
-      </v-app-bar-title>
+      </p>
       <v-spacer></v-spacer>
 
       <v-btn

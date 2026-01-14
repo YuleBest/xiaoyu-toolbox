@@ -24,6 +24,7 @@ declare module 'vue-router/auto-routes' {
     '/json-yaml/': RouteRecordInfo<'/json-yaml/', '/json-yaml', Record<never, never>, Record<never, never>>,
     '/qrcode/': RouteRecordInfo<'/qrcode/', '/qrcode', Record<never, never>, Record<never, never>>,
     '/tools/': RouteRecordInfo<'/tools/', '/tools', Record<never, never>, Record<never, never>>,
+    '/weather/': RouteRecordInfo<'/weather/', '/weather', Record<never, never>, Record<never, never>>,
   }
 
   /**
@@ -59,6 +60,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/tools/index.vue': {
       routes: '/tools/'
+      views: never
+    }
+    'src/pages/weather/index.vue': {
+      routes: '/weather/'
       views: never
     }
   }

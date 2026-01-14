@@ -43,5 +43,17 @@
     "icon": "mdi-file-code-outline",
     "color": "cyan",
     "path": "/json-yaml"
+  },
+  {
+    "id": "weather",
+    "title": "天气查询",
+    "subtitle": "全国天气实时查询",
+    "description": "基于 Open-Meteo 的全球天气查询工具，支持查看实时天气、每小时预报及未来天气趋势。",
+    "author": "Yule",
+    "usage": "1. 输入城市名称（支持中文拼音或英文）进行搜索。\n2. 选择正确的城市。\n3. 查看详细的天气信息。\n\nTip: 由于使用非本土化接口，搜索不到国内城市时，可尝试使用拼音。例如：beijing 代替北京",
+    "icon": "mdi-weather-partly-cloudy",
+    "color": "light-blue",
+    "path": "/weather",
+    "back-end": "https://open-meteo.com/"
   }
 ]
