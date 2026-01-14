@@ -11,6 +11,9 @@ import "vuetify/styles";
 // Composables
 import { createVuetify } from "vuetify";
 
+// Blueprints
+import { md3 } from "vuetify/blueprints";
+
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
   theme: {
@@ -51,4 +54,5 @@ export default createVuetify({
       hideDetails: "auto",
     },
   },
+  blueprint: md3,
 });

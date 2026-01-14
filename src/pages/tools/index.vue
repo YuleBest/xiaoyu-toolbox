@@ -47,7 +47,7 @@
       <v-col
         v-for="tool in filteredTools"
         :key="tool.id"
-        cols="12"
+        cols="6"
         sm="6"
         md="4"
         lg="3"

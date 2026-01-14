@@ -56,6 +56,7 @@
                     controls
                     autoplay
                     loop
+                    muted
                     class="w-100 h-100"
                     style="
                       display: block;
@@ -75,15 +76,6 @@
                     下载视频
                   </v-btn>
                 </div>
-
-                <v-alert
-                  title="下载提示"
-                  text="点击“下载视频”应自动开始下载。如果未开始，请复制下方链接手动下载。"
-                  type="info"
-                  variant="tonal"
-                  class="mt-4"
-                  density="compact"
-                ></v-alert>
 
                 <v-text-field
                   :model-value="fullDownloadUrl"

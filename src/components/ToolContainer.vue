@@ -62,7 +62,7 @@
 
         <div class="d-flex align-center">
           <span class="text-caption text-disabled mr-2">作者:</span>
-          <v-chip size="small" variant="outlined">{{ tool?.author }}</v-chip>
+          <v-chip size="small">{{ tool?.author }}</v-chip>
         </div>
       </aside>
     </div>
