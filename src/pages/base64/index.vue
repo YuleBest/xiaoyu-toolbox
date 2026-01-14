@@ -1,9 +1,19 @@
 <template>
   <ToolContainer id="base64">
     <div class="h-100 d-flex flex-column">
-      <v-row class="flex-grow-1 ma-0">
-        <v-col cols="12" md="6" class="h-100 d-flex flex-column pa-2">
-          <v-card class="flex-grow-1 d-flex flex-column" border variant="flat">
+      <v-row class="ma-0" :class="mdAndUp ? 'flex-grow-1' : ''">
+        <v-col
+          cols="12"
+          md="6"
+          class="d-flex flex-column pa-2"
+          :class="mdAndUp ? 'h-100' : ''"
+        >
+          <v-card
+            class="d-flex flex-column"
+            :class="mdAndUp ? 'flex-grow-1' : ''"
+            border
+            variant="flat"
+          >
             <v-card-title
               class="py-3 px-4 text-subtitle-2 font-weight-bold d-flex align-center border-b"
             >
@@ -30,15 +40,28 @@
               variant="solo"
               flat
               hide-details
-              class="flex-grow-1 pa-0 custom-textarea h-100"
-              no-resize
+              class="pa-0"
+              :class="mdAndUp ? 'flex-grow-1 custom-textarea' : ''"
+              :rows="5"
+              :auto-grow="!mdAndUp"
+              :no-resize="mdAndUp"
               @input="encode"
             ></v-textarea>
           </v-card>
         </v-col>
 
-        <v-col cols="12" md="6" class="h-100 d-flex flex-column pa-2">
-          <v-card class="flex-grow-1 d-flex flex-column" border variant="flat">
+        <v-col
+          cols="12"
+          md="6"
+          class="d-flex flex-column pa-2"
+          :class="mdAndUp ? 'h-100' : ''"
+        >
+          <v-card
+            class="d-flex flex-column"
+            :class="mdAndUp ? 'flex-grow-1' : ''"
+            border
+            variant="flat"
+          >
             <v-card-title
               class="py-3 px-4 text-subtitle-2 font-weight-bold d-flex align-center border-b"
             >
@@ -65,8 +88,11 @@
               variant="solo"
               flat
               hide-details
-              class="flex-grow-1 pa-0 custom-textarea h-100"
-              no-resize
+              class="pa-0"
+              :class="mdAndUp ? 'flex-grow-1 custom-textarea' : ''"
+              :rows="5"
+              :auto-grow="!mdAndUp"
+              :no-resize="mdAndUp"
               @input="decode"
             ></v-textarea>
           </v-card>
@@ -87,7 +113,10 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
+import { useDisplay } from "vuetify";
 import ToolContainer from "@/components/ToolContainer.vue";
+
+const { mdAndUp } = useDisplay();
 
 const decodedText = ref("");
 const encodedText = ref("");

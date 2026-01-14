@@ -11,16 +11,20 @@
         variant="text"
         @click="router.back()"
       ></v-btn>
-      <v-toolbar-title class="text-subtitle-2 font-weight-bold">
-        <v-icon
-          :icon="tool?.icon"
-          :color="tool?.color"
-          size="small"
-          class="mr-2"
-        ></v-icon>
-        {{ tool?.title }}
+      <v-toolbar-title
+        class="text-subtitle-2 font-weight-bold ml-2 flex-grow-1"
+        style="min-width: 0"
+      >
+        <div class="d-flex align-center">
+          <v-icon
+            :icon="tool?.icon"
+            :color="tool?.color"
+            size="small"
+            class="mr-2 flex-shrink-0"
+          ></v-icon>
+          <span class="text-truncate">{{ tool?.title }}</span>
+        </div>
       </v-toolbar-title>
-      <v-spacer></v-spacer>
       <v-btn
         icon="mdi-information-outline"
         variant="text"

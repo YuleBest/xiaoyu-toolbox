@@ -30,12 +30,13 @@
       </v-card>
 
       <!-- Editors -->
-      <v-row class="flex-grow-1" no-gutters>
+      <v-row class="flex-grow-1" no-gutters style="min-height: 0">
         <!-- JSON Input -->
         <v-col
           cols="12"
           md="6"
           class="h-100 d-flex flex-column pr-md-2 pb-4 pb-md-0"
+          style="min-height: 50%"
         >
           <v-card class="flex-grow-1 d-flex flex-column" border variant="flat">
             <v-card-title
@@ -65,7 +66,12 @@
         </v-col>
 
         <!-- YAML Input -->
-        <v-col cols="12" md="6" class="h-100 d-flex flex-column pl-md-2">
+        <v-col
+          cols="12"
+          md="6"
+          class="h-100 d-flex flex-column pl-md-2"
+          style="min-height: 50%"
+        >
           <v-card class="flex-grow-1 d-flex flex-column" border variant="flat">
             <v-card-title
               class="py-3 px-4 text-subtitle-2 font-weight-bold d-flex align-center border-b"
