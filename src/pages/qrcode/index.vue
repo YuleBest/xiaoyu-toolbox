@@ -11,8 +11,26 @@
           <!-- Generate Tab -->
           <v-window-item value="generate" class="h-100">
             <div class="d-flex flex-column h-100 align-center">
+              <!-- Type Selector -->
+              <v-chip-group
+                v-model="qrType"
+                selected-class="text-primary"
+                mandatory
+                class="mb-4"
+              >
+                <v-chip value="text" filter variant="outlined"
+                  >文本/链接</v-chip
+                >
+                <v-chip value="wifi" filter variant="outlined">WiFi</v-chip>
+                <v-chip value="tel" filter variant="outlined">电话</v-chip>
+                <v-chip value="sms" filter variant="outlined">短信</v-chip>
+                <v-chip value="email" filter variant="outlined">邮件</v-chip>
+              </v-chip-group>
+
+              <!-- Text Input -->
               <v-textarea
-                v-model="textToGenerate"
+                v-if="qrType === 'text'"
+                v-model="textInput"
                 label="输入文本或链接"
                 placeholder="https://example.com"
                 variant="outlined"
@@ -20,6 +38,102 @@
                 class="w-100 mb-6"
                 hide-details
               ></v-textarea>
+
+              <!-- WiFi Input -->
+              <div
+                v-if="qrType === 'wifi'"
+                class="w-100 mb-6 d-flex flex-column gap-2"
+              >
+                <v-text-field
+                  v-model="wifiData.ssid"
+                  label="WiFi 名称 (SSID)"
+                  variant="outlined"
+                  hide-details
+                ></v-text-field>
+                <v-select
+                  v-model="wifiData.encryption"
+                  label="加密方式"
+                  :items="['WPA/WPA2', 'WEP', '无加密']"
+                  variant="outlined"
+                  hide-details
+                ></v-select>
+                <v-text-field
+                  v-if="wifiData.encryption !== '无加密'"
+                  v-model="wifiData.password"
+                  label="WiFi 密码"
+                  variant="outlined"
+                  hide-details
+                  type="password"
+                ></v-text-field>
+                <v-checkbox
+                  v-model="wifiData.hidden"
+                  label="隐藏网络"
+                  hide-details
+                  density="compact"
+                ></v-checkbox>
+              </div>
+
+              <!-- Phone Input -->
+              <div v-if="qrType === 'tel'" class="w-100 mb-6">
+                <v-text-field
+                  v-model="telData.number"
+                  label="电话号码"
+                  placeholder="13888888888"
+                  variant="outlined"
+                  hide-details
+                  type="tel"
+                ></v-text-field>
+              </div>
+
+              <!-- SMS Input -->
+              <div
+                v-if="qrType === 'sms'"
+                class="w-100 mb-6 d-flex flex-column gap-2"
+              >
+                <v-text-field
+                  v-model="smsData.number"
+                  label="接收号码"
+                  placeholder="13888888888"
+                  variant="outlined"
+                  hide-details
+                  type="tel"
+                ></v-text-field>
+                <v-textarea
+                  v-model="smsData.message"
+                  label="短信内容"
+                  variant="outlined"
+                  rows="3"
+                  hide-details
+                ></v-textarea>
+              </div>
+
+              <!-- Email Input -->
+              <div
+                v-if="qrType === 'email'"
+                class="w-100 mb-6 d-flex flex-column gap-2"
+              >
+                <v-text-field
+                  v-model="emailData.address"
+                  label="收件人邮箱"
+                  placeholder="example@mail.com"
+                  variant="outlined"
+                  hide-details
+                  type="email"
+                ></v-text-field>
+                <v-text-field
+                  v-model="emailData.subject"
+                  label="邮件主题"
+                  variant="outlined"
+                  hide-details
+                ></v-text-field>
+                <v-textarea
+                  v-model="emailData.body"
+                  label="邮件正文"
+                  variant="outlined"
+                  rows="3"
+                  hide-details
+                ></v-textarea>
+              </div>
 
               <div
                 class="d-flex flex-column align-center flex-grow-1 justify-center"
@@ -43,7 +157,8 @@
                   class="d-flex align-center justify-center border border-dashed rounded text-medium-emphasis mb-4"
                   style="width: 250px; height: 250px"
                 >
-                  输入内容生成预览
+                  <span v-if="!textToGenerate">输入内容生成预览</span>
+                  <span v-else>生成中...</span>
                 </div>
 
                 <v-btn
@@ -63,7 +178,7 @@
           <v-window-item value="scan" class="h-100">
             <div class="d-flex flex-column align-center justify-center h-100">
               <div
-                class="d-flex flex-column align-center justify-center border-dashed rounded-lg pa-10 cursor-pointer bg-surface-variant w-100 hover-bg"
+                class="d-flex flex-column align-center justify-center border-dashed rounded-lg pa-10 cursor-pointer w-100 hover-bg"
                 style="
                   border-color: rgba(
                     var(--v-border-color),
@@ -143,7 +258,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import ToolContainer from "@/components/ToolContainer.vue";
 import QRCode from "qrcode";
 import jsQR from "jsqr";
@@ -151,8 +266,70 @@ import jsQR from "jsqr";
 const tab = ref("generate");
 
 // --- Generate Logic ---
-const textToGenerate = ref("");
+const qrType = ref("text");
+const textInput = ref("");
+
+const wifiData = ref({
+  ssid: "",
+  encryption: "WPA/WPA2",
+  password: "",
+  hidden: false,
+});
+
+const telData = ref({
+  number: "",
+});
+
+const smsData = ref({
+  number: "",
+  message: "",
+});
+
+const emailData = ref({
+  address: "",
+  subject: "",
+  body: "",
+});
+
 const generatedQr = ref("");
+
+const textToGenerate = computed(() => {
+  switch (qrType.value) {
+    case "wifi":
+      // WIFI:S:<ssid>;T:<type>;P:<password>;H:<hidden>;
+      if (!wifiData.value.ssid) return "";
+      let type = "WPA";
+      if (wifiData.value.encryption === "WEP") type = "WEP";
+      if (wifiData.value.encryption === "无加密") type = "nopass";
+
+      let str = `WIFI:S:${wifiData.value.ssid};T:${type};`;
+      if (type !== "nopass") {
+        str += `P:${wifiData.value.password};`;
+      }
+      if (wifiData.value.hidden) {
+        str += `H:true;`;
+      }
+      str += ";";
+      return str;
+
+    case "tel":
+      if (!telData.value.number) return "";
+      return `tel:${telData.value.number}`;
+
+    case "sms":
+      if (!smsData.value.number) return "";
+      return `smsto:${smsData.value.number}:${smsData.value.message}`;
+
+    case "email":
+      if (!emailData.value.address) return "";
+      return `mailto:${emailData.value.address}?subject=${encodeURIComponent(
+        emailData.value.subject
+      )}&body=${encodeURIComponent(emailData.value.body)}`;
+
+    default: // text
+      return textInput.value;
+  }
+});
 
 watch(textToGenerate, async (newVal) => {
   if (!newVal) {
@@ -254,5 +431,8 @@ const showSnackbar = (text: string, color: string = "info") => {
 }
 .hover-bg:hover {
   background-color: rgba(var(--v-theme-primary), 0.05) !important;
+}
+.gap-2 {
+  gap: 8px;
 }
 </style>

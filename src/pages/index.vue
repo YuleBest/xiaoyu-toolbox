@@ -88,7 +88,7 @@
                   <div class="dot bg-green"></div>
                 </div>
                 <div
-                  class="pa-4 bg-surface-variant d-flex align-center justify-center"
+                  class="pa-4 d-flex align-center justify-center"
                   style="height: 120px"
                 >
                   <v-icon
