@@ -1,5 +1,14 @@
 <template>
   <SpeedInsights />
+  <v-progress-linear
+    v-if="loadingProgress > 0"
+    :model-value="loadingProgress"
+    color="primary"
+    height="3"
+    fixed
+    style="z-index: 9999; top: 0"
+  ></v-progress-linear>
+
   <v-app :theme="theme">
     <v-app-bar elevation="0" color="surface" class="border-b">
       <p
@@ -29,7 +38,19 @@
       <v-container fluid class="pa-0 fill-height align-start">
         <router-view v-slot="{ Component }">
           <v-fade-transition mode="out-in">
-            <component :is="Component" class="w-100" />
+            <div v-if="isPageLoading" class="w-100 pa-6">
+              <v-skeleton-loader
+                type="article, actions"
+                class="mx-auto bg-transparent"
+                style="max-width: 800px"
+              ></v-skeleton-loader>
+              <v-skeleton-loader
+                type="table-heading, table-thead, table-tbody"
+                class="mx-auto mt-8 bg-transparent"
+                style="max-width: 800px"
+              ></v-skeleton-loader>
+            </div>
+            <component v-else :is="Component" class="w-100" />
           </v-fade-transition>
         </router-view>
       </v-container>
@@ -73,7 +94,8 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import { SpeedInsights } from "@vercel/speed-insights/vue";
+import { isPageLoading, loadingProgress } from "@/utils/loading";
 
 const theme = ref("light");
 

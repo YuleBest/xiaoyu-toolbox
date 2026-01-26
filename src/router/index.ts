@@ -7,6 +7,7 @@
 // Composables
 import { createRouter, createWebHistory } from "vue-router";
 import { routes } from "vue-router/auto-routes";
+import { startLoading, stopLoading } from "@/utils/loading";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +19,15 @@ const router = createRouter({
       return { top: 0 };
     }
   },
+});
+
+router.beforeEach((to, from, next) => {
+  startLoading();
+  next();
+});
+
+router.afterEach(() => {
+  stopLoading();
 });
 
 // Workaround for https://github.com/vitejs/vite/issues/11804
