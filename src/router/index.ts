@@ -5,12 +5,14 @@
  */
 
 // Composables
-import { createRouter, createWebHistory } from "vue-router";
+// 将 createWebHistory 替换为 createWebHashHistory
+import { createRouter, createWebHashHistory } from "vue-router";
 import { routes } from "vue-router/auto-routes";
 import { startLoading, stopLoading } from "@/utils/loading";
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  // 使用 Hash 模式，解决服务器 404 问题
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
