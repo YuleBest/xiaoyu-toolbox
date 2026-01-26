@@ -46,6 +46,9 @@ async function handleParse(url) {
   const videoId = html.match(/video_id=([a-zA-Z0-9]+)/)?.[1];
   const nickname = html.match(/"nickname":"([^"]+)"/)?.[1];
   const createTs = html.match(/"create_time":(\d+)/)?.[1];
+  const commentCount = html.match(/"comment_count":(\d+)/)?.[1];
+  const diggCount = html.match(/"digg_count":(\d+)/)?.[1];
+  const shareCount = html.match(/"share_count":(\d+)/)?.[1];
 
   if (!videoId || !nickname || !createTs) {
     return json(
@@ -53,7 +56,7 @@ async function handleParse(url) {
         ok: false,
         message: "解析失败，可能是图集、动态照片或页面结构变化",
       },
-      400
+      400,
     );
   }
 
@@ -67,6 +70,11 @@ async function handleParse(url) {
       nickname,
       safeNickname,
       createTime,
+      statistics: {
+        commentCount: Number(commentCount || 0),
+        diggCount: Number(diggCount || 0),
+        shareCount: Number(shareCount || 0),
+      },
       downloadApi:
         `/api/download?videoId=${videoId}` +
         `&filename=${encodeURIComponent(`${createTime}_${safeNickname}.mp4`)}`,

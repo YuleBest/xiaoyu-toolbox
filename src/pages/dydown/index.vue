@@ -64,7 +64,7 @@
                   {{ result.safeNickname }}
                 </div>
                 <div class="text-caption text-medium-emphasis">
-                  发布时间：{{ result.createTime }}
+                  发布时间：{{ formatDateTime(result.createTime) }}
                 </div>
               </div>
               <v-spacer></v-spacer>
@@ -75,6 +75,46 @@
                 prepend-icon="mdi-check-decagram"
                 >状态正常</v-chip
               >
+            </div>
+
+            <!-- Statistics -->
+            <div
+              v-if="result.statistics"
+              class="px-6 py-3 d-flex justify-space-around text-center border-b"
+            >
+              <div class="flex-grow-1">
+                <div class="text-subtitle-1 font-weight-black text-primary">
+                  {{ formatNumber(result.statistics.diggCount) }}
+                </div>
+                <div
+                  class="text-caption text-medium-emphasis d-flex align-center justify-center"
+                >
+                  <v-icon icon="mdi-heart" size="14" class="mr-1"></v-icon>点赞
+                </div>
+              </div>
+              <v-divider vertical class="mx-2"></v-divider>
+              <div class="flex-grow-1">
+                <div class="text-subtitle-1 font-weight-black text-primary">
+                  {{ formatNumber(result.statistics.commentCount) }}
+                </div>
+                <div
+                  class="text-caption text-medium-emphasis d-flex align-center justify-center"
+                >
+                  <v-icon icon="mdi-comment" size="14" class="mr-1"></v-icon
+                  >评论
+                </div>
+              </div>
+              <v-divider vertical class="mx-2"></v-divider>
+              <div class="flex-grow-1">
+                <div class="text-subtitle-1 font-weight-black text-primary">
+                  {{ formatNumber(result.statistics.shareCount) }}
+                </div>
+                <div
+                  class="text-caption text-medium-emphasis d-flex align-center justify-center"
+                >
+                  <v-icon icon="mdi-share" size="14" class="mr-1"></v-icon>分享
+                </div>
+              </div>
             </div>
 
             <!-- Content -->
@@ -309,5 +349,25 @@ const showSnackbar = (text: string, color: string = "info") => {
   snackbarText.value = text;
   snackbarColor.value = color;
   snackbar.value = true;
+};
+
+const formatNumber = (num: number) => {
+  if (!num) return "0";
+  if (num >= 10000) {
+    return (num / 10000).toFixed(1) + "w";
+  }
+  return num.toString();
+};
+
+const formatDateTime = (timeStr: string) => {
+  if (!timeStr || timeStr.length < 15) return timeStr;
+  // 输入格式: YYYYMMDD-HHMMSS (例如: 20260126-170304)
+  const y = timeStr.substring(0, 4);
+  const m = timeStr.substring(4, 6);
+  const d = timeStr.substring(6, 8);
+  const hh = timeStr.substring(9, 11);
+  const mm = timeStr.substring(11, 13);
+  const ss = timeStr.substring(13, 16);
+  return `${y}/${m}/${d} ${hh}:${mm}:${ss}`;
 };
 </script>
