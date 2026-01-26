@@ -275,7 +275,7 @@ const parseVideo = async () => {
   loading.value = true;
   try {
     const resp = await fetch(
-      `${API_ENDPOINT}?url=${encodeURIComponent(shortUrl)}`
+      `${API_ENDPOINT}?url=${encodeURIComponent(shortUrl)}`,
     );
     const data = await resp.json();
 

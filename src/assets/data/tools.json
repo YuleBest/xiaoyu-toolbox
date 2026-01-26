@@ -55,5 +55,16 @@
     "color": "light-blue",
     "path": "/weather",
     "back-end": "https://open-meteo.com/"
+  },
+  {
+    "id": "exif",
+    "title": "图片 EXIF 查看",
+    "subtitle": "查看图片元数据",
+    "description": "读取和显示图片的 EXIF 元数据，包括相机信息、拍摄参数、GPS 位置等。",
+    "author": "Yule",
+    "usage": "1. 上传图片：点击“选择一张图片”按钮，选择本地图片文件。\n2. 查看信息：上传后自动解析 EXIF 数据，并在下方表格中显示。\n3. 预览：会显示图片预览，方便核对。",
+    "icon": "mdi-camera",
+    "color": "primary",
+    "path": "/exif"
   }
 ]
