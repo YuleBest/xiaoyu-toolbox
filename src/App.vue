@@ -1,4 +1,5 @@
 <template>
+  <SpeedInsights />
   <v-app :theme="theme">
     <v-app-bar elevation="0" color="surface" class="border-b">
       <p
@@ -72,6 +73,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const theme = ref("light");
 
