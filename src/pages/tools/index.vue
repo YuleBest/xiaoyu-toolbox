@@ -100,7 +100,7 @@ const sortLabel = computed(() => {
 });
 
 const filteredTools = computed(() => {
-  let result = [...toolsData];
+  let result = [...toolsData].reverse();
 
   // Search
   if (searchQuery.value) {
@@ -109,7 +109,7 @@ const filteredTools = computed(() => {
       (t) =>
         t.title.toLowerCase().includes(q) ||
         t.description.toLowerCase().includes(q) ||
-        t.subtitle.toLowerCase().includes(q)
+        t.subtitle.toLowerCase().includes(q),
     );
   }
 
