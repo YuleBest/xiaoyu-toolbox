@@ -518,7 +518,7 @@
         <v-card-text class="py-4 text-body-1">
           正在为您初始化浏览器合并引擎。
           <br /><br />
-          首次使用需要从 CDN 加载约 <b>31MB</b> 的 FFmpeg
+          首次使用需要从 CDN 加载约 <b>5MB</b> 的 FFmpeg
           核心库。合并过程将完全在您的设备上本地运行，不会消耗流量。
         </v-card-text>
         <v-card-actions class="justify-end gap-2 pb-2">
