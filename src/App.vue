@@ -10,7 +10,12 @@
   ></v-progress-linear>
 
   <v-app :theme="theme">
-    <v-app-bar elevation="0" color="surface" class="border-b">
+    <v-app-bar
+      elevation="0"
+      color="surface"
+      class="blur-surface border-b"
+      rounded
+    >
       <p
         class="font-weight-bold text-primary text-h6"
         style="margin-left: 20px"
@@ -114,7 +119,7 @@ onMounted(() => {
 });
 </script>
 
-<style>
+<style lang="scss" scoped>
 /* Global aesthetic improvements */
 html {
   overflow-y: auto !important;
@@ -127,5 +132,15 @@ html {
 /* Ensure footer stays at bottom */
 .v-application__wrap {
   min-height: 100vh;
+}
+
+.blur-surface {
+  background-color: color-mix(
+    in srgb,
+    rgb(var(--v-theme-surface)),
+    transparent 20%
+  ) !important;
+
+  backdrop-filter: blur(80px) !important;
 }
 </style>

@@ -211,6 +211,7 @@
 <script lang="ts" setup>
 import { ref, computed, watch, onBeforeUnmount } from "vue";
 import * as exifr from "exifr";
+import heic2any from "heic2any";
 import ToolContainer from "@/components/ToolContainer.vue";
 import zhCN from "./zh-CN.json";
 
@@ -237,7 +238,7 @@ const previewUrl = ref("");
 // 监听文件变化，清除旧信息并更新预览
 watch(
   () => file.value,
-  (newFile) => {
+  async (newFile) => {
     // 清除旧的预览 URL 防止内存泄漏
     if (previewUrl.value) {
       URL.revokeObjectURL(previewUrl.value);
@@ -253,7 +254,37 @@ watch(
       // 处理单个文件或数组的情况 (Vuetify v-file-input 有时返回数组)
       const targetFile = Array.isArray(newFile) ? newFile[0] : newFile;
       if (targetFile) {
-        previewUrl.value = URL.createObjectURL(targetFile);
+        // 检查是否为 HEIC/HEIF 文件 (通过后缀或类型)
+        const isHeic =
+          targetFile.type === "image/heic" ||
+          targetFile.type === "image/heif" ||
+          targetFile.name.toLowerCase().endsWith(".heic") ||
+          targetFile.name.toLowerCase().endsWith(".heif");
+
+        if (isHeic) {
+          loading.value = true;
+          try {
+            const convertedBlob = await heic2any({
+              blob: targetFile,
+              toType: "image/jpeg",
+              quality: 0.7,
+            });
+            const resultBlob = Array.isArray(convertedBlob)
+              ? convertedBlob[0]
+              : convertedBlob;
+            if (resultBlob) {
+              previewUrl.value = URL.createObjectURL(resultBlob);
+            }
+          } catch (e) {
+            console.error("HEIC 转换预览图失败:", e);
+            // 转换失败则显示原始 URL (虽然可能无法预览)
+            previewUrl.value = URL.createObjectURL(targetFile);
+          } finally {
+            loading.value = false;
+          }
+        } else {
+          previewUrl.value = URL.createObjectURL(targetFile);
+        }
       }
     }
   },
