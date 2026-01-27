@@ -23,6 +23,7 @@ declare module 'vue-router/auto-routes' {
     '/bilidown/': RouteRecordInfo<'/bilidown/', '/bilidown', Record<never, never>, Record<never, never>>,
     '/dydown/': RouteRecordInfo<'/dydown/', '/dydown', Record<never, never>, Record<never, never>>,
     '/exif/': RouteRecordInfo<'/exif/', '/exif', Record<never, never>, Record<never, never>>,
+    '/hok/': RouteRecordInfo<'/hok/', '/hok', Record<never, never>, Record<never, never>>,
     '/json-yaml/': RouteRecordInfo<'/json-yaml/', '/json-yaml', Record<never, never>, Record<never, never>>,
     '/playground/': RouteRecordInfo<'/playground/', '/playground', Record<never, never>, Record<never, never>>,
     '/qrcode/': RouteRecordInfo<'/qrcode/', '/qrcode', Record<never, never>, Record<never, never>>,
@@ -59,6 +60,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/exif/index.vue': {
       routes: '/exif/'
+      views: never
+    }
+    'src/pages/hok/index.vue': {
+      routes: '/hok/'
       views: never
     }
     'src/pages/json-yaml/index.vue': {
