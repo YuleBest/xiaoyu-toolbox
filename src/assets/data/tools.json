@@ -9,7 +9,8 @@
       "usage": "1. 编码：在左侧输入原文，右侧自动显示 Base64 编码结果。\n2. 解码：在右侧输入 Base64 字符串，左侧自动显示解码后的原文。\n3. 点击复制按钮可快速复制内容。",
       "icon": "mdi-code-tags",
       "color": "secondary",
-      "path": "/base64"
+      "path": "/base64",
+      "date": "2026-01-01"
     },
     {
       "id": "json-yaml",
@@ -20,7 +21,20 @@
       "usage": "1. 粘贴 JSON 或 YAML 内容。\n2. 点击转换按钮即可进行格式转换。\n3. 支持一键复制和清空。",
       "icon": "mdi-file-code-outline",
       "color": "cyan",
-      "path": "/json-yaml"
+      "path": "/json-yaml",
+      "date": "2026-01-02"
+    },
+    {
+      "id": "playground",
+      "title": "TypeScript 演练场",
+      "subtitle": "浏览器内的 JS / TS 沙盒",
+      "description": "基于 Sandpack 和 Monaco Editor 的在线代码演练场，支持实时预览 JavaScript/TypeScript 代码运行效果。",
+      "author": "Yule",
+      "usage": "1. 编写代码：在左侧编辑器中编写 JS/TS 代码。\n2. 点击运行：日志栏将运行您的代码，并展示输出。\n3. 切换模板：支持 JS/TS 运行环境切换。",
+      "icon": "mdi-play-box-outline",
+      "color": "amber-darken-2",
+      "path": "/playground",
+      "date": "2026-01-27"
     }
   ],
   "图像工具": [
@@ -33,7 +47,8 @@
       "usage": "1. 生成：在“生成”标签页输入文本，即可实时预览二维码。\n2. 识别：在“识别”标签页上传或拖拽二维码图片，即可获取解析内容。",
       "icon": "mdi-qrcode",
       "color": "primary",
-      "path": "/qrcode"
+      "path": "/qrcode",
+      "date": "2026-01-03"
     },
     {
       "id": "exif",
@@ -44,7 +59,8 @@
       "usage": "1. 上传图片：点击“选择一张图片”按钮，选择本地图片文件。\n2. 查看信息：上传后自动解析 EXIF 数据，并在下方表格中显示。\n3. 预览：会显示图片预览，方便核对。",
       "icon": "mdi-camera",
       "color": "primary",
-      "path": "/exif"
+      "path": "/exif",
+      "date": "2026-01-26"
     }
   ],
   "多媒体工具": [
@@ -58,20 +74,8 @@
       "icon": "mdi-video",
       "color": "pink",
       "path": "/dydown",
-      "back-end": "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/dydown.js"
-    }
-  ],
-  "编程开发": [
-    {
-      "id": "playground",
-      "title": "TypeScript 演练场",
-      "subtitle": "浏览器内的 JS / TS 沙盒",
-      "description": "基于 Sandpack 和 Monaco Editor 的在线代码演练场，支持实时预览 JavaScript/TypeScript 代码运行效果。",
-      "author": "Yule",
-      "usage": "1. 编写代码：在左侧编辑器中编写 JS/TS 代码。\n2. 点击运行：日志栏将运行您的代码，并展示输出。\n3. 切换模板：支持 JS/TS 运行环境切换。",
-      "icon": "mdi-play-box-outline",
-      "color": "amber-darken-2",
-      "path": "/playground"
+      "back-end": "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/dydown.js",
+      "date": "2026-01-25"
     }
   ],
   "生活查询": [
@@ -85,7 +89,8 @@
       "icon": "mdi-weather-partly-cloudy",
       "color": "light-blue",
       "path": "/weather",
-      "back-end": "https://open-meteo.com/"
+      "back-end": "https://open-meteo.com/",
+      "date": "2026-01-20"
     }
   ]
 }

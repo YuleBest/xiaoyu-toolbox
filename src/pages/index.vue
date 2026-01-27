@@ -21,7 +21,7 @@
           class="text-h6 text-medium-emphasis mb-10 font-weight-regular mx-auto"
           style="max-width: 600px; line-height: 1.6"
         >
-          一个纯净、无广告的工具集
+          于乐的在线工具集
         </p>
 
         <div class="d-flex flex-column flex-sm-row justify-center gap-4">
@@ -83,6 +83,7 @@
                 :color="tool.color"
                 size="small"
                 class="px-3 font-weight-medium"
+                rounded="lg"
               >
                 <v-icon :icon="tool.icon" start size="14"></v-icon>
                 {{ tool.title }}
@@ -97,7 +98,19 @@
 
 <script lang="ts" setup>
 import { computed } from "vue";
+import { useHead } from "@unhead/vue";
 import toolsData from "@/assets/data/tools.json";
+
+useHead({
+  title: "小于工具箱 - 一个纯净、开源、无广告的在线工具集",
+  meta: [
+    {
+      name: "description",
+      content:
+        "小于在线工具箱，提供二维码生成、Base64转换、天气查询等多种实用在线工具，无广告，快速便捷。",
+    },
+  ],
+});
 
 const allTools = computed(() => Object.values(toolsData).flat());
 </script>
@@ -168,6 +181,10 @@ const allTools = computed(() => Object.values(toolsData).flat());
 .responsive-h1 {
   font-size: 2rem; /* Mobile first (smaller) */
   line-height: 1.2;
+}
+
+.v-container {
+  padding-top: 120px !important;
 }
 
 @media (min-width: 600px) {

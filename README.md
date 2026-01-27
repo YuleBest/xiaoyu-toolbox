@@ -1,6 +1,12 @@
 # 小于工具箱 (Xiaoyu Toolbox)
 
-一个免费、快速、无广告的在线工具集合
+<center>
+
+一个纯净、开源、无广告的在线工具集
+
+[在线体验](https://tool.yule.ink)
+
+</center>
 
 ## ✨ 特性
 
@@ -11,7 +17,7 @@
 
 ## 🛠️ 工具列表
 
-请查看 [工具列表](https://tool.yule.ink/tools)。
+请查看 [工具列表](https://tool.yule.ink/#/tools)。
 
 ## 🤝 贡献
 

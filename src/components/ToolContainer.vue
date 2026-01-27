@@ -19,6 +19,7 @@
           <v-icon
             :icon="tool?.icon"
             :color="tool?.color"
+            rounded="lg"
             size="small"
             class="mr-2 flex-shrink-0"
           ></v-icon>
@@ -72,7 +73,7 @@
 
         <div class="d-flex align-center">
           <span class="text-caption text-disabled mr-2">作者:</span>
-          <v-chip size="small">{{ tool?.author }}</v-chip>
+          <v-chip size="small" rounded="lg">{{ tool?.author }}</v-chip>
         </div>
 
         <template v-if="tool?.['back-end']">
@@ -90,7 +91,7 @@
               :href="tool['back-end']"
               target="_blank"
               prepend-icon="mdi-github"
-              link
+              rounded="lg"
             >
               开源后端
             </v-chip>
@@ -100,6 +101,7 @@
               color="warning"
               variant="tonal"
               prepend-icon="mdi-server-network"
+              rounded="lg"
             >
               需联网
             </v-chip>
@@ -113,6 +115,7 @@
 <script lang="ts" setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
+import { useHead } from "@unhead/vue";
 import toolsData from "@/assets/data/tools.json";
 
 interface Tool {
@@ -147,6 +150,20 @@ const toolInfo = computed(() => {
 
 const tool = computed(() => toolInfo.value?.tool);
 const category = computed(() => toolInfo.value?.category);
+
+useHead({
+  title: computed(() =>
+    tool.value ? `${tool.value.title} - 小于工具箱` : "小于工具箱",
+  ),
+  meta: [
+    {
+      name: "description",
+      content: computed(
+        () => tool.value?.description || "高效、简单、纯净的在线工具集",
+      ),
+    },
+  ],
+});
 </script>
 
 <style scoped>
@@ -169,6 +186,10 @@ const category = computed(() => toolInfo.value?.category);
   flex: 0 0 auto;
   border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
   order: 1; /* Info on top on mobile */
+}
+
+.v-toolbar {
+  padding-top: 80px;
 }
 
 /* Desktop (> 960px) */

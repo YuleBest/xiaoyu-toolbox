@@ -9,16 +9,18 @@
       style="position: fixed; top: 0; left: 0; right: 0; z-index: 9999"
     ></v-progress-linear>
     <v-app-bar
-      elevation="0"
+      elevation="100"
       color="surface"
       class="blur-surface border-b"
-      rounded
+      scroll-behavior="fully-hide"
+      scroll-threshold="50"
+      rounded="xl"
     >
       <p
         class="font-weight-bold text-primary text-h6"
         style="margin-left: 20px"
       >
-        小于工具箱
+        小于在线工具箱
       </p>
       <v-spacer></v-spacer>
 
@@ -68,7 +70,7 @@
               <v-icon icon="mdi-toolbox" class="mr-2"></v-icon>小于工具箱
             </div>
             <div class="text-body-2 text-medium-emphasis">
-              高效、简单、纯净的在线工具集
+              一个纯净、开源、无广告的在线工具集
             </div>
           </v-col>
           <v-col
@@ -77,7 +79,7 @@
             class="text-center text-sm-right mt-4 mt-sm-0"
           >
             <div class="text-body-2 text-medium-emphasis mb-2">
-              © {{ new Date().getFullYear() }} Yule. Built with Vue & Vuetify.
+              © {{ new Date().getFullYear() }} Yule
             </div>
             <div class="d-flex justify-center justify-sm-end gap-2">
               <v-btn variant="text" size="small" to="/tools">所有工具</v-btn>
@@ -145,5 +147,10 @@ html {
 
 #Placeholder {
   height: 20px;
+}
+
+.v-app-bar {
+  width: 95vw !important;
+  margin: 10px !important;
 }
 </style>
