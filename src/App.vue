@@ -1,15 +1,13 @@
 <template>
   <SpeedInsights />
-  <v-progress-linear
-    v-if="loadingProgress > 0"
-    :model-value="loadingProgress"
-    color="primary"
-    height="3"
-    fixed
-    style="z-index: 9999; top: 0"
-  ></v-progress-linear>
-
   <v-app :theme="theme">
+    <v-progress-linear
+      v-if="loadingProgress > 0"
+      :model-value="loadingProgress"
+      color="primary"
+      height="3"
+      style="position: fixed; top: 0; left: 0; right: 0; z-index: 9999"
+    ></v-progress-linear>
     <v-app-bar
       elevation="0"
       color="surface"
