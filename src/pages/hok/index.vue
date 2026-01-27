@@ -738,9 +738,9 @@ useHead({
 onMounted(async () => {
   try {
     const [heroesRes, itemsRes, skillsRes] = await Promise.all([
-      fetch("/src/assets/hok/heros/data.json"),
-      fetch("/src/assets/hok/items/item.json"),
-      fetch("/src/assets/hok/skills/data.json"),
+      fetch("/hok/heros/data.json"),
+      fetch("/hok/items/item.json"),
+      fetch("/hok/skills/data.json"),
     ]);
 
     heroesData.value = await heroesRes.json();
@@ -813,15 +813,15 @@ const filteredResults = computed(() => {
 
 // Methods
 const getHeroImage = (hero: any) => {
-  return `/src/assets/hok/heros/images/${hero.ename}.webp`;
+  return `/hok/heros/images/${hero.ename}.webp`;
 };
 
 const getItemImage = (itemId: number) => {
-  return `/src/assets/hok/items/images/${itemId}.webp`;
+  return `/hok/items/images/${itemId}.webp`;
 };
 
 const getSkillImage = (skillId: number) => {
-  return `/src/assets/hok/skills/images/${skillId}.webp`;
+  return `/hok/skills/images/${skillId}.webp`;
 };
 
 const getHeroTypeName = (type: number) => {
@@ -877,7 +877,7 @@ const showHeroDetail = async (hero: any) => {
   heroDialog.value = true;
 
   try {
-    const res = await fetch(`/src/assets/hok/heros/heros/${hero.id_name}.json`);
+    const res = await fetch(`/hok/heros/heros/${hero.id_name}.json`);
     if (res.ok) {
       const details = await res.json();
       selectedHero.value = { ...hero, ...details };
