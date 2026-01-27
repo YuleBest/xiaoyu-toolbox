@@ -51,9 +51,56 @@
           </v-btn>
         </div>
       </div>
+
+      <!-- Compact Tool Preview -->
+      <v-row class="mt-8" justify="center">
+        <v-col cols="12" md="10" lg="8">
+          <v-card
+            variant="flat"
+            class="bento-card pa-6 border"
+            rounded="xl"
+            to="/tools"
+          >
+            <div class="d-flex align-center mb-6">
+              <v-icon color="primary" class="mr-2" size="24"
+                >mdi-toolbox-outline</v-icon
+              >
+              <h2 class="text-h6 font-weight-bold">全部工具</h2>
+              <v-spacer></v-spacer>
+              <span
+                class="text-caption text-medium-emphasis font-weight-medium"
+              >
+                本站已上线
+                <span class="text-primary">{{ allTools.length }}</span> 个工具
+              </span>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+              <v-chip
+                v-for="tool in allTools"
+                :key="tool.id"
+                variant="tonal"
+                :color="tool.color"
+                size="small"
+                class="px-3 font-weight-medium"
+              >
+                <v-icon :icon="tool.icon" start size="14"></v-icon>
+                {{ tool.title }}
+              </v-chip>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
     </div>
   </v-container>
 </template>
+
+<script lang="ts" setup>
+import { computed } from "vue";
+import toolsData from "@/assets/data/tools.json";
+
+const allTools = computed(() => Object.values(toolsData).flat());
+</script>
 
 <style scoped>
 .max-width-1200 {
@@ -66,6 +113,9 @@
 
 .gap-4 {
   gap: 16px;
+}
+.gap-3 {
+  gap: 12px;
 }
 .gap-2 {
   gap: 8px;

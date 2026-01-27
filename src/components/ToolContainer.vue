@@ -22,7 +22,13 @@
             size="small"
             class="mr-2 flex-shrink-0"
           ></v-icon>
-          <span class="text-truncate">{{ tool?.title }}</span>
+          <div class="d-flex flex-column" style="line-height: 1.2">
+            <span class="text-truncate">{{ tool?.title }}</span>
+            <span
+              class="text-caption text-medium-emphasis font-weight-regular"
+              >{{ category }}</span
+            >
+          </div>
         </div>
       </v-toolbar-title>
       <v-btn
@@ -109,6 +115,19 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import toolsData from "@/assets/data/tools.json";
 
+interface Tool {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  author: string;
+  usage: string;
+  icon: string;
+  color: string;
+  path: string;
+  "back-end"?: string;
+}
+
 const props = defineProps<{
   id: string;
 }>();
@@ -116,9 +135,18 @@ const props = defineProps<{
 const router = useRouter();
 const showInfo = ref(true);
 
-const tool = computed(() => {
-  return toolsData.find((t) => t.id === props.id);
+const toolInfo = computed(() => {
+  for (const [category, tools] of Object.entries(
+    toolsData as Record<string, Tool[]>,
+  )) {
+    const found = tools.find((t) => t.id === props.id);
+    if (found) return { category, tool: found };
+  }
+  return null;
 });
+
+const tool = computed(() => toolInfo.value?.tool);
+const category = computed(() => toolInfo.value?.category);
 </script>
 
 <style scoped>

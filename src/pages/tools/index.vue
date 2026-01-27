@@ -43,7 +43,58 @@
     </v-row>
 
     <!-- Tool Grid -->
-    <v-row>
+    <template v-if="!searchQuery && sortType === 'default'">
+      <div v-for="(tools, category) in toolsData" :key="category" class="mb-10">
+        <h2 class="text-h5 font-weight-bold mb-6 d-flex align-center">
+          <v-icon
+            icon="mdi-label-outline"
+            size="24"
+            color="primary"
+            class="mr-2"
+          ></v-icon>
+          {{ category }}
+        </h2>
+        <v-row>
+          <v-col
+            v-for="tool in tools"
+            :key="tool.id"
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+          >
+            <v-card
+              :to="tool.path"
+              class="h-100 tool-card"
+              elevation="0"
+              border
+            >
+              <v-card-item class="pa-4">
+                <template v-slot:prepend>
+                  <v-avatar
+                    :color="tool.color"
+                    variant="tonal"
+                    rounded="lg"
+                    size="48"
+                    class="mr-2"
+                  >
+                    <v-icon :icon="tool.icon" size="24"></v-icon>
+                  </v-avatar>
+                </template>
+                <v-card-title class="text-subtitle-1 font-weight-bold">{{
+                  tool.title
+                }}</v-card-title>
+                <v-card-subtitle class="text-caption text-wrap opacity-70">{{
+                  tool.subtitle
+                }}</v-card-subtitle>
+              </v-card-item>
+            </v-card>
+          </v-col>
+        </v-row>
+      </div>
+    </template>
+
+    <v-row v-else>
       <v-col
         v-for="tool in filteredTools"
         :key="tool.id"
@@ -100,7 +151,8 @@ const sortLabel = computed(() => {
 });
 
 const filteredTools = computed(() => {
-  let result = [...toolsData].reverse();
+  // Flatten all tools for searching and sorting
+  let result = Object.values(toolsData).flat();
 
   // Search
   if (searchQuery.value) {
@@ -116,6 +168,10 @@ const filteredTools = computed(() => {
   // Sort
   if (sortType.value === "az") {
     result.sort((a, b) => a.title.localeCompare(b.title, "zh-CN"));
+  } else if (searchQuery.value) {
+    // If searching but default sort, maybe reverse to show newest first?
+    // toolsData order is generally preserved in Object.values().flat()
+    // result.reverse();
   }
 
   return result;

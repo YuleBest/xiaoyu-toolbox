@@ -1,81 +1,91 @@
-[
-  {
-    "id": "qrcode",
-    "title": "二维码工具",
-    "subtitle": "生成与识别二维码",
-    "description": "快速生成自定义二维码，或识别图片中的二维码内容。支持下载生成的二维码图片。",
-    "author": "Yule",
-    "usage": "1. 生成：在“生成”标签页输入文本，即可实时预览二维码。\n2. 识别：在“识别”标签页上传或拖拽二维码图片，即可获取解析内容。",
-    "icon": "mdi-qrcode",
-    "color": "primary",
-    "path": "/qrcode"
-  },
-  {
-    "id": "base64",
-    "title": "Base64 转换",
-    "subtitle": "文本与 Base64 互转",
-    "description": "文本与 Base64 编码的相互转换，支持 UTF-8 中文与特殊字符，防止乱码。",
-    "author": "Yule",
-    "usage": "1. 编码：在左侧输入原文，右侧自动显示 Base64 编码结果。\n2. 解码：在右侧输入 Base64 字符串，左侧自动显示解码后的原文。\n3. 点击复制按钮可快速复制内容。",
-    "icon": "mdi-code-tags",
-    "color": "secondary",
-    "path": "/base64"
-  },
-  {
-    "id": "dydown",
-    "title": "抖音视频解析",
-    "subtitle": "无水印视频下载",
-    "description": "解析抖音分享链接，获取无水印视频直链和作者信息。",
-    "author": "Yule",
-    "usage": "1. 在抖音APP中复制分享链接。\n2. 粘贴到输入框中，点击“解析”。\n3. 获取下载链接或直接下载视频。",
-    "icon": "mdi-video",
-    "color": "pink",
-    "path": "/dydown",
-    "back-end": "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/dydown.js"
-  },
-  {
-    "id": "json-yaml",
-    "title": "JSON-YAML 转换",
-    "subtitle": "配置文件格式互转",
-    "description": "方便快捷的 JSON 与 YAML 格式互转工具，支持实时校验和格式化。",
-    "author": "Yule",
-    "usage": "1. 粘贴 JSON 或 YAML 内容。\n2. 点击转换按钮即可进行格式转换。\n3. 支持一键复制和清空。",
-    "icon": "mdi-file-code-outline",
-    "color": "cyan",
-    "path": "/json-yaml"
-  },
-  {
-    "id": "weather",
-    "title": "天气查询",
-    "subtitle": "全国天气实时查询",
-    "description": "基于 Open-Meteo 的全球天气查询工具，支持查看实时天气、每小时预报及未来天气趋势。",
-    "author": "Yule",
-    "usage": "1. 输入城市名称（支持中文拼音或英文）进行搜索。\n2. 选择正确的城市。\n3. 查看详细的天气信息。\n\nTip: 由于使用非本土化接口，搜索不到国内城市时，可尝试使用拼音。例如：beijing 代替北京",
-    "icon": "mdi-weather-partly-cloudy",
-    "color": "light-blue",
-    "path": "/weather",
-    "back-end": "https://open-meteo.com/"
-  },
-  {
-    "id": "exif",
-    "title": "图片 EXIF 查看",
-    "subtitle": "查看图片元数据",
-    "description": "读取和显示图片的 EXIF 元数据，包括相机信息、拍摄参数、GPS 位置等。",
-    "author": "Yule",
-    "usage": "1. 上传图片：点击“选择一张图片”按钮，选择本地图片文件。\n2. 查看信息：上传后自动解析 EXIF 数据，并在下方表格中显示。\n3. 预览：会显示图片预览，方便核对。",
-    "icon": "mdi-camera",
-    "color": "primary",
-    "path": "/exif"
-  },
-  {
-    "id": "playground",
-    "title": "TypeScript 演练场",
-    "subtitle": "浏览器内的 JS / TS 沙盒",
-    "description": "基于 Sandpack 和 Monaco Editor 的在线代码演练场，支持实时预览 JavaScript/TypeScript 代码运行效果。",
-    "author": "Yule",
-    "usage": "1. 编写代码：在左侧编辑器中编写 JS/TS 代码。\n2. 点击运行：日志栏将运行您的代码，并展示输出。\n3. 切换模板：支持 JS/TS 运行环境切换。",
-    "icon": "mdi-play-box-outline",
-    "color": "amber-darken-2",
-    "path": "/playground"
-  }
-]
+{
+  "开发工具": [
+    {
+      "id": "base64",
+      "title": "Base64 转换",
+      "subtitle": "文本与 Base64 互转",
+      "description": "文本与 Base64 编码的相互转换，支持 UTF-8 中文与特殊字符，防止乱码。",
+      "author": "Yule",
+      "usage": "1. 编码：在左侧输入原文，右侧自动显示 Base64 编码结果。\n2. 解码：在右侧输入 Base64 字符串，左侧自动显示解码后的原文。\n3. 点击复制按钮可快速复制内容。",
+      "icon": "mdi-code-tags",
+      "color": "secondary",
+      "path": "/base64"
+    },
+    {
+      "id": "json-yaml",
+      "title": "JSON-YAML 转换",
+      "subtitle": "配置文件格式互转",
+      "description": "方便快捷的 JSON 与 YAML 格式互转工具，支持实时校验和格式化。",
+      "author": "Yule",
+      "usage": "1. 粘贴 JSON 或 YAML 内容。\n2. 点击转换按钮即可进行格式转换。\n3. 支持一键复制和清空。",
+      "icon": "mdi-file-code-outline",
+      "color": "cyan",
+      "path": "/json-yaml"
+    }
+  ],
+  "图像工具": [
+    {
+      "id": "qrcode",
+      "title": "二维码工具",
+      "subtitle": "生成与识别二维码",
+      "description": "快速生成自定义二维码，或识别图片中的二维码内容。支持下载生成的二维码图片。",
+      "author": "Yule",
+      "usage": "1. 生成：在“生成”标签页输入文本，即可实时预览二维码。\n2. 识别：在“识别”标签页上传或拖拽二维码图片，即可获取解析内容。",
+      "icon": "mdi-qrcode",
+      "color": "primary",
+      "path": "/qrcode"
+    },
+    {
+      "id": "exif",
+      "title": "图片 EXIF 查看",
+      "subtitle": "查看图片元数据",
+      "description": "读取和显示图片的 EXIF 元数据，包括相机信息、拍摄参数、GPS 位置等。",
+      "author": "Yule",
+      "usage": "1. 上传图片：点击“选择一张图片”按钮，选择本地图片文件。\n2. 查看信息：上传后自动解析 EXIF 数据，并在下方表格中显示。\n3. 预览：会显示图片预览，方便核对。",
+      "icon": "mdi-camera",
+      "color": "primary",
+      "path": "/exif"
+    }
+  ],
+  "多媒体工具": [
+    {
+      "id": "dydown",
+      "title": "抖音视频解析",
+      "subtitle": "无水印视频下载",
+      "description": "解析抖音分享链接，获取无水印视频直链和作者信息。",
+      "author": "Yule",
+      "usage": "1. 在抖音APP中复制分享链接。\n2. 粘贴到输入框中，点击“解析”。\n3. 获取下载链接或直接下载视频。",
+      "icon": "mdi-video",
+      "color": "pink",
+      "path": "/dydown",
+      "back-end": "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/dydown.js"
+    }
+  ],
+  "编程开发": [
+    {
+      "id": "playground",
+      "title": "TypeScript 演练场",
+      "subtitle": "浏览器内的 JS / TS 沙盒",
+      "description": "基于 Sandpack 和 Monaco Editor 的在线代码演练场，支持实时预览 JavaScript/TypeScript 代码运行效果。",
+      "author": "Yule",
+      "usage": "1. 编写代码：在左侧编辑器中编写 JS/TS 代码。\n2. 点击运行：日志栏将运行您的代码，并展示输出。\n3. 切换模板：支持 JS/TS 运行环境切换。",
+      "icon": "mdi-play-box-outline",
+      "color": "amber-darken-2",
+      "path": "/playground"
+    }
+  ],
+  "生活查询": [
+    {
+      "id": "weather",
+      "title": "天气查询",
+      "subtitle": "全国天气实时查询",
+      "description": "基于 Open-Meteo 的全球天气查询工具，支持查看实时天气、每小时预报及未来天气趋势。",
+      "author": "Yule",
+      "usage": "1. 输入城市名称（支持中文拼音或英文）进行搜索。\n2. 选择正确的城市。\n3. 查看详细的天气信息。\n\nTip: 由于使用非本土化接口，搜索不到国内城市时，可尝试使用拼音。例如：beijing 代替北京",
+      "icon": "mdi-weather-partly-cloudy",
+      "color": "light-blue",
+      "path": "/weather",
+      "back-end": "https://open-meteo.com/"
+    }
+  ]
+}

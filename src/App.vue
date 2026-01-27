@@ -144,6 +144,6 @@ html {
 }
 
 #Placeholder {
-  height: 40px;
+  height: 20px;
 }
 </style>
