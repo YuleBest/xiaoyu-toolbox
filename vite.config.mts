@@ -35,6 +35,8 @@ export default defineConfig({
       "unplugin-vue-router/runtime",
       "unplugin-vue-router/data-loaders",
       "unplugin-vue-router/data-loaders/basic",
+      "@ffmpeg/ffmpeg",
+      "@ffmpeg/util",
     ],
   },
   define: { "process.env": {} },
@@ -51,8 +53,5 @@ export default defineConfig({
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "require-corp",
     },
-  },
-  optimizeDeps: {
-    exclude: ["@ffmpeg/ffmpeg", "@ffmpeg/util"],
   },
 });
