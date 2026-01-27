@@ -76,6 +76,19 @@
       "path": "/dydown",
       "back-end": "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/dydown.js",
       "date": "2026-01-25"
+    },
+    {
+      "id": "bilidown",
+      "title": "B站视频解析",
+      "subtitle": "音视频流合并与下载",
+      "description": "解析 Bilibili 视频链接，获取音视频直链。内置 FFmpeg WASM 引擎，支持在浏览器中一键合并视频和音频。填写 Cookie 可开启 1080P+ 高清解析。",
+      "author": "Yule",
+      "usage": "1. 复制 B 站视频链接（BV号）。\n2. 粘贴到输入框后点击“立即解析”。\n3. 若需高清画质，请在高级设置中填写完整 Cookie。\n4. 点击“一键合并”即可在浏览器内自动合并并下载 mp4 文件。",
+      "icon": "mdi-video",
+      "color": "pink",
+      "path": "/bilidown",
+      "back-end": "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/bilidown.js",
+      "date": "2026-01-27"
     }
   ],
   "生活查询": [

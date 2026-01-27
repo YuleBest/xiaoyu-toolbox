@@ -12,6 +12,8 @@
     "lint": "oxlint ."
   },
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
     "@fontsource/roboto": "5.2.7",
     "@guolao/vue-monaco-editor": "^1.6.0",
     "@mdi/font": "7.4.47",

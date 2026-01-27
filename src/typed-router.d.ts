@@ -20,6 +20,7 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/base64/': RouteRecordInfo<'/base64/', '/base64', Record<never, never>, Record<never, never>>,
+    '/bilidown/': RouteRecordInfo<'/bilidown/', '/bilidown', Record<never, never>, Record<never, never>>,
     '/dydown/': RouteRecordInfo<'/dydown/', '/dydown', Record<never, never>, Record<never, never>>,
     '/exif/': RouteRecordInfo<'/exif/', '/exif', Record<never, never>, Record<never, never>>,
     '/json-yaml/': RouteRecordInfo<'/json-yaml/', '/json-yaml', Record<never, never>, Record<never, never>>,
@@ -46,6 +47,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/base64/index.vue': {
       routes: '/base64/'
+      views: never
+    }
+    'src/pages/bilidown/index.vue': {
+      routes: '/bilidown/'
       views: never
     }
     'src/pages/dydown/index.vue': {
