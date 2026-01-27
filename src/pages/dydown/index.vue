@@ -36,12 +36,13 @@
             size="large"
             rounded="lg"
             :loading="loading"
+            :disabled="cooldown > 0"
             elevation="0"
-            @click="parseVideo"
+            @click="parseVideo()"
             prepend-icon="mdi-magnify-expand"
             class="font-weight-bold"
           >
-            立即解析
+            {{ cooldown > 0 ? `等待冷却 (${cooldown}s)` : "立即解析" }}
           </v-btn>
         </v-card-text>
       </v-card>
@@ -67,14 +68,6 @@
                   发布时间：{{ formatDateTime(result.createTime) }}
                 </div>
               </div>
-              <v-spacer></v-spacer>
-              <v-chip
-                color="success"
-                size="small"
-                variant="flat"
-                prepend-icon="mdi-check-decagram"
-                >状态正常</v-chip
-              >
             </div>
 
             <!-- Statistics -->
@@ -147,7 +140,7 @@
                   elevation="0"
                   @click="downloadVideo"
                 >
-                  下载无水印视频
+                  下载视频
                 </v-btn>
 
                 <div class="d-flex align-center gap-2">
@@ -157,7 +150,7 @@
                     variant="outlined"
                     density="comfortable"
                     hide-details
-                    label="直链地址"
+                    label="视频直链"
                     rounded="lg"
                     class="bg-surface"
                   >
@@ -207,6 +200,56 @@
     >
       {{ snackbarText }}
     </v-snackbar>
+
+    <!-- Disclaimer Dialog -->
+    <v-dialog v-model="disclaimerVisible" persistent max-width="500">
+      <v-card class="rounded-xl pa-4 shadow-md">
+        <v-card-title class="text-h5 font-weight-bold text-center pt-4">
+          使用须知
+        </v-card-title>
+        <v-card-text class="py-6 text-body-1">
+          <div class="mb-4 d-flex align-start">
+            <v-chip color="primary" size="x-small" class="mr-2 mt-1">1</v-chip>
+            <div>
+              本工具仅供学习使用，请勿用于违规违法、商业以及违反抖音相关规则的用途；
+            </div>
+          </div>
+          <div class="mb-4 d-flex align-start">
+            <v-chip color="primary" size="x-small" class="mr-2 mt-1">2</v-chip>
+            <div>本工具作者不对您使用本工具造成任何的影响负责；</div>
+          </div>
+          <div class="d-flex align-start">
+            <v-chip color="primary" size="x-small" class="mr-2 mt-1">3</v-chip>
+            <div>
+              为了工具的良好运行与维护，请不要连续多次请求解析，也不要破解本站
+              API
+              接口。若您有需求，可根据开源的源码自行部署，无需服务器，感谢您的理解。
+            </div>
+          </div>
+        </v-card-text>
+        <v-card-actions class="justify-center gap-4 pb-4">
+          <v-btn
+            variant="tonal"
+            rounded="lg"
+            min-width="120"
+            @click="rejectDisclaimer"
+            class="font-weight-bold"
+          >
+            不接受
+          </v-btn>
+          <v-btn
+            color="primary"
+            variant="flat"
+            rounded="lg"
+            min-width="120"
+            @click="acceptDisclaimer"
+            class="font-weight-bold"
+          >
+            接受
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </ToolContainer>
 </template>
 
@@ -266,8 +309,13 @@
 
 <script lang="ts" setup>
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
 import ToolContainer from "@/components/ToolContainer.vue";
 
+const router = useRouter();
+const disclaimerVisible = ref(false);
+const cooldown = ref(0);
+let cooldownTimer: any = null;
 const inputText = ref("");
 const loading = ref(false);
 const result = ref<any>(null);
@@ -302,7 +350,26 @@ const extractShortUrl = (text: string): string | null => {
   return match ? match[0] : null;
 };
 
-const parseVideo = async () => {
+const acceptDisclaimer = () => {
+  disclaimerVisible.value = false;
+  // Automatically trigger parse if input is not empty
+  if (inputText.value) {
+    parseVideo(true);
+  }
+};
+
+const rejectDisclaimer = () => {
+  router.push("/");
+};
+
+const parseVideo = async (isAccepted = false) => {
+  if (cooldown.value > 0) return;
+
+  if (!isAccepted) {
+    disclaimerVisible.value = true;
+    return;
+  }
+
   error.value = "";
   result.value = null;
 
@@ -330,6 +397,15 @@ const parseVideo = async () => {
     console.error(e);
   } finally {
     loading.value = false;
+    // Start cooldown
+    cooldown.value = 5;
+    if (cooldownTimer) clearInterval(cooldownTimer);
+    cooldownTimer = setInterval(() => {
+      cooldown.value--;
+      if (cooldown.value <= 0) {
+        clearInterval(cooldownTimer);
+      }
+    }, 1000);
   }
 };
 
