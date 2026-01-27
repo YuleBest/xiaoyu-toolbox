@@ -66,5 +66,16 @@
     "icon": "mdi-camera",
     "color": "primary",
     "path": "/exif"
+  },
+  {
+    "id": "playground",
+    "title": "JS/TS 演练场",
+    "subtitle": "浏览器内的代码沙盒",
+    "description": "基于 Sandpack 和 Monaco Editor 的在线代码演练场，支持实时预览 JavaScript/TypeScript 代码运行效果。",
+    "author": "Yule",
+    "usage": "1. 编写代码：在左侧编辑器中编写 JS/TS 代码。\n2. 实时预览：右侧沙盒将实时编译并运行您的代码。\n3. 切换模板：支持多种 JS/TS 运行环境切换。",
+    "icon": "mdi-play-box-outline",
+    "color": "amber-darken-2",
+    "path": "/playground"
   }
 ]

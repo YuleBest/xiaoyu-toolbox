@@ -23,6 +23,7 @@ declare module 'vue-router/auto-routes' {
     '/dydown/': RouteRecordInfo<'/dydown/', '/dydown', Record<never, never>, Record<never, never>>,
     '/exif/': RouteRecordInfo<'/exif/', '/exif', Record<never, never>, Record<never, never>>,
     '/json-yaml/': RouteRecordInfo<'/json-yaml/', '/json-yaml', Record<never, never>, Record<never, never>>,
+    '/playground/': RouteRecordInfo<'/playground/', '/playground', Record<never, never>, Record<never, never>>,
     '/qrcode/': RouteRecordInfo<'/qrcode/', '/qrcode', Record<never, never>, Record<never, never>>,
     '/tools/': RouteRecordInfo<'/tools/', '/tools', Record<never, never>, Record<never, never>>,
     '/weather/': RouteRecordInfo<'/weather/', '/weather', Record<never, never>, Record<never, never>>,
@@ -57,6 +58,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/json-yaml/index.vue': {
       routes: '/json-yaml/'
+      views: never
+    }
+    'src/pages/playground/index.vue': {
+      routes: '/playground/'
       views: never
     }
     'src/pages/qrcode/index.vue': {

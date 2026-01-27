@@ -61,7 +61,7 @@ async function handleParse(url) {
   }
 
   const createTime = formatTime(Number(createTs));
-  const safeNickname = nickname.replace(/[\/:*?"<>|]/g, "");
+  const safeNickname = nickname.replace(/[/:*?"<>|]/g, "");
 
   return json({
     ok: true,

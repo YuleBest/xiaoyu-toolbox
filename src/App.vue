@@ -59,6 +59,7 @@
           </v-fade-transition>
         </router-view>
       </v-container>
+      <div id="Placeholder"></div>
     </v-main>
 
     <v-footer color="surface" class="border-t py-6">
@@ -142,5 +143,9 @@ html {
   ) !important;
 
   backdrop-filter: blur(80px) !important;
+}
+
+#Placeholder {
+  height: 40px;
 }
 </style>
