@@ -1,5 +1,33 @@
 <template>
   <ToolContainer id="playground">
+    <v-menu offset="8">
+      <template v-slot:activator="{ props }">
+        <v-btn
+          v-bind="props"
+          variant="text"
+          color="medium-emphasis"
+          size="small"
+          append-icon="mdi-chevron-down"
+          class="text-none font-weight-bold"
+        >
+          {{ template === "vanilla-ts" ? "TypeScript" : "JavaScript" }}
+        </v-btn>
+      </template>
+      <v-list density="compact" rounded="lg">
+        <v-list-item
+          v-for="lang in languages"
+          :key="lang.value"
+          :value="lang.value"
+          :active="template === lang.value"
+          @click="template = lang.value"
+        >
+          <v-list-item-title class="text-caption font-weight-bold">{{
+            lang.title
+          }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
     <div class="playground-wrapper">
       <SandpackProvider
         :key="sandpackKey"
@@ -38,37 +66,6 @@
                 </v-btn-toggle>
 
                 <v-divider vertical class="mx-3 my-3 opacity-10"></v-divider>
-
-                <v-menu offset="8">
-                  <template v-slot:activator="{ props }">
-                    <v-btn
-                      v-bind="props"
-                      variant="text"
-                      color="medium-emphasis"
-                      size="small"
-                      append-icon="mdi-chevron-down"
-                      class="text-none font-weight-bold"
-                    >
-                      {{
-                        template === "vanilla-ts" ? "TypeScript" : "JavaScript"
-                      }}
-                    </v-btn>
-                  </template>
-                  <v-list density="compact" rounded="lg">
-                    <v-list-item
-                      v-for="lang in languages"
-                      :key="lang.value"
-                      :value="lang.value"
-                      :active="template === lang.value"
-                      @click="template = lang.value"
-                    >
-                      <v-list-item-title
-                        class="text-caption font-weight-bold"
-                        >{{ lang.title }}</v-list-item-title
-                      >
-                    </v-list-item>
-                  </v-list>
-                </v-menu>
 
                 <v-spacer></v-spacer>
 
@@ -266,6 +263,7 @@ const editorOptions = {
     vertical: "hidden" as const,
     horizontal: "hidden" as const,
   },
+  wordWrap: "on" as const,
 };
 
 const handleCodeChange = (newVal: string | undefined) => {
@@ -324,6 +322,8 @@ const downloadCode = () => {
   // padding: 1.5rem;
   height: calc(100vh - 80px);
   min-height: 700px;
+  touch-action: pan-y;
+  overscroll-behavior-x: none;
 }
 
 .playground-layout {
