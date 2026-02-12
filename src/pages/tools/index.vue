@@ -15,7 +15,7 @@
               color="primary"
               class="mr-2"
             ></v-icon>
-            <span class="text-h6 font-weight-bold">工具列表</span>
+            <span class="text-h6 font-weight-bold">搜索工具</span>
             <v-spacer></v-spacer>
             <span class="text-caption text-medium-emphasis">
               共 {{ filteredTools.length }} 个工具
@@ -84,6 +84,7 @@
               selected-class="text-primary font-weight-bold"
               mandatory
               density="compact"
+              column
             >
               <v-chip
                 v-for="cat in categories"

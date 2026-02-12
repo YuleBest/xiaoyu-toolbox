@@ -5,14 +5,14 @@
       <v-card
         elevation="0"
         border
-        class="mb-8 rounded-xl overflow-hidden shadow-sm search-card position-relative"
+        class="mb-8 rounded-xl overflow-hidden shadow-sm position-relative"
       >
         <v-card-text class="pa-6 position-relative">
           <v-text-field
             v-model="searchQuery"
             label="搜索英雄、装备或技能..."
             placeholder="输入名称..."
-            variant="solo"
+            variant="solo-filled"
             flat
             rounded="xl"
             prepend-inner-icon="mdi-magnify"
@@ -152,7 +152,7 @@
                       :src="getHeroImage(hero)"
                       aspect-ratio="1"
                       cover
-                      class="hero-image transition-swing"
+                      class="hero-image transition- B swing"
                       :class="{ 'scale-110': isHovering }"
                     >
                       <template v-slot:placeholder>

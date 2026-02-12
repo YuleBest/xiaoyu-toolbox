@@ -89,6 +89,19 @@
       "path": "/bilidown",
       "back-end": "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/bilidown.js",
       "date": "2026-01-27"
+    },
+    {
+      "id": "lyric",
+      "title": "歌词获取",
+      "subtitle": "搜索并下载歌词",
+      "description": "搜索歌曲并获取标准 LRC 格式歌词，支持下载和复制。基于酷狗音乐数据源，提供海量歌词资源。",
+      "author": "Yule",
+      "usage": "1. 输入歌名或歌手名进行搜索。\n2. 从搜索结果中选择目标歌曲。\n3. 查看歌词内容，支持下载 LRC 文件或复制歌词文本。",
+      "icon": "mdi-music-note-outline",
+      "color": "deep-orange",
+      "path": "/lyric",
+      "back-end": "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/getlyric.js",
+      "date": "2026-02-13"
     }
   ],
   "生活查询": [
@@ -117,6 +130,18 @@
       "icon": "mdi-shield-sword",
       "color": "deep-purple",
       "path": "/hok",
+      "date": "2026-01-28"
+    },
+    {
+      "id": "reaction",
+      "title": "反应力测试",
+      "subtitle": "毫秒级反应速度测试",
+      "description": "测试你的视觉反应速度。当屏幕颜色变绿时，尽可能快地点击屏幕或按下空格键。注意：本测试仅供娱乐，鼠标或键盘设备可能会引入额外的输入延迟。",
+      "author": "Yule",
+      "usage": "1. 点击屏幕任意区域或按下空格键开始测试。\n2. 等待屏幕变红，保持专注。\n3. 屏幕变绿时立即点击或按空格！\n4. 查看你的毫秒级反应数据。",
+      "icon": "mdi-lightning-bolt",
+      "color": "amber-darken-3",
+      "path": "/reaction",
       "date": "2026-01-28"
     }
   ]

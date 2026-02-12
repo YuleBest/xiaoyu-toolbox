@@ -25,8 +25,10 @@ declare module 'vue-router/auto-routes' {
     '/exif/': RouteRecordInfo<'/exif/', '/exif', Record<never, never>, Record<never, never>>,
     '/hok/': RouteRecordInfo<'/hok/', '/hok', Record<never, never>, Record<never, never>>,
     '/json-yaml/': RouteRecordInfo<'/json-yaml/', '/json-yaml', Record<never, never>, Record<never, never>>,
+    '/lyric/': RouteRecordInfo<'/lyric/', '/lyric', Record<never, never>, Record<never, never>>,
     '/playground/': RouteRecordInfo<'/playground/', '/playground', Record<never, never>, Record<never, never>>,
     '/qrcode/': RouteRecordInfo<'/qrcode/', '/qrcode', Record<never, never>, Record<never, never>>,
+    '/reaction/': RouteRecordInfo<'/reaction/', '/reaction', Record<never, never>, Record<never, never>>,
     '/tools/': RouteRecordInfo<'/tools/', '/tools', Record<never, never>, Record<never, never>>,
     '/weather/': RouteRecordInfo<'/weather/', '/weather', Record<never, never>, Record<never, never>>,
   }
@@ -70,12 +72,20 @@ declare module 'vue-router/auto-routes' {
       routes: '/json-yaml/'
       views: never
     }
+    'src/pages/lyric/index.vue': {
+      routes: '/lyric/'
+      views: never
+    }
     'src/pages/playground/index.vue': {
       routes: '/playground/'
       views: never
     }
     'src/pages/qrcode/index.vue': {
       routes: '/qrcode/'
+      views: never
+    }
+    'src/pages/reaction/index.vue': {
+      routes: '/reaction/'
       views: never
     }
     'src/pages/tools/index.vue': {

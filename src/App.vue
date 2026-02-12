@@ -151,6 +151,8 @@ html {
 
 .v-app-bar {
   width: 95vw !important;
-  margin: 10px !important;
+  margin: 10px auto !important;
+  left: 0 !important;
+  right: 0 !important;
 }
 </style>
