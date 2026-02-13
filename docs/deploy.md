@@ -5,20 +5,20 @@
 1. Clone 本项目的源代码到您的本地
 
 ```bash
-git clone https://github.com/yule-ink/xiaoyu-toolbox.git
+git clone https://github.com/YuleBest/xiaoyu-toolbox.git
 ```
 
 2. 安装依赖
 
 ```bash
 cd xiaoyu-toolbox
-npm install
+pnpm install
 ```
 
 3. 运行项目
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 4. 访问项目
