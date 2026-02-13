@@ -36,10 +36,9 @@ pnpm run dev
 4. 选择 Fork 的项目
 
 5. 配置构建设置:
-
-- 构建命令: `pnpm run build`
-- 构建产物: `dist`
+   - 构建命令: `pnpm run build`
+   - 构建产物: `dist`
 
 ---
 
-**注意**：此时，您使用的 API 接口还是我的，如果您想部署自己的 API 接口，则需要注册登录 Cloudflare 账号，并创建一个几个 Worker，源代码使用 [src/back-end/cf-workers/](src/back-end/cf-workers/) 目录下的代码，并将使用了 API 接口的页面中的 API 地址替换成你自己的。
+**注意**：此时，您使用的 API 接口还是我的，如果您想部署自己的 API 接口，则需要注册登录 Cloudflare 账号，并创建一个几个 Worker，源代码使用 [src/back-end/cf-workers/](../src/back-end/cf-workers/) 目录下的代码，并将使用了 API 接口的页面中的 API 地址替换成你自己的。
