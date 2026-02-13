@@ -589,7 +589,7 @@
                         <div
                           class="text-caption text-medium-emphasis font-family-mono"
                         >
-                          {{ skill.info }}
+                          {{ skill.cooldownAttributes || skill.info }}
                         </div>
                       </div>
                     </div>
@@ -627,41 +627,49 @@
               >
                 <div class="sticky-column-content">
                   <!-- ID Card -->
-                  <v-card variant="flat" border class="mb-6 bg-surface">
-                    <v-card-text>
-                      <div
-                        class="d-flex justify-space-between align-center mb-4"
+
+                  <!-- Attributes -->
+                  <div v-if="selectedHero.attributes" class="mb-6">
+                    <div
+                      class="text-h6 font-weight-bold mb-4 d-flex align-center"
+                    >
+                      <v-icon
+                        icon="mdi-chart-bar"
+                        color="blue-darken-1"
+                        class="mr-2"
+                      ></v-icon>
+                      英雄能力
+                    </div>
+                    <v-row dense>
+                      <v-col
+                        v-for="(val, key) in {
+                          survival: '生存能力',
+                          attack: '攻击伤害',
+                          skill: '技能效果',
+                          difficulty: '上手难度',
+                        }"
+                        :key="key"
+                        cols="12"
+                        class="mb-2"
                       >
-                        <div class="text-subtitle-2 text-medium-emphasis">
-                          档案编号
-                        </div>
-                        <v-chip
-                          size="x-small"
-                          variant="flat"
-                          color="grey-darken-3"
-                          >CONFIDENTIAL</v-chip
+                        <div
+                          class="d-flex justify-space-between text-caption mb-1"
                         >
-                      </div>
-                      <v-row dense>
-                        <v-col cols="6">
-                          <div class="text-caption text-medium-emphasis">
-                            MOSS ID
-                          </div>
-                          <div class="text-h6 font-weight-mono">
-                            {{ selectedHero.moss_id || "N/A" }}
-                          </div>
-                        </v-col>
-                        <v-col cols="6">
-                          <div class="text-caption text-medium-emphasis">
-                            内部编号
-                          </div>
-                          <div class="text-h6 font-weight-mono">
-                            {{ selectedHero.ename }}
-                          </div>
-                        </v-col>
-                      </v-row>
-                    </v-card-text>
-                  </v-card>
+                          <span class="text-medium-emphasis">{{ val }}</span>
+                          <span class="font-weight-bold"
+                            >{{ selectedHero.attributes[key] }}/10</span
+                          >
+                        </div>
+                        <v-progress-linear
+                          :model-value="selectedHero.attributes[key] * 10"
+                          color="primary"
+                          height="6"
+                          rounded
+                          bg-color="surface-variant"
+                        ></v-progress-linear>
+                      </v-col>
+                    </v-row>
+                  </div>
 
                   <!-- Skins -->
                   <div>
@@ -677,15 +685,16 @@
                     </div>
                     <div class="d-flex flex-wrap gap-2">
                       <v-chip
-                        v-for="(skin, index) in selectedHero.skin_name.split(
-                          '|',
-                        )"
+                        v-for="(skin, index) in selectedHero.skins ||
+                        (selectedHero.skin_name
+                          ? selectedHero.skin_name.split('|')
+                          : [])"
                         :key="index"
                         variant="outlined"
                         filter
                         class="bg-surface"
                       >
-                        {{ skin }}
+                        {{ skin.name || skin }}
                       </v-chip>
                     </div>
                   </div>
@@ -708,6 +717,11 @@ import ToolContainer from "@/components/ToolContainer.vue";
 const heroesData = ref<any[]>([]);
 const itemsData = ref<any[]>([]);
 const skillsData = ref<any[]>([]);
+const heroImages = ref<Record<string, string>>({});
+const itemImages = ref<Record<string, string>>({});
+const skillImages = ref<Record<string, string>>({});
+
+const API_BASE = "https://hok.api.yule.ink";
 
 // Search & Filter State
 const searchQuery = ref("");
@@ -734,20 +748,26 @@ useHead({
   ],
 });
 
-// Load Data
+// Load Data from API
 onMounted(async () => {
   try {
-    const [heroesRes, itemsRes, skillsRes] = await Promise.all([
-      fetch("/hok/heros/data.json"),
-      fetch("/hok/items/item.json"),
-      fetch("/hok/skills/data.json"),
+    const [hList, hImgs, iList, iImgs, sList, sImgs] = await Promise.all([
+      fetch(`${API_BASE}/hero_list`).then((res) => res.json()),
+      fetch(`${API_BASE}/hero_images`).then((res) => res.json()),
+      fetch(`${API_BASE}/item_list`).then((res) => res.json()),
+      fetch(`${API_BASE}/item_images`).then((res) => res.json()),
+      fetch(`${API_BASE}/summoner_list`).then((res) => res.json()),
+      fetch(`${API_BASE}/summoner_images`).then((res) => res.json()),
     ]);
 
-    heroesData.value = await heroesRes.json();
-    itemsData.value = await itemsRes.json();
-    skillsData.value = await skillsRes.json();
+    heroesData.value = hList;
+    heroImages.value = hImgs;
+    itemsData.value = iList;
+    itemImages.value = iImgs;
+    skillsData.value = sList;
+    skillImages.value = sImgs;
   } catch (error) {
-    console.error("Failed to load data:", error);
+    console.error("Failed to load data from API:", error);
   }
 });
 
@@ -760,10 +780,9 @@ const filteredResults = computed(() => {
 
     // Filter by hero type
     if (selectedHeroType.value !== "all") {
+      const typeNum = parseInt(selectedHeroType.value);
       results = results.filter(
-        (hero) =>
-          hero.hero_type === parseInt(selectedHeroType.value) ||
-          hero.hero_type2 === parseInt(selectedHeroType.value),
+        (hero) => hero.hero_type === typeNum || hero.hero_type2 === typeNum,
       );
     }
 
@@ -813,15 +832,15 @@ const filteredResults = computed(() => {
 
 // Methods
 const getHeroImage = (hero: any) => {
-  return `/hok/heros/images/${hero.ename}.webp`;
+  return heroImages.value[hero.ename] || "";
 };
 
 const getItemImage = (itemId: number) => {
-  return `/hok/items/images/${itemId}.webp`;
+  return itemImages.value[itemId.toString()] || "";
 };
 
 const getSkillImage = (skillId: number) => {
-  return `/hok/skills/images/${skillId}.webp`;
+  return skillImages.value[skillId.toString()] || "";
 };
 
 const getHeroTypeName = (type: number) => {
@@ -877,7 +896,7 @@ const showHeroDetail = async (hero: any) => {
   heroDialog.value = true;
 
   try {
-    const res = await fetch(`/hok/heros/heros/${hero.id_name}.json`);
+    const res = await fetch(`${API_BASE}/${hero.ename}`);
     if (res.ok) {
       const details = await res.json();
       selectedHero.value = { ...hero, ...details };

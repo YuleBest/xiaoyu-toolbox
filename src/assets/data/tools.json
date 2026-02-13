@@ -130,6 +130,7 @@
       "icon": "mdi-shield-sword",
       "color": "deep-purple",
       "path": "/hok",
+      "back-end": "https://github.com/YuleBest/GetHOK",
       "date": "2026-01-28"
     },
     {
