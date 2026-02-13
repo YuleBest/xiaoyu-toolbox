@@ -93,7 +93,7 @@
 
       <!-- Lyric Display -->
       <v-expand-transition>
-        <div v-if="lyricText">
+        <div v-if="parsedLyrics.length > 0">
           <v-card
             border
             variant="flat"
@@ -117,25 +117,33 @@
             <!-- Lyric Content -->
             <v-card-text class="pa-6">
               <!-- Display Mode Toggle -->
-              <div class="d-flex align-center justify-space-between mb-4">
-                <div class="text-subtitle-2 text-medium-emphasis">显示模式</div>
-                <v-btn-toggle
-                  v-model="displayMode"
-                  mandatory
-                  density="compact"
-                  rounded="lg"
-                  variant="outlined"
-                  divided
+              <!-- Progress Slider -->
+              <div class="mb-4">
+                <div class="d-flex align-center justify-space-between mb-1">
+                  <span class="text-caption text-medium-emphasis">{{
+                    formatDuration(currentTime)
+                  }}</span>
+                  <span class="text-caption text-medium-emphasis">{{
+                    formatDuration(selectedSong?.duration || 0)
+                  }}</span>
+                </div>
+                <v-slider
+                  v-model="currentTime"
+                  :max="selectedSong?.duration || 0"
+                  :step="0.1"
+                  hide-details
+                  color="primary"
+                  thumb-label
+                  @update:model-value="scrollToTime"
                 >
-                  <v-btn value="timeline" size="small">
-                    <v-icon start size="small">mdi-clock-outline</v-icon>
-                    时间轴
-                  </v-btn>
-                  <v-btn value="plain" size="small">
-                    <v-icon start size="small">mdi-text</v-icon>
-                    纯文本
-                  </v-btn>
-                </v-btn-toggle>
+                  <template v-slot:prepend>
+                    <v-icon
+                      icon="mdi-clock-outline"
+                      color="medium-emphasis"
+                      size="small"
+                    ></v-icon>
+                  </template>
+                </v-slider>
               </div>
 
               <!-- Lyric Metadata -->
@@ -175,13 +183,19 @@
               </v-card>
 
               <!-- Lyric Display -->
-              <div class="lyric-container mb-6">
+              <div ref="lyricContainer" class="lyric-container mb-6">
                 <!-- Timeline Mode -->
                 <div v-if="displayMode === 'timeline'" class="lyric-timeline">
                   <div
                     v-for="(line, index) in parsedLyrics"
                     :key="index"
                     class="lyric-line"
+                    :ref="
+                      (el) => {
+                        if (el) lineRefs[index] = el as any;
+                      }
+                    "
+                    :class="{ 'active-line': isCurrentLine(index) }"
                   >
                     <span class="lyric-time">{{ line.time }}</span>
                     <span class="lyric-content">{{ line.text }}</span>
@@ -235,7 +249,9 @@
 
       <!-- Empty State -->
       <div
-        v-if="!lyricText && !searching && searchResults.length === 0"
+        v-if="
+          parsedLyrics.length === 0 && !searching && searchResults.length === 0
+        "
         class="text-center py-10 opacity-30"
       >
         <v-icon size="80" icon="mdi-music-note-outline" class="mb-4"></v-icon>
@@ -335,6 +351,27 @@
   padding: 6px 0;
 }
 
+.lyric-line.active-line {
+  background-color: rgba(var(--v-theme-primary), 0.05);
+  border-radius: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.lyric-line.active-line .lyric-content {
+  color: rgb(var(--v-theme-primary));
+  font-weight: bold;
+}
+
+.lyric-line.active-line .lyric-time {
+  background-color: rgb(var(--v-theme-primary));
+  color: white;
+}
+
+.lyric-line {
+  transition: all 0.3s ease;
+}
+
 .gap-3 {
   gap: 12px;
 }
@@ -386,6 +423,7 @@ interface Song {
 
 interface LyricLine {
   time: string;
+  seconds: number;
   text: string;
 }
 
@@ -402,7 +440,6 @@ const searching = ref(false);
 const searchResults = ref<Song[]>([]);
 const showSearchResults = ref(true);
 const selectedSong = ref<Song | null>(null);
-const lyricText = ref("");
 const error = ref("");
 
 const snackbar = ref(false);
@@ -413,56 +450,17 @@ const snackbarColor = ref("");
 const displayMode = ref<"timeline" | "plain">("timeline");
 const lyricMetadata = ref<LyricMetadata>({});
 const parsedLyrics = ref<LyricLine[]>([]);
+const currentTime = ref(0);
+const lyricContainer = ref<HTMLElement | null>(null);
+const lineRefs = ref<HTMLElement[]>([]);
 
 const API_BASE = "https://lyric.api.yule.ink";
-
-// Parse LRC format lyric
-const parseLyric = (lrcText: string) => {
-  const lines = lrcText.split("\n");
-  const metadata: LyricMetadata = {};
-  const lyrics: LyricLine[] = [];
-
-  // Regex patterns
-  const metaPattern = /^\[(\w+):([^\]]+)\]$/;
-  const timePattern = /^\[(\d{2}):(\d{2})\.(\d{2,3})\](.*)$/;
-
-  lines.forEach((line) => {
-    line = line.trim();
-    if (!line) return;
-
-    // Try to match metadata
-    const metaMatch = line.match(metaPattern);
-    if (metaMatch && metaMatch[1] && metaMatch[2]) {
-      const key = metaMatch[1];
-      const value = metaMatch[2];
-      metadata[key.toLowerCase()] = value.trim();
-      return;
-    }
-
-    // Try to match time-stamped lyric
-    const timeMatch = line.match(timePattern);
-    if (timeMatch && timeMatch[1] && timeMatch[2]) {
-      const minutes = timeMatch[1];
-      const seconds = timeMatch[2];
-      const text = timeMatch[4] || "";
-      const timeStr = `${minutes}:${seconds}`;
-      lyrics.push({
-        time: timeStr,
-        text: text.trim() || "♪",
-      });
-    }
-  });
-
-  lyricMetadata.value = metadata;
-  parsedLyrics.value = lyrics;
-};
 
 const searchSongs = async () => {
   if (!searchKeyword.value.trim()) return;
 
   error.value = "";
   searchResults.value = [];
-  lyricText.value = "";
   selectedSong.value = null;
   parsedLyrics.value = [];
   lyricMetadata.value = {};
@@ -491,19 +489,31 @@ const searchSongs = async () => {
 
 const getLyric = async (song: Song) => {
   selectedSong.value = song;
-  lyricText.value = "";
   error.value = "";
   parsedLyrics.value = [];
   lyricMetadata.value = {};
   showSearchResults.value = false; // 隐藏搜索结果
 
   try {
-    const resp = await fetch(`${API_BASE}/lyric?hash=${song.hash}`);
-    const text = await resp.text();
+    // 使用 JSON 格式获取歌词（后端已解析）
+    const resp = await fetch(`${API_BASE}/lyric?hash=${song.hash}&format=json`);
+    const data = await resp.json();
 
-    if (text && text.trim()) {
-      lyricText.value = text;
-      parseLyric(text);
+    if (data && data.lyrics && data.lyrics.length > 0) {
+      // 直接使用后端返回的解析结果
+      lyricMetadata.value = data.info || {};
+      currentTime.value = 0;
+      lineRefs.value = [];
+      parsedLyrics.value = data.lyrics.map((item: any) => {
+        // Parse time string (MM:SS.ss) to seconds
+        const parts = item.time.split(":");
+        const seconds = parseFloat(parts[0]) * 60 + parseFloat(parts[1]);
+        return {
+          time: item.time,
+          seconds: seconds,
+          text: item.text || "♪",
+        };
+      });
       showSnackbar("歌词加载成功", "success");
     } else {
       error.value = "该歌曲暂无歌词";
@@ -514,29 +524,61 @@ const getLyric = async (song: Song) => {
   }
 };
 
-const downloadLyric = () => {
-  if (!lyricText.value || !selectedSong.value) return;
+const downloadLyric = async () => {
+  if (!selectedSong.value) return;
 
-  const blob = new Blob([lyricText.value], {
-    type: "text/plain;charset=utf-8",
-  });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = `${selectedSong.value.artist} - ${selectedSong.value.title}.lrc`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+  try {
+    // 下载时获取 LRC 格式的原始歌词
+    const resp = await fetch(
+      `${API_BASE}/lyric?hash=${selectedSong.value.hash}`,
+    );
+    const text = await resp.text();
 
-  showSnackbar("歌词文件已下载", "success");
+    if (!text || !text.trim()) {
+      showSnackbar("歌词内容为空", "error");
+      return;
+    }
+
+    const blob = new Blob([text], {
+      type: "text/plain;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${selectedSong.value.artist} - ${selectedSong.value.title}.lrc`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    showSnackbar("歌词文件已下载", "success");
+  } catch (e) {
+    showSnackbar("下载失败，请稍后重试", "error");
+    console.error(e);
+  }
 };
 
-const copyLyric = () => {
-  if (!lyricText.value) return;
+const copyLyric = async () => {
+  if (!selectedSong.value) return;
 
-  navigator.clipboard.writeText(lyricText.value);
-  showSnackbar("歌词已复制到剪贴板", "success");
+  try {
+    // 复制时获取 LRC 格式的原始歌词
+    const resp = await fetch(
+      `${API_BASE}/lyric?hash=${selectedSong.value.hash}`,
+    );
+    const text = await resp.text();
+
+    if (!text || !text.trim()) {
+      showSnackbar("歌词内容为空", "error");
+      return;
+    }
+
+    await navigator.clipboard.writeText(text);
+    showSnackbar("歌词已复制到剪贴板", "success");
+  } catch (e) {
+    showSnackbar("复制失败，请稍后重试", "error");
+    console.error(e);
+  }
 };
 
 const showSnackbar = (text: string, color: string = "info") => {
@@ -546,8 +588,53 @@ const showSnackbar = (text: string, color: string = "info") => {
 };
 
 const formatDuration = (seconds: number) => {
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
+  const s = Math.max(0, seconds);
+  const mins = Math.floor(s / 60);
+  const secs = Math.floor(s % 60);
   return `${mins}:${secs.toString().padStart(2, "0")}`;
+};
+
+const scrollToTime = () => {
+  if (!parsedLyrics.value.length || !lyricContainer.value) return;
+
+  // Find the closest line index
+  let activeIndex = 0;
+  for (let i = 0; i < parsedLyrics.value.length; i++) {
+    const line = parsedLyrics.value[i];
+    if (line && line.seconds <= currentTime.value) {
+      activeIndex = i;
+    } else if (line && line.seconds > currentTime.value) {
+      break;
+    }
+  }
+
+  const activeElement = lineRefs.value[activeIndex];
+  if (activeElement) {
+    const container = lyricContainer.value;
+    const top =
+      activeElement.offsetTop -
+      container.offsetTop -
+      container.clientHeight / 2 +
+      activeElement.clientHeight / 2;
+    container.scrollTo({
+      top: Math.max(0, top),
+      behavior: "smooth",
+    });
+  }
+};
+
+const isCurrentLine = (index: number) => {
+  if (!parsedLyrics.value.length) return false;
+  const line = parsedLyrics.value[index];
+  const nextLine = parsedLyrics.value[index + 1];
+
+  if (!line) return false;
+
+  if (nextLine) {
+    return (
+      currentTime.value >= line.seconds && currentTime.value < nextLine.seconds
+    );
+  }
+  return currentTime.value >= line.seconds;
 };
 </script>
