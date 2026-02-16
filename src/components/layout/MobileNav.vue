@@ -87,10 +87,6 @@ watch(
       >
         <img src="/logo.svg" class="h-5 w-5" alt="Logo" />
         <span class="font-semibold text-[16px] tracking-tight">小于工具箱</span>
-        <span
-          class="text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/10 text-blue-500 font-medium"
-          >NEXT</span
-        >
       </div>
 
       <div class="flex items-center gap-2">
@@ -226,7 +222,7 @@ watch(
         <div class="pt-10 flex flex-col items-center gap-6 pb-20">
           <ModeToggle />
           <p class="text-[12px] text-muted-foreground font-medium opacity-50">
-            © 2026 小于工具箱 NEXT
+            © 2026 小于工具箱
           </p>
         </div>
       </div>

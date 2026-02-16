@@ -13,10 +13,6 @@ import { Github, Mail, Globe } from "lucide-vue-next";
           <span class="text-[14px] font-semibold tracking-tight text-foreground"
             >小于工具箱</span
           >
-          <span
-            class="text-[10px] px-1.5 py-0.5 rounded-full bg-muted/50 font-medium"
-            >NEXT</span
-          >
         </div>
         <p class="text-[12px] font-normal opacity-60">
           © 2026 YuleBest. All rights reserved.

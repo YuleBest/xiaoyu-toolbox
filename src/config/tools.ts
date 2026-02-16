@@ -43,7 +43,6 @@ export const toolsData: Record<string, Tool[]> = {
       color: "text-blue-500",
       path: "/base64",
       date: "2026-01-01",
-      isTop: true,
     },
     {
       id: "json-yaml",
@@ -72,7 +71,6 @@ export const toolsData: Record<string, Tool[]> = {
       color: "text-blue-600",
       path: "/playground",
       date: "2026-01-27",
-      isHot: true,
     },
   ],
   图像工具: [
@@ -120,7 +118,7 @@ export const toolsData: Record<string, Tool[]> = {
       backEnd:
         "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/dydown.js",
       date: "2026-01-25",
-      isHot: true,
+      isTop: true,
     },
     {
       id: "bilidown",
@@ -138,7 +136,6 @@ export const toolsData: Record<string, Tool[]> = {
         "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/bilidown.js",
       date: "2026-01-27",
       isHot: true,
-      isTop: true,
     },
     {
       id: "lyric",
@@ -155,6 +152,7 @@ export const toolsData: Record<string, Tool[]> = {
       backEnd:
         "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/getlyric.js",
       date: "2026-02-13",
+      isHot: true,
     },
   ],
   生活查询: [
@@ -190,6 +188,7 @@ export const toolsData: Record<string, Tool[]> = {
       backEnd: "https://github.com/YuleBest/GetHOK",
       date: "2026-01-28",
       isHot: true,
+      isTop: true,
     },
     {
       id: "reaction",

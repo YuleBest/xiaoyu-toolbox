@@ -30,6 +30,7 @@ const handleToolClick = (path: string) => {
         </h2>
         <span
           class="text-[13px] text-muted-foreground font-medium flex items-center gap-0.5 cursor-pointer hover:text-blue-500 transition-colors"
+          @click="router.push('/categories')"
           >查看更多 <ChevronRight class="h-4 w-4"
         /></span>
       </div>
@@ -76,6 +77,7 @@ const handleToolClick = (path: string) => {
         </h2>
         <span
           class="text-[13px] text-muted-foreground font-medium flex items-center gap-0.5 cursor-pointer hover:text-blue-500 transition-colors"
+          @click="router.push('/categories')"
           >查看更多 <ChevronRight class="h-4 w-4"
         /></span>
       </div>
