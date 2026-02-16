@@ -11,7 +11,6 @@ const router = createRouter({
     if (to.path === from.path) {
       return false;
     }
-
     return new Promise((resolve) => {
       setTimeout(() => {
         if (savedPosition) {
@@ -24,10 +23,14 @@ const router = createRouter({
   },
 });
 
-const hash = window.location.hash;
-if (hash.startsWith("#/")) {
-  const targetPath = hash.substring(1);
-  router.replace(targetPath);
-}
+// --- 兼容旧版 Hash URL ---
+router.beforeEach((to) => {
+  const hash = window.location.hash;
+  if (to.path === "/" && hash.startsWith("#/")) {
+    const targetPath = hash.substring(1);
+    return { path: targetPath, replace: true };
+  }
+  return true;
+});
 
 createApp(App).use(router).mount("#app");
