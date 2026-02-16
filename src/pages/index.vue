@@ -25,7 +25,7 @@ const handleToolClick = (path: string) => {
     <!-- Top Tools -->
     <section v-if="topTools.length" class="space-y-6">
       <div class="flex items-end justify-between px-1">
-        <h2 class="text-[22px] md:text-[24px] font-bold tracking-tight">
+        <h2 class="text-[22px] md:text-[24px] font-semibold tracking-tight">
           精选推荐
         </h2>
         <span
@@ -52,7 +52,7 @@ const handleToolClick = (path: string) => {
           </div>
           <div class="flex-1 min-w-0">
             <h3
-              class="text-[15.5px] font-bold leading-tight truncate group-hover:text-blue-500 transition-colors"
+              class="text-[15.5px] font-medium leading-tight truncate group-hover:text-blue-500 transition-colors"
             >
               {{ tool.title }}
             </h3>
@@ -72,7 +72,7 @@ const handleToolClick = (path: string) => {
     <!-- Hot Tools -->
     <section v-if="hotTools.length" class="space-y-6">
       <div class="flex items-end justify-between px-1">
-        <h2 class="text-[22px] md:text-[24px] font-bold tracking-tight">
+        <h2 class="text-[22px] md:text-[24px] font-semibold tracking-tight">
           热门使用
         </h2>
         <span
@@ -99,7 +99,7 @@ const handleToolClick = (path: string) => {
           </div>
           <div class="flex-1 min-w-0">
             <h3
-              class="text-[15.5px] font-bold leading-tight truncate group-hover:text-blue-500 transition-colors"
+              class="text-[15.5px] font-medium leading-tight truncate group-hover:text-blue-500 transition-colors"
             >
               {{ tool.title }}
             </h3>
@@ -119,7 +119,7 @@ const handleToolClick = (path: string) => {
     <!-- Latest Tools -->
     <section v-if="latestTools.length" class="space-y-6">
       <div class="flex items-end justify-between px-1">
-        <h2 class="text-[22px] md:text-[24px] font-bold tracking-tight">
+        <h2 class="text-[22px] md:text-[24px] font-semibold tracking-tight">
           最新发布
         </h2>
       </div>
@@ -141,7 +141,7 @@ const handleToolClick = (path: string) => {
           </div>
           <div class="flex-1 min-w-0">
             <h4
-              class="text-[15.5px] font-bold leading-tight truncate group-hover:text-blue-500 transition-colors"
+              class="text-[15.5px] font-medium leading-tight truncate group-hover:text-blue-500 transition-colors"
             >
               {{ tool.title }}
             </h4>
