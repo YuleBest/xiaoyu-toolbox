@@ -1,7 +1,9 @@
 {
   "name": "xiaoyu-toolbox",
   "compatibility_date": "2026-02-16",
+  "main": "cf-worker.ts",
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
   },
 }
