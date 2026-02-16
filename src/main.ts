@@ -26,10 +26,14 @@ const router = createRouter({
 // --- 兼容旧版 Hash URL ---
 router.beforeEach((to) => {
   const hash = window.location.hash;
+
   if (to.path === "/" && hash.startsWith("#/")) {
     const targetPath = hash.substring(1);
+    history.replaceState(null, "", targetPath);
+
     return { path: targetPath, replace: true };
   }
+
   return true;
 });
 
