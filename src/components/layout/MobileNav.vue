@@ -1,14 +1,8 @@
 <script setup lang="ts">
 import { ref, watch, computed } from "vue";
 import { useRoute, useRouter, RouterLink } from "vue-router";
-import { User, Search, ChevronRight, ArrowLeft } from "lucide-vue-next";
+import { Search, ChevronRight, ArrowLeft } from "lucide-vue-next";
 import { mainNav, categories } from "@/config/nav";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { navigationStore } from "@/stores/navigation";
 import ModeToggle from "@/components/ModeToggle.vue";
 
@@ -96,43 +90,6 @@ watch(
           ]"
           class="transition-opacity duration-300"
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger as-child>
-            <div
-              class="h-10 w-10 bg-muted/30 rounded-full flex items-center justify-center border border-muted-foreground/10 cursor-pointer active:scale-95 transition-all"
-            >
-              <User class="h-5 w-5 text-muted-foreground" />
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            class="w-56 p-1.5 rounded-xl shadow-xl border-muted/50 backdrop-blur-lg z-60"
-          >
-            <div
-              class="px-2 py-2 text-[11px] font-bold text-muted-foreground uppercase tracking-widest opacity-60"
-            >
-              探索与支持
-            </div>
-            <a href=" " target="_blank" rel="noopener noreferrer">
-              <DropdownMenuItem
-                class="rounded-lg py-2.5 px-3 font-medium focus:bg-blue-500 focus:text-white"
-                >GitHub 仓库</DropdownMenuItem
-              >
-            </a>
-            <a href="mailto:yule-best@outlook.com">
-              <DropdownMenuItem
-                class="rounded-lg py-2.5 px-3 font-medium focus:bg-blue-500 focus:text-white"
-                >联系作者</DropdownMenuItem
-              >
-            </a>
-            <RouterLink to="/about">
-              <DropdownMenuItem
-                class="rounded-lg py-2.5 px-3 font-medium focus:bg-blue-500 focus:text-white"
-                >关于本站</DropdownMenuItem
-              >
-            </RouterLink>
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
     </div>
 

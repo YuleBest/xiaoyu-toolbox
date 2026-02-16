@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { ChevronDown, Search, ArrowLeft } from "lucide-vue-next";
+import { Search, ArrowLeft } from "lucide-vue-next";
 import { mainNav, categories } from "@/config/nav";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { navigationStore } from "@/stores/navigation";
 
 import ModeToggle from "@/components/ModeToggle.vue";
@@ -39,56 +34,17 @@ defineProps<{
           class="w-full flex items-center justify-between px-2 mb-6 hover:opacity-80 transition-all outline-none group text-left cursor-pointer"
         >
           <div class="flex items-center gap-2.5">
-            <div
-              class="h-8 w-8 rounded-full bg-secondary flex items-center justify-center border border-muted-foreground/10"
-            >
+            <div class="h-8 w-8 rounded-full flex items-center justify-center">
               <img src="/logo.svg" class="h-5 w-5" alt="Logo" />
             </div>
             <div class="flex flex-col overflow-hidden">
-              <span class="text-[13px] font-semibold truncate leading-tight"
+              <span class="text-[16px] font-semibold truncate leading-tight"
                 >小于工具箱</span
               >
             </div>
           </div>
-          <ChevronDown
-            class="h-3.5 w-3.5 text-muted-foreground transition-transform group-data-[state=open]:rotate-180"
-          />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="start"
-        class="w-64 p-1.5 rounded-xl border-muted/50 backdrop-blur-lg"
-      >
-        <div
-          class="px-2 py-2 text-[11px] font-bold text-muted-foreground uppercase tracking-widest opacity-60"
-        >
-          探索与支持
-        </div>
-        <a
-          href="https://github.com/YuleBest/xiaoyu-toolbox-next"
-          target="_blank"
-        >
-          <DropdownMenuItem
-            class="rounded-lg cursor-pointer py-2 px-3 font-medium focus:bg-blue-500 focus:text-white transition-colors"
-          >
-            GitHub 仓库
-          </DropdownMenuItem>
-        </a>
-        <a href="mailto:yule-best@outlook.com">
-          <DropdownMenuItem
-            class="rounded-lg cursor-pointer py-2 px-3 font-medium focus:bg-blue-500 focus:text-white transition-colors"
-          >
-            联系作者
-          </DropdownMenuItem>
-        </a>
-        <RouterLink to="/about">
-          <DropdownMenuItem
-            class="rounded-lg cursor-pointer py-2 px-3 font-medium focus:bg-blue-500 focus:text-white transition-colors"
-          >
-            关于本站
-          </DropdownMenuItem>
-        </RouterLink>
-      </DropdownMenuContent>
     </DropdownMenu>
 
     <!-- Back Button -->
