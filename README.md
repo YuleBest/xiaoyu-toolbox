@@ -1,4 +1,4 @@
-<center>
+<div align="center">
 
 # 小于工具箱
 
@@ -10,7 +10,7 @@
 
 **[简体中文](README.md)** | [English](README_EN.md)
 
-</center>
+</div>
 
 ## 特性
 
