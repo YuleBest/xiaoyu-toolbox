@@ -75,12 +75,12 @@ defineProps<{
     </div>
 
     <!-- Main Nav Items -->
-    <nav class="space-y-0.5 mb-8">
+    <nav class="space-y-0.5 mb-8 short-screen-grid">
       <RouterLink
         v-for="item in mainNav"
         :key="item.name"
         :to="item.href"
-        class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-[13.5px] font-medium transition-all duration-200 group"
+        class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-[13.5px] font-medium transition-all duration-200 group short-screen-item"
         :class="[
           route.path === item.href
             ? 'bg-muted/80 text-foreground'
@@ -108,11 +108,11 @@ defineProps<{
       >
         {{ $t("nav.categoriesLabel") }}
       </h3>
-      <div class="space-y-0.5 overflow-hidden">
+      <div class="space-y-0.5 overflow-hidden short-screen-grid">
         <button
           v-for="cat in categories"
           :key="cat.id"
-          class="w-full flex items-center gap-3.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-all group active:scale-[0.98] cursor-pointer"
+          class="w-full flex items-center gap-3.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-all group active:scale-[0.98] cursor-pointer short-screen-item"
           :class="[
             route.path === '/categories' &&
             navigationStore.activeCategoryId === cat.id
@@ -156,3 +156,22 @@ defineProps<{
     </div>
   </aside>
 </template>
+
+<style scoped>
+@media (max-height: 800px) {
+  .short-screen-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.35rem !important;
+    space-y: 0 !important;
+    margin-bottom: 1rem !important;
+  }
+  .short-screen-grid > * {
+    margin-top: 0 !important;
+  }
+  .short-screen-item {
+    padding: 0.35rem 0.5rem !important;
+    font-size: 12px !important;
+  }
+}
+</style>

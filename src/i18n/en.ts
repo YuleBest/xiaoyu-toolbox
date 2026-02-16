@@ -119,7 +119,7 @@ export default {
         "1. Paste JSON or YAML content.\n2. Click convert to switch formats.\n3. Supports one-click copy and clear.",
     },
     playground: {
-      title: "TypeScript Playground",
+      title: "JS Playground",
       subtitle: "In-browser JS/TS sandbox",
       description:
         "Online code playground based on Sandpack and Monaco Editor. Preview JavaScript/TypeScript code execution in real time.",
@@ -127,7 +127,7 @@ export default {
         "1. Write code in the left editor.\n2. Click run to see output in the console.\n3. Switch between JS/TS templates.",
     },
     qrcode: {
-      title: "QR Code Tool",
+      title: "QR Code",
       subtitle: "Generate & scan QR codes",
       description:
         "Generate custom QR codes or scan QR codes from images. Supports downloading generated QR code images.",
@@ -143,7 +143,7 @@ export default {
         '1. Upload: Click "Select an image" to choose a local image file.\n2. View: EXIF data is automatically parsed and displayed in the table below.\n3. Preview: An image preview is shown for reference.',
     },
     dydown: {
-      title: "Douyin Video Parser",
+      title: "Douyin Parser",
       subtitle: "Watermark-free video download",
       description:
         "Parse Douyin share links to get watermark-free video direct links and author info.",
@@ -151,7 +151,7 @@ export default {
         '1. Copy the share link from the Douyin app.\n2. Paste it into the input box and click "Parse".\n3. Get download links or download the video directly.',
     },
     bilidown: {
-      title: "Bilibili Video Parser",
+      title: "Bilibili Parser",
       subtitle: "Audio/video merge & download",
       description:
         "Parse Bilibili video links to get audio/video direct links. Built-in FFmpeg WASM engine for in-browser merge. Add Cookie for 1080P+ quality.",
@@ -167,7 +167,7 @@ export default {
         "1. Enter a song or artist name to search.\n2. Select the target song from results.\n3. View lyrics, download LRC file, or copy lyrics text.",
     },
     weather: {
-      title: "Weather Lookup",
+      title: "Weather",
       subtitle: "Real-time weather query",
       description:
         "Global weather query tool based on Open-Meteo. View current weather, hourly forecasts, and future weather trends.",
@@ -175,7 +175,7 @@ export default {
         "1. Enter a city name (pinyin or English) to search.\n2. Select the correct city.\n3. View detailed weather information.\n\nTip: For Chinese cities, try using pinyin if the search returns no results. e.g., beijing instead of 北京",
     },
     hok: {
-      title: "Honor of Kings Query",
+      title: "HOK Query",
       subtitle: "Heroes, items & skills",
       description:
         "Honor of Kings game data query tool. Look up hero info, item attributes, and summoner skill details. Includes complete skin lists, item effects, and skill cooldowns.",
@@ -183,7 +183,7 @@ export default {
         "1. Select a category: Heroes, Items, or Summoner Skills.\n2. Use the search box for quick lookup.\n3. Hero query supports role filtering (Warrior, Mage, Tank, etc.).\n4. Item query supports type filtering (Attack, Magic, Defense, etc.).\n5. Click a hero card to view details and skin list.",
     },
     reaction: {
-      title: "Reaction Time Test",
+      title: "Reaction Test",
       subtitle: "Millisecond-level reaction test",
       description:
         "Test your visual reaction speed. Click or press space as fast as you can when the screen turns green. Note: This is for entertainment only; mouse/keyboard devices may introduce input latency.",

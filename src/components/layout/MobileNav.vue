@@ -35,7 +35,6 @@ watch(
         ? 'var(--card)'
         : 'color-mix(in srgb, var(--card), transparent 20%)',
       backdropFilter: isMobileMenuOpen ? 'blur(0px)' : 'blur(24px)',
-      transform: 'translateZ(0)',
     }"
   >
     <div
@@ -87,6 +86,12 @@ watch(
       </div>
 
       <div class="flex items-center gap-2">
+        <LanguageToggle
+          :class="[
+            isMobileMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100',
+          ]"
+          class="transition-opacity duration-300"
+        />
         <ModeToggle
           :class="[
             isMobileMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100',
@@ -180,10 +185,6 @@ watch(
         </div>
 
         <div class="pt-10 flex flex-col items-center gap-4 pb-20">
-          <div class="flex items-center gap-4">
-            <ModeToggle />
-            <LanguageToggle />
-          </div>
           <p class="text-[12px] text-muted-foreground font-medium opacity-50">
             © 2026 {{ $t("common.appName") }}
           </p>
