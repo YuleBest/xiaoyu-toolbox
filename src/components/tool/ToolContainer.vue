@@ -30,15 +30,13 @@ const toggleInfo = () => {
             <component :is="tool.icon" class="h-5 w-5 md:h-6 md:w-6" />
           </div>
           <div class="min-w-0">
-            <h1
-              class="text-base md:text-lg font-semibold truncate leading-tight"
-            >
-              {{ tool.title }}
+            <h1 class="text-base md:text-lg font-semibold leading-tight">
+              {{ $t(tool.title) }}
             </h1>
             <p
-              class="text-[10px] md:text-xs text-muted-foreground font-normal truncate"
+              class="text-[10px] md:text-xs text-muted-foreground font-normal line-clamp-2"
             >
-              {{ tool.subtitle }}
+              {{ $t(tool.subtitle) }}
             </p>
           </div>
         </div>
@@ -54,10 +52,12 @@ const toggleInfo = () => {
             :class="{
               'bg-blue-500/10 text-blue-500 border-blue-500/20': isInfoOpen,
             }"
-            aria-label="工具详情"
+            :aria-label="$t('toolContainer.toolInfo')"
           >
             <Info class="h-5 w-5 md:h-4 md:w-4" />
-            <span class="text-sm font-medium hidden sm:inline">详情</span>
+            <span class="text-sm font-medium hidden sm:inline">{{
+              $t("toolContainer.details")
+            }}</span>
             <ChevronDown
               class="h-4 w-4 transition-transform duration-300 hidden sm:inline"
               :class="{ 'rotate-180': isInfoOpen }"
@@ -85,10 +85,10 @@ const toggleInfo = () => {
             <h3
               class="flex items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider"
             >
-              <Info class="h-3.5 w-3.5" /> 工具说明
+              <Info class="h-3.5 w-3.5" /> {{ $t("toolContainer.description") }}
             </h3>
             <p class="text-[14px] leading-relaxed font-normal opacity-90">
-              {{ tool.description }}
+              {{ $t(tool.description) }}
             </p>
           </div>
 
@@ -97,12 +97,12 @@ const toggleInfo = () => {
             <h3
               class="flex items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider"
             >
-              <BookOpen class="h-3.5 w-3.5" /> 使用指南
+              <BookOpen class="h-3.5 w-3.5" /> {{ $t("toolContainer.usage") }}
             </h3>
             <div
               class="text-[14px] leading-relaxed font-normal opacity-90 whitespace-pre-wrap"
             >
-              {{ tool.usage }}
+              {{ $t(tool.usage) }}
             </div>
           </div>
 
@@ -112,12 +112,16 @@ const toggleInfo = () => {
           >
             <div class="flex items-center gap-2 text-xs">
               <User class="h-3.5 w-3.5 text-muted-foreground" />
-              <span class="text-muted-foreground">作者:</span>
+              <span class="text-muted-foreground">{{
+                $t("toolContainer.author")
+              }}</span>
               <span class="font-medium">{{ tool.author }}</span>
             </div>
             <div class="flex items-center gap-2 text-xs">
               <Calendar class="h-3.5 w-3.5 text-muted-foreground" />
-              <span class="text-muted-foreground">发布日期:</span>
+              <span class="text-muted-foreground">{{
+                $t("toolContainer.publishDate")
+              }}</span>
               <span class="font-medium">{{ tool.date }}</span>
             </div>
           </div>

@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, watch, onBeforeUnmount, inject } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 import { Camera, Upload, Copy, Download, Trash2, Info } from "lucide-vue-next";
 import ToolContainer from "@/components/tool/ToolContainer.vue";
 import { allTools } from "@/config/tools";
@@ -14,69 +17,77 @@ const showToast = inject("showToast") as (
 const tool = allTools.find((t) => t.id === "exif")!;
 
 // --- Translation Map ---
-const translationMap: Record<string, string> = {
-  ImageWidth: "图像宽度",
-  ImageHeight: "图像高度",
-  Make: "相机制造商",
-  Model: "相机型号",
-  Orientation: "图像方向",
-  XResolution: "水平分辨率",
-  YResolution: "垂直分辨率",
-  ResolutionUnit: "分辨率单位",
-  ModifyDate: "文件修改时间",
-  YCbCrPositioning: "YCbCr 取样位置",
-  ExposureTime: "曝光时间",
-  FNumber: "光圈值",
-  ExposureProgram: "曝光程序",
-  ISO: "ISO 感光度",
-  ExifVersion: "Exif 版本",
-  DateTimeOriginal: "原始拍摄时间",
-  CreateDate: "数字化时间",
-  OffsetTimeOriginal: "原始时间偏移",
-  ComponentsConfiguration: "色彩分量配置",
-  ShutterSpeedValue: "快门速度值",
-  ApertureValue: "光圈值（APEX）",
-  BrightnessValue: "亮度值",
-  ExposureCompensation: "曝光补偿",
-  MaxApertureValue: "最大光圈值",
-  MeteringMode: "测光模式",
-  LightSource: "光源类型",
-  Flash: "闪光灯状态",
-  FocalLength: "焦距",
-  SubSecTime: "亚秒时间",
-  SubSecTimeOriginal: "原始拍摄亚秒时间",
-  SubSecTimeDigitized: "数字化亚秒时间",
-  FlashpixVersion: "FlashPix 版本",
-  ColorSpace: "色彩空间",
-  ExifImageWidth: "Exif 图像宽度",
-  ExifImageHeight: "Exif 图像高度",
-  SensingMethod: "感光方式",
-  SceneType: "场景类型",
-  ExposureMode: "曝光模式",
-  WhiteBalance: "白平衡",
-  DigitalZoomRatio: "数字变焦倍率",
-  FocalLengthIn35mmFormat: "35mm 等效焦距",
-  SceneCaptureType: "场景拍摄类型",
-  LensModel: "镜头型号",
-  GPSLatitude: "GPS 纬度",
-  GPSLongitude: "GPS 经度",
-  GPSAltitudeRef: "GPS 高度参考",
-  GPSAltitude: "GPS 海拔高度",
-  GPSTimeStamp: "GPS 时间戳",
-  GPSProcessingMethod: "GPS 定位方式",
-  latitude: "纬度（解析值）",
-  longitude: "经度（解析值）",
-  InteropIndex: "互操作索引",
-  InteropVersion: "互操作版本",
-  Software: "系统",
-  ColorType: "色彩类型",
-  BitDepth: "位深度",
-  ImageDescription: "图像描述",
-  Compression: "压缩方式",
-  Filter: "滤镜",
-  Interlace: "交错模式",
-  ImageUniqueID: "图像唯一标识",
-};
+const exifFieldKeys = [
+  "ImageWidth",
+  "ImageHeight",
+  "Make",
+  "Model",
+  "Orientation",
+  "XResolution",
+  "YResolution",
+  "ResolutionUnit",
+  "ModifyDate",
+  "YCbCrPositioning",
+  "ExposureTime",
+  "FNumber",
+  "ExposureProgram",
+  "ISO",
+  "ExifVersion",
+  "DateTimeOriginal",
+  "CreateDate",
+  "OffsetTimeOriginal",
+  "ComponentsConfiguration",
+  "ShutterSpeedValue",
+  "ApertureValue",
+  "BrightnessValue",
+  "ExposureCompensation",
+  "MaxApertureValue",
+  "MeteringMode",
+  "LightSource",
+  "Flash",
+  "FocalLength",
+  "SubSecTime",
+  "SubSecTimeOriginal",
+  "SubSecTimeDigitized",
+  "FlashpixVersion",
+  "ColorSpace",
+  "ExifImageWidth",
+  "ExifImageHeight",
+  "SensingMethod",
+  "SceneType",
+  "ExposureMode",
+  "WhiteBalance",
+  "DigitalZoomRatio",
+  "FocalLengthIn35mmFormat",
+  "SceneCaptureType",
+  "LensModel",
+  "GPSLatitude",
+  "GPSLongitude",
+  "GPSAltitudeRef",
+  "GPSAltitude",
+  "GPSTimeStamp",
+  "GPSProcessingMethod",
+  "latitude",
+  "longitude",
+  "InteropIndex",
+  "InteropVersion",
+  "Software",
+  "ColorType",
+  "BitDepth",
+  "ImageDescription",
+  "Compression",
+  "Filter",
+  "Interlace",
+  "ImageUniqueID",
+] as const;
+
+const translationMap = computed(() => {
+  const map: Record<string, string> = {};
+  for (const key of exifFieldKeys) {
+    map[key] = t(`exif.fields.${key}`);
+  }
+  return map;
+});
 
 // --- State ---
 const file = ref<File | null>(null);
@@ -146,7 +157,7 @@ const exifSummary = computed(() => {
   if (!exif.value) return "";
   const make = exif.value.Make || "";
   const model = exif.value.Model || "";
-  return `${make} ${model}`.trim() || "未知设备";
+  return `${make} ${model}`.trim() || t("exif.unknownDevice");
 });
 
 const filteredExif = computed(() => {
@@ -197,7 +208,7 @@ const parseExif = async () => {
   exif.value = null;
 
   if (!file.value) {
-    error.value = "请先选择一张图片";
+    error.value = t("exif.selectFirst");
     return;
   }
 
@@ -210,21 +221,21 @@ const parseExif = async () => {
       ifd0: {} as any,
     });
     if (!data) {
-      error.value = "该图片不包含 EXIF 信息";
+      error.value = t("exif.noExif");
     } else {
       exif.value = data;
-      showToast("EXIF 解析成功");
+      showToast(t("exif.parseSuccess"));
     }
   } catch (e) {
     console.error(e);
-    error.value = "EXIF 解析失败，该图片格式可能不受支持";
+    error.value = t("exif.parseFailed");
   } finally {
     loading.value = false;
   }
 };
 
 const translateKey = (key: string): string => {
-  return translationMap[key] || key;
+  return translationMap.value[key] || key;
 };
 
 const formatValue = (v: any): string => {
@@ -237,7 +248,7 @@ const handleFileUpload = (e: Event) => {
   const f = (e.target as HTMLInputElement).files?.[0];
   if (!f) return;
   if (f.size > 50 * 1024 * 1024) {
-    showToast("文件大小不能超过 50MB", "error");
+    showToast(t("exif.fileSizeLimit"), "error");
     return;
   }
   file.value = f;
@@ -247,11 +258,11 @@ const handleDrop = (e: DragEvent) => {
   const f = e.dataTransfer?.files?.[0];
   if (!f) return;
   if (!f.type.startsWith("image/")) {
-    showToast("请拖入图片文件", "warning");
+    showToast(t("exif.dragImageOnly"), "warning");
     return;
   }
   if (f.size > 50 * 1024 * 1024) {
-    showToast("文件大小不能超过 50MB", "error");
+    showToast(t("exif.fileSizeLimit"), "error");
     return;
   }
   file.value = f;
@@ -273,9 +284,9 @@ const copyAll = async () => {
   try {
     const text = JSON.stringify(exif.value, null, 2);
     await navigator.clipboard.writeText(text);
-    showToast("已复制为 JSON");
+    showToast(t("exif.copiedJson"));
   } catch {
-    showToast("复制失败", "error");
+    showToast(t("common.copyFailed"), "error");
   }
 };
 
@@ -291,7 +302,7 @@ const exportJson = () => {
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
-  showToast("正在导出 JSON");
+  showToast(t("exif.exportJson"));
 };
 
 const copySingle = async (key: string, value: any) => {
@@ -299,9 +310,9 @@ const copySingle = async (key: string, value: any) => {
   const text = `${label}: ${formatValue(value)}`;
   try {
     await navigator.clipboard.writeText(text);
-    showToast(`已复制 ${label}`);
+    showToast(t("exif.copied", { label }));
   } catch {
-    showToast("复制失败", "error");
+    showToast(t("common.copyFailed"), "error");
   }
 };
 </script>
@@ -316,7 +327,7 @@ const copySingle = async (key: string, value: any) => {
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
         >
           <Copy class="h-4 w-4" />
-          <span class="hidden sm:inline">复制 JSON</span>
+          <span class="hidden sm:inline">{{ $t("exif.copyJson") }}</span>
         </button>
         <button
           v-if="exif"
@@ -324,7 +335,7 @@ const copySingle = async (key: string, value: any) => {
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 rounded-xl transition-all active:scale-95"
         >
           <Download class="h-4 w-4" />
-          <span class="hidden sm:inline">导出</span>
+          <span class="hidden sm:inline">{{ $t("common.export") }}</span>
         </button>
         <button
           v-if="file"
@@ -332,7 +343,7 @@ const copySingle = async (key: string, value: any) => {
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium text-destructive hover:bg-destructive/10 rounded-xl transition-all active:scale-95"
         >
           <Trash2 class="h-4 w-4" />
-          <span class="hidden sm:inline">清除</span>
+          <span class="hidden sm:inline">{{ $t("common.clear") }}</span>
         </button>
       </div>
     </template>
@@ -364,10 +375,10 @@ const copySingle = async (key: string, value: any) => {
 
           <div class="space-y-2">
             <h3 class="text-lg font-semibold text-foreground">
-              选择或拖拽图片
+              {{ $t("exif.selectOrDrag") }}
             </h3>
             <p class="text-sm text-muted-foreground">
-              支持 JPG、PNG、HEIC 等格式，自动读取 EXIF
+              {{ $t("exif.supportedFormats") }}
             </p>
           </div>
 
@@ -376,7 +387,7 @@ const copySingle = async (key: string, value: any) => {
             class="flex items-center gap-2 px-6 py-2.5 bg-background border border-muted text-foreground rounded-2xl font-medium transition-all hover:bg-muted active:scale-95 mt-2"
           >
             <Upload class="h-4 w-4" />
-            选择图片
+            {{ $t("exif.selectImage") }}
           </button>
         </div>
       </div>
@@ -391,9 +402,9 @@ const copySingle = async (key: string, value: any) => {
           <div
             class="h-5 w-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"
           ></div>
-          <span class="text-sm text-muted-foreground font-medium"
-            >正在解析 EXIF 数据...</span
-          >
+          <span class="text-sm text-muted-foreground font-medium">{{
+            $t("exif.parsing")
+          }}</span>
         </div>
 
         <!-- Error -->
@@ -427,7 +438,7 @@ const copySingle = async (key: string, value: any) => {
               class="flex items-center gap-2 px-5 py-2 bg-background border border-muted text-foreground rounded-xl text-sm font-medium transition-all hover:bg-muted active:scale-95 shrink-0"
             >
               <Upload class="h-4 w-4" />
-              换一张
+              {{ $t("exif.changeImage") }}
             </button>
           </div>
         </div>
@@ -475,7 +486,7 @@ const copySingle = async (key: string, value: any) => {
                   class="flex items-center gap-2 w-full justify-center px-4 py-2 mt-2 bg-muted/30 hover:bg-muted/50 text-sm text-muted-foreground hover:text-foreground rounded-xl font-medium transition-all active:scale-95"
                 >
                   <Upload class="h-3.5 w-3.5" />
-                  更换图片
+                  {{ $t("exif.replaceImage") }}
                 </button>
               </div>
             </div>
@@ -489,10 +500,10 @@ const copySingle = async (key: string, value: any) => {
             >
               <div class="space-y-0.5">
                 <h3 class="text-base font-semibold text-foreground">
-                  EXIF 详细参数
+                  {{ $t("exif.exifDetails") }}
                 </h3>
                 <p class="text-xs text-muted-foreground">
-                  共 {{ exifEntryCount }} 项数据
+                  {{ $t("exif.totalItems", { count: exifEntryCount }) }}
                 </p>
               </div>
               <label
@@ -506,7 +517,9 @@ const copySingle = async (key: string, value: any) => {
                     class="absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-all group-has-checked:left-6"
                   ></div>
                 </div>
-                <span class="text-sm text-muted-foreground">隐藏无效信息</span>
+                <span class="text-sm text-muted-foreground">{{
+                  $t("exif.hideInvalid")
+                }}</span>
               </label>
             </div>
 
@@ -521,17 +534,17 @@ const copySingle = async (key: string, value: any) => {
                       <th
                         class="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider"
                       >
-                        字段
+                        {{ $t("exif.field") }}
                       </th>
                       <th
                         class="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider"
                       >
-                        值
+                        {{ $t("exif.value") }}
                       </th>
                       <th
                         class="text-right px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider w-16"
                       >
-                        操作
+                        {{ $t("exif.action") }}
                       </th>
                     </tr>
                   </thead>
@@ -562,7 +575,7 @@ const copySingle = async (key: string, value: any) => {
                         <button
                           @click="copySingle(String(key), value)"
                           class="p-1.5 rounded-lg hover:bg-muted transition-all active:scale-90"
-                          title="复制该项"
+                          :title="$t('exif.copyItem')"
                         >
                           <Copy
                             class="h-3.5 w-3.5 opacity-40 hover:opacity-100"

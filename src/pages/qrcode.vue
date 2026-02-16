@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, inject, watch, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 import {
   QrCode,
   Scan,
@@ -87,7 +90,7 @@ const generateQR = async () => {
     });
   } catch (err) {
     console.error(err);
-    showToast("生成二维码失败", "error");
+    showToast(t("qrcode.generateFailed"), "error");
   }
 };
 
@@ -97,7 +100,7 @@ const downloadQR = () => {
   a.href = qrDataUrl.value;
   a.download = `qrcode_${Date.now()}.png`;
   a.click();
-  showToast("下载成功");
+  showToast(t("common.downloadSuccess"));
 };
 
 const handleFileUpload = (e: Event) => {
@@ -105,7 +108,7 @@ const handleFileUpload = (e: Event) => {
   if (!file) return;
 
   if (file.size > 10 * 1024 * 1024) {
-    showToast("图片大小不能超过 10MB", "error");
+    showToast(t("qrcode.imageSizeLimit"), "error");
     return;
   }
 
@@ -135,10 +138,10 @@ const recognizeQR = (dataUrl: string) => {
 
     if (code) {
       scanResult.value = code.data;
-      showToast("解析成功");
+      showToast(t("qrcode.scanSuccess"));
     } else {
       scanResult.value = "";
-      showToast("未发现二维码", "warning");
+      showToast(t("qrcode.noQrFound"), "warning");
     }
     isScanning.value = false;
   };
@@ -149,9 +152,9 @@ const copyResult = async () => {
   if (!scanResult.value) return;
   try {
     await navigator.clipboard.writeText(scanResult.value);
-    showToast("复制成功");
+    showToast(t("common.copySuccess"));
   } catch (err) {
-    showToast("复制失败", "error");
+    showToast(t("common.copyFailed"), "error");
   }
 };
 
@@ -203,7 +206,7 @@ onMounted(() => {
           "
         >
           <QrCode class="h-4 w-4" />
-          生成二维码
+          {{ $t("qrcode.generateTab") }}
         </button>
         <button
           @click="activeTab = 'scan'"
@@ -215,7 +218,7 @@ onMounted(() => {
           "
         >
           <Scan class="h-4 w-4" />
-          扫描二维码
+          {{ $t("qrcode.scanTab") }}
         </button>
       </div>
 
@@ -233,15 +236,15 @@ onMounted(() => {
             <div class="space-y-4">
               <label
                 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-1"
-                >内容类型</label
+                >{{ $t("qrcode.contentType") }}</label
               >
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <button
                   v-for="type in [
-                    { id: 'text', label: '文本', icon: Type },
-                    { id: 'link', label: '链接', icon: Link },
+                    { id: 'text', label: $t('qrcode.text'), icon: Type },
+                    { id: 'link', label: $t('qrcode.link'), icon: Link },
                     { id: 'wifi', label: 'WiFi', icon: Wifi },
-                    { id: 'mail', label: '邮箱', icon: Mail },
+                    { id: 'mail', label: $t('qrcode.mail'), icon: Mail },
                   ]"
                   :key="type.id"
                   @click="qrType = type.id as any"
@@ -262,7 +265,7 @@ onMounted(() => {
             <div class="space-y-4">
               <label
                 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-1"
-                >输入内容</label
+                >{{ $t("qrcode.inputContent") }}</label
               >
 
               <!-- Text/Link -->
@@ -274,8 +277,8 @@ onMounted(() => {
                   v-model="qrContent"
                   :placeholder="
                     qrType === 'text'
-                      ? '请输入文本内容...'
-                      : '请输入网址 (例如: https://yule.ink)...'
+                      ? $t('qrcode.textPlaceholder')
+                      : $t('qrcode.linkPlaceholder')
                   "
                   class="w-full min-h-[120px] bg-background/50 border border-muted/80 rounded-2xl p-4 text-[14px] outline-none focus:border-blue-500/50 transition-all resize-none"
                 ></textarea>
@@ -287,35 +290,39 @@ onMounted(() => {
                 class="grid grid-cols-1 sm:grid-cols-2 gap-4"
               >
                 <div class="space-y-2">
-                  <span class="text-xs text-muted-foreground px-1"
-                    >网络名称 (SSID)</span
-                  >
+                  <span class="text-xs text-muted-foreground px-1">{{
+                    $t("qrcode.wifiSsid")
+                  }}</span>
                   <input
                     v-model="wifiSsid"
                     type="text"
-                    placeholder="WIFI 名称"
+                    :placeholder="$t('qrcode.wifiSsidPlaceholder')"
                     class="w-full bg-background/50 border border-muted/80 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-blue-500/50 transition-all"
                   />
                 </div>
                 <div class="space-y-2">
-                  <span class="text-xs text-muted-foreground px-1"
-                    >安全类型</span
-                  >
+                  <span class="text-xs text-muted-foreground px-1">{{
+                    $t("qrcode.securityType")
+                  }}</span>
                   <select
                     v-model="wifiEncryption"
                     class="w-full bg-background/50 border border-muted/80 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-blue-500/50 transition-all appearance-none"
                   >
                     <option value="WPA">WPA/WPA2</option>
                     <option value="WEP">WEP</option>
-                    <option value="nopass">无密码</option>
+                    <option value="nopass">
+                      {{ $t("qrcode.noPassword") }}
+                    </option>
                   </select>
                 </div>
                 <div v-if="wifiEncryption !== 'nopass'" class="space-y-2">
-                  <span class="text-xs text-muted-foreground px-1">密码</span>
+                  <span class="text-xs text-muted-foreground px-1">{{
+                    $t("qrcode.password")
+                  }}</span>
                   <input
                     v-model="wifiPassword"
                     type="text"
-                    placeholder="WiFi 密码"
+                    :placeholder="$t('qrcode.wifiPasswordPlaceholder')"
                     class="w-full bg-background/50 border border-muted/80 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-blue-500/50 transition-all"
                   />
                 </div>
@@ -333,7 +340,9 @@ onMounted(() => {
                         class="absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-all group-has-checked:left-6"
                       ></div>
                     </div>
-                    <span class="text-sm text-muted-foreground">隐藏网络</span>
+                    <span class="text-sm text-muted-foreground">{{
+                      $t("qrcode.hiddenNetwork")
+                    }}</span>
                   </label>
                 </div>
               </div>
@@ -341,7 +350,9 @@ onMounted(() => {
               <!-- Mail -->
               <div v-if="qrType === 'mail'" class="space-y-4">
                 <div class="space-y-2">
-                  <span class="text-xs text-muted-foreground px-1">收件人</span>
+                  <span class="text-xs text-muted-foreground px-1">{{
+                    $t("qrcode.recipient")
+                  }}</span>
                   <input
                     v-model="mailTo"
                     type="email"
@@ -350,21 +361,23 @@ onMounted(() => {
                   />
                 </div>
                 <div class="space-y-2">
-                  <span class="text-xs text-muted-foreground px-1"
-                    >主题 (可选)</span
-                  >
+                  <span class="text-xs text-muted-foreground px-1">{{
+                    $t("qrcode.subjectOptional")
+                  }}</span>
                   <input
                     v-model="mailSubject"
                     type="text"
-                    placeholder="邮件主题"
+                    :placeholder="$t('qrcode.subjectPlaceholder')"
                     class="w-full bg-background/50 border border-muted/80 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-blue-500/50 transition-all"
                   />
                 </div>
                 <div class="space-y-2">
-                  <span class="text-xs text-muted-foreground px-1">内容</span>
+                  <span class="text-xs text-muted-foreground px-1">{{
+                    $t("qrcode.bodyLabel")
+                  }}</span>
                   <textarea
                     v-model="mailBody"
-                    placeholder="邮件正文..."
+                    :placeholder="$t('qrcode.bodyPlaceholder')"
                     class="w-full min-h-[80px] bg-background/50 border border-muted/80 rounded-2xl p-4 text-sm outline-none focus:border-blue-500/50 transition-all resize-none"
                   ></textarea>
                 </div>
@@ -375,12 +388,14 @@ onMounted(() => {
             <div class="space-y-4 pt-2">
               <label
                 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-1"
-                >外观设置</label
+                >{{ $t("qrcode.appearance") }}</label
               >
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div class="space-y-3">
                   <div class="flex justify-between items-center px-1">
-                    <span class="text-xs text-muted-foreground">容错级别</span>
+                    <span class="text-xs text-muted-foreground">{{
+                      $t("qrcode.errorLevel")
+                    }}</span>
                     <span
                       class="text-[10px] font-mono bg-muted px-1.5 py-0.5 rounded text-muted-foreground"
                       >{{ qrOptions.errorCorrectionLevel }}</span
@@ -404,15 +419,15 @@ onMounted(() => {
                   <p
                     class="text-[10px] text-muted-foreground/60 px-1 leading-normal"
                   >
-                    L: 7% 纠错, M: 15%, Q: 25%, H: 30%。更高级别允许部分遮挡。
+                    {{ $t("qrcode.errorLevelDesc") }}
                   </p>
                 </div>
 
                 <div class="space-y-3">
                   <div class="flex justify-between items-center px-1">
-                    <span class="text-xs text-muted-foreground"
-                      >二维码颜色</span
-                    >
+                    <span class="text-xs text-muted-foreground">{{
+                      $t("qrcode.qrColor")
+                    }}</span>
                   </div>
                   <div class="flex items-center gap-4">
                     <div
@@ -456,9 +471,9 @@ onMounted(() => {
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div class="space-y-3">
                   <div class="flex justify-between items-center px-1">
-                    <span class="text-xs text-muted-foreground"
-                      >边距 (Margin)</span
-                    >
+                    <span class="text-xs text-muted-foreground">{{
+                      $t("qrcode.margin")
+                    }}</span>
                     <span class="text-xs font-mono text-blue-600">{{
                       qrOptions.margin
                     }}</span>
@@ -474,9 +489,9 @@ onMounted(() => {
                 </div>
                 <div class="space-y-3">
                   <div class="flex justify-between items-center px-1">
-                    <span class="text-xs text-muted-foreground"
-                      >尺寸 (Size)</span
-                    >
+                    <span class="text-xs text-muted-foreground">{{
+                      $t("qrcode.size")
+                    }}</span>
                     <span class="text-xs font-mono text-blue-600"
                       >{{ qrOptions.width }}px</span
                     >
@@ -503,7 +518,7 @@ onMounted(() => {
             >
               <label
                 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider w-full text-center"
-                >实时预览</label
+                >{{ $t("qrcode.preview") }}</label
               >
 
               <div
@@ -520,7 +535,7 @@ onMounted(() => {
                   class="text-muted-foreground/30 flex flex-col items-center gap-3"
                 >
                   <QrCode class="h-16 w-16 opacity-10" />
-                  <span class="text-xs">等待输入...</span>
+                  <span class="text-xs">{{ $t("qrcode.waitInput") }}</span>
                 </div>
 
                 <div
@@ -536,10 +551,10 @@ onMounted(() => {
                   class="flex items-center justify-center gap-2 w-full py-3 bg-blue-500 text-white rounded-2xl font-medium transition-all hover:bg-blue-600 active:scale-95 disabled:opacity-50 disabled:grayscale group"
                 >
                   <Download class="h-5 w-5 group-hover:bounce-y" />
-                  保存二维码
+                  {{ $t("qrcode.saveQr") }}
                 </button>
                 <p class="text-[10px] text-muted-foreground text-center">
-                  透明区域在深色模式下可能无法识别，建议使用默认背景
+                  {{ $t("qrcode.transparentWarning") }}
                 </p>
               </div>
             </div>
@@ -550,8 +565,7 @@ onMounted(() => {
               <p
                 class="text-[11px] text-amber-600/80 leading-relaxed text-center"
               >
-                💡 WiFi 二维码在多协议下可能由于设备差异出现识别失败，请确保
-                SSID 和密码准确无误。
+                {{ $t("qrcode.wifiWarning") }}
               </p>
             </div>
           </div>
@@ -599,10 +613,10 @@ onMounted(() => {
 
             <div class="space-y-2">
               <h3 class="text-lg font-semibold text-foreground">
-                识别或上传图片
+                {{ $t("qrcode.scanOrUpload") }}
               </h3>
               <p class="text-sm text-muted-foreground">
-                支持拖拽图片到这里，或点击下方按钮选择
+                {{ $t("qrcode.dragOrClick") }}
               </p>
             </div>
 
@@ -612,7 +626,7 @@ onMounted(() => {
                 class="flex items-center gap-2 px-6 py-2.5 bg-background border border-muted text-foreground rounded-2xl font-medium transition-all hover:bg-muted active:scale-95"
               >
                 <ImageIcon class="h-4 w-4" />
-                选择图片
+                {{ $t("qrcode.selectImage") }}
               </button>
               <button
                 v-if="scanPreviewUrl"
@@ -620,7 +634,7 @@ onMounted(() => {
                 class="flex items-center gap-2 px-6 py-2.5 bg-destructive/10 text-destructive rounded-2xl font-medium transition-all hover:bg-destructive/20 active:scale-95"
               >
                 <Trash2 class="h-4 w-4" />
-                清除
+                {{ $t("common.clear") }}
               </button>
             </div>
           </div>
@@ -632,14 +646,14 @@ onMounted(() => {
             <div class="flex items-center justify-between px-2">
               <label
                 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider"
-                >识别结果</label
+                >{{ $t("qrcode.scanResult") }}</label
               >
               <button
                 @click="copyResult"
                 class="flex items-center gap-1.5 text-xs text-blue-600 font-medium hover:underline"
               >
                 <Copy class="h-3 w-3" />
-                复制内容
+                {{ $t("qrcode.copyContent") }}
               </button>
             </div>
             <div
@@ -660,7 +674,7 @@ onMounted(() => {
                 class="inline-flex items-center gap-2 px-8 py-3 bg-blue-500 text-white rounded-2xl font-medium shadow-lg shadow-blue-500/20 hover:bg-blue-600 transition-all active:scale-95"
               >
                 <Link class="h-4 w-4" />
-                访问链接
+                {{ $t("qrcode.visitLink") }}
               </a>
             </div>
           </div>

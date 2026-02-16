@@ -3,7 +3,9 @@ import { ref, computed, onMounted, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import { Search, ArrowLeft, X, ChevronRight, Inbox } from "lucide-vue-next";
 import { allTools } from "@/config/tools";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const router = useRouter();
 const searchQuery = ref("");
 const searchInput = ref<HTMLInputElement | null>(null);
@@ -21,9 +23,9 @@ const filteredTools = computed(() => {
 
   return allTools.filter(
     (tool) =>
-      tool.title.toLowerCase().includes(query) ||
-      tool.subtitle.toLowerCase().includes(query) ||
-      tool.description.toLowerCase().includes(query),
+      t(tool.title).toLowerCase().includes(query) ||
+      t(tool.subtitle).toLowerCase().includes(query) ||
+      t(tool.description).toLowerCase().includes(query),
   );
 });
 
@@ -65,7 +67,7 @@ const handleToolClick = (path: string) => {
             ref="searchInput"
             v-model="searchQuery"
             type="text"
-            placeholder="搜索工具、分类或关键词..."
+            :placeholder="$t('search.placeholder')"
             class="w-full bg-muted/50 rounded-2xl pl-12 pr-12 py-3.5 text-lg font-normal outline-none border border-transparent focus:bg-background focus:border-blue-500 transition-all"
           />
           <button
@@ -87,9 +89,11 @@ const handleToolClick = (path: string) => {
           <Search class="h-14 w-14 text-muted-foreground/30" />
         </div>
         <div class="space-y-2">
-          <h2 class="text-2xl font-bold tracking-tight">输入关键词开始搜索</h2>
+          <h2 class="text-2xl font-bold tracking-tight">
+            {{ $t("search.startTitle") }}
+          </h2>
           <p class="text-muted-foreground font-normal max-w-sm mx-auto">
-            您可以搜索工具名称、功能描述或子标题，快速找到您需要的工具。
+            {{ $t("search.startDesc") }}
           </p>
         </div>
       </div>
@@ -115,12 +119,12 @@ const handleToolClick = (path: string) => {
             <h3
               class="text-lg font-bold truncate group-hover:text-blue-500 transition-colors"
             >
-              {{ tool.title }}
+              {{ $t(tool.title) }}
             </h3>
             <p
-              class="text-sm text-muted-foreground font-normal truncate mt-0.5"
+              class="text-sm text-muted-foreground font-normal line-clamp-2 mt-0.5"
             >
-              {{ tool.subtitle }}
+              {{ $t(tool.subtitle) }}
             </p>
           </div>
           <ChevronRight
@@ -140,9 +144,11 @@ const handleToolClick = (path: string) => {
           <Inbox class="h-14 w-14" />
         </div>
         <div class="space-y-2">
-          <h2 class="text-2xl font-bold tracking-tight">未找到相关工具</h2>
+          <h2 class="text-2xl font-bold tracking-tight">
+            {{ $t("search.emptyTitle") }}
+          </h2>
           <p class="text-muted-foreground font-normal max-w-sm mx-auto">
-            尝试更换关键词，或者关注后续更新。我们正在不断添加更多工具。
+            {{ $t("search.emptyDesc") }}
           </p>
         </div>
       </div>

@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, inject } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 import { Search, Swords, Shield, Sparkles, X, Loader2 } from "lucide-vue-next";
 import ToolContainer from "@/components/tool/ToolContainer.vue";
 import { allTools } from "@/config/tools";
@@ -43,42 +46,42 @@ const heroDialog = ref(false);
 const selectedHero = ref<any>(null);
 const loadingDetail = ref(false);
 
-const categories = [
-  { id: "hero", label: "英雄", icon: Swords },
-  { id: "item", label: "装备", icon: Shield },
-  { id: "skill", label: "技能", icon: Sparkles },
-];
+const categories = computed(() => [
+  { id: "hero", label: t("hok.hero"), icon: Swords },
+  { id: "item", label: t("hok.item"), icon: Shield },
+  { id: "skill", label: t("hok.skill"), icon: Sparkles },
+]);
 
-const heroTypes = [
-  { value: "all", label: "全部" },
-  { value: "1", label: "战士" },
-  { value: "2", label: "法师" },
-  { value: "3", label: "坦克" },
-  { value: "4", label: "刺客" },
-  { value: "5", label: "射手" },
-  { value: "6", label: "辅助" },
-];
+const heroTypes = computed(() => [
+  { value: "all", label: t("hok.all") },
+  { value: "1", label: t("hok.warrior") },
+  { value: "2", label: t("hok.mage") },
+  { value: "3", label: t("hok.tank") },
+  { value: "4", label: t("hok.assassin") },
+  { value: "5", label: t("hok.marksman") },
+  { value: "6", label: t("hok.support") },
+]);
 
-const itemTypes = [
-  { value: "all", label: "全部" },
-  { value: "1", label: "攻击" },
-  { value: "2", label: "法术" },
-  { value: "3", label: "防御" },
-  { value: "4", label: "移动" },
-  { value: "5", label: "打野" },
-  { value: "7", label: "游走" },
-];
+const itemTypes = computed(() => [
+  { value: "all", label: t("hok.all") },
+  { value: "1", label: t("hok.attack") },
+  { value: "2", label: t("hok.magic") },
+  { value: "3", label: t("hok.defense") },
+  { value: "4", label: t("hok.movement") },
+  { value: "5", label: t("hok.jungle") },
+  { value: "7", label: t("hok.roam") },
+]);
 
 const heroTypeName = (type: number) => {
   const names: Record<number, string> = {
-    1: "战士",
-    2: "法师",
-    3: "坦克",
-    4: "刺客",
-    5: "射手",
-    6: "辅助",
+    1: t("hok.warrior"),
+    2: t("hok.mage"),
+    3: t("hok.tank"),
+    4: t("hok.assassin"),
+    5: t("hok.marksman"),
+    6: t("hok.support"),
   };
-  return names[type] || "未知";
+  return names[type] || t("hok.unknown");
 };
 
 const heroTypeColor = (type: number) => {
@@ -270,7 +273,7 @@ onMounted(async () => {
     skillsData.value = skills;
     skillImages.value = sImages;
   } catch (e: any) {
-    showToast("数据加载失败", "error");
+    showToast(t("hok.loadFailed"), "error");
   } finally {
     loading.value = false;
   }
@@ -285,7 +288,7 @@ onMounted(async () => {
         class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6 space-y-4"
       >
         <!-- Category Tabs -->
-        <div class="flex gap-2">
+        <div class="flex flex-wrap gap-2">
           <button
             v-for="cat in categories"
             :key="cat.id"
@@ -315,10 +318,10 @@ onMounted(async () => {
             type="text"
             :placeholder="
               selectedCategory === 'hero'
-                ? '搜索英雄名称...'
+                ? $t('hok.searchHero')
                 : selectedCategory === 'item'
-                  ? '搜索装备名称...'
-                  : '搜索技能名称...'
+                  ? $t('hok.searchItem')
+                  : $t('hok.searchSkill')
             "
             class="w-full pl-11 pr-4 py-3 bg-background border border-muted rounded-2xl text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 transition-all"
           />
@@ -358,7 +361,7 @@ onMounted(async () => {
 
         <!-- Result count -->
         <p class="text-xs text-muted-foreground">
-          共 {{ filteredData.length }} 个结果
+          {{ $t("hok.resultCount", { count: filteredData.length }) }}
         </p>
       </div>
 
@@ -429,7 +432,7 @@ onMounted(async () => {
               <span
                 class="text-[10px] px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-600 font-medium shrink-0"
               >
-                {{ item.total_price }} 金币
+                {{ item.total_price }} {{ $t("hok.gold") }}
               </span>
             </div>
             <p
@@ -550,7 +553,7 @@ onMounted(async () => {
               v-if="selectedHero?.skills?.length && !loadingDetail"
               class="space-y-3"
             >
-              <h4 class="text-sm font-bold">技能</h4>
+              <h4 class="text-sm font-bold">{{ $t("hok.skills") }}</h4>
               <div
                 v-for="(skill, i) in selectedHero.skills"
                 :key="i"
@@ -563,7 +566,7 @@ onMounted(async () => {
                   v-if="skill.cooldownAttributes"
                   class="text-xs text-muted-foreground mb-2"
                 >
-                  冷却：{{ skill.cooldownAttributes }}
+                  {{ $t("hok.cooldown") }}{{ skill.cooldownAttributes }}
                 </p>
                 <p class="text-xs text-muted-foreground leading-relaxed">
                   {{ skill.description }}
@@ -576,7 +579,7 @@ onMounted(async () => {
               v-if="selectedHero?.skin_name && !loadingDetail"
               class="space-y-3"
             >
-              <h4 class="text-sm font-bold">皮肤</h4>
+              <h4 class="text-sm font-bold">{{ $t("hok.skins") }}</h4>
               <div class="flex flex-wrap gap-2">
                 <span
                   v-for="skin in selectedHero.skin_name.split('|')"

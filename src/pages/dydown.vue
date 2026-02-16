@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, inject } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 import {
   Video,
   Search,
@@ -72,7 +75,7 @@ const startCooldown = () => {
 
 const handleParse = async () => {
   if (!inputText.value.trim()) {
-    showToast("请输入抖音分享链接", "warning");
+    showToast(t("dydown.inputPlaceholder"), "warning");
     return;
   }
 
@@ -104,9 +107,9 @@ const doParse = async () => {
     const resp = await parseDyVideo(inputText.value.trim());
     if (resp.ok && resp.data) {
       result.value = resp.data;
-      showToast("解析成功");
+      showToast(t("common.success"));
     } else {
-      error.value = resp.message || "解析失败";
+      error.value = resp.message || t("dydown.parseFailed");
     }
   } catch (e: any) {
     error.value = "请求出错: " + (e.message || "网络错误");
@@ -121,10 +124,10 @@ const copyUrl = async () => {
   try {
     await navigator.clipboard.writeText(fullDownloadUrl.value);
     copiedUrl.value = true;
-    showToast("下载链接已复制");
+    showToast(t("common.copySuccess"));
     setTimeout(() => (copiedUrl.value = false), 2000);
   } catch {
-    showToast("复制失败", "error");
+    showToast(t("common.copyFailed"), "error");
   }
 };
 
@@ -147,7 +150,7 @@ const formatCount = (n: number) => {
             <input
               v-model="inputText"
               type="text"
-              placeholder="粘贴抖音分享链接或口令"
+              :placeholder="$t('dydown.inputPlaceholder')"
               class="w-full pl-11 pr-4 py-3 bg-background border border-muted rounded-2xl text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 transition-all"
               @keyup.enter="handleParse"
             />
@@ -159,7 +162,7 @@ const formatCount = (n: number) => {
           >
             <Loader2 v-if="loading" class="h-4 w-4 animate-spin" />
             <Video v-else class="h-4 w-4" />
-            {{ cooldown > 0 ? `${cooldown}s` : "解析" }}
+            {{ cooldown > 0 ? `${cooldown}s` : $t("dydown.parse") }}
           </button>
         </div>
       </div>
@@ -242,7 +245,7 @@ const formatCount = (n: number) => {
               class="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-blue-500 text-white rounded-2xl font-medium hover:bg-blue-600 transition-all active:scale-[0.98]"
             >
               <Download class="h-4 w-4" />
-              下载无水印视频
+              {{ $t("dydown.downloadVideo") }}
             </a>
             <button
               v-if="fullDownloadUrl"
@@ -251,7 +254,7 @@ const formatCount = (n: number) => {
             >
               <Check v-if="copiedUrl" class="h-4 w-4 text-green-500" />
               <Copy v-else class="h-4 w-4" />
-              {{ copiedUrl ? "已复制" : "复制直链" }}
+              {{ copiedUrl ? $t("common.copySuccess") : $t("common.copy") }}
             </button>
           </div>
         </div>
@@ -263,7 +266,7 @@ const formatCount = (n: number) => {
         class="flex flex-col items-center gap-4 py-16 opacity-30"
       >
         <Video class="h-16 w-16" />
-        <p class="text-lg font-medium">粘贴抖音分享链接以解析</p>
+        <p class="text-lg font-medium">{{ $t("dydown.inputPlaceholder") }}</p>
       </div>
 
       <!-- Disclaimer Dialog (Overlay) -->
@@ -282,18 +285,20 @@ const formatCount = (n: number) => {
               >
                 <AlertTriangle class="h-5 w-5 text-amber-500" />
               </div>
-              <h3 class="text-lg font-bold">使用须知</h3>
+              <h3 class="text-lg font-bold">
+                {{ $t("dydown.firstUseTitle") }}
+              </h3>
             </div>
 
             <div
               class="text-sm text-muted-foreground space-y-3 leading-relaxed"
             >
-              <p>本工具仅供学习和技术研究使用：</p>
+              <p>{{ $t("dydown.disclaimerText") }}</p>
               <ul class="list-disc pl-5 space-y-1.5">
-                <li>请勿将下载的视频用于商业用途</li>
-                <li>请尊重原创作者的知识产权</li>
-                <li>所有视频版权归原作者所有</li>
-                <li>使用本工具所产生的一切后果由使用者自行承担</li>
+                <li>{{ $t("dydown.disclaimerItem1") }}</li>
+                <li>{{ $t("dydown.disclaimerItem2") }}</li>
+                <li>{{ $t("dydown.disclaimerItem3") }}</li>
+                <li>{{ $t("dydown.disclaimerItem4") }}</li>
               </ul>
             </div>
 
@@ -302,13 +307,13 @@ const formatCount = (n: number) => {
                 @click="disclaimerVisible = false"
                 class="flex-1 px-5 py-2.5 bg-muted text-foreground rounded-xl font-medium hover:bg-muted/80 transition-all active:scale-95"
               >
-                取消
+                {{ $t("common.cancel") }}
               </button>
               <button
                 @click="acceptDisclaimer"
                 class="flex-1 px-5 py-2.5 bg-blue-500 text-white rounded-xl font-medium hover:bg-blue-600 transition-all active:scale-95"
               >
-                我已知晓
+                {{ $t("dydown.agree") }}
               </button>
             </div>
           </div>

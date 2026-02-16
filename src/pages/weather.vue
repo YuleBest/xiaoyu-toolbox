@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, inject } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t, locale } = useI18n();
 import {
   Search,
   MapPin,
@@ -82,10 +85,10 @@ const handleSearch = async () => {
     if (results.length > 0) {
       searchResults.value = results;
     } else {
-      showToast("未找到相关城市", "warning");
+      showToast(t("weather.noResults"), "warning");
     }
   } catch {
-    showToast("搜索失败，请检查网络", "error");
+    showToast(t("weather.searchFailed"), "error");
   } finally {
     searching.value = false;
   }
@@ -102,15 +105,15 @@ const selectCity = async (city: CityResult) => {
     hourlyForecast.value = data.hourly;
     dailyForecast.value = data.daily;
   } catch {
-    error.value = "天气数据获取失败";
-    showToast("天气数据获取失败", "error");
+    error.value = t("weather.searchFailed");
+    showToast(t("weather.searchFailed"), "error");
   } finally {
     loading.value = false;
   }
 };
 
 const formatDate = (date: Date) => {
-  return new Intl.DateTimeFormat("zh-CN", {
+  return new Intl.DateTimeFormat(locale.value === "zh-CN" ? "zh-CN" : "en-US", {
     weekday: "long",
     month: "short",
     day: "numeric",
@@ -118,7 +121,7 @@ const formatDate = (date: Date) => {
 };
 
 const formatHour = (date: Date) => {
-  return new Intl.DateTimeFormat("zh-CN", {
+  return new Intl.DateTimeFormat(locale.value === "zh-CN" ? "zh-CN" : "en-US", {
     hour: "numeric",
     minute: "numeric",
   }).format(date);
@@ -138,7 +141,7 @@ const formatHour = (date: Date) => {
             <input
               v-model="searchQuery"
               type="text"
-              placeholder="搜索城市，例如 Beijing、New York"
+              :placeholder="$t('weather.searchPlaceholder')"
               class="w-full pl-11 pr-4 py-3 bg-background border border-muted rounded-2xl text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 transition-all"
               @keyup.enter="handleSearch"
             />
@@ -150,7 +153,7 @@ const formatHour = (date: Date) => {
           >
             <Loader2 v-if="searching" class="h-4 w-4 animate-spin" />
             <Search v-else class="h-4 w-4" />
-            搜索
+            {{ $t("common.search") }}
           </button>
         </div>
       </div>
@@ -163,7 +166,7 @@ const formatHour = (date: Date) => {
         >
           <div class="px-5 py-4 border-b border-muted/30">
             <h3 class="text-sm font-semibold text-foreground">
-              搜索结果
+              {{ $t("weather.noResults") }}
               <span class="text-muted-foreground font-normal ml-1"
                 >{{ searchResults.length }} 个</span
               >
@@ -263,7 +266,7 @@ const formatHour = (date: Date) => {
                 class="flex items-center gap-1 text-xs text-muted-foreground mb-2"
               >
                 <Droplets class="h-3.5 w-3.5 text-blue-500" />
-                湿度
+                {{ $t("weather.humidity") }}
               </div>
               <p class="text-xl md:text-2xl font-bold">
                 {{ currentWeather.humidity }}%
@@ -274,7 +277,7 @@ const formatHour = (date: Date) => {
                 class="flex items-center gap-1 text-xs text-muted-foreground mb-2"
               >
                 <Wind class="h-3.5 w-3.5 text-slate-500" />
-                风速
+                {{ $t("weather.windSpeed") }}
               </div>
               <p class="text-xl md:text-2xl font-bold">
                 {{ currentWeather.windSpeed.toFixed(1) }}
@@ -286,7 +289,7 @@ const formatHour = (date: Date) => {
                 class="flex items-center gap-1 text-xs text-muted-foreground mb-2"
               >
                 <Thermometer class="h-3.5 w-3.5 text-red-500" />
-                体感
+                {{ $t("weather.feelsLike") }}
               </div>
               <p class="text-xl md:text-2xl font-bold">
                 {{ Math.round(currentWeather.feelsLike) }}°
@@ -297,7 +300,7 @@ const formatHour = (date: Date) => {
                 class="flex items-center gap-1 text-xs text-muted-foreground mb-2"
               >
                 <CloudRain class="h-3.5 w-3.5 text-cyan-500" />
-                降水概率
+                {{ $t("weather.precipitation") }}
               </div>
               <p class="text-xl md:text-2xl font-bold">
                 {{ hourlyForecast[0]?.precipitationProbability || 0 }}%
@@ -307,7 +310,9 @@ const formatHour = (date: Date) => {
 
           <!-- Hourly Forecast -->
           <div>
-            <h3 class="text-base font-bold mb-4 px-1">未来 24 小时</h3>
+            <h3 class="text-base font-bold mb-4 px-1">
+              {{ $t("weather.hourlyForecast") }}
+            </h3>
             <div
               class="bg-card/30 border border-muted/80 rounded-3xl overflow-hidden"
             >
@@ -348,7 +353,7 @@ const formatHour = (date: Date) => {
         class="flex flex-col items-center gap-4 py-16 opacity-30"
       >
         <MapPin class="h-16 w-16" />
-        <p class="text-lg font-medium">搜索并选择城市以查看天气</p>
+        <p class="text-lg font-medium">{{ $t("weather.searchPlaceholder") }}</p>
       </div>
     </div>
   </ToolContainer>

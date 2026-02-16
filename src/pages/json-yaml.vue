@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, inject, computed } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 import {
   Copy,
   Check,
@@ -118,7 +121,7 @@ const handleFileUpload = (e: Event) => {
   if (!file) return;
 
   if (file.size > 5 * 1024 * 1024) {
-    showToast("文件大小不能超过 5MB", "error");
+    showToast(t("jsonYaml.fileSizeLimit"), "error");
     return;
   }
 
@@ -144,7 +147,7 @@ const handleFileUpload = (e: Event) => {
         convertYamlToJson(content);
       }
     }
-    showToast("导入成功");
+    showToast(t("jsonYaml.importSuccess"));
   };
   reader.readAsText(file);
   if (fileInput.value) fileInput.value.value = "";
@@ -164,14 +167,14 @@ const downloadFile = (type: "json" | "yaml") => {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  showToast("文件导出中...");
+  showToast(t("jsonYaml.exporting"));
 };
 
 const copyToClipboard = async (text: string, type: "json" | "yaml") => {
   if (!text) return;
   try {
     await navigator.clipboard.writeText(text);
-    showToast("复制成功");
+    showToast(t("common.copySuccess"));
     if (type === "json") {
       copiedJson.value = true;
       setTimeout(() => (copiedJson.value = false), 2000);
@@ -180,7 +183,7 @@ const copyToClipboard = async (text: string, type: "json" | "yaml") => {
       setTimeout(() => (copiedYaml.value = false), 2000);
     }
   } catch (err) {
-    showToast("复制失败", "error");
+    showToast(t("common.copyFailed"), "error");
   }
 };
 
@@ -197,10 +200,10 @@ const formatJson = () => {
     const obj = JSON.parse(jsonText.value);
     jsonText.value = JSON.stringify(obj, null, 2);
     jsonError.value = "";
-    showToast("格式化成功");
+    showToast(t("jsonYaml.formatSuccess"));
   } catch (e: any) {
     jsonError.value = e.message;
-    showToast("JSON 格式错误，无法格式化", "error");
+    showToast(t("jsonYaml.formatError"), "error");
   }
 };
 </script>
@@ -221,7 +224,7 @@ const formatJson = () => {
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
         >
           <Upload class="h-4 w-4" />
-          <span class="hidden sm:inline">导入文件</span>
+          <span class="hidden sm:inline">{{ $t("jsonYaml.importFile") }}</span>
         </button>
 
         <button
@@ -230,7 +233,7 @@ const formatJson = () => {
           :disabled="!jsonText.trim()"
         >
           <FileJson class="h-4 w-4" />
-          <span class="hidden sm:inline">格式化 JSON</span>
+          <span class="hidden sm:inline">{{ $t("jsonYaml.formatJson") }}</span>
         </button>
 
         <button
@@ -238,7 +241,7 @@ const formatJson = () => {
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium text-destructive hover:bg-destructive/10 rounded-xl transition-all active:scale-95"
         >
           <Trash2 class="h-4 w-4" />
-          <span class="hidden sm:inline">清空</span>
+          <span class="hidden sm:inline">{{ $t("common.clear") }}</span>
         </button>
       </div>
     </template>
@@ -258,7 +261,7 @@ const formatJson = () => {
               <button
                 @click="downloadFile('json')"
                 class="p-1.5 md:p-2 rounded-lg hover:bg-muted transition-all active:scale-90"
-                title="导出 JSON"
+                :title="$t('jsonYaml.exportJson')"
                 :disabled="!jsonText"
               >
                 <Download class="h-4 w-4 opacity-50 hover:opacity-100" />
@@ -266,7 +269,7 @@ const formatJson = () => {
               <button
                 @click="copyToClipboard(jsonText, 'json')"
                 class="p-1.5 md:p-2 rounded-lg hover:bg-muted transition-all active:scale-90"
-                title="复制 JSON"
+                :title="$t('jsonYaml.copyJson')"
                 :disabled="!jsonText"
               >
                 <Check v-if="copiedJson" class="h-4 w-4 text-green-500" />
@@ -292,7 +295,7 @@ const formatJson = () => {
                 :value="jsonText"
                 @input="handleJsonInput"
                 @scroll="syncScroll('json')"
-                placeholder="在此输入 JSON 内容..."
+                :placeholder="$t('jsonYaml.jsonPlaceholder')"
                 class="w-full h-full bg-transparent p-5 md:p-6 text-[13px] md:text-[14px] font-mono resize-none outline-none text-transparent caret-foreground selection:bg-blue-500/20 shadow-none z-10 block border-none"
               ></textarea>
             </div>
@@ -329,7 +332,7 @@ const formatJson = () => {
               <button
                 @click="downloadFile('yaml')"
                 class="p-1.5 md:p-2 rounded-lg hover:bg-muted transition-all active:scale-90"
-                title="导出 YAML"
+                :title="$t('jsonYaml.exportYaml')"
                 :disabled="!yamlText"
               >
                 <Download class="h-4 w-4 opacity-50 hover:opacity-100" />
@@ -337,7 +340,7 @@ const formatJson = () => {
               <button
                 @click="copyToClipboard(yamlText, 'yaml')"
                 class="p-1.5 md:p-2 rounded-lg hover:bg-muted transition-all active:scale-90"
-                title="复制 YAML"
+                :title="$t('jsonYaml.copyYaml')"
                 :disabled="!yamlText"
               >
                 <Check v-if="copiedYaml" class="h-4 w-4 text-green-500" />
@@ -363,7 +366,7 @@ const formatJson = () => {
                 :value="yamlText"
                 @input="handleYamlInput"
                 @scroll="syncScroll('yaml')"
-                placeholder="在此输入 YAML 内容..."
+                :placeholder="$t('jsonYaml.yamlPlaceholder')"
                 class="w-full h-full bg-transparent p-5 md:p-6 text-[13px] md:text-[14px] font-mono resize-none outline-none text-transparent caret-foreground selection:bg-blue-500/20 shadow-none z-10 block border-none"
               ></textarea>
             </div>
@@ -388,8 +391,7 @@ const formatJson = () => {
         <p
           class="text-[12px] md:text-[13px] text-blue-600/80 leading-relaxed font-medium"
         >
-          提示:
-          本工具支持双向实时转换、导入和文件导出。语法错误时下方会有详细提示。
+          {{ $t("jsonYaml.tip") }}
         </p>
       </div>
     </div>

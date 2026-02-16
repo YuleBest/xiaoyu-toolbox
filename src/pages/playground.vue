@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, inject, onMounted, onUnmounted } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 import {
   Play,
   Copy,
@@ -146,10 +149,10 @@ const copyCode = async () => {
   try {
     await navigator.clipboard.writeText(code.value);
     copiedCode.value = true;
-    showToast("代码已复制");
+    showToast(t("common.copySuccess"));
     setTimeout(() => (copiedCode.value = false), 2000);
   } catch {
-    showToast("复制失败", "error");
+    showToast(t("common.copyFailed"), "error");
   }
 };
 
@@ -165,7 +168,7 @@ const downloadCode = () => {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  showToast("代码文件已下载");
+  showToast(t("common.downloadSuccess"));
 };
 
 const clearCode = () => {
@@ -220,7 +223,7 @@ const logTypeClass = (type: string) => {
             class="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"
           />
           <Play v-else class="h-4 w-4" />
-          <span class="hidden sm:inline">运行</span>
+          <span class="hidden sm:inline">{{ $t("playground.run") }}</span>
         </button>
       </div>
     </template>
@@ -240,7 +243,7 @@ const logTypeClass = (type: string) => {
             "
           >
             <Code2 class="h-3.5 w-3.5" />
-            编辑器
+            {{ $t("playground.console") }}
           </button>
           <button
             @click="currentView = 'logs'"
@@ -252,7 +255,7 @@ const logTypeClass = (type: string) => {
             "
           >
             <Terminal class="h-3.5 w-3.5" />
-            日志
+            {{ $t("playground.console") }}
             <span
               v-if="logs.length > 0"
               class="bg-blue-500 text-white text-[10px] px-1.5 py-0.5 rounded-full min-w-[18px] text-center"
@@ -267,7 +270,7 @@ const logTypeClass = (type: string) => {
           <button
             @click="copyCode"
             class="p-2 rounded-lg hover:bg-muted transition-colors"
-            title="复制代码"
+            :title="$t('common.copy')"
           >
             <Check v-if="copiedCode" class="h-4 w-4 text-green-500" />
             <Copy v-else class="h-4 w-4 text-muted-foreground" />
@@ -275,14 +278,14 @@ const logTypeClass = (type: string) => {
           <button
             @click="downloadCode"
             class="p-2 rounded-lg hover:bg-muted transition-colors"
-            title="下载代码"
+            :title="$t('common.download')"
           >
             <Download class="h-4 w-4 text-muted-foreground" />
           </button>
           <button
             @click="clearCode"
             class="p-2 rounded-lg hover:bg-muted transition-colors"
-            title="清空"
+            :title="$t('common.clear')"
           >
             <Trash2 class="h-4 w-4 text-muted-foreground" />
           </button>
@@ -331,7 +334,7 @@ const logTypeClass = (type: string) => {
           class="flex items-center justify-between px-5 py-3 border-b border-muted/30"
         >
           <span class="text-xs font-medium text-muted-foreground">
-            控制台输出
+            {{ $t("playground.console") }}
           </span>
           <button
             v-if="logs.length > 0"
@@ -339,7 +342,7 @@ const logTypeClass = (type: string) => {
             class="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
             <RotateCcw class="h-3 w-3" />
-            清空
+            {{ $t("common.clear") }}
           </button>
         </div>
         <div
@@ -360,7 +363,7 @@ const logTypeClass = (type: string) => {
             class="flex flex-col items-center justify-center py-16 opacity-30"
           >
             <Terminal class="h-12 w-12 mb-3" />
-            <p class="text-sm">运行代码后查看输出</p>
+            <p class="text-sm">{{ $t("playground.run") }}</p>
           </div>
           <div
             v-if="isRunning"
@@ -369,7 +372,7 @@ const logTypeClass = (type: string) => {
             <div
               class="h-4 w-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"
             />
-            执行中...
+            {{ $t("common.loading") }}
           </div>
         </div>
       </div>

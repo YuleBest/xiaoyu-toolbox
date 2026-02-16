@@ -9,7 +9,7 @@ import Footer from "@/components/layout/Footer.vue";
     class="flex min-h-screen w-full bg-background no-scrollbar selection:bg-blue-500/10 transition-colors duration-300"
   >
     <!-- Desktop Sidebar -->
-    <Sidebar userName="于乐" userEmail="yule-best@outlook.com" />
+    <Sidebar />
 
     <!-- Mobile Navigation -->
     <MobileNav />

@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, inject, nextTick } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 import {
   Search,
   Music,
@@ -80,10 +83,10 @@ const handleSearch = async () => {
       searchResults.value = data;
       showToast(`找到 ${data.length} 首歌曲`);
     } else {
-      error.value = "未找到相关歌曲，请尝试其他关键词";
+      error.value = t("lyric.noResults");
     }
   } catch {
-    error.value = "搜索失败，请检查网络连接";
+    error.value = t("lyric.searchFailed");
   } finally {
     searching.value = false;
   }
@@ -115,12 +118,12 @@ const handleGetLyric = async (song: Song) => {
           text: item.text || "♪",
         };
       });
-      showToast("歌词加载成功");
+      showToast(t("common.success"));
     } else {
-      error.value = "该歌曲暂无歌词";
+      error.value = t("lyric.noLyric");
     }
   } catch {
-    error.value = "歌词加载失败，请稍后重试";
+    error.value = t("lyric.loadFailed");
   } finally {
     loadingLyric.value = false;
   }
@@ -132,7 +135,7 @@ const downloadLyric = async () => {
   try {
     const text = await getLyricLrc(selectedSong.value.hash);
     if (!text || !text.trim()) {
-      showToast("歌词内容为空", "error");
+      showToast(t("lyric.noLyric"), "error");
       return;
     }
 
@@ -145,9 +148,9 @@ const downloadLyric = async () => {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-    showToast("歌词文件已下载");
+    showToast(t("common.downloadSuccess"));
   } catch {
-    showToast("下载失败，请稍后重试", "error");
+    showToast(t("common.copyFailed"), "error");
   }
 };
 
@@ -157,14 +160,14 @@ const copyLyric = async () => {
   try {
     const text = await getLyricLrc(selectedSong.value.hash);
     if (!text || !text.trim()) {
-      showToast("歌词内容为空", "error");
+      showToast(t("lyric.noLyric"), "error");
       return;
     }
 
     await navigator.clipboard.writeText(text);
-    showToast("歌词已复制到剪贴板");
+    showToast(t("common.copySuccess"));
   } catch {
-    showToast("复制失败", "error");
+    showToast(t("common.copyFailed"), "error");
   }
 };
 
@@ -234,7 +237,7 @@ const onSliderInput = (e: Event) => {
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
         >
           <Copy class="h-4 w-4" />
-          <span class="hidden sm:inline">复制歌词</span>
+          <span class="hidden sm:inline">{{ $t("lyric.copyLyric") }}</span>
         </button>
         <button
           v-if="parsedLyrics.length > 0"
@@ -242,7 +245,7 @@ const onSliderInput = (e: Event) => {
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 rounded-xl transition-all active:scale-95"
         >
           <Download class="h-4 w-4" />
-          <span class="hidden sm:inline">下载 LRC</span>
+          <span class="hidden sm:inline">{{ $t("lyric.downloadLrc") }}</span>
         </button>
       </div>
     </template>
@@ -258,7 +261,7 @@ const onSliderInput = (e: Event) => {
             <input
               v-model="searchKeyword"
               type="text"
-              placeholder="输入歌名或歌手名，例如「周杰伦 七里香」"
+              :placeholder="$t('lyric.searchPlaceholder')"
               class="w-full pl-11 pr-4 py-3 bg-background border border-muted rounded-2xl text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 transition-all"
               @keyup.enter="handleSearch"
             />
@@ -273,7 +276,7 @@ const onSliderInput = (e: Event) => {
               class="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"
             ></div>
             <Search v-else class="h-4 w-4" />
-            搜索
+            {{ $t("common.search") }}
           </button>
         </div>
       </div>
@@ -295,7 +298,7 @@ const onSliderInput = (e: Event) => {
         >
           <div class="px-5 py-4 border-b border-muted/30">
             <h3 class="text-sm font-semibold text-foreground">
-              搜索结果
+              {{ $t("lyric.noResults") }}
               <span class="text-muted-foreground font-normal ml-1"
                 >{{ searchResults.length }} 首</span
               >
@@ -333,9 +336,9 @@ const onSliderInput = (e: Event) => {
         <div
           class="h-5 w-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"
         ></div>
-        <span class="text-sm text-muted-foreground font-medium"
-          >正在加载歌词...</span
-        >
+        <span class="text-sm text-muted-foreground font-medium">{{
+          $t("lyric.loading")
+        }}</span>
       </div>
 
       <!-- Lyric Display -->
@@ -356,7 +359,7 @@ const onSliderInput = (e: Event) => {
                 @click="backToResults"
                 class="text-xs text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-xl hover:bg-muted/30 transition-all shrink-0"
               >
-                返回结果
+                {{ $t("common.back") }}
               </button>
             </div>
 
@@ -413,7 +416,7 @@ const onSliderInput = (e: Event) => {
           <!-- Display Mode Toggle -->
           <div class="flex items-center justify-between px-2">
             <span class="text-sm text-muted-foreground"
-              >{{ parsedLyrics.length }} 行歌词</span
+              >{{ parsedLyrics.length }} {{ $t("lyric.noResults") }}</span
             >
             <div class="flex items-center bg-muted/30 rounded-xl p-1 gap-0.5">
               <button
@@ -426,7 +429,7 @@ const onSliderInput = (e: Event) => {
                 "
               >
                 <Clock class="h-3.5 w-3.5" />
-                时间轴
+                {{ $t("lyric.timeline") }}
               </button>
               <button
                 @click="displayMode = 'plain'"
@@ -438,7 +441,7 @@ const onSliderInput = (e: Event) => {
                 "
               >
                 <AlignLeft class="h-3.5 w-3.5" />
-                纯文本
+                {{ $t("lyric.lyricMode") }}
               </button>
             </div>
           </div>
@@ -508,14 +511,14 @@ const onSliderInput = (e: Event) => {
               class="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-background border border-muted text-foreground rounded-2xl font-medium transition-all hover:bg-muted active:scale-[0.98]"
             >
               <Download class="h-4 w-4" />
-              下载歌词文件
+              {{ $t("lyric.downloadLrc") }}
             </button>
             <button
               @click="copyLyric"
               class="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-background border border-muted text-foreground rounded-2xl font-medium transition-all hover:bg-muted active:scale-[0.98]"
             >
               <Copy class="h-4 w-4" />
-              复制歌词
+              {{ $t("lyric.copyLyric") }}
             </button>
           </div>
         </div>
@@ -533,7 +536,7 @@ const onSliderInput = (e: Event) => {
         class="flex flex-col items-center gap-4 py-16 opacity-30"
       >
         <Music class="h-16 w-16" />
-        <p class="text-lg font-medium">搜索歌曲以获取歌词</p>
+        <p class="text-lg font-medium">{{ $t("lyric.searchPlaceholder") }}</p>
       </div>
     </div>
   </ToolContainer>

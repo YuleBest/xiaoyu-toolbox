@@ -29,6 +29,8 @@ declare module 'vue' {
     DropdownMenuTrigger: typeof import('./components/ui/dropdown-menu/DropdownMenuTrigger.vue')['default']
     Footer: typeof import('./components/layout/Footer.vue')['default']
     GlobalToast: typeof import('./components/GlobalToast.vue')['default']
+    LangToggle: typeof import('./components/LangToggle.vue')['default']
+    LanguageToggle: typeof import('./components/LanguageToggle.vue')['default']
     MobileNav: typeof import('./components/layout/MobileNav.vue')['default']
     ModeToggle: typeof import('./components/ModeToggle.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

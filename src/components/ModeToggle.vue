@@ -26,7 +26,7 @@ const mode = useColorMode();
         <Moon
           class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-blue-400"
         />
-        <span class="sr-only">切换主题</span>
+        <span class="sr-only">{{ $t("theme.toggle") }}</span>
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent
@@ -38,21 +38,21 @@ const mode = useColorMode();
         class="rounded-lg cursor-pointer flex items-center gap-2.5 py-2 px-3 focus:bg-amber-500/10 focus:text-amber-600 transition-colors"
       >
         <Sun class="h-4 w-4" />
-        <span class="font-medium text-sm">浅色模式</span>
+        <span class="font-medium text-sm">{{ $t("theme.light") }}</span>
       </DropdownMenuItem>
       <DropdownMenuItem
         @click="mode = 'dark'"
         class="rounded-lg cursor-pointer flex items-center gap-2.5 py-2 px-3 focus:bg-blue-500/10 focus:text-blue-500 transition-colors"
       >
         <Moon class="h-4 w-4" />
-        <span class="font-medium text-sm">深色模式</span>
+        <span class="font-medium text-sm">{{ $t("theme.dark") }}</span>
       </DropdownMenuItem>
       <DropdownMenuItem
         @click="mode = 'auto'"
         class="rounded-lg cursor-pointer flex items-center gap-2.5 py-2 px-3 focus:bg-muted focus:text-foreground transition-colors border-t mt-1 pt-2"
       >
         <Monitor class="h-4 w-4 text-muted-foreground" />
-        <span class="font-medium text-sm">跟随系统</span>
+        <span class="font-medium text-sm">{{ $t("theme.system") }}</span>
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>

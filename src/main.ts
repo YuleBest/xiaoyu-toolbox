@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { routes } from "vue-router/auto-routes";
 import "./style.css";
 import App from "./App.vue";
+import i18n from "./i18n";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -37,4 +38,4 @@ router.beforeEach((to) => {
   return true;
 });
 
-createApp(App).use(router).mount("#app");
+createApp(App).use(router).use(i18n).mount("#app");

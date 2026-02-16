@@ -93,7 +93,7 @@ const handleToolClick = (path: string) => {
               : 'bg-muted/40 text-muted-foreground hover:bg-muted/60',
           ]"
         >
-          {{ cat.name }}
+          {{ $t(cat.name) }}
         </button>
       </div>
     </div>
@@ -110,7 +110,7 @@ const handleToolClick = (path: string) => {
           <h2
             class="text-[24px] md:text-[28px] font-semibold tracking-tight flex items-center gap-3"
           >
-            {{ cat.name }}
+            {{ $t(cat.name) }}
           </h2>
         </div>
 
@@ -118,7 +118,7 @@ const handleToolClick = (path: string) => {
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-6"
         >
           <div
-            v-for="tool in toolsData[cat.name] || []"
+            v-for="tool in toolsData[cat.id] || []"
             :key="tool.id"
             class="flex items-center gap-4 p-3 rounded-3xl bg-secondary/20 hover:bg-secondary/40 border border-transparent hover:border-blue-500/10 transition-all duration-300 group cursor-pointer"
             @click="handleToolClick(tool.path)"
@@ -133,12 +133,12 @@ const handleToolClick = (path: string) => {
               <h3
                 class="text-[16px] font-medium leading-tight truncate group-hover:text-blue-500 transition-colors"
               >
-                {{ tool.title }}
+                {{ $t(tool.title) }}
               </h3>
               <p
-                class="text-[12.5px] text-muted-foreground font-normal truncate mt-1"
+                class="text-[12.5px] text-muted-foreground font-normal line-clamp-2 mt-1"
               >
-                {{ tool.subtitle }}
+                {{ $t(tool.subtitle) }}
               </p>
             </div>
             <ChevronRight

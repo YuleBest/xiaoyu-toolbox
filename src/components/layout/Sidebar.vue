@@ -7,6 +7,7 @@ import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { navigationStore } from "@/stores/navigation";
 
 import ModeToggle from "@/components/ModeToggle.vue";
+import LanguageToggle from "@/components/LanguageToggle.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -38,9 +39,9 @@ defineProps<{
               <img src="/logo.svg" class="h-5 w-5" alt="Logo" />
             </div>
             <div class="flex flex-col overflow-hidden">
-              <span class="text-[16px] font-semibold truncate leading-tight"
-                >小于工具箱</span
-              >
+              <span class="text-[16px] font-semibold truncate leading-tight">{{
+                $t("common.appName")
+              }}</span>
             </div>
           </div>
         </button>
@@ -56,7 +57,7 @@ defineProps<{
       <ArrowLeft
         class="h-4 w-4 text-blue-500 group-hover:-translate-x-0.5 transition-transform"
       />
-      返回
+      {{ $t("common.back") }}
     </button>
 
     <!-- Search -->
@@ -66,7 +67,7 @@ defineProps<{
       />
       <input
         type="text"
-        placeholder="搜索"
+        :placeholder="$t('common.search')"
         class="w-full bg-muted/40 rounded-lg pl-10 pr-4 py-1.5 text-sm outline-none transition-all placeholder:text-muted-foreground/50 border border-transparent focus:bg-background focus:border-muted-foreground/10 cursor-pointer"
         readonly
         @click="$router.push('/search')"
@@ -96,7 +97,7 @@ defineProps<{
         >
           <component :is="item.icon" class="h-4 w-4 stroke-[2.5px]" />
         </div>
-        {{ item.name }}
+        {{ $t(item.name) }}
       </RouterLink>
     </nav>
 
@@ -105,12 +106,12 @@ defineProps<{
       <h3
         class="px-3 text-[11px] font-medium text-muted-foreground/40 uppercase tracking-widest mb-3"
       >
-        类别
+        {{ $t("nav.categoriesLabel") }}
       </h3>
       <div class="space-y-0.5 overflow-hidden">
         <button
           v-for="cat in categories"
-          :key="cat.name"
+          :key="cat.id"
           class="w-full flex items-center gap-3.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-all group active:scale-[0.98] cursor-pointer"
           :class="[
             route.path === '/categories' &&
@@ -127,20 +128,30 @@ defineProps<{
               :class="cat.color"
             />
           </div>
-          <span class="flex-1 text-left line-clamp-1">{{ cat.name }}</span>
+          <span class="flex-1 text-left line-clamp-1">{{ $t(cat.name) }}</span>
         </button>
       </div>
     </div>
 
-    <!-- Theme Switcher -->
-    <div class="px-2 pt-4 border-t border-muted-foreground/5 mt-auto">
+    <!-- Bottom Controls -->
+    <div class="px-2 pt-4 border-t border-muted-foreground/5 mt-auto space-y-2">
+      <!-- Theme -->
       <div
         class="flex items-center justify-between px-3 py-1.5 rounded-lg bg-muted/20"
       >
-        <span class="text-[12px] font-medium text-muted-foreground"
-          >显示模式</span
-        >
+        <span class="text-[12px] font-medium text-muted-foreground">{{
+          $t("theme.label")
+        }}</span>
         <ModeToggle />
+      </div>
+      <!-- Language -->
+      <div
+        class="flex items-center justify-between px-3 py-1.5 rounded-lg bg-muted/20"
+      >
+        <span class="text-[12px] font-medium text-muted-foreground">{{
+          $t("lang.label")
+        }}</span>
+        <LanguageToggle />
       </div>
     </div>
   </aside>

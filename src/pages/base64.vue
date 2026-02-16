@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, watch, computed } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 import {
   Copy,
   Check,
@@ -35,7 +38,7 @@ const encode = (text: string) => {
     // Encodes UTF-8 properly to avoid issues with Chinese characters
     return btoa(unescape(encodeURIComponent(text)));
   } catch (e) {
-    return "编码错误";
+    return t("base64.encodeError");
   }
 };
 
@@ -44,7 +47,7 @@ const decode = (b64: string) => {
   try {
     return decodeURIComponent(escape(atob(b64)));
   } catch (e) {
-    return "解码错误";
+    return t("base64.decodeError");
   }
 };
 
@@ -96,7 +99,7 @@ const handleFileUpload = (event: Event) => {
   const maxSize = 20 * 1024 * 1024; // 20MB
 
   if (file.size > maxSize) {
-    showToast("文件大小不能超过 20MB", "error");
+    showToast(t("base64.fileSizeLimit"), "error");
     input.value = "";
     return;
   }
@@ -123,7 +126,7 @@ const handleFileUpload = (event: Event) => {
   };
 
   reader.onerror = () => {
-    showToast("文件读取失败", "error");
+    showToast(t("base64.fileReadError"), "error");
     isUploading.value = false;
     input.value = "";
   };
@@ -167,11 +170,11 @@ const formatSize = (bytes: number) => {
 
 const sourceStats = computed(() => {
   if (currentFileName.value) {
-    return { label: "文件模式", value: " 加载成功" };
+    return { label: t("base64.fileMode"), value: t("base64.fileLoaded") };
   }
   return {
-    label: "原文长度",
-    value: `${sourceText.value.length.toLocaleString()} 字`,
+    label: t("base64.sourceLength"),
+    value: `${sourceText.value.length.toLocaleString()} ${t("common.chars")}`,
   };
 });
 
@@ -184,7 +187,7 @@ const base64Stats = computed(() => {
 
   return {
     chars: b64.length,
-    size: `约 ${formatSize(totalSize)}`,
+    size: `${t("common.approx")} ${formatSize(totalSize)}`,
   };
 });
 
@@ -212,7 +215,7 @@ const isCollapsed = ref(true);
             :class="{ 'animate-spin': isUploading }"
           />
           <span class="hidden sm:inline">{{
-            isUploading ? "读取中..." : "文件转 Base64"
+            isUploading ? $t("base64.uploading") : $t("base64.uploadFile")
           }}</span>
         </button>
 
@@ -221,7 +224,7 @@ const isCollapsed = ref(true);
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium text-destructive hover:bg-destructive/10 rounded-xl transition-all active:scale-95"
         >
           <Trash2 class="h-4 w-4" />
-          <span class="hidden sm:inline">清空内容</span>
+          <span class="hidden sm:inline">{{ $t("common.clearAll") }}</span>
         </button>
       </div>
     </template>
@@ -234,11 +237,11 @@ const isCollapsed = ref(true);
             <div class="flex items-center gap-2">
               <span
                 class="text-[11px] md:text-sm font-semibold text-muted-foreground uppercase tracking-wider"
-                >原文</span
+                >{{ $t("base64.source") }}</span
               >
               <span
                 v-if="sourceText || currentFileName"
-                class="text-[10px] bg-muted/50 px-1.5 py-0.5 rounded text-muted-foreground/70 font-medium whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]"
+                class="text-[10px] bg-muted/50 px-1.5 py-0.5 rounded text-muted-foreground/70 font-medium whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]"
               >
                 {{ sourceStats.label }}: {{ sourceStats.value }}
               </span>
@@ -246,7 +249,7 @@ const isCollapsed = ref(true);
             <button
               @click="copyToClipboard(sourceText, 'source')"
               class="p-1.5 md:p-2 rounded-lg hover:bg-muted transition-all active:scale-90"
-              title="复制原文"
+              :title="$t('base64.copySource')"
               :disabled="!sourceText || !!currentFileName"
             >
               <Check v-if="copiedSource" class="h-4 w-4 text-green-500" />
@@ -258,7 +261,7 @@ const isCollapsed = ref(true);
             <textarea
               v-if="!currentFileName"
               v-model="sourceText"
-              placeholder="在此输入需要编码的内容..."
+              :placeholder="$t('base64.inputPlaceholder')"
               class="w-full flex-1 min-h-[160px] h-[28vh] md:h-80 bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6 text-[14px] md:text-[15px] font-mono resize-none outline-none focus:border-blue-500/50 transition-all focus:bg-card"
             ></textarea>
 
@@ -275,7 +278,7 @@ const isCollapsed = ref(true);
                   {{ currentFileName }}
                 </p>
                 <p class="text-xs text-muted-foreground">
-                  已加载为 Base64 原始数据
+                  {{ $t("base64.loadedAsBase64") }}
                 </p>
               </div>
               <button
@@ -283,7 +286,7 @@ const isCollapsed = ref(true);
                 class="flex items-center gap-2 px-4 py-2 text-xs font-medium text-destructive hover:bg-destructive/10 rounded-xl transition-all active:scale-95"
               >
                 <X class="h-3.5 w-3.5" />
-                移除文件
+                {{ $t("base64.removeFile") }}
               </button>
             </div>
           </div>
@@ -308,7 +311,8 @@ const isCollapsed = ref(true);
                 v-if="base64Stats.chars > 0"
                 class="text-[10px] bg-muted/50 px-1.5 py-0.5 rounded text-muted-foreground/70 font-medium"
               >
-                {{ base64Stats.chars.toLocaleString() }} 字 |
+                {{ base64Stats.chars.toLocaleString() }}
+                {{ $t("common.chars") }} |
                 {{ base64Stats.size }}
               </span>
             </div>
@@ -316,7 +320,7 @@ const isCollapsed = ref(true);
               <button
                 @click="downloadBase64"
                 class="p-1.5 md:p-2 rounded-lg hover:bg-muted transition-all active:scale-90"
-                title="下载 Base64"
+                :title="$t('base64.downloadBase64')"
                 :disabled="!base64Text"
               >
                 <Download class="h-4 w-4 opacity-50 hover:opacity-100" />
@@ -324,7 +328,7 @@ const isCollapsed = ref(true);
               <button
                 @click="copyToClipboard(base64Text, 'base64')"
                 class="p-1.5 md:p-2 rounded-lg hover:bg-muted transition-all active:scale-90"
-                title="复制 Base64"
+                :title="$t('base64.copyBase64')"
                 :disabled="!base64Text"
               >
                 <Check v-if="copiedBase64" class="h-4 w-4 text-green-500" />
@@ -342,10 +346,11 @@ const isCollapsed = ref(true);
                   <EyeOff class="h-8 w-8 text-amber-500" />
                 </div>
                 <div class="space-y-1">
-                  <p class="text-sm font-semibold">内容过长已隐藏</p>
+                  <p class="text-sm font-semibold">
+                    {{ $t("base64.contentHidden") }}
+                  </p>
                   <p class="text-xs text-muted-foreground leading-relaxed">
-                    字符数已超过
-                    10,000，为防止页面卡顿，不再实时展示。请通过下载或复制按钮查看。
+                    {{ $t("base64.contentHiddenDesc") }}
                   </p>
                 </div>
               </div>
@@ -358,7 +363,7 @@ const isCollapsed = ref(true);
                   @click="isCollapsed = false"
                   class="flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white rounded-full text-sm font-medium shadow-lg shadow-blue-500/20 active:scale-95 transition-all"
                 >
-                  展示全部内容 (共 {{ base64Stats.chars }} 字)
+                  {{ $t("base64.showAll", { count: base64Stats.chars }) }}
                 </button>
               </div>
               <textarea
@@ -371,7 +376,7 @@ const isCollapsed = ref(true);
               <textarea
                 :value="base64Text"
                 @input="handleBase64Input"
-                placeholder="在此输入 Base64 字符串进行解码..."
+                :placeholder="$t('base64.base64Placeholder')"
                 class="w-full h-[28vh] md:h-80 bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6 text-[14px] md:text-[15px] font-mono resize-none outline-none focus:border-blue-500/50 transition-all focus:bg-card"
               ></textarea>
             </template>
@@ -386,8 +391,7 @@ const isCollapsed = ref(true);
         <p
           class="text-[12px] md:text-[13px] text-blue-600/80 leading-relaxed font-medium"
         >
-          提示: 本工具支持双向转换。在左侧输入原文会自动进行 Base64
-          编码；在右侧输入 Base64 字符串会自动进行 解码。
+          {{ $t("base64.tip") }}
         </p>
       </div>
     </div>

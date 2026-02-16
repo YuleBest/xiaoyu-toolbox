@@ -26,12 +26,12 @@ const handleToolClick = (path: string) => {
     <section v-if="topTools.length" class="space-y-6">
       <div class="flex items-end justify-between px-1">
         <h2 class="text-[22px] md:text-[24px] font-semibold tracking-tight">
-          精选推荐
+          {{ $t("home.featured") }}
         </h2>
         <span
           class="text-[13px] text-muted-foreground font-medium flex items-center gap-0.5 cursor-pointer hover:text-blue-500 transition-colors"
           @click="router.push('/categories')"
-          >查看更多 <ChevronRight class="h-4 w-4"
+          >{{ $t("common.viewMore") }} <ChevronRight class="h-4 w-4"
         /></span>
       </div>
 
@@ -54,12 +54,12 @@ const handleToolClick = (path: string) => {
             <h3
               class="text-[15.5px] font-medium leading-tight truncate group-hover:text-blue-500 transition-colors"
             >
-              {{ tool.title }}
+              {{ $t(tool.title) }}
             </h3>
             <p
-              class="text-[12px] text-muted-foreground font-normal truncate mt-1"
+              class="text-[12px] text-muted-foreground font-normal line-clamp-2 mt-1"
             >
-              {{ tool.subtitle }}
+              {{ $t(tool.subtitle) }}
             </p>
           </div>
           <ChevronRight
@@ -73,12 +73,12 @@ const handleToolClick = (path: string) => {
     <section v-if="hotTools.length" class="space-y-6">
       <div class="flex items-end justify-between px-1">
         <h2 class="text-[22px] md:text-[24px] font-semibold tracking-tight">
-          热门使用
+          {{ $t("home.hot") }}
         </h2>
         <span
           class="text-[13px] text-muted-foreground font-medium flex items-center gap-0.5 cursor-pointer hover:text-blue-500 transition-colors"
           @click="router.push('/categories')"
-          >查看更多 <ChevronRight class="h-4 w-4"
+          >{{ $t("common.viewMore") }} <ChevronRight class="h-4 w-4"
         /></span>
       </div>
 
@@ -101,12 +101,12 @@ const handleToolClick = (path: string) => {
             <h3
               class="text-[15.5px] font-medium leading-tight truncate group-hover:text-blue-500 transition-colors"
             >
-              {{ tool.title }}
+              {{ $t(tool.title) }}
             </h3>
             <p
-              class="text-[12px] text-muted-foreground font-normal truncate mt-1"
+              class="text-[12px] text-muted-foreground font-normal line-clamp-2 mt-1"
             >
-              {{ tool.subtitle }}
+              {{ $t(tool.subtitle) }}
             </p>
           </div>
           <ChevronRight
@@ -120,7 +120,7 @@ const handleToolClick = (path: string) => {
     <section v-if="latestTools.length" class="space-y-6">
       <div class="flex items-end justify-between px-1">
         <h2 class="text-[22px] md:text-[24px] font-semibold tracking-tight">
-          最新发布
+          {{ $t("home.latest") }}
         </h2>
       </div>
 
@@ -143,11 +143,13 @@ const handleToolClick = (path: string) => {
             <h4
               class="text-[15.5px] font-medium leading-tight truncate group-hover:text-blue-500 transition-colors"
             >
-              {{ tool.title }}
+              {{ $t(tool.title) }}
             </h4>
             <div class="flex items-center gap-2 mt-0.5">
-              <p class="text-[12px] text-muted-foreground font-normal truncate">
-                {{ tool.subtitle }}
+              <p
+                class="text-[12px] text-muted-foreground font-normal line-clamp-2"
+              >
+                {{ $t(tool.subtitle) }}
               </p>
             </div>
           </div>

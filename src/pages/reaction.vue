@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 import { Zap, AlertCircle, MousePointerClick, Clock } from "lucide-vue-next";
 import ToolContainer from "@/components/tool/ToolContainer.vue";
 import { allTools } from "@/config/tools";
@@ -17,13 +20,13 @@ let intervalId: ReturnType<typeof setInterval> | null = null;
 
 const rankMessage = computed(() => {
   const time = reactionTime.value;
-  if (time < 10) return "你是挂吧？？？";
-  if (time < 150) return "🏆 荣耀王者";
-  if (time < 230) return "⭐ 至尊星耀";
-  if (time < 300) return "💎 永恒钻石";
-  if (time < 400) return "🥇 荣耀黄金";
-  if (time < 600) return "🥉 倔强青铜";
-  return "💤 挂机了？";
+  if (time < 10) return t("reaction.rank.cheat");
+  if (time < 150) return t("reaction.rank.king");
+  if (time < 230) return t("reaction.rank.star");
+  if (time < 300) return t("reaction.rank.diamond");
+  if (time < 400) return t("reaction.rank.gold");
+  if (time < 600) return t("reaction.rank.bronze");
+  return t("reaction.rank.afk");
 });
 
 const stateConfig = computed(() => {
@@ -31,37 +34,37 @@ const stateConfig = computed(() => {
     case "waiting":
       return {
         bg: "bg-slate-500",
-        title: "反应力测试",
-        subtitle: "当屏幕变绿时尽快点击",
-        hint: "点击任意区域开始测试",
+        title: t("reaction.waiting.title"),
+        subtitle: t("reaction.waiting.subtitle"),
+        hint: t("reaction.waiting.hint"),
       };
     case "ready":
       return {
         bg: "bg-red-500",
-        title: "等待绿色...",
-        subtitle: "保持专注",
+        title: t("reaction.ready.title"),
+        subtitle: t("reaction.ready.subtitle"),
         hint: "",
       };
     case "now":
       return {
         bg: "bg-green-500",
-        title: "点击！！！",
+        title: t("reaction.now.title"),
         subtitle: "",
         hint: "",
       };
     case "result":
       return {
         bg: "bg-blue-500",
-        title: "你的成绩",
-        subtitle: "点击再次尝试",
+        title: t("reaction.result.title"),
+        subtitle: t("reaction.result.subtitle"),
         hint: "",
       };
     case "early":
       return {
         bg: "bg-orange-500",
-        title: "太快了！",
-        subtitle: "请等待屏幕变绿后再点击",
-        hint: "点击任意区域重新开始",
+        title: t("reaction.early.title"),
+        subtitle: t("reaction.early.subtitle"),
+        hint: t("reaction.early.hint"),
       };
     default:
       return { bg: "bg-gray-500", title: "", subtitle: "", hint: "" };

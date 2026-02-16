@@ -5,6 +5,7 @@ import { Search, ChevronRight, ArrowLeft } from "lucide-vue-next";
 import { mainNav, categories } from "@/config/nav";
 import { navigationStore } from "@/stores/navigation";
 import ModeToggle from "@/components/ModeToggle.vue";
+import LanguageToggle from "@/components/LanguageToggle.vue";
 
 const isMobileMenuOpen = ref(false);
 const route = useRoute();
@@ -72,7 +73,7 @@ watch(
           <ArrowLeft
             class="h-4 w-4 text-blue-500 group-hover:-translate-x-0.5 transition-transform"
           />
-          返回
+          {{ $t("common.back") }}
         </button>
       </div>
 
@@ -80,7 +81,9 @@ watch(
         class="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-none"
       >
         <img src="/logo.svg" class="h-5 w-5" alt="Logo" />
-        <span class="font-semibold text-[16px] tracking-tight">小于工具箱</span>
+        <span class="font-semibold text-[16px] tracking-tight">{{
+          $t("common.appName")
+        }}</span>
       </div>
 
       <div class="flex items-center gap-2">
@@ -110,7 +113,7 @@ watch(
           />
           <input
             type="text"
-            placeholder="搜索工具"
+            :placeholder="$t('common.searchTools')"
             class="w-full bg-muted/40 rounded-xl pl-11 pr-4 py-3 text-base font-medium outline-none border border-transparent focus:bg-background focus:border-blue-500/10 shadow-sm transition-all"
             readonly
             @click="
@@ -139,7 +142,7 @@ watch(
             >
               <component :is="item.icon" class="h-5 w-5 stroke-[2.5px]" />
             </div>
-            {{ item.name }}
+            {{ $t(item.name) }}
           </RouterLink>
         </div>
 
@@ -147,7 +150,7 @@ watch(
           <h3
             class="px-4 text-[12px] font-medium text-muted-foreground/50 uppercase tracking-widest mb-4"
           >
-            浏览类别
+            {{ $t("nav.browseCategories") }}
           </h3>
           <div class="grid grid-cols-1 gap-1">
             <button
@@ -168,7 +171,7 @@ watch(
               "
             >
               <component :is="cat.icon" class="h-6 w-6" :class="cat.color" />
-              <span class="flex-1 text-left truncate">{{ cat.name }}</span>
+              <span class="flex-1 text-left truncate">{{ $t(cat.name) }}</span>
               <ChevronRight
                 class="h-5 w-5 text-muted-foreground/30 group-hover:translate-x-0.5 transition-transform"
               />
@@ -176,10 +179,13 @@ watch(
           </div>
         </div>
 
-        <div class="pt-10 flex flex-col items-center gap-6 pb-20">
-          <ModeToggle />
+        <div class="pt-10 flex flex-col items-center gap-4 pb-20">
+          <div class="flex items-center gap-4">
+            <ModeToggle />
+            <LanguageToggle />
+          </div>
           <p class="text-[12px] text-muted-foreground font-medium opacity-50">
-            © 2026 小于工具箱
+            © 2026 {{ $t("common.appName") }}
           </p>
         </div>
       </div>

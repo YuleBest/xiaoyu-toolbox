@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, inject, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 import {
   Video,
   Search,
@@ -87,7 +90,7 @@ const extractBvid = (text: string): string => {
 
 const handleParse = async () => {
   if (!inputText.value.trim()) {
-    showToast("请输入 B 站视频链接或 BV 号", "warning");
+    showToast(t("bilidown.inputPlaceholder"), "warning");
     return;
   }
 
@@ -111,7 +114,7 @@ const acceptDisclaimer = () => {
 const doParse = async () => {
   const bvid = extractBvid(inputText.value);
   if (!bvid) {
-    showToast("未找到有效的BV号", "warning");
+    showToast(t("bilidown.parseFailed"), "warning");
     return;
   }
 
@@ -134,9 +137,9 @@ const doParse = async () => {
       if (resp.data.audioStreams.length > 0) {
         selectedAudio.value = resp.data.audioStreams[0] ?? null;
       }
-      showToast("解析成功");
+      showToast(t("common.success"));
     } else {
-      error.value = resp.message || "解析失败";
+      error.value = resp.message || t("bilidown.parseFailed");
     }
   } catch (e: any) {
     error.value = "请求出错: " + (e.message || "网络错误");
@@ -169,7 +172,7 @@ const downloadStream = (
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-  showToast("正在准备下载...");
+  showToast(t("common.loading"));
 };
 
 const mergeAndDownload = async () => {
@@ -180,7 +183,7 @@ const mergeAndDownload = async () => {
 
   try {
     if (!ffmpeg.loaded) {
-      showToast("正在加载 FFmpeg 引擎...");
+      showToast(t("bilidown.merging"));
       const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm";
       await ffmpeg.load({
         coreURL: await toBlobURL(
@@ -209,12 +212,12 @@ const mergeAndDownload = async () => {
       "audio",
     );
 
-    showToast("正在下载视频流...");
+    showToast(t("bilidown.merging"));
     await ffmpeg.writeFile("video.mp4", await fetchFile(videoUrl));
-    showToast("正在下载音频流...");
+    showToast(t("bilidown.merging"));
     await ffmpeg.writeFile("audio.m4a", await fetchFile(audioUrl));
 
-    showToast("正在合并...");
+    showToast(t("bilidown.merging"));
     await ffmpeg.exec([
       "-i",
       "video.mp4",
@@ -240,9 +243,9 @@ const mergeAndDownload = async () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
-    showToast("合并完成，已开始下载");
+    showToast(t("bilidown.mergeSuccess"));
   } catch (e: any) {
-    showToast("合并失败: " + e.message, "error");
+    showToast(t("bilidown.mergeFailed") + ": " + e.message, "error");
   } finally {
     merging.value = false;
     mergeProgress.value = 0;
@@ -262,7 +265,7 @@ const handleCookieFileChange = (e: Event) => {
     if (content) {
       cookie.value = content.trim();
       localStorage.setItem("bilidown_cookie", cookie.value);
-      showToast("Cookie 导入成功");
+      showToast(t("common.success"));
     }
   };
   reader.readAsText(file);
@@ -280,7 +283,7 @@ const exportCookie = () => {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  showToast("Cookie 文件已导出");
+  showToast(t("common.downloadSuccess"));
 };
 
 const formatSize = (bytes: number) => {
@@ -316,7 +319,7 @@ const formatDuration = (seconds: number) => {
             <input
               v-model="inputText"
               type="text"
-              placeholder="粘贴 B 站视频链接或 BV 号"
+              :placeholder="$t('bilidown.inputPlaceholder')"
               class="w-full pl-11 pr-4 py-3 bg-background border border-muted rounded-2xl text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 transition-all"
               @keyup.enter="handleParse"
             />
@@ -328,7 +331,7 @@ const formatDuration = (seconds: number) => {
           >
             <Loader2 v-if="loading" class="h-4 w-4 animate-spin" />
             <Video v-else class="h-4 w-4" />
-            {{ cooldown > 0 ? `${cooldown}s` : "解析" }}
+            {{ cooldown > 0 ? `${cooldown}s` : $t("bilidown.parseNow") }}
           </button>
         </div>
 
@@ -338,7 +341,7 @@ const formatDuration = (seconds: number) => {
           class="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
         >
           <Settings class="h-3.5 w-3.5" />
-          高级设置
+          {{ $t("bilidown.advancedSettings") }}
           <ChevronDown
             class="h-3.5 w-3.5 transition-transform duration-200"
             :class="{ 'rotate-180': showAdvanced }"
@@ -359,12 +362,12 @@ const formatDuration = (seconds: number) => {
               <div>
                 <label
                   class="text-xs font-medium text-muted-foreground mb-1.5 block"
-                  >Cookie（填写后可解析 1080P+ 高清视频）</label
+                  >{{ $t("bilidown.cookieTip") }}</label
                 >
                 <textarea
                   v-model="cookie"
                   rows="3"
-                  placeholder="粘贴完整的 Bilibili Cookie..."
+                  :placeholder="$t('bilidown.cookiePlaceholder')"
                   class="w-full px-4 py-3 bg-background border border-muted rounded-2xl text-xs font-mono text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 transition-all resize-none"
                 />
               </div>
@@ -374,7 +377,7 @@ const formatDuration = (seconds: number) => {
                   class="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-muted text-foreground rounded-xl hover:bg-muted/80 transition-all active:scale-95"
                 >
                   <Upload class="h-3 w-3" />
-                  导入 Cookie
+                  {{ $t("common.import") }} Cookie
                 </button>
                 <button
                   v-if="cookie"
@@ -382,7 +385,7 @@ const formatDuration = (seconds: number) => {
                   class="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-muted text-foreground rounded-xl hover:bg-muted/80 transition-all active:scale-95"
                 >
                   <Download class="h-3 w-3" />
-                  导出 Cookie
+                  {{ $t("common.export") }} Cookie
                 </button>
               </div>
               <input
@@ -454,9 +457,11 @@ const formatDuration = (seconds: number) => {
           >
             <div class="flex items-center justify-between gap-4 mb-4">
               <div>
-                <h4 class="text-sm font-bold mb-0.5">一键合并</h4>
+                <h4 class="text-sm font-bold mb-0.5">
+                  {{ $t("bilidown.mergeDownload") }}
+                </h4>
                 <p class="text-xs text-muted-foreground">
-                  使用浏览器内置 FFmpeg 合并视频和音频
+                  {{ $t("bilidown.firstUseDesc") }}
                 </p>
               </div>
             </div>
@@ -467,7 +472,7 @@ const formatDuration = (seconds: number) => {
               <div>
                 <label
                   class="text-xs font-medium text-muted-foreground mb-1.5 block"
-                  >视频轨</label
+                  >{{ $t("bilidown.videoStream") }}</label
                 >
                 <select
                   v-model="selectedVideo"
@@ -486,7 +491,7 @@ const formatDuration = (seconds: number) => {
               <div>
                 <label
                   class="text-xs font-medium text-muted-foreground mb-1.5 block"
-                  >音频轨</label
+                  >{{ $t("bilidown.audioStream") }}</label
                 >
                 <select
                   v-model="selectedAudio"
@@ -510,7 +515,11 @@ const formatDuration = (seconds: number) => {
             >
               <Loader2 v-if="merging" class="h-4 w-4 animate-spin" />
               <Merge v-else class="h-4 w-4" />
-              {{ merging ? `合并中 ${mergeProgress}%` : "一键合并下载" }}
+              {{
+                merging
+                  ? `${$t("bilidown.merging")} ${mergeProgress}%`
+                  : $t("bilidown.mergeDownload")
+              }}
             </button>
 
             <!-- Progress Bar -->
@@ -529,10 +538,10 @@ const formatDuration = (seconds: number) => {
           <div v-if="result.videoStreams.length > 0">
             <h4 class="text-sm font-bold mb-3 px-1 flex items-center gap-2">
               <FileVideo class="h-4 w-4 text-blue-500" />
-              视频流
-              <span class="text-muted-foreground font-normal"
-                >{{ result.videoStreams.length }} 个</span
-              >
+              {{ $t("bilidown.videoStream") }}
+              <span class="text-muted-foreground font-normal">{{
+                result.videoStreams.length
+              }}</span>
             </h4>
             <div class="space-y-2">
               <div
@@ -568,7 +577,7 @@ const formatDuration = (seconds: number) => {
                   class="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all active:scale-95 shrink-0"
                 >
                   <Download class="h-3 w-3" />
-                  下载
+                  {{ $t("common.download") }}
                 </button>
               </div>
             </div>
@@ -578,10 +587,10 @@ const formatDuration = (seconds: number) => {
           <div v-if="result.audioStreams.length > 0">
             <h4 class="text-sm font-bold mb-3 px-1 flex items-center gap-2">
               <FileAudio class="h-4 w-4 text-orange-500" />
-              音频流
-              <span class="text-muted-foreground font-normal"
-                >{{ result.audioStreams.length }} 个</span
-              >
+              {{ $t("bilidown.audioStream") }}
+              <span class="text-muted-foreground font-normal">{{
+                result.audioStreams.length
+              }}</span>
             </h4>
             <div class="space-y-2">
               <div
@@ -614,7 +623,7 @@ const formatDuration = (seconds: number) => {
                   class="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-all active:scale-95 shrink-0"
                 >
                   <Download class="h-3 w-3" />
-                  下载
+                  {{ $t("common.download") }}
                 </button>
               </div>
             </div>
@@ -628,7 +637,7 @@ const formatDuration = (seconds: number) => {
         class="flex flex-col items-center gap-4 py-16 opacity-30"
       >
         <Video class="h-16 w-16" />
-        <p class="text-lg font-medium">输入 B 站视频链接开始解析</p>
+        <p class="text-lg font-medium">{{ $t("bilidown.inputPlaceholder") }}</p>
       </div>
 
       <!-- Disclaimer Dialog -->
@@ -647,19 +656,21 @@ const formatDuration = (seconds: number) => {
               >
                 <AlertTriangle class="h-5 w-5 text-amber-500" />
               </div>
-              <h3 class="text-lg font-bold">使用须知</h3>
+              <h3 class="text-lg font-bold">
+                {{ $t("bilidown.firstUseTitle") }}
+              </h3>
             </div>
 
             <div
               class="text-sm text-muted-foreground space-y-3 leading-relaxed"
             >
-              <p>本工具仅供学习和技术研究使用：</p>
+              <p>{{ $t("bilidown.disclaimerText") }}</p>
               <ul class="list-disc pl-5 space-y-1.5">
-                <li>请勿将下载的视频用于商业用途</li>
-                <li>请尊重原创作者的知识产权</li>
-                <li>所有视频版权归原作者和 Bilibili 所有</li>
-                <li>使用本工具所产生的一切后果由使用者自行承担</li>
-                <li>合并功能使用浏览器端 FFmpeg，不会上传任何数据</li>
+                <li>{{ $t("bilidown.disclaimerItem1") }}</li>
+                <li>{{ $t("bilidown.disclaimerItem2") }}</li>
+                <li>{{ $t("bilidown.disclaimerItem3") }}</li>
+                <li>{{ $t("bilidown.disclaimerItem4") }}</li>
+                <li>{{ $t("bilidown.disclaimerItem5") }}</li>
               </ul>
             </div>
 
@@ -668,13 +679,13 @@ const formatDuration = (seconds: number) => {
                 @click="disclaimerVisible = false"
                 class="flex-1 px-5 py-2.5 bg-muted text-foreground rounded-xl font-medium hover:bg-muted/80 transition-all active:scale-95"
               >
-                取消
+                {{ $t("common.cancel") }}
               </button>
               <button
                 @click="acceptDisclaimer"
                 class="flex-1 px-5 py-2.5 bg-blue-500 text-white rounded-xl font-medium hover:bg-blue-600 transition-all active:scale-95"
               >
-                我已知晓
+                {{ $t("bilidown.agree") }}
               </button>
             </div>
           </div>
