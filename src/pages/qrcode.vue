@@ -202,7 +202,7 @@ onMounted(() => {
           :class="
             activeTab === 'generate'
               ? 'bg-background shadow-sm text-foreground'
-              : 'text-muted-foreground hover:text-foreground'
+              : 'btn-ghost'
           "
         >
           <QrCode class="h-4 w-4" />
@@ -214,7 +214,7 @@ onMounted(() => {
           :class="
             activeTab === 'scan'
               ? 'bg-background shadow-sm text-foreground'
-              : 'text-muted-foreground hover:text-foreground'
+              : 'btn-ghost'
           "
         >
           <Scan class="h-4 w-4" />
@@ -234,10 +234,9 @@ onMounted(() => {
           >
             <!-- Content Type -->
             <div class="space-y-4">
-              <label
-                class="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-1"
-                >{{ $t("qrcode.contentType") }}</label
-              >
+              <label class="label-uppercase px-1">{{
+                $t("qrcode.contentType")
+              }}</label>
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <button
                   v-for="type in [
@@ -263,10 +262,9 @@ onMounted(() => {
 
             <!-- Dynamic Input -->
             <div class="space-y-4">
-              <label
-                class="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-1"
-                >{{ $t("qrcode.inputContent") }}</label
-              >
+              <label class="label-uppercase px-1">{{
+                $t("qrcode.inputContent")
+              }}</label>
 
               <!-- Text/Link -->
               <div
@@ -280,7 +278,7 @@ onMounted(() => {
                       ? $t('qrcode.textPlaceholder')
                       : $t('qrcode.linkPlaceholder')
                   "
-                  class="w-full min-h-[120px] bg-background/50 border border-muted/80 rounded-2xl p-4 text-[14px] outline-none focus:border-blue-500/50 transition-all resize-none"
+                  class="min-h-[120px] bg-background/50"
                 ></textarea>
               </div>
 
@@ -378,7 +376,7 @@ onMounted(() => {
                   <textarea
                     v-model="mailBody"
                     :placeholder="$t('qrcode.bodyPlaceholder')"
-                    class="w-full min-h-[80px] bg-background/50 border border-muted/80 rounded-2xl p-4 text-sm outline-none focus:border-blue-500/50 transition-all resize-none"
+                    class="min-h-[80px] bg-background/50"
                   ></textarea>
                 </div>
               </div>
@@ -386,10 +384,9 @@ onMounted(() => {
 
             <!-- Appearance Options -->
             <div class="space-y-4 pt-2">
-              <label
-                class="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-1"
-                >{{ $t("qrcode.appearance") }}</label
-              >
+              <label class="label-uppercase px-1">{{
+                $t("qrcode.appearance")
+              }}</label>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div class="space-y-3">
                   <div class="flex justify-between items-center px-1">
@@ -410,7 +407,7 @@ onMounted(() => {
                       :class="
                         qrOptions.errorCorrectionLevel === level
                           ? 'bg-background shadow-sm text-blue-600'
-                          : 'text-muted-foreground hover:text-foreground'
+                          : 'btn-ghost'
                       "
                     >
                       {{ level }}
@@ -516,10 +513,9 @@ onMounted(() => {
             <div
               class="bg-card/40 border border-muted/80 rounded-3xl p-6 flex flex-col items-center gap-6 shadow-sm"
             >
-              <label
-                class="text-sm font-semibold text-muted-foreground uppercase tracking-wider w-full text-center"
-                >{{ $t("qrcode.preview") }}</label
-              >
+              <label class="label-uppercase w-full text-center">{{
+                $t("qrcode.preview")
+              }}</label>
 
               <div
                 class="relative group bg-white p-4 rounded-2xl shadow-sm overflow-hidden min-w-[200px] min-h-[200px] flex items-center justify-center"
@@ -548,7 +544,7 @@ onMounted(() => {
                 <button
                   @click="downloadQR"
                   :disabled="!qrDataUrl"
-                  class="flex items-center justify-center gap-2 w-full py-3 bg-blue-500 text-white rounded-2xl font-medium transition-all hover:bg-blue-600 active:scale-95 disabled:opacity-50 disabled:grayscale group"
+                  class="btn-primary w-full py-3 rounded-2xl group"
                 >
                   <Download class="h-5 w-5 group-hover:bounce-y" />
                   {{ $t("qrcode.saveQr") }}
@@ -612,10 +608,10 @@ onMounted(() => {
             </div>
 
             <div class="space-y-2">
-              <h3 class="text-lg font-semibold text-foreground">
+              <h3 class="text-lg text-important">
                 {{ $t("qrcode.scanOrUpload") }}
               </h3>
-              <p class="text-sm text-muted-foreground">
+              <p class="text-sm">
                 {{ $t("qrcode.dragOrClick") }}
               </p>
             </div>
@@ -623,7 +619,7 @@ onMounted(() => {
             <div class="flex gap-3 mt-4">
               <button
                 @click="scannerInput?.click()"
-                class="flex items-center gap-2 px-6 py-2.5 bg-background border border-muted text-foreground rounded-2xl font-medium transition-all hover:bg-muted active:scale-95"
+                class="btn-secondary px-6 py-2.5 rounded-2xl"
               >
                 <ImageIcon class="h-4 w-4" />
                 {{ $t("qrcode.selectImage") }}
@@ -631,7 +627,7 @@ onMounted(() => {
               <button
                 v-if="scanPreviewUrl"
                 @click="clearScan"
-                class="flex items-center gap-2 px-6 py-2.5 bg-destructive/10 text-destructive rounded-2xl font-medium transition-all hover:bg-destructive/20 active:scale-95"
+                class="btn-destructive px-6 py-2.5 rounded-2xl"
               >
                 <Trash2 class="h-4 w-4" />
                 {{ $t("common.clear") }}
@@ -644,13 +640,12 @@ onMounted(() => {
         <Transition name="fade">
           <div v-if="scanResult" class="space-y-4">
             <div class="flex items-center justify-between px-2">
-              <label
-                class="text-sm font-semibold text-muted-foreground uppercase tracking-wider"
-                >{{ $t("qrcode.scanResult") }}</label
-              >
+              <label class="label-uppercase">{{
+                $t("qrcode.scanResult")
+              }}</label>
               <button
                 @click="copyResult"
-                class="flex items-center gap-1.5 text-xs text-blue-600 font-medium hover:underline"
+                class="btn-ghost p-1 bg-transparent text-xs text-blue-600 font-medium hover:underline"
               >
                 <Copy class="h-3 w-3" />
                 {{ $t("qrcode.copyContent") }}
@@ -671,7 +666,7 @@ onMounted(() => {
               <a
                 :href="scanResult"
                 target="_blank"
-                class="inline-flex items-center gap-2 px-8 py-3 bg-blue-500 text-white rounded-2xl font-medium shadow-lg shadow-blue-500/20 hover:bg-blue-600 transition-all active:scale-95"
+                class="btn-primary px-8 py-3 rounded-2xl shadow-lg shadow-blue-500/20"
               >
                 <Link class="h-4 w-4" />
                 {{ $t("qrcode.visitLink") }}

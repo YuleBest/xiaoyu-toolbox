@@ -15,7 +15,7 @@ import { Github, Mail, Globe } from "lucide-vue-next";
             >{{ $t("common.appName") }}</span
           >
         </div>
-        <p class="text-[12px] font-normal opacity-60">
+        <p class="opacity-60">
           {{ $t("footer.copyright") }}
         </p>
       </div>
@@ -50,7 +50,7 @@ import { Github, Mail, Globe } from "lucide-vue-next";
 
     <!-- Disclaimer -->
     <div class="mt-8 text-center md:text-left">
-      <p class="text-[11px] font-normal opacity-40 leading-relaxed max-w-2xl">
+      <p class="text-[11px] opacity-40 max-w-2xl">
         {{ $t("footer.disclaimer") }}
         <br class="hidden md:block" />
       </p>

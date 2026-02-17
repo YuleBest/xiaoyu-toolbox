@@ -2,12 +2,16 @@
 import Sidebar from "@/components/layout/Sidebar.vue";
 import MobileNav from "@/components/layout/MobileNav.vue";
 import Footer from "@/components/layout/Footer.vue";
+import BackButton from "@/components/layout/BackButton.vue";
 </script>
 
 <template>
   <div
     class="flex min-h-screen w-full bg-background no-scrollbar selection:bg-blue-500/10 transition-colors duration-300"
   >
+    <!-- Back Button -->
+    <BackButton />
+
     <!-- Desktop Sidebar -->
     <Sidebar />
 

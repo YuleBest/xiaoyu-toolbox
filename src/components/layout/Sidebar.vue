@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { Search, ArrowLeft } from "lucide-vue-next";
+import { useRoute } from "vue-router";
+import { Search } from "lucide-vue-next";
 import { mainNav, categories } from "@/config/nav";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { navigationStore } from "@/stores/navigation";
@@ -10,13 +9,6 @@ import ModeToggle from "@/components/ModeToggle.vue";
 import LanguageToggle from "@/components/LanguageToggle.vue";
 
 const route = useRoute();
-const router = useRouter();
-
-const showBackButton = computed(() => {
-  return (
-    route.path !== "/" && route.path.split("/").filter(Boolean).length >= 1
-  );
-});
 
 defineProps<{
   userEmail?: string;
@@ -47,18 +39,6 @@ defineProps<{
         </button>
       </DropdownMenuTrigger>
     </DropdownMenu>
-
-    <!-- Back Button -->
-    <button
-      v-if="showBackButton"
-      @click="router.back()"
-      class="flex items-center gap-2.5 px-3 py-1.5 mb-4 mx-1 rounded-lg text-[13px] font-medium text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all active:scale-[0.98] group"
-    >
-      <ArrowLeft
-        class="h-4 w-4 text-blue-500 group-hover:-translate-x-0.5 transition-transform"
-      />
-      {{ $t("common.back") }}
-    </button>
 
     <!-- Search -->
     <div class="relative mb-6 group px-1">

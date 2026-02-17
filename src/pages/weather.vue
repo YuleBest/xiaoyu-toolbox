@@ -149,7 +149,7 @@ const formatHour = (date: Date) => {
           <button
             @click="handleSearch"
             :disabled="!searchQuery.trim() || searching"
-            class="px-6 py-3 bg-blue-500 text-white rounded-2xl text-sm font-medium hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
+            class="btn-primary px-6 py-3"
           >
             <Loader2 v-if="searching" class="h-4 w-4 animate-spin" />
             <Search v-else class="h-4 w-4" />
@@ -165,7 +165,7 @@ const formatHour = (date: Date) => {
           class="bg-card/30 border border-muted/80 rounded-3xl overflow-hidden"
         >
           <div class="px-5 py-4 border-b border-muted/30">
-            <h3 class="text-sm font-semibold text-foreground">
+            <h3>
               {{ $t("weather.noResults") }}
               <span class="text-muted-foreground font-normal ml-1"
                 >{{ searchResults.length }} 个</span
@@ -190,7 +190,7 @@ const formatHour = (date: Date) => {
                 <MapPin v-else class="h-4 w-4 text-blue-500" />
               </div>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-foreground truncate">
+                <p class="text-sm text-important truncate">
                   {{ result.name }}
                 </p>
                 <p class="text-xs text-muted-foreground truncate mt-0.5">
@@ -229,7 +229,7 @@ const formatHour = (date: Date) => {
               class="flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-4"
             >
               <div>
-                <h2 class="text-xl md:text-2xl font-bold mb-1">
+                <h2>
                   {{ selectedLocation.name }}
                 </h2>
                 <p class="text-white/70 mb-4">{{ formatDate(new Date()) }}</p>
@@ -310,7 +310,7 @@ const formatHour = (date: Date) => {
 
           <!-- Hourly Forecast -->
           <div>
-            <h3 class="text-base font-bold mb-4 px-1">
+            <h3 class="mb-4 px-1">
               {{ $t("weather.hourlyForecast") }}
             </h3>
             <div

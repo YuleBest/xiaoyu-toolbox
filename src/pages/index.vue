@@ -25,12 +25,10 @@ const handleToolClick = (path: string) => {
     <!-- Top Tools -->
     <section v-if="topTools.length" class="space-y-6">
       <div class="flex items-end justify-between px-1">
-        <h2 class="text-[22px] md:text-[24px] font-semibold tracking-tight">
+        <h2>
           {{ $t("home.featured") }}
         </h2>
-        <span
-          class="text-[13px] text-muted-foreground font-medium flex items-center gap-0.5 cursor-pointer hover:text-blue-500 transition-colors"
-          @click="router.push('/categories')"
+        <span class="view-more-link" @click="router.push('/categories')"
           >{{ $t("common.viewMore") }} <ChevronRight class="h-4 w-4"
         /></span>
       </div>
@@ -51,14 +49,10 @@ const handleToolClick = (path: string) => {
             <component :is="tool.icon" class="h-7 w-7" />
           </div>
           <div class="flex-1 min-w-0">
-            <h3
-              class="text-[15.5px] font-medium leading-tight truncate group-hover:text-blue-500 transition-colors"
-            >
+            <h3 class="truncate group-hover:text-blue-500 transition-colors">
               {{ $t(tool.title) }}
             </h3>
-            <p
-              class="text-[12px] text-muted-foreground font-normal line-clamp-2 mt-1"
-            >
+            <p class="line-clamp-2 mt-1">
               {{ $t(tool.subtitle) }}
             </p>
           </div>
@@ -72,12 +66,10 @@ const handleToolClick = (path: string) => {
     <!-- Hot Tools -->
     <section v-if="hotTools.length" class="space-y-6">
       <div class="flex items-end justify-between px-1">
-        <h2 class="text-[22px] md:text-[24px] font-semibold tracking-tight">
+        <h2>
           {{ $t("home.hot") }}
         </h2>
-        <span
-          class="text-[13px] text-muted-foreground font-medium flex items-center gap-0.5 cursor-pointer hover:text-blue-500 transition-colors"
-          @click="router.push('/categories')"
+        <span class="view-more-link" @click="router.push('/categories')"
           >{{ $t("common.viewMore") }} <ChevronRight class="h-4 w-4"
         /></span>
       </div>
@@ -98,14 +90,10 @@ const handleToolClick = (path: string) => {
             <component :is="tool.icon" class="h-7 w-7" />
           </div>
           <div class="flex-1 min-w-0">
-            <h3
-              class="text-[15.5px] font-medium leading-tight truncate group-hover:text-blue-500 transition-colors"
-            >
+            <h3 class="truncate group-hover:text-blue-500 transition-colors">
               {{ $t(tool.title) }}
             </h3>
-            <p
-              class="text-[12px] text-muted-foreground font-normal line-clamp-2 mt-1"
-            >
+            <p class="line-clamp-2 mt-1">
               {{ $t(tool.subtitle) }}
             </p>
           </div>
@@ -119,7 +107,7 @@ const handleToolClick = (path: string) => {
     <!-- Latest Tools -->
     <section v-if="latestTools.length" class="space-y-6">
       <div class="flex items-end justify-between px-1">
-        <h2 class="text-[22px] md:text-[24px] font-semibold tracking-tight">
+        <h2>
           {{ $t("home.latest") }}
         </h2>
       </div>
@@ -140,15 +128,11 @@ const handleToolClick = (path: string) => {
             <component :is="tool.icon" class="h-7 w-7" />
           </div>
           <div class="flex-1 min-w-0">
-            <h4
-              class="text-[15.5px] font-medium leading-tight truncate group-hover:text-blue-500 transition-colors"
-            >
+            <h4 class="truncate group-hover:text-blue-500 transition-colors">
               {{ $t(tool.title) }}
             </h4>
             <div class="flex items-center gap-2 mt-0.5">
-              <p
-                class="text-[12px] text-muted-foreground font-normal line-clamp-2"
-              >
+              <p class="line-clamp-2">
                 {{ $t(tool.subtitle) }}
               </p>
             </div>

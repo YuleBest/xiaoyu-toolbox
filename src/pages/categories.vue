@@ -86,11 +86,11 @@ const handleToolClick = (path: string) => {
           v-for="cat in categories"
           :key="cat.id"
           @click="scrollToCategory(cat.id)"
-          class="shrink-0 px-4 py-1.5 rounded-full text-[13px] font-medium transition-all active:scale-95"
+          class="shrink-0 px-4 py-1.5 rounded-full"
           :class="[
             navigationStore.activeCategoryId === cat.id
-              ? 'bg-blue-500 text-white'
-              : 'bg-muted/40 text-muted-foreground hover:bg-muted/60',
+              ? 'btn-primary'
+              : 'btn-secondary',
           ]"
         >
           {{ $t(cat.name) }}
@@ -107,9 +107,7 @@ const handleToolClick = (path: string) => {
         class="scroll-mt-24 space-y-6"
       >
         <div class="flex items-end justify-between px-1">
-          <h2
-            class="text-[24px] md:text-[28px] font-semibold tracking-tight flex items-center gap-3"
-          >
+          <h2>
             {{ $t(cat.name) }}
           </h2>
         </div>
@@ -130,14 +128,10 @@ const handleToolClick = (path: string) => {
               <component :is="tool.icon" class="h-7 w-7" />
             </div>
             <div class="flex-1 min-w-0">
-              <h3
-                class="text-[16px] font-medium leading-tight truncate group-hover:text-blue-500 transition-colors"
-              >
+              <h3 class="truncate group-hover:text-blue-500 transition-colors">
                 {{ $t(tool.title) }}
               </h3>
-              <p
-                class="text-[12.5px] text-muted-foreground font-normal line-clamp-2 mt-1"
-              >
+              <p class="line-clamp-2 mt-1">
                 {{ $t(tool.subtitle) }}
               </p>
             </div>

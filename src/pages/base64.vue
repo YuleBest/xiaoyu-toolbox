@@ -207,7 +207,7 @@ const isCollapsed = ref(true);
         <button
           @click="triggerFileUpload"
           :disabled="isUploading"
-          class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 rounded-xl transition-all active:scale-95 disabled:opacity-50 disabled:scale-100 shadow-sm shadow-blue-500/20"
+          class="btn-primary px-3 py-1.5 md:px-4 md:py-2"
         >
           <component
             :is="isUploading ? Loader2 : Upload"
@@ -221,7 +221,7 @@ const isCollapsed = ref(true);
 
         <button
           @click="clearAll"
-          class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium text-destructive hover:bg-destructive/10 rounded-xl transition-all active:scale-95"
+          class="btn-destructive px-3 py-1.5 md:px-4 md:py-2"
         >
           <Trash2 class="h-4 w-4" />
           <span class="hidden sm:inline">{{ $t("common.clearAll") }}</span>
@@ -235,10 +235,7 @@ const isCollapsed = ref(true);
         <div class="flex flex-col space-y-2 md:space-y-3">
           <div class="flex items-center justify-between px-2 shrink-0">
             <div class="flex items-center gap-2">
-              <span
-                class="text-[11px] md:text-sm font-semibold text-muted-foreground uppercase tracking-wider"
-                >{{ $t("base64.source") }}</span
-              >
+              <span class="label-uppercase">{{ $t("base64.source") }}</span>
               <span
                 v-if="sourceText || currentFileName"
                 class="text-[10px] bg-muted/50 px-1.5 py-0.5 rounded text-muted-foreground/70 font-medium whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]"
@@ -248,7 +245,7 @@ const isCollapsed = ref(true);
             </div>
             <button
               @click="copyToClipboard(sourceText, 'source')"
-              class="p-1.5 md:p-2 rounded-lg hover:bg-muted transition-all active:scale-90"
+              class="btn-icon"
               :title="$t('base64.copySource')"
               :disabled="!sourceText || !!currentFileName"
             >
@@ -262,7 +259,7 @@ const isCollapsed = ref(true);
               v-if="!currentFileName"
               v-model="sourceText"
               :placeholder="$t('base64.inputPlaceholder')"
-              class="w-full flex-1 min-h-[160px] h-[28vh] md:h-80 bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6 text-[14px] md:text-[15px] font-mono resize-none outline-none focus:border-blue-500/50 transition-all focus:bg-card"
+              class="flex-1 min-h-[160px] h-[28vh] md:h-80"
             ></textarea>
 
             <!-- File Info Card -->
@@ -274,16 +271,16 @@ const isCollapsed = ref(true);
                 <File class="h-8 w-8 text-blue-500" />
               </div>
               <div class="space-y-1 max-w-full overflow-hidden">
-                <p class="text-sm font-semibold truncate px-4">
+                <p class="text-sm text-important truncate px-4">
                   {{ currentFileName }}
                 </p>
-                <p class="text-xs text-muted-foreground">
+                <p class="text-xs">
                   {{ $t("base64.loadedAsBase64") }}
                 </p>
               </div>
               <button
                 @click="clearAll"
-                class="flex items-center gap-2 px-4 py-2 text-xs font-medium text-destructive hover:bg-destructive/10 rounded-xl transition-all active:scale-95"
+                class="btn-destructive px-4 py-2 text-xs"
               >
                 <X class="h-3.5 w-3.5" />
                 {{ $t("base64.removeFile") }}
@@ -303,10 +300,7 @@ const isCollapsed = ref(true);
         <div class="flex flex-col space-y-2 md:space-y-3">
           <div class="flex items-center justify-between px-2 shrink-0">
             <div class="flex items-center gap-2">
-              <span
-                class="text-[11px] md:text-sm font-semibold text-muted-foreground uppercase tracking-wider"
-                >Base64</span
-              >
+              <span class="label-uppercase">Base64</span>
               <span
                 v-if="base64Stats.chars > 0"
                 class="text-[10px] bg-muted/50 px-1.5 py-0.5 rounded text-muted-foreground/70 font-medium"
@@ -319,7 +313,7 @@ const isCollapsed = ref(true);
             <div class="flex items-center gap-1">
               <button
                 @click="downloadBase64"
-                class="p-1.5 md:p-2 rounded-lg hover:bg-muted transition-all active:scale-90"
+                class="btn-icon"
                 :title="$t('base64.downloadBase64')"
                 :disabled="!base64Text"
               >
@@ -327,7 +321,7 @@ const isCollapsed = ref(true);
               </button>
               <button
                 @click="copyToClipboard(base64Text, 'base64')"
-                class="p-1.5 md:p-2 rounded-lg hover:bg-muted transition-all active:scale-90"
+                class="btn-icon"
                 :title="$t('base64.copyBase64')"
                 :disabled="!base64Text"
               >
@@ -346,10 +340,10 @@ const isCollapsed = ref(true);
                   <EyeOff class="h-8 w-8 text-amber-500" />
                 </div>
                 <div class="space-y-1">
-                  <p class="text-sm font-semibold">
+                  <p class="text-sm text-important">
                     {{ $t("base64.contentHidden") }}
                   </p>
-                  <p class="text-xs text-muted-foreground leading-relaxed">
+                  <p class="text-xs">
                     {{ $t("base64.contentHiddenDesc") }}
                   </p>
                 </div>
@@ -361,7 +355,7 @@ const isCollapsed = ref(true);
               >
                 <button
                   @click="isCollapsed = false"
-                  class="flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white rounded-full text-sm font-medium shadow-lg shadow-blue-500/20 active:scale-95 transition-all"
+                  class="btn-primary px-5 py-2.5 rounded-full"
                 >
                   {{ $t("base64.showAll", { count: base64Stats.chars }) }}
                 </button>
@@ -369,7 +363,7 @@ const isCollapsed = ref(true);
               <textarea
                 readonly
                 :value="base64Text.slice(0, 4000) + '...'"
-                class="w-full h-[28vh] md:h-80 bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6 text-[14px] md:text-[15px] font-mono resize-none outline-none overflow-hidden"
+                class="h-[28vh] md:h-80 overflow-hidden"
               ></textarea>
             </template>
             <template v-else>
@@ -377,7 +371,7 @@ const isCollapsed = ref(true);
                 :value="base64Text"
                 @input="handleBase64Input"
                 :placeholder="$t('base64.base64Placeholder')"
-                class="w-full h-[28vh] md:h-80 bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6 text-[14px] md:text-[15px] font-mono resize-none outline-none focus:border-blue-500/50 transition-all focus:bg-card"
+                class="h-[28vh] md:h-80"
               ></textarea>
             </template>
           </div>
@@ -388,9 +382,7 @@ const isCollapsed = ref(true);
       <div
         class="bg-blue-500/5 border border-blue-500/10 rounded-2xl p-4 md:p-5 mt-4"
       >
-        <p
-          class="text-[12px] md:text-[13px] text-blue-600/80 leading-relaxed font-medium"
-        >
+        <p class="text-blue-600/80 font-medium leading-relaxed">
           {{ $t("base64.tip") }}
         </p>
       </div>

@@ -143,6 +143,67 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  h1 {
+    @apply text-base md:text-lg font-semibold leading-tight;
+  }
+
+  h2 {
+    @apply text-[22px] md:text-[24px] font-semibold tracking-tight;
+  }
+
+  h3 {
+    @apply text-[15.5px] font-medium leading-tight;
+  }
+
+  h4 {
+    @apply text-[15.5px] font-medium leading-tight;
+  }
+
+  p {
+    @apply text-[12px] text-muted-foreground font-normal leading-relaxed;
+  }
+
+  textarea {
+    @apply w-full bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6 text-[14px] md:text-[15px] font-mono resize-none outline-none focus:border-blue-500/50 transition-all focus:bg-card;
+  }
+
+  button {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all cursor-pointer active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  /* Utility classes */
+  .btn-primary {
+    @apply bg-blue-500 text-white hover:bg-blue-600 shadow-sm shadow-blue-500/20;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
+  }
+
+  .btn-ghost {
+    @apply hover:bg-muted text-muted-foreground hover:text-foreground;
+  }
+
+  .btn-destructive {
+    @apply text-destructive hover:bg-destructive/10;
+  }
+
+  .btn-icon {
+    @apply p-2 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground;
+  }
+
+  .label-uppercase {
+    @apply text-[11px] md:text-sm font-semibold text-muted-foreground uppercase tracking-wider;
+  }
+
+  .view-more-link {
+    @apply text-[13px] text-muted-foreground font-medium flex items-center gap-0.5 cursor-pointer hover:text-blue-500 transition-colors;
+  }
+
+  .text-important {
+    @apply text-foreground font-medium;
+  }
 }
 
 /* Page Transitions */

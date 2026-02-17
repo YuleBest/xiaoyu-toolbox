@@ -296,11 +296,11 @@ onMounted(async () => {
               selectedCategory = cat.id as any;
               searchQuery = '';
             "
-            class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all active:scale-95"
+            class="px-4 py-2"
             :class="
               selectedCategory === cat.id
-                ? 'bg-blue-500 text-white'
-                : 'bg-muted text-muted-foreground hover:text-foreground'
+                ? 'btn-primary'
+                : 'btn-secondary'
             "
           >
             <component :is="cat.icon" class="h-4 w-4" />
@@ -333,11 +333,11 @@ onMounted(async () => {
             v-for="ht in heroTypes"
             :key="ht.value"
             @click="selectedHeroType = ht.value"
-            class="px-3 py-1 rounded-lg text-xs font-medium transition-all"
+            class="px-3 py-1 text-xs"
             :class="
               selectedHeroType === ht.value
-                ? 'bg-blue-500 text-white'
-                : 'bg-muted/50 text-muted-foreground hover:text-foreground'
+                ? 'btn-primary'
+                : 'btn-secondary opacity-70'
             "
           >
             {{ ht.label }}
@@ -348,11 +348,11 @@ onMounted(async () => {
             v-for="it in itemTypes"
             :key="it.value"
             @click="selectedItemType = it.value"
-            class="px-3 py-1 rounded-lg text-xs font-medium transition-all"
+            class="px-3 py-1 text-xs"
             :class="
               selectedItemType === it.value
-                ? 'bg-blue-500 text-white'
-                : 'bg-muted/50 text-muted-foreground hover:text-foreground'
+                ? 'btn-primary'
+                : 'btn-secondary opacity-70'
             "
           >
             {{ it.label }}
@@ -388,7 +388,7 @@ onMounted(async () => {
             loading="lazy"
           />
           <div class="px-1.5 py-1.5 text-center">
-            <p class="text-[11px] font-bold truncate leading-tight">
+            <p class="text-[11px] font-bold truncate leading-tight text-important">
               {{ hero.cname }}
             </p>
             <div class="flex items-center justify-center gap-0.5 mt-1">
@@ -428,7 +428,7 @@ onMounted(async () => {
           />
           <div class="min-w-0 flex-1">
             <div class="flex items-center gap-2 mb-1">
-              <p class="text-sm font-bold truncate">{{ item.item_name }}</p>
+              <p class="text-sm font-bold truncate text-important">{{ item.item_name }}</p>
               <span
                 class="text-[10px] px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-600 font-medium shrink-0"
               >
@@ -466,7 +466,7 @@ onMounted(async () => {
           />
           <div class="min-w-0 flex-1">
             <div class="flex items-center gap-2 mb-1 flex-wrap">
-              <p class="text-sm font-bold truncate">
+              <p class="text-sm font-bold truncate text-important">
                 {{ skill.summoner_name }}
               </p>
               <span
@@ -511,7 +511,7 @@ onMounted(async () => {
               class="w-16 h-16 rounded-2xl object-cover"
             />
             <div class="flex-1 min-w-0">
-              <h3 class="text-lg font-bold truncate">
+              <h3 class="text-lg font-bold truncate text-important">
                 {{ selectedHero?.cname }}
               </h3>
               <p class="text-sm text-muted-foreground">
@@ -535,7 +535,7 @@ onMounted(async () => {
             </div>
             <button
               @click="heroDialog = false"
-              class="p-2 rounded-xl hover:bg-muted transition-colors"
+              class="btn-icon"
             >
               <X class="h-5 w-5" />
             </button>
@@ -553,7 +553,7 @@ onMounted(async () => {
               v-if="selectedHero?.skills?.length && !loadingDetail"
               class="space-y-3"
             >
-              <h4 class="text-sm font-bold">{{ $t("hok.skills") }}</h4>
+              <h3 class="text-sm font-bold text-important">{{ $t("hok.skills") }}</h3>
               <div
                 v-for="(skill, i) in selectedHero.skills"
                 :key="i"
@@ -579,7 +579,7 @@ onMounted(async () => {
               v-if="selectedHero?.skin_name && !loadingDetail"
               class="space-y-3"
             >
-              <h4 class="text-sm font-bold">{{ $t("hok.skins") }}</h4>
+              <h3 class="text-sm font-bold text-important">{{ $t("hok.skins") }}</h3>
               <div class="flex flex-wrap gap-2">
                 <span
                   v-for="skin in selectedHero.skin_name.split('|')"

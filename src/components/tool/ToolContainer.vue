@@ -30,12 +30,10 @@ const toggleInfo = () => {
             <component :is="tool.icon" class="h-5 w-5 md:h-6 md:w-6" />
           </div>
           <div class="min-w-0">
-            <h1 class="text-base md:text-lg font-semibold leading-tight">
+            <h1>
               {{ $t(tool.title) }}
             </h1>
-            <p
-              class="text-[10px] md:text-xs text-muted-foreground font-normal line-clamp-2"
-            >
+            <p>
               {{ $t(tool.subtitle) }}
             </p>
           </div>
@@ -82,21 +80,19 @@ const toggleInfo = () => {
         >
           <!-- Description -->
           <div class="space-y-2">
-            <h3
-              class="flex items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider"
-            >
+            <h3 class="flex items-center gap-2 label-uppercase">
               <Info class="h-3.5 w-3.5" /> {{ $t("toolContainer.description") }}
             </h3>
-            <p class="text-[14px] leading-relaxed font-normal opacity-90">
+            <p
+              class="text-[14px] leading-relaxed font-normal opacity-90 text-foreground"
+            >
               {{ $t(tool.description) }}
             </p>
           </div>
 
           <!-- Usage -->
           <div class="space-y-2">
-            <h3
-              class="flex items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider"
-            >
+            <h3 class="flex items-center gap-2 label-uppercase">
               <BookOpen class="h-3.5 w-3.5" /> {{ $t("toolContainer.usage") }}
             </h3>
             <div

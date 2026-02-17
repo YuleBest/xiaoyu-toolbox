@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
-import { useRoute, useRouter, RouterLink } from "vue-router";
-import { Search, ChevronRight, ArrowLeft } from "lucide-vue-next";
+import { ref, watch } from "vue";
+import { useRoute, RouterLink } from "vue-router";
+import { Search, ChevronRight } from "lucide-vue-next";
 import { mainNav, categories } from "@/config/nav";
 import { navigationStore } from "@/stores/navigation";
 import ModeToggle from "@/components/ModeToggle.vue";
@@ -9,13 +9,6 @@ import LanguageToggle from "@/components/LanguageToggle.vue";
 
 const isMobileMenuOpen = ref(false);
 const route = useRoute();
-const router = useRouter();
-
-const showBackButton = computed(() => {
-  return (
-    route.path !== "/" && route.path.split("/").filter(Boolean).length >= 1
-  );
-});
 
 // 路由改变自动关闭
 watch(
@@ -61,18 +54,6 @@ watch(
               ]"
             ></div>
           </div>
-        </button>
-
-        <!-- Back Button -->
-        <button
-          v-if="showBackButton && !isMobileMenuOpen"
-          @click="router.back()"
-          class="flex items-center gap-1 px-2 py-1 rounded-lg text-[13px] font-medium text-muted-foreground hover:text-foreground active:scale-95 transition-all group"
-        >
-          <ArrowLeft
-            class="h-4 w-4 text-blue-500 group-hover:-translate-x-0.5 transition-transform"
-          />
-          {{ $t("common.back") }}
         </button>
       </div>
 
@@ -152,9 +133,7 @@ watch(
         </div>
 
         <div>
-          <h3
-            class="px-4 text-[12px] font-medium text-muted-foreground/50 uppercase tracking-widest mb-4"
-          >
+          <h3 class="px-4 label-uppercase mb-4">
             {{ $t("nav.browseCategories") }}
           </h3>
           <div class="grid grid-cols-1 gap-1">
@@ -185,7 +164,7 @@ watch(
         </div>
 
         <div class="pt-10 flex flex-col items-center gap-4 pb-20">
-          <p class="text-[12px] text-muted-foreground font-medium opacity-50">
+          <p class="font-medium opacity-50">
             © 2026 {{ $t("common.appName") }}
           </p>
         </div>
