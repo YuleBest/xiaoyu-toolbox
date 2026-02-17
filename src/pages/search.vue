@@ -101,7 +101,7 @@ const handleToolClick = (path: string) => {
       <!-- Result Grid -->
       <div
         v-else-if="filteredTools.length"
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500"
+        class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500"
       >
         <div
           v-for="tool in filteredTools"
