@@ -133,9 +133,6 @@ const handleSearch = async (append = false) => {
       } else if (res.fallbackType === "brand_fallback") {
         error.value = `未找到"${kw}"的具体型号，已为您显示"${res.usedQuery}"品牌的所有机型`;
       }
-      // Note: We use 'error' ref to show the message, but it might not be styled as an error.
-      // Ideally we should use a separate 'info' or 'warning' ref, but for now reuse error with specific styling?
-      // Actually let's assume the error box style is generic enough or add a new state.
     }
   } catch (e) {
     console.error("Frontend Search Error:", e);
@@ -177,6 +174,30 @@ const copyToClipboard = (text: any) => {
     .catch(() => {
       showToast(t("common.copyFailed") || "复制失败", "error");
     });
+};
+
+const highlightMatches = (text: string | null | undefined) => {
+  if (!text) return "";
+  if (!searchKeyword.value.trim()) return text;
+
+  // Escape special regex characters
+  const escapeRegExp = (string: string) => {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  };
+
+  const keywords = searchKeyword.value
+    .trim()
+    .split(/\s+/)
+    .filter((k) => k.length > 0)
+    .map(escapeRegExp);
+
+  if (keywords.length === 0) return text;
+
+  const pattern = new RegExp(`(${keywords.join("|")})`, "gi");
+  return String(text).replace(
+    pattern,
+    '<span class="text-blue-500 font-bold">$1</span>',
+  );
 };
 
 // Drawer state
@@ -234,14 +255,14 @@ onMounted(() => {
                 v-model="searchKeyword"
                 type="text"
                 :placeholder="$t('tools.jichacha.searchPlaceholder')"
-                class="w-full pl-11 pr-4 py-3 bg-background border border-muted rounded-2xl text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 transition-all"
+                class="w-full pl-11 pr-4 py-3 bg-background border border-muted rounded-2xl text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 transition-all"
                 @keyup.enter="handleSearch(false)"
               />
             </div>
             <button
               @click="handleSearch(false)"
               :disabled="(!searchKeyword.trim() && !selectedDtype) || searching"
-              class="px-6 py-3 bg-emerald-500 text-white rounded-2xl text-sm font-medium hover:bg-emerald-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
+              class="px-6 py-3 bg-blue-500 text-white rounded-2xl text-sm font-medium hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
             >
               <div
                 v-if="searching && searchPage === 1"
@@ -271,7 +292,7 @@ onMounted(() => {
               class="px-3 py-1 rounded-full text-xs font-medium transition-all border"
               :class="
                 !selectedDtype
-                  ? 'bg-emerald-500 text-white border-emerald-500'
+                  ? 'bg-blue-500 text-white border-blue-500'
                   : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/50'
               "
             >
@@ -284,7 +305,7 @@ onMounted(() => {
               class="px-3 py-1 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5"
               :class="
                 selectedDtype === d.dtype
-                  ? 'bg-emerald-500 text-white border-emerald-500'
+                  ? 'bg-blue-500 text-white border-blue-500'
                   : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/50'
               "
             >
@@ -335,7 +356,7 @@ onMounted(() => {
         class="bg-card/30 border border-muted/80 rounded-3xl p-6"
       >
         <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
-          <Tag class="h-5 w-5 text-emerald-500" />
+          <Tag class="h-5 w-5 text-blue-500" />
           {{ $t("tools.jichacha.brands") }}
         </h3>
         <div class="flex flex-wrap gap-3">
@@ -346,9 +367,12 @@ onMounted(() => {
               searchKeyword = b.brand;
               handleSearch(false);
             "
-            class="px-3 py-1.5 bg-background border border-muted rounded-xl text-sm hover:border-emerald-500 hover:text-emerald-500 transition-colors flex items-center gap-2"
+            class="px-3 py-1.5 bg-background border border-muted rounded-xl text-sm hover:border-blue-500 hover:text-blue-500 transition-colors flex items-center gap-2"
           >
-            <span class="font-medium">{{ b.brand_title || b.brand }}</span>
+            <span
+              class="font-medium"
+              v-html="highlightMatches(b.brand_title || b.brand)"
+            ></span>
             <span
               class="text-xs text-muted-foreground bg-muted/50 px-1.5 py-0.5 rounded-md"
               >{{ b.count }}</span
@@ -393,7 +417,7 @@ onMounted(() => {
                 >{{ $t("tools.jichacha.filterType") }}:</span
               >
               <span
-                class="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 text-xs font-medium"
+                class="px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-600 text-xs font-medium"
                 >{{ $t(`tools.jichacha.dtypes.${selectedDtype}`) }}</span
               >
               <button
@@ -418,23 +442,28 @@ onMounted(() => {
                   >
                     {{ shortBrand(model.brand) }}
                   </span>
-                  <h4 class="text-sm font-semibold text-foreground truncate">
-                    {{ model.model_name || model.market_name || model.model }}
-                  </h4>
+                  <h4
+                    class="text-sm font-semibold text-foreground truncate"
+                    v-html="
+                      highlightMatches(
+                        model.model_name || model.market_name || model.model,
+                      )
+                    "
+                  ></h4>
                 </div>
                 <div
                   class="flex items-center gap-3 text-xs text-muted-foreground"
                 >
                   <span
                     v-if="model.code_alias"
-                    class="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium"
+                    class="flex items-center gap-1 text-blue-600 dark:text-blue-400 font-medium"
                   >
                     <Cpu class="h-3 w-3" />
-                    {{ model.code_alias }}
+                    <span v-html="highlightMatches(model.code_alias)"></span>
                   </span>
                   <span v-else class="flex items-center gap-1">
                     <Cpu class="h-3 w-3" />
-                    {{ model.code }}
+                    <span v-html="highlightMatches(model.code)"></span>
                   </span>
 
                   <span
@@ -442,7 +471,7 @@ onMounted(() => {
                     class="flex items-center gap-1"
                   >
                     <QrCode class="h-3 w-3" />
-                    {{ model.model }}
+                    <span v-html="highlightMatches(model.model)"></span>
                   </span>
                 </div>
               </div>
@@ -456,7 +485,7 @@ onMounted(() => {
               <button
                 @click="handleSearch(true)"
                 :disabled="searching"
-                class="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 rounded-xl transition-all"
+                class="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 rounded-xl transition-all"
               >
                 <Loader2 v-if="searching" class="h-4 w-4 animate-spin" />
                 <span v-else>{{ $t("common.viewMore") }}</span>
@@ -492,21 +521,24 @@ onMounted(() => {
           <!-- Header -->
           <div class="flex items-center gap-4 px-6 py-4 border-b shrink-0">
             <div
-              class="h-14 w-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-500"
+              class="h-14 w-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-500"
             >
               <Smartphone class="h-7 w-7" />
             </div>
             <div class="flex-1 min-w-0">
-              <h3 class="text-lg font-bold truncate text-important">
-                {{
-                  selectedModel?.model_name ||
-                  selectedModel?.market_name ||
-                  selectedModel?.model
-                }}
-              </h3>
+              <h3
+                class="text-lg font-bold truncate text-important"
+                v-html="
+                  highlightMatches(
+                    selectedModel?.model_name ||
+                      selectedModel?.market_name ||
+                      selectedModel?.model,
+                  )
+                "
+              ></h3>
               <div class="flex gap-2 mt-1">
                 <span
-                  class="px-2 py-0.5 rounded-md bg-emerald-500 text-white text-[10px] font-bold uppercase tracking-wide"
+                  class="px-2 py-0.5 rounded-md bg-blue-500 text-white text-[10px] font-bold uppercase tracking-wide"
                 >
                   {{ selectedModel?.brand }}
                 </span>
@@ -538,9 +570,10 @@ onMounted(() => {
                     >型号 (Model)</span
                   >
                   <div class="flex items-center gap-2 group min-w-0">
-                    <span class="font-medium font-mono select-all truncate">{{
-                      selectedModel?.model
-                    }}</span>
+                    <span
+                      class="font-medium font-mono select-all truncate"
+                      v-html="highlightMatches(selectedModel?.model)"
+                    ></span>
                     <button
                       @click="copyToClipboard(selectedModel?.model)"
                       class="transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
@@ -554,9 +587,10 @@ onMounted(() => {
                     >代号 (Code)</span
                   >
                   <div class="flex items-center gap-2 group min-w-0">
-                    <span class="font-medium font-mono select-all truncate">{{
-                      selectedModel?.code
-                    }}</span>
+                    <span
+                      class="font-medium font-mono select-all truncate"
+                      v-html="highlightMatches(selectedModel?.code)"
+                    ></span>
                     <button
                       @click="copyToClipboard(selectedModel?.code)"
                       class="transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
@@ -575,9 +609,10 @@ onMounted(() => {
                     v-if="selectedModel?.code_alias"
                     class="flex items-center gap-2 group min-w-0"
                   >
-                    <span class="font-medium font-mono select-all truncate">{{
-                      selectedModel?.code_alias
-                    }}</span>
+                    <span
+                      class="font-medium font-mono select-all truncate"
+                      v-html="highlightMatches(selectedModel?.code_alias)"
+                    ></span>
                     <button
                       @click="copyToClipboard(selectedModel?.code_alias)"
                       class="transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
@@ -617,7 +652,10 @@ onMounted(() => {
                         >{{ String(key).replace(/_/g, " ") }}</span
                       >
                       <div class="flex items-center gap-2 group min-w-0">
-                        <span class="font-medium break-all">{{ val }}</span>
+                        <span
+                          class="font-medium break-all"
+                          v-html="highlightMatches(String(val))"
+                        ></span>
                         <button
                           @click="copyToClipboard(val)"
                           class="transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"

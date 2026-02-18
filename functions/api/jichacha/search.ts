@@ -56,14 +56,14 @@ export const onRequest: PagesFunction<Env> = async (context) => {
         // 对于每个关键词，添加一个 AND (...) 块
         for (const kw of keywords) {
           whereClause += ` AND (
-            model LIKE ? OR 
-            code LIKE ? OR 
+            model = ? OR 
+            code = ? OR 
             code_alias LIKE ? OR 
             model_name LIKE ? OR
             brand LIKE ? 
           )`;
-          // 对应5个字段
-          bindings.push(`%${kw}%`, `%${kw}%`, `%${kw}%`, `%${kw}%`, `%${kw}%`);
+          // 对应5个字段: model/code 精确匹配, 其他模糊匹配
+          bindings.push(kw, kw, `%${kw}%`, `%${kw}%`, `%${kw}%`);
         }
       }
     }
