@@ -15,7 +15,10 @@ import {
   X,
   Copy,
   RotateCcw,
+  Clock,
+  Trash2,
 } from "lucide-vue-next";
+import { useStorage } from "@vueuse/core";
 import ToolContainer from "@/components/tool/ToolContainer.vue";
 import { allTools } from "@/config/tools";
 import {
@@ -59,7 +62,29 @@ const loadingBrands = ref(false);
 
 const selectedModel = ref<MobileModel | null>(null);
 
+// History
+const searchHistory = useStorage<MobileModel[]>("jichacha_history", []);
+
 // --- Methods ---
+
+const saveToHistory = (model: MobileModel) => {
+  // Remove if exists
+  const idx = searchHistory.value.findIndex((m) => m.id === model.id);
+  if (idx > -1) {
+    searchHistory.value.splice(idx, 1);
+  }
+  // Add to top
+  searchHistory.value.unshift(model);
+  // Limit to 20
+  if (searchHistory.value.length > 20) {
+    searchHistory.value.pop();
+  }
+};
+
+const clearHistory = () => {
+  searchHistory.value = [];
+  showToast(t("common.cleared") || "已清除", "success");
+};
 
 const fetchBrands = async (append = false) => {
   if (loadingBrands.value) return;
@@ -189,6 +214,7 @@ const toggleDtype = (dtype: string) => {
 
 const selectModel = (model: MobileModel) => {
   selectedModel.value = model;
+  saveToHistory(model);
 };
 
 const shortBrand = (brand: string) => {
@@ -403,6 +429,53 @@ onMounted(() => {
         >
           {{ error }}
         </p>
+      </div>
+
+      <!-- Recent History -->
+      <div
+        v-if="!showSearchResults && searchHistory.length > 0 && !searchKeyword"
+        class="space-y-4"
+      >
+        <div class="flex items-center justify-between">
+          <h3
+            class="text-lg font-semibold flex items-center gap-2 text-foreground/80"
+          >
+            <Clock class="h-5 w-5 text-blue-500" />
+            <span>最近查看</span>
+          </h3>
+          <button
+            @click="clearHistory"
+            class="text-xs text-muted-foreground hover:text-destructive flex items-center gap-1 hover:bg-muted/50 px-2 py-1 rounded-md transition-colors"
+          >
+            <Trash2 class="h-3 w-3" />
+            清除记录
+          </button>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          <button
+            v-for="model in searchHistory"
+            :key="model.id"
+            @click="selectModel(model)"
+            class="text-left px-4 py-3 bg-card border border-muted/60 hover:border-blue-500/30 hover:bg-muted/30 rounded-xl transition-all group"
+          >
+            <div
+              class="font-medium text-sm truncate group-hover:text-blue-600 transition-colors"
+            >
+              {{ model.model_name || model.market_name || model.model }}
+            </div>
+            <div class="flex items-center gap-2 mt-1.5">
+              <span
+                class="px-1.5 py-0.5 rounded-[4px] text-[10px] bg-muted text-muted-foreground font-bold uppercase tracking-wide"
+              >
+                {{ shortBrand(model.brand) }}
+              </span>
+              <span class="text-xs text-muted-foreground font-mono truncate">
+                {{ model.code }}
+              </span>
+            </div>
+          </button>
+        </div>
       </div>
 
       <!-- Search Results (Native Style) -->
@@ -694,7 +767,7 @@ onMounted(() => {
                           'code_alias',
                           'market_name',
                           'device_type',
-                        ].includes(String(key)) && val
+                        ].includes(String(key))
                       "
                     >
                       <span
@@ -702,17 +775,25 @@ onMounted(() => {
                         >{{ String(key).replace(/_/g, " ") }}</span
                       >
                       <div class="flex items-center gap-2 group min-w-0">
+                        <template v-if="val && String(val).trim()">
+                          <span
+                            class="font-medium break-all"
+                            v-html="highlightMatches(String(val))"
+                          ></span>
+                          <button
+                            @click="copyToClipboard(val)"
+                            class="transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
+                            title="复制"
+                          >
+                            <Copy class="h-3 w-3" />
+                          </button>
+                        </template>
                         <span
-                          class="font-medium break-all"
-                          v-html="highlightMatches(String(val))"
-                        ></span>
-                        <button
-                          @click="copyToClipboard(val)"
-                          class="transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
-                          title="复制"
+                          v-else
+                          class="text-muted-foreground/40 italic text-xs"
                         >
-                          <Copy class="h-3 w-3" />
-                        </button>
+                          此项数据为空
+                        </span>
                       </div>
                     </template>
                   </template>
