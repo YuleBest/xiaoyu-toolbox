@@ -4,7 +4,7 @@ interface Env {
   DB: D1Database;
 }
 
-import { BRAND_MAP } from "./brand_map";
+import { BRAND_MAP, getRelatedKeywords, segmentSearchQuery } from "./brand_map";
 
 export const onRequest: PagesFunction<Env> = async (context) => {
   const { searchParams } = new URL(context.request.url);
@@ -51,20 +51,30 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     // A. 处理通用关键词搜索 (支持多关键词，空格分隔)
     // 逻辑：每个关键词都必须匹配 (AND)，但单个关键词可以匹配任意字段 (OR)
     if (searchQ) {
-      const keywords = searchQ.split(/\s+/).filter((k) => k.length > 0);
+      // Use segmentSearchQuery for splitting
+      const keywords = segmentSearchQuery(searchQ);
 
       if (keywords.length > 0) {
         // 对于每个关键词，添加一个 AND (...) 块
+        // 对于每个关键词，添加一个 AND (...) 块
         for (const kw of keywords) {
-          whereClause += ` AND (
-            model = ? OR 
-            code = ? OR 
-            code_alias LIKE ? OR 
-            model_name LIKE ? OR
-            brand LIKE ? 
-          )`;
-          // 对应5个字段: model/code 精确匹配, 其他模糊匹配
-          bindings.push(kw, kw, `%${kw}%`, `%${kw}%`, `%${kw}%`);
+          const synonyms = getRelatedKeywords(kw);
+
+          // 构建 OR 子句: ( (kw match) OR (syn1 match) OR ... )
+          const orConditions: string[] = [];
+
+          for (const syn of synonyms) {
+            orConditions.push(`(
+              model = ? OR 
+              code = ? OR 
+              code_alias LIKE ? OR 
+              model_name LIKE ? OR
+              brand LIKE ?
+            )`);
+            bindings.push(syn, syn, `%${syn}%`, `%${syn}%`, `%${syn}%`);
+          }
+
+          whereClause += ` AND (${orConditions.join(" OR ")})`;
         }
       }
     }
@@ -105,17 +115,24 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
     // 1. 关键词 (同上)
     if (searchQ) {
-      const keywords = searchQ.split(/\s+/).filter((k) => k.length > 0);
+      const keywords = segmentSearchQuery(searchQ);
       if (keywords.length > 0) {
         for (const kw of keywords) {
-          verNameWhere += ` AND (
-            model = ? OR 
-            code = ? OR 
-            code_alias LIKE ? OR 
-            model_name LIKE ? OR
-            brand LIKE ? 
-          )`;
-          verNameBindings.push(kw, kw, `%${kw}%`, `%${kw}%`, `%${kw}%`);
+          const synonyms = getRelatedKeywords(kw);
+
+          const orConditions: string[] = [];
+
+          for (const syn of synonyms) {
+            orConditions.push(`(
+              model = ? OR 
+              code = ? OR 
+              code_alias LIKE ? OR 
+              model_name LIKE ? OR
+              brand LIKE ?
+            )`);
+            verNameBindings.push(syn, syn, `%${syn}%`, `%${syn}%`, `%${syn}%`);
+          }
+          verNameWhere += ` AND (${orConditions.join(" OR ")})`;
         }
       }
     }
@@ -221,8 +238,21 @@ export const onRequest: PagesFunction<Env> = async (context) => {
           );
           if (isBrandCode) {
             brandKw = kw;
+            brandKw = kw;
             break;
           }
+          // Also check synonyms for fallback
+          const synonyms = getRelatedKeywords(kw);
+          for (const syn of synonyms) {
+            const isBrandCode = Object.values(BRAND_MAP).includes(
+              syn.toLowerCase(),
+            );
+            if (isBrandCode) {
+              brandKw = syn;
+              break;
+            }
+          }
+          if (brandKw) break;
         }
 
         if (brandKw && keywords.length > 1) {
