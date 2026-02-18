@@ -93,8 +93,15 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       { headers: corsHeaders },
     );
   } catch (err: any) {
+    console.error("Search API Error:", err);
+    console.error("Query:", q);
+    console.error("Params:", searchParams.toString());
     return new Response(
-      JSON.stringify({ error: "搜索失败", detail: err.message }),
+      JSON.stringify({
+        error: "搜索失败",
+        detail: err.message,
+        stack: err.stack,
+      }),
       { status: 500, headers: corsHeaders },
     );
   }

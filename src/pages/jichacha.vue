@@ -127,7 +127,8 @@ const handleSearch = async (append = false) => {
     if (searchResults.value.length === 0 && !append) {
       error.value = t("tools.jichacha.noResults");
     }
-  } catch {
+  } catch (e) {
+    console.error("Frontend Search Error:", e);
     error.value = t("common.error");
     if (append) searchPage.value--;
   } finally {
