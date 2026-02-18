@@ -45,6 +45,39 @@ const selectedItemType = ref("all");
 const heroDialog = ref(false);
 const selectedHero = ref<any>(null);
 const loadingDetail = ref(false);
+const isExpanded = ref(false);
+const startY = ref(0);
+const sheetHeight = ref(85);
+
+// Scroll Locking
+watch(heroDialog, (val) => {
+  if (val) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+    isExpanded.value = false;
+    sheetHeight.value = 85;
+  }
+});
+
+// Touch handling for expandable sheet
+const onTouchStart = (e: TouchEvent) => {
+  if (e.touches && e.touches[0]) {
+    startY.value = e.touches[0].clientY;
+  }
+};
+
+const onTouchMove = (e: TouchEvent) => {
+  if (!e.touches || !e.touches[0]) return;
+  const deltaY = startY.value - e.touches[0].clientY;
+  if (deltaY > 50 && !isExpanded.value) {
+    isExpanded.value = true;
+    sheetHeight.value = 100;
+  } else if (deltaY < -100 && isExpanded.value) {
+    isExpanded.value = false;
+    sheetHeight.value = 85;
+  }
+};
 
 const categories = computed(() => [
   { id: "hero", label: t("hok.hero"), icon: Swords },
@@ -298,9 +331,7 @@ onMounted(async () => {
             "
             class="px-4 py-2"
             :class="
-              selectedCategory === cat.id
-                ? 'btn-primary'
-                : 'btn-secondary'
+              selectedCategory === cat.id ? 'btn-primary' : 'btn-secondary'
             "
           >
             <component :is="cat.icon" class="h-4 w-4" />
@@ -379,7 +410,7 @@ onMounted(async () => {
           v-for="hero in filteredData as Hero[]"
           :key="hero.ename"
           @click="showHeroDetail(hero)"
-          class="group rounded-xl overflow-hidden bg-card border border-muted/80 hover:border-blue-500/50 transition-all active:scale-95"
+          class="group flex-col p-0 rounded-xl overflow-hidden bg-card border border-muted/80 hover:border-blue-500/50 transition-all active:scale-95"
         >
           <img
             :src="getHeroImage(hero)"
@@ -388,7 +419,9 @@ onMounted(async () => {
             loading="lazy"
           />
           <div class="px-1.5 py-1.5 text-center">
-            <p class="text-[11px] font-bold truncate leading-tight text-important">
+            <p
+              class="text-[11px] font-bold truncate leading-tight text-important"
+            >
               {{ hero.cname }}
             </p>
             <div class="flex items-center justify-center gap-0.5 mt-1">
@@ -428,7 +461,9 @@ onMounted(async () => {
           />
           <div class="min-w-0 flex-1">
             <div class="flex items-center gap-2 mb-1">
-              <p class="text-sm font-bold truncate text-important">{{ item.item_name }}</p>
+              <p class="text-sm font-bold truncate text-important">
+                {{ item.item_name }}
+              </p>
               <span
                 class="text-[10px] px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-600 font-medium shrink-0"
               >
@@ -490,20 +525,29 @@ onMounted(async () => {
 
       <!-- Hero Detail Bottom Sheet -->
       <div
-        class="fixed inset-0 z-50 flex items-end justify-center sheet-backdrop"
+        class="fixed inset-0 z-[100] flex items-end justify-center sheet-backdrop"
         :class="heroDialog ? 'sheet-open' : 'sheet-closed'"
         @click.self="heroDialog = false"
       >
         <div
-          class="bg-card w-full max-w-3xl rounded-t-3xl h-[85vh] flex flex-col shadow-2xl sheet-panel"
+          class="bg-card/90 backdrop-blur-md w-full max-w-3xl rounded-t-3xl flex flex-col shadow-2xl sheet-panel transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+          :style="{ height: `${sheetHeight}vh` }"
+          @touchstart="onTouchStart"
+          @touchmove="onTouchMove"
         >
           <!-- Handle -->
-          <div class="flex justify-center pt-3 pb-1">
+          <div
+            class="flex justify-center pt-3 pb-1 cursor-grab active:cursor-grabbing shrink-0"
+            @click="
+              isExpanded = !isExpanded;
+              sheetHeight = isExpanded ? 100 : 85;
+            "
+          >
             <div class="w-10 h-1 rounded-full bg-muted-foreground/20" />
           </div>
 
           <!-- Header -->
-          <div class="flex items-center gap-4 px-6 py-4 border-b">
+          <div class="flex items-center gap-4 px-6 py-4 border-b shrink-0">
             <img
               v-if="selectedHero"
               :src="getHeroImage(selectedHero)"
@@ -533,16 +577,13 @@ onMounted(async () => {
                 </span>
               </div>
             </div>
-            <button
-              @click="heroDialog = false"
-              class="btn-icon"
-            >
+            <button @click="heroDialog = false" class="btn-icon">
               <X class="h-5 w-5" />
             </button>
           </div>
 
           <!-- Scrollable content -->
-          <div class="flex-1 overflow-y-auto px-6 py-5 space-y-6">
+          <div class="flex-1 overflow-y-auto px-6 py-5 space-y-6 touch-pan-y">
             <!-- Loading detail -->
             <div v-if="loadingDetail" class="flex justify-center py-8">
               <Loader2 class="h-8 w-8 text-blue-500 animate-spin" />
@@ -553,7 +594,9 @@ onMounted(async () => {
               v-if="selectedHero?.skills?.length && !loadingDetail"
               class="space-y-3"
             >
-              <h3 class="text-sm font-bold text-important">{{ $t("hok.skills") }}</h3>
+              <h3 class="text-sm font-bold text-important">
+                {{ $t("hok.skills") }}
+              </h3>
               <div
                 v-for="(skill, i) in selectedHero.skills"
                 :key="i"
@@ -579,7 +622,9 @@ onMounted(async () => {
               v-if="selectedHero?.skin_name && !loadingDetail"
               class="space-y-3"
             >
-              <h3 class="text-sm font-bold text-important">{{ $t("hok.skins") }}</h3>
+              <h3 class="text-sm font-bold text-important">
+                {{ $t("hok.skins") }}
+              </h3>
               <div class="flex flex-wrap gap-2">
                 <span
                   v-for="skin in selectedHero.skin_name.split('|')"
@@ -626,20 +671,17 @@ onMounted(async () => {
 
 .sheet-panel {
   transform: translateY(100%);
-  opacity: 0;
   transition:
-    transform 500ms cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform, opacity;
+    transform 500ms cubic-bezier(0.32, 0.72, 0, 1),
+    height 500ms cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: transform, height;
 }
 
 .sheet-open .sheet-panel {
   transform: translateY(0);
-  opacity: 1;
 }
 
 .sheet-closed .sheet-panel {
   transform: translateY(100%);
-  opacity: 0;
 }
 </style>
