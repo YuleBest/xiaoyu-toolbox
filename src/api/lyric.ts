@@ -1,6 +1,7 @@
 import request from "./request";
 
-const LYRIC_API = "https://lyric.api.yule.ink";
+// 直接使用相对路径 /api
+const API_PREFIX = "/api";
 
 export interface Song {
   title: string;
@@ -32,7 +33,8 @@ export interface LyricJsonResponse {
  * 搜索歌曲
  */
 export async function searchSongs(keyword: string): Promise<Song[]> {
-  const { data } = await request.get<Song[]>(`${LYRIC_API}/search`, {
+  // 路径改为 /api/search
+  const { data } = await request.get<Song[]>(`${API_PREFIX}/search`, {
     params: { keyword },
   });
   return data;
@@ -42,7 +44,8 @@ export async function searchSongs(keyword: string): Promise<Song[]> {
  * 获取歌词（JSON 格式，已解析）
  */
 export async function getLyricJson(hash: string): Promise<LyricJsonResponse> {
-  const { data } = await request.get<LyricJsonResponse>(`${LYRIC_API}/lyric`, {
+  // 路径改为 /api/lyric
+  const { data } = await request.get<LyricJsonResponse>(`${API_PREFIX}/lyric`, {
     params: { hash, format: "json" },
   });
   return data;
@@ -52,7 +55,7 @@ export async function getLyricJson(hash: string): Promise<LyricJsonResponse> {
  * 获取歌词（原始 LRC 文本）
  */
 export async function getLyricLrc(hash: string): Promise<string> {
-  const { data } = await request.get<string>(`${LYRIC_API}/lyric`, {
+  const { data } = await request.get<string>(`${API_PREFIX}/lyric`, {
     params: { hash },
     responseType: "text",
     transformResponse: [(data) => data], // prevent JSON parsing

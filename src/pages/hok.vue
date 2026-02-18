@@ -525,7 +525,7 @@ onMounted(async () => {
 
       <!-- Hero Detail Bottom Sheet -->
       <div
-        class="fixed inset-0 z-[100] flex items-end justify-center sheet-backdrop"
+        class="fixed inset-0 z-100 flex items-end justify-center sheet-backdrop"
         :class="heroDialog ? 'sheet-open' : 'sheet-closed'"
         @click.self="heroDialog = false"
       >
