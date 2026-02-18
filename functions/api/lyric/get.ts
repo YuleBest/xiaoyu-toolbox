@@ -1,39 +1,24 @@
-// 定义接口返回的 JSON 结构，写代码时有提示更爽
-interface LyricInfo {
-  [key: string]: string;
-}
+// 根据 hash 获取歌词
 
-interface LyricLine {
-  time: string;
-  text: string;
-}
-
-interface JsonResult {
-  info: LyricInfo;
-  lyrics: LyricLine[];
-}
+import { PagesFunction } from "@cloudflare/workers-types";
 
 export const onRequest: PagesFunction = async (context) => {
-  const { request } = context;
-  const { searchParams } = new URL(request.url);
+  const { searchParams } = new URL(context.request.url);
+  const hash = searchParams.get("hash");
+  const format = searchParams.get("format") || "lrc";
 
   const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, HEAD, POST, OPTIONS",
     "Content-Type": "application/json; charset=utf-8",
   };
-
-  if (request.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
-  }
-
-  const hash = searchParams.get("hash");
-  const format = searchParams.get("format") || "lrc";
 
   if (!hash) {
     return new Response(
       JSON.stringify({ error: "没有 Hash 我也变不出歌词呀" }),
-      { status: 400, headers: corsHeaders },
+      {
+        status: 400,
+        headers: corsHeaders,
+      },
     );
   }
 
@@ -49,14 +34,9 @@ export const onRequest: PagesFunction = async (context) => {
         .split("\n")
         .map((l) => l.trim())
         .filter((l) => l.length > 0);
-
-      const jsonResult: JsonResult = {
-        info: {},
-        lyrics: [],
-      };
+      const jsonResult: any = { info: {}, lyrics: [] };
 
       lines.forEach((line) => {
-        // 匹配元数据 [key:value]
         const infoMatch = line.match(
           /\[(ar|ti|al|by|hash|sign|qq|total|offset|id):(.*)\]/i,
         );
@@ -64,8 +44,6 @@ export const onRequest: PagesFunction = async (context) => {
           jsonResult.info[infoMatch[1].toLowerCase()] = infoMatch[2].trim();
           return;
         }
-
-        // 匹配时间轴 [00:00.00]内容
         const lyricMatch = line.match(/\[(\d+:\d+\.\d+)\](.*)/);
         if (lyricMatch) {
           jsonResult.lyrics.push({
@@ -74,7 +52,6 @@ export const onRequest: PagesFunction = async (context) => {
           });
         }
       });
-
       return new Response(JSON.stringify(jsonResult), { headers: corsHeaders });
     }
 
@@ -86,7 +63,7 @@ export const onRequest: PagesFunction = async (context) => {
       },
     });
   } catch {
-    return new Response(JSON.stringify({ error: "请求酷狗接口失败了" }), {
+    return new Response(JSON.stringify({ error: "获取歌词失败" }), {
       status: 500,
       headers: corsHeaders,
     });

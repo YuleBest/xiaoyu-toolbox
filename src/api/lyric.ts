@@ -1,7 +1,5 @@
 import request from "./request";
-
-// 直接使用相对路径 /api
-const API_PREFIX = "/api";
+const API_PREFIX = "/api/lyric";
 
 export interface Song {
   title: string;
@@ -31,9 +29,9 @@ export interface LyricJsonResponse {
 
 /**
  * 搜索歌曲
+ * 请求路径：/api/lyric/search
  */
 export async function searchSongs(keyword: string): Promise<Song[]> {
-  // 路径改为 /api/search
   const { data } = await request.get<Song[]>(`${API_PREFIX}/search`, {
     params: { keyword },
   });
@@ -42,10 +40,10 @@ export async function searchSongs(keyword: string): Promise<Song[]> {
 
 /**
  * 获取歌词（JSON 格式，已解析）
+ * 请求路径：/api/lyric/get
  */
 export async function getLyricJson(hash: string): Promise<LyricJsonResponse> {
-  // 路径改为 /api/lyric
-  const { data } = await request.get<LyricJsonResponse>(`${API_PREFIX}/lyric`, {
+  const { data } = await request.get<LyricJsonResponse>(`${API_PREFIX}/get`, {
     params: { hash, format: "json" },
   });
   return data;
@@ -53,12 +51,13 @@ export async function getLyricJson(hash: string): Promise<LyricJsonResponse> {
 
 /**
  * 获取歌词（原始 LRC 文本）
+ * 请求路径：/api/lyric/get
  */
 export async function getLyricLrc(hash: string): Promise<string> {
-  const { data } = await request.get<string>(`${API_PREFIX}/lyric`, {
+  const { data } = await request.get<string>(`${API_PREFIX}/get`, {
     params: { hash },
     responseType: "text",
-    transformResponse: [(data) => data], // prevent JSON parsing
+    transformResponse: [(data) => data], // 防止 Axios 自动尝试将 LRC 文本解析为 JSON
   });
   return data;
 }
