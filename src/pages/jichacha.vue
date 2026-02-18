@@ -75,9 +75,9 @@ const saveToHistory = (model: MobileModel) => {
   }
   // Add to top
   searchHistory.value.unshift(model);
-  // Limit to 20
-  if (searchHistory.value.length > 20) {
-    searchHistory.value.pop();
+  // Limit to 15
+  if (searchHistory.value.length > 15) {
+    searchHistory.value.length = 15; // Directly truncate
   }
 };
 
@@ -195,9 +195,12 @@ const clearSearch = () => {
   searchResults.value = [];
   searchTotal.value = 0;
   showSearchResults.value = false;
+  dtypes.value = []; // Clear filters
   error.value = "";
   // Clear URL params
   router.replace({ query: {} });
+  // Restore initial state (brands)
+  fetchBrands();
 };
 
 const toggleDtype = (dtype: string) => {
@@ -452,7 +455,9 @@ onMounted(() => {
           </button>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"
+        >
           <button
             v-for="model in searchHistory"
             :key="model.id"
