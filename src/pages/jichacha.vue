@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, inject } from "vue";
-import { useRoute, useRouter } from "vue-router"; // Added useRoute, useRouter
+import { useRoute, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import {
   Search,
@@ -14,6 +14,7 @@ import {
   Filter,
   X,
   Copy,
+  RotateCcw,
 } from "lucide-vue-next";
 import ToolContainer from "@/components/tool/ToolContainer.vue";
 import { allTools } from "@/config/tools";
@@ -25,8 +26,8 @@ import {
 } from "@/api/jichacha";
 
 const { t } = useI18n();
-const route = useRoute(); // Get route
-const router = useRouter(); // Get router
+const route = useRoute();
+const router = useRouter();
 const showToast = inject("showToast") as (
   msg: string,
   type?: "success" | "warning" | "error",
@@ -163,6 +164,17 @@ const handleSearch = async (append = false) => {
   }
 };
 
+const clearSearch = () => {
+  searchKeyword.value = "";
+  selectedDtype.value = "";
+  searchResults.value = [];
+  searchTotal.value = 0;
+  showSearchResults.value = false;
+  error.value = "";
+  // Clear URL params
+  router.replace({ query: {} });
+};
+
 const toggleDtype = (dtype: string) => {
   if (selectedDtype.value === dtype) {
     selectedDtype.value = "";
@@ -265,22 +277,24 @@ onMounted(() => {
   if (q || t) {
     handleSearch();
   } else {
-    fetchBrands(); // Only fetch brands if not searching initially?
-    // Actually user wants brands to be visible below results.
-    // So we should always fetch brands.
     fetchBrands();
-  }
-  // Wait, if I call handleSearch, it might obscure brands if I used to hide them.
-  // But now I am not hiding them.
-  // So I should always fetch brands.
-  if (q || t) {
-    // handleSearch is async, but we don't need to await it here
   }
 });
 </script>
 
 <template>
   <ToolContainer :tool="tool">
+    <template #actions>
+      <button
+        v-if="searchKeyword || selectedDtype || showSearchResults"
+        @click="clearSearch"
+        class="hidden sm:flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
+        :title="$t('common.clear')"
+      >
+        <RotateCcw class="h-4 w-4" />
+        <span>{{ $t("common.reset") || "重置" }}</span>
+      </button>
+    </template>
     <div class="space-y-6 max-w-4xl mx-auto">
       <!-- Search Bar & Filter -->
       <div class="space-y-4">
