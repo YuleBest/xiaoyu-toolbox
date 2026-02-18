@@ -560,14 +560,21 @@ onMounted(() => {
             class="w-full py-4 px-2 flex items-start gap-4 text-left hover:bg-muted/10 transition-colors group -mx-2 rounded-xl"
           >
             <div class="flex-1 min-w-0">
-              <h4
-                class="text-base font-medium text-foreground truncate mb-1.5"
-                v-html="
-                  highlightMatches(
-                    model.model_name || model.market_name || model.model,
-                  )
-                "
-              ></h4>
+              <h4 class="text-base font-medium text-foreground truncate mb-1.5">
+                <span
+                  v-html="
+                    highlightMatches(
+                      model.model_name || model.market_name || model.model,
+                    )
+                  "
+                ></span>
+                <span
+                  v-if="model.ver_name"
+                  class="text-muted-foreground text-sm ml-1 font-normal"
+                >
+                  ({{ model.ver_name }})
+                </span>
+              </h4>
 
               <div
                 class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground"

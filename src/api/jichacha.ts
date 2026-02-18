@@ -18,6 +18,7 @@ export interface MobileModel {
   market_name?: string;
   // device_type?: string;
   // marketing_name?: string;
+  ver_name?: string;
   [key: string]: any;
 }
 
