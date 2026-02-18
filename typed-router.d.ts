@@ -79,6 +79,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/jichacha': RouteRecordInfo<
+      '/jichacha',
+      '/jichacha',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/json-yaml': RouteRecordInfo<
       '/json-yaml',
       '/json-yaml',
@@ -186,6 +193,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/hok.vue': {
       routes:
         | '/hok'
+      views:
+        | never
+    }
+    'src/pages/jichacha.vue': {
+      routes:
+        | '/jichacha'
       views:
         | never
     }

@@ -125,7 +125,7 @@ const handleSearch = async (append = false) => {
     }
 
     if (searchResults.value.length === 0 && !append) {
-      error.value = t("jichacha.noResults");
+      error.value = t("tools.jichacha.noResults");
     }
   } catch {
     error.value = t("common.error");
@@ -222,7 +222,7 @@ onMounted(() => {
               <input
                 v-model="searchKeyword"
                 type="text"
-                :placeholder="$t('jichacha.searchPlaceholder')"
+                :placeholder="$t('tools.jichacha.searchPlaceholder')"
                 class="w-full pl-11 pr-4 py-3 bg-background border border-muted rounded-2xl text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 transition-all"
                 @keyup.enter="handleSearch(false)"
               />
@@ -253,7 +253,7 @@ onMounted(() => {
               class="flex items-center gap-2 text-xs text-muted-foreground mr-2"
             >
               <Filter class="h-3 w-3" />
-              {{ $t("jichacha.filterType") }}:
+              {{ $t("tools.jichacha.filterType") }}:
             </div>
             <button
               @click="toggleDtype('')"
@@ -277,7 +277,7 @@ onMounted(() => {
                   : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/50'
               "
             >
-              {{ $t(`jichacha.dtypes.${d.dtype}`) || d.dtype }}
+              {{ $t(`tools.jichacha.dtypes.${d.dtype}`) || d.dtype }}
               <span
                 class="text-[10px] opacity-70"
                 :class="{ 'text-white': selectedDtype === d.dtype }"
@@ -304,7 +304,7 @@ onMounted(() => {
       >
         <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
           <Tag class="h-5 w-5 text-emerald-500" />
-          {{ $t("jichacha.brands") }}
+          {{ $t("tools.jichacha.brands") }}
         </h3>
         <div class="flex flex-wrap gap-3">
           <button
@@ -351,18 +351,18 @@ onMounted(() => {
             class="px-5 py-4 border-b border-muted/30 flex items-center justify-between"
           >
             <h3 class="text-sm font-semibold text-foreground">
-              {{ $t("jichacha.totalModels") }}
+              {{ $t("tools.jichacha.totalModels") }}
               <span class="text-muted-foreground font-normal ml-1">{{
                 searchTotal
               }}</span>
             </h3>
             <div v-if="selectedDtype" class="flex items-center gap-2">
               <span class="text-xs text-muted-foreground"
-                >{{ $t("jichacha.filterType") }}:</span
+                >{{ $t("tools.jichacha.filterType") }}:</span
               >
               <span
                 class="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 text-xs font-medium"
-                >{{ $t(`jichacha.dtypes.${selectedDtype}`) }}</span
+                >{{ $t(`tools.jichacha.dtypes.${selectedDtype}`) }}</span
               >
               <button
                 @click="toggleDtype('')"
