@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, inject } from "vue";
+import { ref, onMounted, onUnmounted, watch, inject } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import {
@@ -24,6 +24,7 @@ import { allTools } from "@/config/tools";
 import {
   getBrandStats,
   searchModels,
+  getUpdateTime,
   type BrandStats,
   type MobileModel,
 } from "@/api/jichacha";
@@ -64,6 +65,47 @@ const selectedModel = ref<MobileModel | null>(null);
 
 // History
 const searchHistory = useStorage<MobileModel[]>("jichacha_history", []);
+
+// Update Time
+const updateTime = ref("");
+const relativeTime = ref("");
+
+const fetchDBUpdateTime = async () => {
+  try {
+    const time = await getUpdateTime();
+    updateTime.value = time.trim();
+    calcRelativeTime();
+    // Refresh relative time every minuteStart
+    timer = setInterval(calcRelativeTime, 60000);
+  } catch (e) {
+    console.error("Failed to fetch update time", e);
+  }
+};
+
+let timer: NodeJS.Timeout | null = null;
+onUnmounted(() => {
+  if (timer) clearInterval(timer);
+});
+
+const calcRelativeTime = () => {
+  if (!updateTime.value) return;
+  const now = new Date();
+  // Replace - with / for better compatibility if needed, though modern browsers support -
+  const update = new Date(updateTime.value.replace(/-/g, "/"));
+  const diff = now.getTime() - update.getTime();
+
+  const minutes = Math.floor(diff / 60000);
+
+  if (minutes < 1) {
+    relativeTime.value = "刚刚";
+  } else if (minutes < 60) {
+    relativeTime.value = `${minutes} 分钟前`;
+  } else if (minutes < 1440) {
+    relativeTime.value = `${Math.floor(minutes / 60)} 小时前`;
+  } else {
+    relativeTime.value = `${Math.floor(minutes / 1440)} 天前`;
+  }
+};
 
 // --- Methods ---
 
@@ -308,6 +350,8 @@ onMounted(() => {
   } else {
     fetchBrands();
   }
+
+  fetchDBUpdateTime();
 });
 </script>
 
@@ -621,6 +665,22 @@ onMounted(() => {
             {{ $t("common.viewMore") }}
           </button>
         </div>
+      </div>
+
+      <!-- Update Time Footer -->
+      <div
+        v-if="updateTime"
+        class="mt-8 pt-6 border-t border-muted/30 text-center"
+      >
+        <p
+          class="text-xs text-muted-foreground flex items-center justify-center gap-2"
+        >
+          <Clock class="h-3 w-3" />
+          <span
+            >数据库更新于 {{ updateTime.split(" ")[1] }},
+            {{ relativeTime }}</span
+          >
+        </p>
       </div>
 
       <!-- Drawer Detail View -->

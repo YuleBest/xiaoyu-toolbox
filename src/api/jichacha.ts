@@ -89,3 +89,12 @@ export async function getDTypes(): Promise<{ dtype: string; count: number }[]> {
   }>(`${API_PREFIX}/dtypes`);
   return data.results;
 }
+
+/**
+ * 获取数据库更新时间
+ * 请求路径：/api/jichacha/time
+ */
+export async function getUpdateTime(): Promise<string> {
+  const { data } = await request.get<string>(`${API_PREFIX}/time`);
+  return data;
+}
