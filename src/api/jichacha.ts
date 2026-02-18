@@ -40,6 +40,7 @@ interface PaginatedResponse<T> {
   limit: number;
   total: number;
   results: T[];
+  dtypes?: { dtype: string; count: number }[];
 }
 
 /**

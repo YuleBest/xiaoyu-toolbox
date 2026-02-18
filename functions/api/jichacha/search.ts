@@ -16,13 +16,14 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   // 2. 获取特定字段参数 (对应表中的列名)
   const filterParams = [
     "model",
-    "dtype",
+    // "dtype", // dtype 单独处理
     "brand",
     "code",
     "code_alias",
     "model_name",
     "ver_name",
   ];
+  const dtypeParam = searchParams.get("dtype");
 
   const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
@@ -30,47 +31,54 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   };
 
   try {
-    let baseQuery = "FROM phone_models WHERE 1=1";
+    let whereClause = "WHERE 1=1";
     const bindings: any[] = [];
-    let bindIndex = 1;
 
     // A. 处理通用关键词搜索 (对多个列进行 OR 匹配)
     if (q) {
-      baseQuery += ` AND (
-        model LIKE ?${bindIndex} OR 
-        code LIKE ?${bindIndex} OR 
-        code_alias LIKE ?${bindIndex} OR 
-        model_name LIKE ?${bindIndex}
+      whereClause += ` AND (
+        model LIKE ? OR 
+        code LIKE ? OR 
+        code_alias LIKE ? OR 
+        model_name LIKE ?
       )`;
-      bindings.push(`%${q}%`);
-      bindIndex++;
+      bindings.push(`%${q}%`, `%${q}%`, `%${q}%`, `%${q}%`);
     }
 
-    // B. 处理特定字段的精准/模糊搜索
+    // B. 处理特定字段的精准/模糊搜索 (不含 dtype)
     for (const param of filterParams) {
       const val = searchParams.get(param);
       if (val) {
-        // 如果用户传了具体字段，比如 brand=apple，我们就增加一个 AND 条件
-        baseQuery += ` AND ${param} LIKE ?${bindIndex}`;
+        whereClause += ` AND ${param} LIKE ?`;
         bindings.push(`%${val}%`);
-        bindIndex++;
       }
     }
 
-    // C. 获取总数
-    const countQuery = `SELECT COUNT(*) as total ${baseQuery}`;
+    // C. 获取聚合信息 (基于当前搜索条件，但在应用 dtype 筛选之前)
+    // 这样当用户选择了 dtype=phone 时，依然能看到 pad=5, watch=2 等信息
+    const dtypeQuery = `SELECT dtype, COUNT(*) as count FROM phone_models ${whereClause} GROUP BY dtype ORDER BY count DESC`;
+    const { results: dtypes } = await context.env.DB.prepare(dtypeQuery)
+      .bind(...bindings)
+      .all();
+
+    // D. 应用 dtype 筛选 (用于后续的数据查询和总数计算)
+    if (dtypeParam) {
+      whereClause += ` AND dtype = ?`;
+      bindings.push(dtypeParam);
+    }
+
+    // E. 获取总数
+    const countQuery = `SELECT COUNT(*) as total FROM phone_models ${whereClause}`;
     const totalResult = await context.env.DB.prepare(countQuery)
       .bind(...bindings)
       .first();
     const total = totalResult?.total || 0;
 
-    // D. 排序和分页
-    // Cloudflare D1 不支持 SQL_CALC_FOUND_ROWS，所以必须查两次
-    const dataQuery = `SELECT * ${baseQuery} LIMIT ?${bindIndex} OFFSET ?${bindIndex + 1}`;
-    bindings.push(limit, offset);
-
+    // F. 获取数据 (分页)
+    const dataQuery = `SELECT * FROM phone_models ${whereClause} LIMIT ? OFFSET ?`;
+    // 注意：bind 时需要追加 limit 和 offset，但不能修改原 bindings 数组，因为上面 countQuery 还需要用
     const { results } = await context.env.DB.prepare(dataQuery)
-      .bind(...bindings)
+      .bind(...bindings, limit, offset)
       .all();
 
     return new Response(
@@ -79,6 +87,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
         page,
         limit,
         total,
+        dtypes, // 返回聚合的 dtype 统计
         results: results,
       }),
       { headers: corsHeaders },

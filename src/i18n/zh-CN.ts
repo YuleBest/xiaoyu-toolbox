@@ -2,6 +2,7 @@ export default {
   // === 通用 ===
   common: {
     appName: "小于工具箱",
+    all: "全部",
     back: "返回",
     search: "搜索",
     searchTools: "搜索工具",
@@ -196,6 +197,17 @@ export default {
       totalModels: "共找到 {n} 个机型",
       noResults: "未找到相关机型",
       filterType: "筛选类型",
+      dtypes: {
+        mob: "手机",
+        pad: "平板电脑",
+        tv: "电视",
+        watch: "手表",
+        computer: "电脑",
+        band: "手环",
+        device: "合作机型",
+        pod: "Pod",
+        tv_hub: "电视盒子",
+      },
     },
   },
 
