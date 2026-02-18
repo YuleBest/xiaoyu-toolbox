@@ -285,15 +285,18 @@ onMounted(() => {
 <template>
   <ToolContainer :tool="tool">
     <template #actions>
-      <button
-        v-if="searchKeyword || selectedDtype || showSearchResults"
-        @click="clearSearch"
-        class="hidden sm:flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
-        :title="$t('common.clear')"
-      >
-        <RotateCcw class="h-4 w-4" />
-        <span>{{ $t("common.reset") || "重置" }}</span>
-      </button>
+      <div class="flex items-center gap-2">
+        <button
+          @click="clearSearch"
+          class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
+          :title="$t('common.reset')"
+        >
+          <RotateCcw class="h-4 w-4" />
+          <span class="hidden sm:inline">{{
+            $t("common.reset") || "重置"
+          }}</span>
+        </button>
+      </div>
     </template>
     <div class="space-y-6 max-w-4xl mx-auto">
       <!-- Search Bar & Filter -->

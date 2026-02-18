@@ -27,6 +27,7 @@ export default {
     viewMore: "查看更多",
     chars: "字",
     approx: "约",
+    reset: "重置",
   },
 
   // === 导航 ===
