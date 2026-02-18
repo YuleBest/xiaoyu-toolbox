@@ -126,6 +126,16 @@ const handleSearch = async (append = false) => {
 
     if (searchResults.value.length === 0 && !append) {
       error.value = t("tools.jichacha.noResults");
+    } else if (res.fallbackType) {
+      // Show fallback message
+      if (res.fallbackType === "translated_brand") {
+        error.value = `未找到"${kw}"，已为您显示"${res.usedQuery}"的结果`;
+      } else if (res.fallbackType === "brand_fallback") {
+        error.value = `未找到"${kw}"的具体型号，已为您显示"${res.usedQuery}"品牌的所有机型`;
+      }
+      // Note: We use 'error' ref to show the message, but it might not be styled as an error.
+      // Ideally we should use a separate 'info' or 'warning' ref, but for now reuse error with specific styling?
+      // Actually let's assume the error box style is generic enough or add a new state.
     }
   } catch (e) {
     console.error("Frontend Search Error:", e);
@@ -292,10 +302,31 @@ onMounted(() => {
       <!-- Error -->
       <div
         v-if="error"
-        class="px-5 py-4 bg-destructive/5 border border-destructive/10 rounded-2xl flex items-start gap-3"
+        class="px-5 py-4 rounded-2xl flex items-start gap-3"
+        :class="
+          error.includes('未找到') && !error.includes('相关机型')
+            ? 'bg-amber-500/10 border border-amber-500/20'
+            : 'bg-destructive/5 border border-destructive/10'
+        "
       >
-        <Info class="h-5 w-5 text-destructive shrink-0 mt-0.5" />
-        <p class="text-sm text-destructive font-medium">{{ error }}</p>
+        <Info
+          class="h-5 w-5 shrink-0 mt-0.5"
+          :class="
+            error.includes('未找到') && !error.includes('相关机型')
+              ? 'text-amber-500'
+              : 'text-destructive'
+          "
+        />
+        <p
+          class="text-sm font-medium"
+          :class="
+            error.includes('未找到') && !error.includes('相关机型')
+              ? 'text-amber-600 dark:text-amber-400'
+              : 'text-destructive'
+          "
+        >
+          {{ error }}
+        </p>
       </div>
 
       <!-- Overview: Brands Cloud -->

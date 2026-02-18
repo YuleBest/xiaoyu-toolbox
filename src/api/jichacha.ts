@@ -41,6 +41,8 @@ interface PaginatedResponse<T> {
   total: number;
   results: T[];
   dtypes?: { dtype: string; count: number }[];
+  fallbackType?: string;
+  usedQuery?: string;
 }
 
 /**
