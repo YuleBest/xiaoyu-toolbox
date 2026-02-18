@@ -25,6 +25,7 @@ import {
   getBrandStats,
   searchModels,
   getUpdateTime,
+  getVerNames,
   type BrandStats,
   type MobileModel,
 } from "@/api/jichacha";
@@ -53,6 +54,8 @@ const error = ref("");
 // Filter
 const dtypes = ref<{ dtype: string; count: number }[]>([]);
 const selectedDtype = ref("");
+const verNames = ref<{ ver_name: string; count: number }[]>([]);
+const selectedVerName = ref("");
 
 // Brands
 const brands = ref<BrandStats[]>([]);
@@ -196,6 +199,7 @@ const handleSearch = async (append = false) => {
     const res = await searchModels({
       q: kw,
       dtype: selectedDtype.value || undefined,
+      ver_name: selectedVerName.value || undefined,
       page: searchPage.value,
       limit: searchLimit,
     });
@@ -234,6 +238,7 @@ const handleSearch = async (append = false) => {
 const clearSearch = () => {
   searchKeyword.value = "";
   selectedDtype.value = "";
+  selectedVerName.value = "";
   searchResults.value = [];
   searchTotal.value = 0;
   showSearchResults.value = false;
@@ -253,6 +258,21 @@ const toggleDtype = (dtype: string) => {
   }
   // If we have a keyword or if we decide to allow search by just filter
   if (searchKeyword.value.trim() || selectedDtype.value) {
+    handleSearch(false);
+  }
+};
+
+const toggleVerName = (ver: string) => {
+  if (selectedVerName.value === ver) {
+    selectedVerName.value = "";
+  } else {
+    selectedVerName.value = ver;
+  }
+  if (
+    searchKeyword.value.trim() ||
+    selectedDtype.value ||
+    selectedVerName.value
+  ) {
     handleSearch(false);
   }
 };
@@ -342,10 +362,17 @@ onMounted(() => {
   const q = route.query.keyword || route.query.q;
   const t = route.query.dtype;
 
+  const v = route.query.ver_name;
+
   if (q) searchKeyword.value = String(q);
   if (t) selectedDtype.value = String(t);
+  if (v) selectedVerName.value = String(v);
 
-  if (q || t) {
+  getVerNames().then((res) => {
+    verNames.value = res;
+  });
+
+  if (q || t || v) {
     handleSearch();
   } else {
     fetchBrands();
@@ -406,44 +433,92 @@ onMounted(() => {
 
           <!-- Dtype Filter -->
           <div
-            v-if="dtypes.length > 0"
-            class="mt-4 flex flex-wrap gap-2 items-center"
+            v-if="dtypes.length > 0 || verNames.length > 0"
+            class="mt-4 flex flex-col gap-3"
           >
+            <!-- Dtype Filter -->
             <div
-              class="flex items-center gap-2 text-xs text-muted-foreground mr-2 font-medium"
+              v-if="dtypes.length > 0"
+              class="flex flex-wrap gap-2 items-center"
             >
-              <Filter class="h-3 w-3" />
-              {{ $t("tools.jichacha.filterType") }}:
-            </div>
-            <button
-              @click="toggleDtype('')"
-              class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border"
-              :class="
-                !selectedDtype
-                  ? 'bg-blue-500 text-white border-blue-500 shadow-sm'
-                  : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
-              "
-            >
-              {{ $t("common.all") }}
-            </button>
-            <button
-              v-for="d in dtypes"
-              :key="d.dtype"
-              @click="toggleDtype(d.dtype)"
-              class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5"
-              :class="
-                selectedDtype === d.dtype
-                  ? 'bg-blue-500 text-white border-blue-500 shadow-sm'
-                  : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
-              "
-            >
-              {{ $t(`tools.jichacha.dtypes.${d.dtype}`) || d.dtype }}
-              <span
-                class="text-[10px] opacity-70"
-                :class="{ 'text-white': selectedDtype === d.dtype }"
-                >{{ d.count }}</span
+              <div
+                class="flex items-center gap-2 text-xs text-muted-foreground mr-2 font-medium"
               >
-            </button>
+                <Filter class="h-3 w-3" />
+                {{ $t("tools.jichacha.filterType") }}:
+              </div>
+              <button
+                @click="toggleDtype('')"
+                class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border"
+                :class="
+                  !selectedDtype
+                    ? 'bg-blue-500 text-white border-blue-500 shadow-sm'
+                    : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
+                "
+              >
+                {{ $t("common.all") }}
+              </button>
+              <button
+                v-for="d in dtypes"
+                :key="d.dtype"
+                @click="toggleDtype(d.dtype)"
+                class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5"
+                :class="
+                  selectedDtype === d.dtype
+                    ? 'bg-blue-500 text-white border-blue-500 shadow-sm'
+                    : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
+                "
+              >
+                {{ $t(`tools.jichacha.dtypes.${d.dtype}`) || d.dtype }}
+                <span
+                  class="text-[10px] opacity-70"
+                  :class="{ 'text-white': selectedDtype === d.dtype }"
+                  >{{ d.count }}</span
+                >
+              </button>
+            </div>
+
+            <!-- VerName Filter -->
+            <div
+              v-if="verNames.length > 0"
+              class="flex flex-wrap gap-2 items-center"
+            >
+              <div
+                class="flex items-center gap-2 text-xs text-muted-foreground mr-2 font-medium"
+              >
+                <Tag class="h-3 w-3" />
+                版本:
+              </div>
+              <button
+                @click="toggleVerName('')"
+                class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border"
+                :class="
+                  !selectedVerName
+                    ? 'bg-blue-500 text-white border-blue-500 shadow-sm'
+                    : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
+                "
+              >
+                {{ $t("common.all") }}
+              </button>
+              <button
+                v-for="v in verNames"
+                :key="v.ver_name"
+                @click="toggleVerName(v.ver_name)"
+                class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5"
+                :class="
+                  selectedVerName === v.ver_name
+                    ? 'bg-blue-500 text-white border-blue-500 shadow-sm'
+                    : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
+                "
+              >
+                {{ v.ver_name }}
+                <span
+                  class="text-[10px] opacity-70"
+                  :class="{ 'text-white': selectedVerName === v.ver_name }"
+                  >{{ v.count }}</span
+                >
+              </button>
+            </div>
           </div>
         </div>
       </div>
