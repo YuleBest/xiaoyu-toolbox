@@ -74,3 +74,15 @@ export async function searchModels(
   );
   return data;
 }
+
+/**
+ * 获取设备类型统计
+ * 请求路径：/api/jichacha/dtypes
+ */
+export async function getDTypes(): Promise<{ dtype: string; count: number }[]> {
+  const { data } = await request.get<{
+    success: boolean;
+    results: { dtype: string; count: number }[];
+  }>(`${API_PREFIX}/dtypes`);
+  return data.results;
+}

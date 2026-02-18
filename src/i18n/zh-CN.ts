@@ -191,6 +191,11 @@ export default {
       subtitle: "查找手机机型数据",
       description: "查询手机机型的详细参数、代号、市场名称等信息。",
       usage: "输入机型关键词（如 iPhone 14, SM-S9180）进行搜索",
+      searchPlaceholder: "搜索机型 / 代码 / 别名...",
+      brands: "热门品牌",
+      totalModels: "共找到 {n} 个机型",
+      noResults: "未找到相关机型",
+      filterType: "筛选类型",
     },
   },
 

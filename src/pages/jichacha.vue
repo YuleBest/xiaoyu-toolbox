@@ -10,12 +10,15 @@ import {
   Tag,
   ChevronDown,
   Loader2,
+  Filter,
+  X,
 } from "lucide-vue-next";
 import ToolContainer from "@/components/tool/ToolContainer.vue";
 import { allTools } from "@/config/tools";
 import {
   getBrandStats,
   searchModels,
+  getDTypes,
   type BrandStats,
   type MobileModel,
 } from "@/api/jichacha";
@@ -35,6 +38,10 @@ const searchLimit = 100;
 const showSearchResults = ref(false);
 const error = ref("");
 
+// Filter
+const dtypes = ref<{ dtype: string; count: number }[]>([]);
+const selectedDtype = ref("");
+
 // Brands
 const brands = ref<BrandStats[]>([]);
 const brandsTotal = ref(0);
@@ -45,6 +52,14 @@ const loadingBrands = ref(false);
 const selectedModel = ref<MobileModel | null>(null);
 
 // --- Methods ---
+const fetchDTypes = async () => {
+  try {
+    dtypes.value = await getDTypes();
+  } catch (e) {
+    console.error("Failed to fetch dtypes", e);
+  }
+};
+
 const fetchBrands = async (append = false) => {
   if (loadingBrands.value) return;
   loadingBrands.value = true;
@@ -73,7 +88,12 @@ const fetchBrands = async (append = false) => {
 
 const handleSearch = async (append = false) => {
   const kw = searchKeyword.value.trim();
-  if (!kw) return;
+  // Prevent empty search unless a filter is active?
+  // For now let's say if user types nothing but selects a filter, we might want to support it,
+  // but existing logic requires keyword. Let's keep it that way or allow empty keyword if filter exists.
+  // The API supports empty Q if other params are present.
+
+  if (!kw && !selectedDtype.value) return;
 
   if (!append) {
     // New search
@@ -93,6 +113,7 @@ const handleSearch = async (append = false) => {
   try {
     const res = await searchModels({
       q: kw,
+      dtype: selectedDtype.value || undefined,
       page: searchPage.value,
       limit: searchLimit,
     });
@@ -116,6 +137,18 @@ const handleSearch = async (append = false) => {
   }
 };
 
+const toggleDtype = (dtype: string) => {
+  if (selectedDtype.value === dtype) {
+    selectedDtype.value = "";
+  } else {
+    selectedDtype.value = dtype;
+  }
+  // If we have a keyword or if we decide to allow search by just filter
+  if (searchKeyword.value.trim() || selectedDtype.value) {
+    handleSearch(false);
+  }
+};
+
 const selectModel = (model: MobileModel) => {
   selectedModel.value = model;
   showSearchResults.value = false;
@@ -132,39 +165,84 @@ const shortBrand = (brand: string) => {
 
 onMounted(() => {
   fetchBrands();
+  fetchDTypes();
 });
 </script>
 
 <template>
   <ToolContainer :tool="tool">
     <div class="space-y-6 max-w-4xl mx-auto">
-      <!-- Search Bar -->
-      <div class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6">
-        <div class="flex gap-3">
-          <div class="relative flex-1">
-            <Search
-              class="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"
-            />
-            <input
-              v-model="searchKeyword"
-              type="text"
-              :placeholder="$t('jichacha.searchPlaceholder')"
-              class="w-full pl-11 pr-4 py-3 bg-background border border-muted rounded-2xl text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 transition-all"
-              @keyup.enter="handleSearch(false)"
-            />
+      <!-- Search Bar & Filter -->
+      <div class="space-y-4">
+        <div class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6">
+          <div class="flex gap-3">
+            <div class="relative flex-1">
+              <Search
+                class="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"
+              />
+              <input
+                v-model="searchKeyword"
+                type="text"
+                :placeholder="$t('jichacha.searchPlaceholder')"
+                class="w-full pl-11 pr-4 py-3 bg-background border border-muted rounded-2xl text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 transition-all"
+                @keyup.enter="handleSearch(false)"
+              />
+            </div>
+            <button
+              @click="handleSearch(false)"
+              :disabled="(!searchKeyword.trim() && !selectedDtype) || searching"
+              class="px-6 py-3 bg-emerald-500 text-white rounded-2xl text-sm font-medium hover:bg-emerald-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
+            >
+              <div
+                v-if="searching && searchPage === 1"
+                class="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"
+              ></div>
+              <Search v-else class="h-4 w-4" />
+              {{ $t("common.search") }}
+            </button>
           </div>
-          <button
-            @click="handleSearch(false)"
-            :disabled="!searchKeyword.trim() || searching"
-            class="px-6 py-3 bg-emerald-500 text-white rounded-2xl text-sm font-medium hover:bg-emerald-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
+
+          <!-- Dtype Filter -->
+          <div
+            v-if="dtypes.length > 0"
+            class="mt-4 flex flex-wrap gap-2 items-center"
           >
             <div
-              v-if="searching && searchPage === 1"
-              class="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"
-            ></div>
-            <Search v-else class="h-4 w-4" />
-            {{ $t("common.search") }}
-          </button>
+              class="flex items-center gap-2 text-xs text-muted-foreground mr-2"
+            >
+              <Filter class="h-3 w-3" />
+              {{ $t("jichacha.filterType") }}:
+            </div>
+            <button
+              @click="toggleDtype('')"
+              class="px-3 py-1 rounded-full text-xs font-medium transition-all border"
+              :class="
+                !selectedDtype
+                  ? 'bg-emerald-500 text-white border-emerald-500'
+                  : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/50'
+              "
+            >
+              {{ $t("common.all") }}
+            </button>
+            <button
+              v-for="d in dtypes"
+              :key="d.dtype"
+              @click="toggleDtype(d.dtype)"
+              class="px-3 py-1 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5"
+              :class="
+                selectedDtype === d.dtype
+                  ? 'bg-emerald-500 text-white border-emerald-500'
+                  : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/50'
+              "
+            >
+              {{ d.dtype || $t("common.unknown") }}
+              <span
+                class="text-[10px] opacity-70"
+                :class="{ 'text-white': selectedDtype === d.dtype }"
+                >{{ d.count }}</span
+              >
+            </button>
+          </div>
         </div>
       </div>
 
@@ -236,6 +314,21 @@ onMounted(() => {
                 searchTotal
               }}</span>
             </h3>
+            <div v-if="selectedDtype" class="flex items-center gap-2">
+              <span class="text-xs text-muted-foreground"
+                >{{ $t("jichacha.filterType") }}:</span
+              >
+              <span
+                class="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 text-xs font-medium"
+                >{{ selectedDtype }}</span
+              >
+              <button
+                @click="toggleDtype('')"
+                class="text-muted-foreground hover:text-foreground"
+              >
+                <X class="h-3 w-3" />
+              </button>
+            </div>
           </div>
           <div class="divide-y divide-muted/20 max-h-[600px] overflow-y-auto">
             <button
