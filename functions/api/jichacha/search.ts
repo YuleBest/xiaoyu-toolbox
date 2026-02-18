@@ -42,6 +42,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     results: any[];
     total: number;
     dtypes: any[];
+    verNames: any[];
     usedQuery?: string;
   }> => {
     let whereClause = "WHERE 1=1";
@@ -83,6 +84,63 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       .bind(...bindings)
       .all();
 
+    // C2. 获取 Ver Name 聚合信息 (类似于 dtype)
+    // 注意：ver_name 应该基于 "除了 ver_name 之外的所有条件" 来聚合？
+    // 通常 filter 的逻辑是：
+    // 1. 如果用户没选 ver_name，那么显示的 ver_names Count 应该是基于当前搜索词 + dtype + 其他条件的。
+    // 2. 如果用户选了 ver_name，那么显示的 ver_names Count 应该是什么？
+    //    a) 保持不变 (显示所有可选的 ver_name 及其在当前上下文(不含ver_name filter)下的数量) -> 这是最友好的，让用户可以切换 filter。
+    //    b) 变少 (只显示当前选中的 ver_name) -> 这会导致用户没法切到其他 ver_name，体验不好。
+    // 所以，聚合 ver_name 时，应该 *排除* 当前的 ver_name 过滤条件。
+
+    // 但是，executeSearch 目前是把所有 params 都加到 whereClause 了。
+    // 为了实现上述逻辑，我们需要一个 "baseWhereClause" (包含除 ver_name 外的所有条件)。
+    // 这里简单起见，我们暂且先用 *当前的* whereClause，
+    // 如果用户已经选了 ver_name，那么返回的聚合结果里就只有那一个 ver_name (或者 verify 0)。
+    // 为了更好的体验，我们需要重构一下 whereClause 的构建。
+
+    // 重新构建 ver_name 聚合专用的 whereClause
+    let verNameWhere = "WHERE 1=1";
+    const verNameBindings: any[] = [];
+
+    // 1. 关键词 (同上)
+    if (searchQ) {
+      const keywords = searchQ.split(/\s+/).filter((k) => k.length > 0);
+      if (keywords.length > 0) {
+        for (const kw of keywords) {
+          verNameWhere += ` AND (
+            model = ? OR 
+            code = ? OR 
+            code_alias LIKE ? OR 
+            model_name LIKE ? OR
+            brand LIKE ? 
+          )`;
+          verNameBindings.push(kw, kw, `%${kw}%`, `%${kw}%`, `%${kw}%`);
+        }
+      }
+    }
+
+    // 2. 其他 Filter (排除 ver_name)
+    for (const param of filterParams) {
+      if (param === "ver_name") continue; // Skip ver_name
+      const val = searchParams.get(param);
+      if (val) {
+        verNameWhere += ` AND ${param} LIKE ?`;
+        verNameBindings.push(`%${val}%`);
+      }
+    }
+
+    // 3. dtype
+    if (dtypeParam) {
+      verNameWhere += ` AND dtype = ?`;
+      verNameBindings.push(dtypeParam);
+    }
+
+    const verNameQuery = `SELECT ver_name, COUNT(*) as count FROM phone_models ${verNameWhere} AND ver_name IS NOT NULL AND ver_name != '' GROUP BY ver_name ORDER BY count DESC`;
+    const { results: verNames } = await context.env.DB.prepare(verNameQuery)
+      .bind(...verNameBindings)
+      .all();
+
     // D. 应用 dtype 筛选
     if (dtypeParam) {
       whereClause += ` AND dtype = ?`;
@@ -117,7 +175,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       .bind(...bindings, limit, offset)
       .all();
 
-    return { results, total, dtypes, usedQuery: searchQ };
+    return { results, total, dtypes, verNames, usedQuery: searchQ };
   };
 
   try {
@@ -188,6 +246,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
         limit,
         total: result.total,
         dtypes: result.dtypes,
+        verNames: result.verNames,
         results: result.results,
         // 告诉前端我们是否修改了查询，以便前端提示用户
         originalQuery: qIsOriginal,

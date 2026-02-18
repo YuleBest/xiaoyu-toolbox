@@ -42,6 +42,7 @@ interface PaginatedResponse<T> {
   total: number;
   results: T[];
   dtypes?: { dtype: string; count: number }[];
+  verNames?: { ver_name: string; count: number }[];
   fallbackType?: string;
   usedQuery?: string;
 }
@@ -88,20 +89,6 @@ export async function getDTypes(): Promise<{ dtype: string; count: number }[]> {
     success: boolean;
     results: { dtype: string; count: number }[];
   }>(`${API_PREFIX}/dtypes`);
-  return data.results;
-}
-
-/**
- * 获取 Ver Name 统计
- * 请求路径：/api/jichacha/ver_names
- */
-export async function getVerNames(): Promise<
-  { ver_name: string; count: number }[]
-> {
-  const { data } = await request.get<{
-    success: boolean;
-    results: { ver_name: string; count: number }[];
-  }>(`${API_PREFIX}/ver_names`);
   return data.results;
 }
 

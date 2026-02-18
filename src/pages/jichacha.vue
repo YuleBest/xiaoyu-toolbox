@@ -25,7 +25,6 @@ import {
   getBrandStats,
   searchModels,
   getUpdateTime,
-  getVerNames,
   type BrandStats,
   type MobileModel,
 } from "@/api/jichacha";
@@ -56,6 +55,7 @@ const dtypes = ref<{ dtype: string; count: number }[]>([]);
 const selectedDtype = ref("");
 const verNames = ref<{ ver_name: string; count: number }[]>([]);
 const selectedVerName = ref("");
+const showAllVerNames = ref(false);
 
 // Brands
 const brands = ref<BrandStats[]>([]);
@@ -216,6 +216,13 @@ const handleSearch = async (append = false) => {
       dtypes.value = res.dtypes;
     }
 
+    // Update ver_names from search results
+    if (res.verNames) {
+      verNames.value = res.verNames;
+    } else {
+      verNames.value = [];
+    }
+
     if (searchResults.value.length === 0 && !append) {
       error.value = t("tools.jichacha.noResults");
     } else if (res.fallbackType) {
@@ -242,7 +249,9 @@ const clearSearch = () => {
   searchResults.value = [];
   searchTotal.value = 0;
   showSearchResults.value = false;
+  showSearchResults.value = false;
   dtypes.value = []; // Clear filters
+  verNames.value = []; // Clear verNames
   error.value = "";
   // Clear URL params
   router.replace({ query: {} });
@@ -368,9 +377,10 @@ onMounted(() => {
   if (t) selectedDtype.value = String(t);
   if (v) selectedVerName.value = String(v);
 
-  getVerNames().then((res) => {
-    verNames.value = res;
-  });
+  // Remove initial fetch, rely on search
+  // getVerNames().then((res) => {
+  //   verNames.value = res;
+  // });
 
   if (q || t || v) {
     handleSearch();
@@ -501,7 +511,7 @@ onMounted(() => {
                 {{ $t("common.all") }}
               </button>
               <button
-                v-for="v in verNames"
+                v-for="v in showAllVerNames ? verNames : verNames.slice(0, 8)"
                 :key="v.ver_name"
                 @click="toggleVerName(v.ver_name)"
                 class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5"
@@ -517,6 +527,18 @@ onMounted(() => {
                   :class="{ 'text-white': selectedVerName === v.ver_name }"
                   >{{ v.count }}</span
                 >
+              </button>
+
+              <button
+                v-if="verNames.length > 8"
+                @click="showAllVerNames = !showAllVerNames"
+                class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60 flex items-center gap-1"
+              >
+                {{ showAllVerNames ? "收起" : "更多" }}
+                <ChevronDown
+                  class="h-3 w-3 transition-transform"
+                  :class="{ 'rotate-180': showAllVerNames }"
+                />
               </button>
             </div>
           </div>
