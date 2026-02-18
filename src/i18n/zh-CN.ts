@@ -194,7 +194,7 @@ export default {
       usage: "输入机型关键词（如 iPhone 14, SM-S9180）进行搜索",
       searchPlaceholder: "搜索机型 / 代码 / 别名...",
       brands: "热门品牌",
-      totalModels: "共找到 {n} 个机型",
+      totalModels: "个机型",
       noResults: "未找到相关机型",
       filterType: "筛选类型",
       dtypes: {

@@ -161,7 +161,7 @@ const copyToClipboard = (text: any) => {
   navigator.clipboard
     .writeText(String(text))
     .then(() => {
-      showToast(t("common.copied") || "已复制", "success");
+      showToast(t("common.copySuccess") || "复制成功", "success");
     })
     .catch(() => {
       showToast(t("common.copyFailed") || "复制失败", "error");
@@ -351,10 +351,10 @@ onMounted(() => {
             class="px-5 py-4 border-b border-muted/30 flex items-center justify-between"
           >
             <h3 class="text-sm font-semibold text-foreground">
-              {{ $t("tools.jichacha.totalModels") }}
-              <span class="text-muted-foreground font-normal ml-1">{{
+              <span class="text-muted-foreground font-normal mr-1">{{
                 searchTotal
               }}</span>
+              {{ $t("tools.jichacha.totalModels") }}
             </h3>
             <div v-if="selectedDtype" class="flex items-center gap-2">
               <span class="text-xs text-muted-foreground"
@@ -379,11 +379,6 @@ onMounted(() => {
               @click="selectModel(model)"
               class="w-full px-5 py-4 flex items-center gap-4 text-left hover:bg-muted/10 transition-colors group"
             >
-              <div
-                class="h-10 w-10 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0"
-              >
-                <Smartphone class="h-5 w-5 text-emerald-500" />
-              </div>
               <div class="flex-1 min-w-0">
                 <div class="flex items-center gap-2 mb-1">
                   <span
@@ -516,7 +511,7 @@ onMounted(() => {
                     }}</span>
                     <button
                       @click="copyToClipboard(selectedModel?.model)"
-                      class="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
+                      class="transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
                       title="复制"
                     >
                       <Copy class="h-3 w-3" />
@@ -532,7 +527,7 @@ onMounted(() => {
                     }}</span>
                     <button
                       @click="copyToClipboard(selectedModel?.code)"
-                      class="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
+                      class="transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
                       title="复制"
                     >
                       <Copy class="h-3 w-3" />
@@ -553,7 +548,7 @@ onMounted(() => {
                     }}</span>
                     <button
                       @click="copyToClipboard(selectedModel?.code_alias)"
-                      class="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
+                      class="transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
                       title="复制"
                     >
                       <Copy class="h-3 w-3" />
@@ -593,7 +588,7 @@ onMounted(() => {
                         <span class="font-medium break-all">{{ val }}</span>
                         <button
                           @click="copyToClipboard(val)"
-                          class="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
+                          class="transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
                           title="复制"
                         >
                           <Copy class="h-3 w-3" />
