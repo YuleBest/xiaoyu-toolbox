@@ -27,7 +27,12 @@ export interface Tool {
   isHot?: boolean;
   isTop?: boolean;
   backEnd?: string;
+  license?: string;
+  copyright?: string;
 }
+
+export const default_license = "MIT License";
+export const default_copyright = "";
 
 export const toolsData: Record<string, Tool[]> = {
   dev: [
@@ -155,6 +160,9 @@ export const toolsData: Record<string, Tool[]> = {
       backEnd: "/api/jichacha",
       date: "2026-02-19",
       isHot: true,
+      license: "CC BY-NC-SA 4.0",
+      copyright:
+        "本工具的数据源自 https://github.com/KHwang9883/MobileModels ，基于 CC BY-NC-SA 4.0 授权。",
     },
     {
       id: "weather",

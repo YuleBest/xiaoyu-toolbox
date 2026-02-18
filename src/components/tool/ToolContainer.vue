@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { ChevronDown, Info, User, Calendar, BookOpen } from "lucide-vue-next";
-import type { Tool } from "@/config/tools";
+import { type Tool, default_license, default_copyright } from "@/config/tools";
 
 const props = defineProps<{
   tool: Tool;
@@ -119,6 +119,30 @@ const toggleInfo = () => {
                 $t("toolContainer.publishDate")
               }}</span>
               <span class="font-medium">{{ tool.date }}</span>
+            </div>
+
+            <!-- License -->
+            <div class="flex items-center gap-2 text-xs">
+              <span class="text-muted-foreground">{{
+                $t("toolContainer.license") || "许可证"
+              }}</span>
+              <span class="font-medium font-mono">{{
+                tool.license || default_license
+              }}</span>
+            </div>
+
+            <!-- Copyright -->
+            <div
+              v-if="tool.copyright || default_copyright"
+              class="flex items-center gap-2 text-xs w-full pt-2 border-t border-dashed border-border/50"
+            >
+              <span class="text-muted-foreground shrink-0">{{
+                $t("toolContainer.copyright") || "版权声明"
+              }}</span>
+              <span
+                class="font-medium break-all"
+                v-html="tool.copyright || default_copyright"
+              ></span>
             </div>
           </div>
         </div>
