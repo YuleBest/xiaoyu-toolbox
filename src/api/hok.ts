@@ -1,6 +1,10 @@
 import request from "./request";
 
-const API_BASE = "https://hok.api.yule.ink";
+/**
+ * 对应后端路径：functions/api/hok/[key].ts
+ * 已经迁移到全栈模式，不再需要外部域名
+ */
+const API_PREFIX = "/api/hok";
 
 export interface Hero {
   ename: number;
@@ -10,7 +14,6 @@ export interface Hero {
   hero_type: number;
   hero_type2?: number;
   skin_name?: string;
-  // Detail fields (loaded on demand)
   skills?: HeroSkill[];
   skins?: { name: string }[];
   attributes?: Record<string, number>;
@@ -44,7 +47,7 @@ export interface SummonerSkill {
  * 获取所有英雄列表
  */
 export async function getHeroList(): Promise<Hero[]> {
-  const { data } = await request.get<Hero[]>(`${API_BASE}/hero_list`);
+  const { data } = await request.get<Hero[]>(`${API_PREFIX}/hero_list`);
   return data;
 }
 
@@ -53,7 +56,7 @@ export async function getHeroList(): Promise<Hero[]> {
  */
 export async function getHeroImages(): Promise<Record<string, string>> {
   const { data } = await request.get<Record<string, string>>(
-    `${API_BASE}/hero_images`,
+    `${API_PREFIX}/hero_images`,
   );
   return data;
 }
@@ -62,7 +65,7 @@ export async function getHeroImages(): Promise<Record<string, string>> {
  * 获取装备列表
  */
 export async function getItemList(): Promise<GameItem[]> {
-  const { data } = await request.get<GameItem[]>(`${API_BASE}/item_list`);
+  const { data } = await request.get<GameItem[]>(`${API_PREFIX}/item_list`);
   return data;
 }
 
@@ -71,7 +74,7 @@ export async function getItemList(): Promise<GameItem[]> {
  */
 export async function getItemImages(): Promise<Record<string, string>> {
   const { data } = await request.get<Record<string, string>>(
-    `${API_BASE}/item_images`,
+    `${API_PREFIX}/item_images`,
   );
   return data;
 }
@@ -81,7 +84,7 @@ export async function getItemImages(): Promise<Record<string, string>> {
  */
 export async function getSummonerList(): Promise<SummonerSkill[]> {
   const { data } = await request.get<SummonerSkill[]>(
-    `${API_BASE}/summoner_list`,
+    `${API_PREFIX}/summoner_list`,
   );
   return data;
 }
@@ -91,15 +94,16 @@ export async function getSummonerList(): Promise<SummonerSkill[]> {
  */
 export async function getSummonerImages(): Promise<Record<string, string>> {
   const { data } = await request.get<Record<string, string>>(
-    `${API_BASE}/summoner_images`,
+    `${API_PREFIX}/summoner_images`,
   );
   return data;
 }
 
 /**
  * 获取英雄详情（技能、皮肤、属性）
+ * 后端 [key].ts 会自动匹配 ename 动态参数
  */
 export async function getHeroDetail(ename: number): Promise<Partial<Hero>> {
-  const { data } = await request.get<Partial<Hero>>(`${API_BASE}/${ename}`);
+  const { data } = await request.get<Partial<Hero>>(`${API_PREFIX}/${ename}`);
   return data;
 }

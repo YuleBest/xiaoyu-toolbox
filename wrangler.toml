@@ -1,3 +1,7 @@
 name = "xiaoyu-toolbox"
 compatibility_date = "2026-02-18"
 pages_build_output_dir = "./dist"
+
+[[kv_namespaces]]
+id = "7d9e399b548e4a5691d34feb6030dbc7"
+binding = "HOK_DATA"
