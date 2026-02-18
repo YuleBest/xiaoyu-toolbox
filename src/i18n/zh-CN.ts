@@ -462,6 +462,21 @@ export default {
     selectAudio: "选择音频流",
   },
 
+  // === 机查查 ===
+  jichacha: {
+    title: "机查查",
+    subtitle: "查找手机机型数据",
+    description: "查询手机机型的详细参数、代号、市场名称等信息。",
+    usage: "输入机型关键词（如 iPhone 14, SM-S9180）进行搜索",
+    searchPlaceholder: "搜索机型名称、代号...",
+    brands: "热门品牌",
+    model: "型号",
+    code: "代号",
+    marketName: "市场名称",
+    totalModels: "收录机型",
+    noResults: "未找到相关机型",
+  },
+
   // === 歌词 ===
   lyric: {
     searchPlaceholder: "搜索歌名或歌手...",

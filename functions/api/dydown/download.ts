@@ -6,7 +6,7 @@ export const onRequest: PagesFunction = async (context) => {
   // 如果传了 filename 就用传的，没传就默认 douyin.mp4
   const filename = searchParams.get("filename") || "douyin.mp4";
 
-  if (!videoId) return new Response("Missing videoId", { status: 400 });
+  if (!videoId) return new Response("Missing videoId", { status: 400 }) as any;
 
   const playUrl = `https://www.iesdouyin.com/aweme/v1/play/?video_id=${videoId}&ratio=1080p&line=0`;
 
@@ -16,7 +16,7 @@ export const onRequest: PagesFunction = async (context) => {
   });
 
   if (!upstream.ok)
-    return new Response("抖音源站错误", { status: upstream.status });
+    return new Response("抖音源站错误", { status: upstream.status }) as any;
 
   const headers = new Headers();
 
@@ -37,5 +37,5 @@ export const onRequest: PagesFunction = async (context) => {
     headers.set("Content-Length", contentLength);
   }
 
-  return new Response(upstream.body, { headers });
+  return new Response(upstream.body, { headers }) as any;
 };

@@ -33,7 +33,7 @@ export const onRequest: PagesFunction = async (context) => {
     return new Response(
       JSON.stringify({ ok: false, message: "非法的 BV 号格式" }),
       { status: 400, headers: corsHeaders },
-    );
+    ) as any;
   }
 
   const ua =
@@ -51,7 +51,7 @@ export const onRequest: PagesFunction = async (context) => {
       return new Response(
         JSON.stringify({ ok: false, message: "未找到视频信息" }),
         { status: 400, headers: corsHeaders },
-      );
+      ) as any;
     }
 
     // 提取组件需要的字段：cid, title, duration, cover
@@ -80,7 +80,7 @@ export const onRequest: PagesFunction = async (context) => {
           message: "无法解析 DASH 数据，请检查 Cookie 是否有效",
         }),
         { status: 400, headers: corsHeaders },
-      );
+      ) as any;
     }
 
     // 3. 组装数据，对齐 Vue 组件的字段
@@ -92,9 +92,10 @@ export const onRequest: PagesFunction = async (context) => {
       const supportInfo = supportMap.get(v.id);
       return {
         quality: v.id,
-        qualityDesc: supportInfo?.new_description || getQualityDesc(v.id),
-        displayDesc: supportInfo?.display_desc || "",
-        superscript: supportInfo?.superscript || "",
+        qualityDesc:
+          (supportInfo as any)?.new_description || getQualityDesc(v.id),
+        displayDesc: (supportInfo as any)?.display_desc || "",
+        superscript: (supportInfo as any)?.superscript || "",
         url: v.baseUrl || v.base_url,
         width: v.width,
         height: v.height,
@@ -128,7 +129,7 @@ export const onRequest: PagesFunction = async (context) => {
         },
       }),
       { headers: corsHeaders },
-    );
+    ) as any;
   } catch (error: any) {
     return new Response(
       JSON.stringify({
@@ -136,6 +137,6 @@ export const onRequest: PagesFunction = async (context) => {
         message: `服务器内部错误: ${error.message}`,
       }),
       { status: 500, headers: corsHeaders },
-    );
+    ) as any;
   }
 };

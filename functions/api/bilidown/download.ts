@@ -8,7 +8,7 @@ export const onRequest: PagesFunction = async (context) => {
     searchParams.get("filename") ||
     `bili_${Date.now()}.${type === "audio" ? "m4a" : "mp4"}`;
 
-  if (!downloadUrl) return new Response("Missing url", { status: 400 });
+  if (!downloadUrl) return new Response("Missing url", { status: 400 }) as any;
 
   const upstream = await fetch(downloadUrl, {
     headers: {
@@ -29,5 +29,5 @@ export const onRequest: PagesFunction = async (context) => {
   const len = upstream.headers.get("Content-Length");
   if (len) headers.set("Content-Length", len);
 
-  return new Response(upstream.body, { headers });
+  return new Response(upstream.body, { headers }) as any;
 };

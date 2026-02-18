@@ -5,3 +5,8 @@ pages_build_output_dir = "./dist"
 [[kv_namespaces]]
 id = "7d9e399b548e4a5691d34feb6030dbc7"
 binding = "HOK_DATA"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "phone-db"
+database_id = "9b27749f-5199-40cb-b5cb-28df0b35abfd"

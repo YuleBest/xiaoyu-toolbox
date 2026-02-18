@@ -10,6 +10,7 @@ import {
   CloudSun,
   Swords,
   Zap,
+  Smartphone,
 } from "lucide-vue-next";
 
 export interface Tool {
@@ -141,6 +142,20 @@ export const toolsData: Record<string, Tool[]> = {
     },
   ],
   life: [
+    {
+      id: "jichacha",
+      title: "tools.jichacha.title",
+      subtitle: "tools.jichacha.subtitle",
+      description: "tools.jichacha.description",
+      author: "Yule",
+      usage: "tools.jichacha.usage",
+      icon: Smartphone,
+      color: "text-emerald-500",
+      path: "/jichacha",
+      backEnd: "/api/jichacha",
+      date: "2026-02-19",
+      isHot: true,
+    },
     {
       id: "weather",
       title: "tools.weather.title",

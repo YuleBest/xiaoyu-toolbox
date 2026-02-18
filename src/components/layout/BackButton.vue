@@ -38,7 +38,7 @@ const goBack = () => {
     <button
       v-if="showBackButton"
       @click="goBack"
-      class="fixed bottom-10 md:bottom-12 left-6 md:left-[304px] z-[60] flex items-center gap-2 px-3 py-1.5 rounded-full bg-card/60 backdrop-blur-2xl border border-muted/50 hover:border-blue-500/50 hover:bg-card/90 transition-all active:scale-95 group shadow-lg overflow-hidden"
+      class="fixed bottom-10 md:bottom-12 left-6 md:left-[304px] z-60 flex items-center gap-2 px-3 py-1.5 rounded-full bg-card/60 backdrop-blur-2xl border border-muted/50 hover:border-blue-500/50 hover:bg-card/90 transition-all active:scale-95 group shadow-lg overflow-hidden"
     >
       <ArrowLeft
         class="h-4 w-4 text-blue-500 group-hover:-translate-x-0.5 transition-transform"
