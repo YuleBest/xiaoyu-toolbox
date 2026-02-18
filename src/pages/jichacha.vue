@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, inject } from "vue";
+import { useRoute, useRouter } from "vue-router"; // Added useRoute, useRouter
 import { useI18n } from "vue-i18n";
 import {
   Search,
@@ -24,6 +25,8 @@ import {
 } from "@/api/jichacha";
 
 const { t } = useI18n();
+const route = useRoute(); // Get route
+const router = useRouter(); // Get router
 const showToast = inject("showToast") as (
   msg: string,
   type?: "success" | "warning" | "error",
@@ -85,9 +88,26 @@ const fetchBrands = async (append = false) => {
 
 const handleSearch = async (append = false) => {
   const kw = searchKeyword.value.trim();
-  // The API supports empty Q if other params are present.
 
-  if (!kw && !selectedDtype.value) return;
+  // Update URL query params
+  router.replace({
+    query: {
+      ...route.query,
+      keyword: kw || undefined,
+      dtype: selectedDtype.value || undefined,
+    },
+  });
+
+  if (!kw && !selectedDtype.value) {
+    // If clearing search, reset state
+    if (!append) {
+      searchResults.value = [];
+      searchTotal.value = 0;
+      showSearchResults.value = false;
+      error.value = "";
+    }
+    return;
+  }
 
   if (!append) {
     // New search
@@ -157,7 +177,6 @@ const toggleDtype = (dtype: string) => {
 
 const selectModel = (model: MobileModel) => {
   selectedModel.value = model;
-  // showSearchResults.value = false; // Drawer sits on top, so we keep results visible
 };
 
 const shortBrand = (brand: string) => {
@@ -236,7 +255,27 @@ const onTouchMove = (e: TouchEvent) => {
 };
 
 onMounted(() => {
-  fetchBrands();
+  // Handle URL params
+  const q = route.query.keyword || route.query.q;
+  const t = route.query.dtype;
+
+  if (q) searchKeyword.value = String(q);
+  if (t) selectedDtype.value = String(t);
+
+  if (q || t) {
+    handleSearch();
+  } else {
+    fetchBrands(); // Only fetch brands if not searching initially?
+    // Actually user wants brands to be visible below results.
+    // So we should always fetch brands.
+    fetchBrands();
+  }
+  // Wait, if I call handleSearch, it might obscure brands if I used to hide them.
+  // But now I am not hiding them.
+  // So I should always fetch brands.
+  if (q || t) {
+    // handleSearch is async, but we don't need to await it here
+  }
 });
 </script>
 
@@ -245,7 +284,9 @@ onMounted(() => {
     <div class="space-y-6 max-w-4xl mx-auto">
       <!-- Search Bar & Filter -->
       <div class="space-y-4">
-        <div class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6">
+        <div
+          class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6 shadow-sm"
+        >
           <div class="flex gap-3">
             <div class="relative flex-1">
               <Search
@@ -255,14 +296,14 @@ onMounted(() => {
                 v-model="searchKeyword"
                 type="text"
                 :placeholder="$t('tools.jichacha.searchPlaceholder')"
-                class="w-full pl-11 pr-4 py-3 bg-background border border-muted rounded-2xl text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 transition-all"
+                class="w-full pl-11 pr-4 py-3 bg-background border border-muted rounded-2xl text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 transition-all font-medium"
                 @keyup.enter="handleSearch(false)"
               />
             </div>
             <button
               @click="handleSearch(false)"
               :disabled="(!searchKeyword.trim() && !selectedDtype) || searching"
-              class="px-6 py-3 bg-blue-500 text-white rounded-2xl text-sm font-medium hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
+              class="px-6 py-3 bg-blue-500 text-white rounded-2xl text-sm font-medium hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center gap-2 shadow-sm"
             >
               <div
                 v-if="searching && searchPage === 1"
@@ -275,25 +316,22 @@ onMounted(() => {
 
           <!-- Dtype Filter -->
           <div
-            v-if="
-              dtypes.length > 0 &&
-              (searchKeyword.trim() || searchResults.length > 0)
-            "
+            v-if="dtypes.length > 0"
             class="mt-4 flex flex-wrap gap-2 items-center"
           >
             <div
-              class="flex items-center gap-2 text-xs text-muted-foreground mr-2"
+              class="flex items-center gap-2 text-xs text-muted-foreground mr-2 font-medium"
             >
               <Filter class="h-3 w-3" />
               {{ $t("tools.jichacha.filterType") }}:
             </div>
             <button
               @click="toggleDtype('')"
-              class="px-3 py-1 rounded-full text-xs font-medium transition-all border"
+              class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border"
               :class="
                 !selectedDtype
-                  ? 'bg-blue-500 text-white border-blue-500'
-                  : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/50'
+                  ? 'bg-blue-500 text-white border-blue-500 shadow-sm'
+                  : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
               "
             >
               {{ $t("common.all") }}
@@ -302,11 +340,11 @@ onMounted(() => {
               v-for="d in dtypes"
               :key="d.dtype"
               @click="toggleDtype(d.dtype)"
-              class="px-3 py-1 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5"
+              class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5"
               :class="
                 selectedDtype === d.dtype
-                  ? 'bg-blue-500 text-white border-blue-500'
-                  : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/50'
+                  ? 'bg-blue-500 text-white border-blue-500 shadow-sm'
+                  : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
               "
             >
               {{ $t(`tools.jichacha.dtypes.${d.dtype}`) || d.dtype }}
@@ -323,7 +361,7 @@ onMounted(() => {
       <!-- Error -->
       <div
         v-if="error"
-        class="px-5 py-4 rounded-2xl flex items-start gap-3"
+        class="px-5 py-4 rounded-2xl flex items-start gap-3 shadow-sm"
         :class="
           error.includes('未找到') && !error.includes('相关机型')
             ? 'bg-amber-500/10 border border-amber-500/20'
@@ -350,16 +388,109 @@ onMounted(() => {
         </p>
       </div>
 
-      <!-- Overview: Brands Cloud -->
+      <!-- Search Results (Native Style) -->
       <div
-        v-if="!showSearchResults && !selectedModel && brands.length > 0"
-        class="bg-card/30 border border-muted/80 rounded-3xl p-6"
+        v-if="showSearchResults && searchResults.length > 0"
+        class="space-y-2"
       >
-        <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+        <div
+          class="px-2 pb-2 flex items-center justify-between text-sm text-muted-foreground"
+        >
+          <span>找到 {{ searchTotal }} 个相关结果</span>
+
+          <div v-if="selectedDtype" class="flex items-center gap-2">
+            <span
+              class="px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-600 text-xs font-medium border border-blue-500/20"
+            >
+              已筛选: {{ $t(`tools.jichacha.dtypes.${selectedDtype}`) }}
+            </span>
+            <button
+              @click="toggleDtype('')"
+              class="hover:text-foreground transition-colors"
+            >
+              <X class="h-3 w-3" />
+            </button>
+          </div>
+        </div>
+
+        <div class="divide-y divide-muted/30 border-y border-muted/30">
+          <button
+            v-for="model in searchResults"
+            :key="model.id"
+            @click="selectModel(model)"
+            class="w-full py-4 px-2 flex items-start gap-4 text-left hover:bg-muted/10 transition-colors group -mx-2 rounded-xl"
+          >
+            <div class="flex-1 min-w-0">
+              <h4
+                class="text-base font-medium text-foreground truncate mb-1.5"
+                v-html="
+                  highlightMatches(
+                    model.model_name || model.market_name || model.model,
+                  )
+                "
+              ></h4>
+
+              <div
+                class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground"
+              >
+                <!-- Brand Tag -->
+                <span
+                  class="px-1.5 py-0.5 rounded-[4px] text-[10px] font-bold bg-muted/60 text-foreground/70 uppercase tracking-wide border border-muted"
+                >
+                  {{ shortBrand(model.brand) }}
+                </span>
+
+                <!-- Code info -->
+                <span
+                  v-if="model.code_alias"
+                  class="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 font-medium"
+                >
+                  <Cpu class="h-3.5 w-3.5" />
+                  <span v-html="highlightMatches(model.code_alias)"></span>
+                </span>
+                <span v-else class="flex items-center gap-1.5">
+                  <Cpu class="h-3.5 w-3.5" />
+                  <span v-html="highlightMatches(model.code)"></span>
+                </span>
+
+                <!-- Model info -->
+                <span
+                  v-if="model.model !== model.model_name"
+                  class="flex items-center gap-1.5"
+                >
+                  <QrCode class="h-3.5 w-3.5" />
+                  <span v-html="highlightMatches(model.model)"></span>
+                </span>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <!-- Load More Results Button -->
+        <div
+          v-if="searchResults.length < searchTotal"
+          class="pt-4 flex justify-center"
+        >
+          <button
+            @click="handleSearch(true)"
+            :disabled="searching"
+            class="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 text-sm font-medium text-blue-600 bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 rounded-xl transition-all"
+          >
+            <Loader2 v-if="searching" class="h-4 w-4 animate-spin" />
+            <span v-else>查看更多结果</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Overview: Brands Cloud (Always visible at bottom) -->
+      <div v-if="brands.length > 0" class="mt-8 pt-6 border-t border-muted/30">
+        <h3
+          class="text-lg font-semibold mb-4 flex items-center gap-2 text-foreground/80"
+        >
           <Tag class="h-5 w-5 text-blue-500" />
           {{ $t("tools.jichacha.brands") }}
         </h3>
-        <div class="flex flex-wrap gap-3">
+        <div class="flex flex-wrap gap-2.5">
           <button
             v-for="b in brands"
             :key="b.brand"
@@ -367,14 +498,14 @@ onMounted(() => {
               searchKeyword = b.brand;
               handleSearch(false);
             "
-            class="px-3 py-1.5 bg-background border border-muted rounded-xl text-sm hover:border-blue-500 hover:text-blue-500 transition-colors flex items-center gap-2"
+            class="px-3 py-1.5 bg-background border border-muted rounded-xl text-sm hover:border-blue-500 hover:text-blue-500 transition-colors flex items-center gap-2 group"
           >
             <span
-              class="font-medium"
+              class="font-medium group-hover:text-blue-500 transition-colors"
               v-html="highlightMatches(b.brand_title || b.brand)"
             ></span>
             <span
-              class="text-xs text-muted-foreground bg-muted/50 px-1.5 py-0.5 rounded-md"
+              class="text-xs text-muted-foreground bg-muted p-0.5 min-w-[1.2rem] text-center rounded-md"
               >{{ b.count }}</span
             >
           </button>
@@ -396,104 +527,6 @@ onMounted(() => {
           </button>
         </div>
       </div>
-
-      <!-- Search Results -->
-      <Transition name="slide">
-        <div
-          v-if="showSearchResults && searchResults.length > 0"
-          class="bg-card/30 border border-muted/80 rounded-3xl overflow-hidden"
-        >
-          <div
-            class="px-5 py-4 border-b border-muted/30 flex items-center justify-between"
-          >
-            <h3 class="text-sm font-semibold text-foreground">
-              <span class="text-muted-foreground font-normal mr-1">{{
-                searchTotal
-              }}</span>
-              {{ $t("tools.jichacha.totalModels") }}
-            </h3>
-            <div v-if="selectedDtype" class="flex items-center gap-2">
-              <span class="text-xs text-muted-foreground"
-                >{{ $t("tools.jichacha.filterType") }}:</span
-              >
-              <span
-                class="px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-600 text-xs font-medium"
-                >{{ $t(`tools.jichacha.dtypes.${selectedDtype}`) }}</span
-              >
-              <button
-                @click="toggleDtype('')"
-                class="text-muted-foreground hover:text-foreground"
-              >
-                <X class="h-3 w-3" />
-              </button>
-            </div>
-          </div>
-          <div class="divide-y divide-muted/20 max-h-[600px] overflow-y-auto">
-            <button
-              v-for="model in searchResults"
-              :key="model.id"
-              @click="selectModel(model)"
-              class="w-full px-5 py-4 flex items-center gap-4 text-left hover:bg-muted/10 transition-colors group"
-            >
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-2 mb-1">
-                  <span
-                    class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-muted text-muted-foreground uppercase tracking-wider"
-                  >
-                    {{ shortBrand(model.brand) }}
-                  </span>
-                  <h4
-                    class="text-sm font-semibold text-foreground truncate"
-                    v-html="
-                      highlightMatches(
-                        model.model_name || model.market_name || model.model,
-                      )
-                    "
-                  ></h4>
-                </div>
-                <div
-                  class="flex items-center gap-3 text-xs text-muted-foreground"
-                >
-                  <span
-                    v-if="model.code_alias"
-                    class="flex items-center gap-1 text-blue-600 dark:text-blue-400 font-medium"
-                  >
-                    <Cpu class="h-3 w-3" />
-                    <span v-html="highlightMatches(model.code_alias)"></span>
-                  </span>
-                  <span v-else class="flex items-center gap-1">
-                    <Cpu class="h-3 w-3" />
-                    <span v-html="highlightMatches(model.code)"></span>
-                  </span>
-
-                  <span
-                    v-if="model.model !== model.model_name"
-                    class="flex items-center gap-1"
-                  >
-                    <QrCode class="h-3 w-3" />
-                    <span v-html="highlightMatches(model.model)"></span>
-                  </span>
-                </div>
-              </div>
-            </button>
-
-            <!-- Load More Results -->
-            <div
-              v-if="searchResults.length < searchTotal"
-              class="p-4 flex justify-center"
-            >
-              <button
-                @click="handleSearch(true)"
-                :disabled="searching"
-                class="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 rounded-xl transition-all"
-              >
-                <Loader2 v-if="searching" class="h-4 w-4 animate-spin" />
-                <span v-else>{{ $t("common.viewMore") }}</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </Transition>
 
       <!-- Drawer Detail View -->
       <div
