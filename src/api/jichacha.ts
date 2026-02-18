@@ -24,6 +24,7 @@ export interface MobileModel {
 export interface SearchParams {
   q?: string;
   limit?: number;
+  page?: number;
   model?: string;
   dtype?: string;
   brand?: string;
@@ -33,24 +34,29 @@ export interface SearchParams {
   ver_name?: string;
 }
 
-interface SearchResponse {
+interface PaginatedResponse<T> {
   success: boolean;
+  page: number;
+  limit: number;
   total: number;
-  results: MobileModel[];
-}
-
-interface DetailResponse {
-  success: boolean;
-  results: BrandStats[];
+  results: T[];
 }
 
 /**
  * 获取品牌列表统计
  * 请求路径：/api/jichacha/detail
  */
-export async function getBrandStats(): Promise<BrandStats[]> {
-  const { data } = await request.get<DetailResponse>(`${API_PREFIX}/detail`);
-  return data.results;
+export async function getBrandStats(
+  page = 1,
+  limit = 100,
+): Promise<PaginatedResponse<BrandStats>> {
+  const { data } = await request.get<PaginatedResponse<BrandStats>>(
+    `${API_PREFIX}/detail`,
+    {
+      params: { page, limit },
+    },
+  );
+  return data;
 }
 
 /**
@@ -59,9 +65,12 @@ export async function getBrandStats(): Promise<BrandStats[]> {
  */
 export async function searchModels(
   params: SearchParams,
-): Promise<MobileModel[]> {
-  const { data } = await request.get<SearchResponse>(`${API_PREFIX}/search`, {
-    params,
-  });
-  return data.results;
+): Promise<PaginatedResponse<MobileModel>> {
+  const { data } = await request.get<PaginatedResponse<MobileModel>>(
+    `${API_PREFIX}/search`,
+    {
+      params,
+    },
+  );
+  return data;
 }

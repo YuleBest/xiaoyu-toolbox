@@ -1,7 +1,16 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
-import { Search, Info, Smartphone, Cpu, QrCode, Tag } from "lucide-vue-next";
+import {
+  Search,
+  Info,
+  Smartphone,
+  Cpu,
+  QrCode,
+  Tag,
+  ChevronDown,
+  Loader2,
+} from "lucide-vue-next";
 import ToolContainer from "@/components/tool/ToolContainer.vue";
 import { allTools } from "@/config/tools";
 import {
@@ -16,40 +25,92 @@ const { t } = useI18n();
 const tool = allTools.find((t) => t.id === "jichacha")!;
 
 // --- State ---
+// Search
 const searchKeyword = ref("");
 const searching = ref(false);
 const searchResults = ref<MobileModel[]>([]);
+const searchTotal = ref(0);
+const searchPage = ref(1);
+const searchLimit = 100;
 const showSearchResults = ref(false);
 const error = ref("");
+
+// Brands
 const brands = ref<BrandStats[]>([]);
+const brandsTotal = ref(0);
+const brandsPage = ref(1);
+const brandsLimit = 100;
+const loadingBrands = ref(false);
+
 const selectedModel = ref<MobileModel | null>(null);
 
 // --- Methods ---
-const fetchBrands = async () => {
+const fetchBrands = async (append = false) => {
+  if (loadingBrands.value) return;
+  loadingBrands.value = true;
+
+  if (!append) {
+    brandsPage.value = 1;
+  } else {
+    brandsPage.value++;
+  }
+
   try {
-    brands.value = await getBrandStats();
+    const res = await getBrandStats(brandsPage.value, brandsLimit);
+    if (append) {
+      brands.value.push(...res.results);
+    } else {
+      brands.value = res.results;
+    }
+    brandsTotal.value = res.total;
   } catch (e) {
     console.error("Failed to fetch brands", e);
+    if (append) brandsPage.value--; // Revert page on error
+  } finally {
+    loadingBrands.value = false;
   }
 };
 
-const handleSearch = async () => {
+const handleSearch = async (append = false) => {
   const kw = searchKeyword.value.trim();
   if (!kw) return;
 
-  error.value = "";
-  searchResults.value = [];
-  selectedModel.value = null;
-  showSearchResults.value = true;
+  if (!append) {
+    // New search
+    error.value = "";
+    searchResults.value = [];
+    searchTotal.value = 0;
+    searchPage.value = 1;
+    selectedModel.value = null;
+    showSearchResults.value = true;
+  } else {
+    // Load more
+    searchPage.value++;
+  }
+
   searching.value = true;
 
   try {
-    searchResults.value = await searchModels({ q: kw });
-    if (searchResults.value.length === 0) {
+    const res = await searchModels({
+      q: kw,
+      page: searchPage.value,
+      limit: searchLimit,
+    });
+
+    if (append) {
+      searchResults.value.push(...res.results);
+    } else {
+      searchResults.value = res.results;
+    }
+
+    searchTotal.value = res.total;
+
+    if (searchResults.value.length === 0 && !append) {
       error.value = t("jichacha.noResults");
     }
   } catch {
     error.value = t("common.error");
+    if (append) searchPage.value--;
   } finally {
     searching.value = false;
   }
@@ -89,16 +150,16 @@ onMounted(() => {
               type="text"
               :placeholder="$t('jichacha.searchPlaceholder')"
               class="w-full pl-11 pr-4 py-3 bg-background border border-muted rounded-2xl text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 transition-all"
-              @keyup.enter="handleSearch"
+              @keyup.enter="handleSearch(false)"
             />
           </div>
           <button
-            @click="handleSearch"
+            @click="handleSearch(false)"
             :disabled="!searchKeyword.trim() || searching"
             class="px-6 py-3 bg-emerald-500 text-white rounded-2xl text-sm font-medium hover:bg-emerald-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
           >
             <div
-              v-if="searching"
+              v-if="searching && searchPage === 1"
               class="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"
             ></div>
             <Search v-else class="h-4 w-4" />
@@ -131,7 +192,7 @@ onMounted(() => {
             :key="b.brand"
             @click="
               searchKeyword = b.brand;
-              handleSearch();
+              handleSearch(false);
             "
             class="px-3 py-1.5 bg-background border border-muted rounded-xl text-sm hover:border-emerald-500 hover:text-emerald-500 transition-colors flex items-center gap-2"
           >
@@ -142,6 +203,22 @@ onMounted(() => {
             >
           </button>
         </div>
+
+        <!-- Load More Brands -->
+        <div
+          v-if="brands.length < brandsTotal"
+          class="mt-6 flex justify-center"
+        >
+          <button
+            @click="fetchBrands(true)"
+            :disabled="loadingBrands"
+            class="flex items-center gap-2 px-4 py-2 text-sm text-muted-foreground hover:text-foreground bg-muted/30 hover:bg-muted/50 rounded-xl transition-all"
+          >
+            <Loader2 v-if="loadingBrands" class="h-4 w-4 animate-spin" />
+            <ChevronDown v-else class="h-4 w-4" />
+            {{ $t("common.viewMore") }}
+          </button>
+        </div>
       </div>
 
       <!-- Search Results -->
@@ -150,15 +227,17 @@ onMounted(() => {
           v-if="showSearchResults && searchResults.length > 0"
           class="bg-card/30 border border-muted/80 rounded-3xl overflow-hidden"
         >
-          <div class="px-5 py-4 border-b border-muted/30">
+          <div
+            class="px-5 py-4 border-b border-muted/30 flex items-center justify-between"
+          >
             <h3 class="text-sm font-semibold text-foreground">
               {{ $t("jichacha.totalModels") }}
               <span class="text-muted-foreground font-normal ml-1">{{
-                searchResults.length
+                searchTotal
               }}</span>
             </h3>
           </div>
-          <div class="divide-y divide-muted/20 max-h-[500px] overflow-y-auto">
+          <div class="divide-y divide-muted/20 max-h-[600px] overflow-y-auto">
             <button
               v-for="model in searchResults"
               :key="model.id"
@@ -184,10 +263,18 @@ onMounted(() => {
                 <div
                   class="flex items-center gap-3 text-xs text-muted-foreground"
                 >
-                  <span class="flex items-center gap-1">
+                  <span
+                    v-if="model.code_alias"
+                    class="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium"
+                  >
+                    <Cpu class="h-3 w-3" />
+                    {{ model.code_alias }}
+                  </span>
+                  <span v-else class="flex items-center gap-1">
                     <Cpu class="h-3 w-3" />
                     {{ model.code }}
                   </span>
+
                   <span
                     v-if="model.model !== model.model_name"
                     class="flex items-center gap-1"
@@ -198,6 +285,21 @@ onMounted(() => {
                 </div>
               </div>
             </button>
+
+            <!-- Load More Results -->
+            <div
+              v-if="searchResults.length < searchTotal"
+              class="p-4 flex justify-center"
+            >
+              <button
+                @click="handleSearch(true)"
+                :disabled="searching"
+                class="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 rounded-xl transition-all"
+              >
+                <Loader2 v-if="searching" class="h-4 w-4 animate-spin" />
+                <span v-else>{{ $t("common.viewMore") }}</span>
+              </button>
+            </div>
           </div>
         </div>
       </Transition>
