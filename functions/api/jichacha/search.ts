@@ -65,13 +65,19 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
           for (const syn of synonyms) {
             orConditions.push(`(
-              model = ? OR 
-              code = ? OR 
+              model LIKE ? OR 
+              code LIKE ? OR 
               code_alias LIKE ? OR 
               model_name LIKE ? OR
               brand LIKE ?
             )`);
-            bindings.push(syn, syn, `%${syn}%`, `%${syn}%`, `%${syn}%`);
+            bindings.push(
+              `%${syn}%`,
+              `%${syn}%`,
+              `%${syn}%`,
+              `%${syn}%`,
+              `%${syn}%`,
+            );
           }
 
           whereClause += ` AND (${orConditions.join(" OR ")})`;
@@ -124,13 +130,19 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
           for (const syn of synonyms) {
             orConditions.push(`(
-              model = ? OR 
-              code = ? OR 
+              model LIKE ? OR 
+              code LIKE ? OR 
               code_alias LIKE ? OR 
               model_name LIKE ? OR
               brand LIKE ?
             )`);
-            verNameBindings.push(syn, syn, `%${syn}%`, `%${syn}%`, `%${syn}%`);
+            verNameBindings.push(
+              `%${syn}%`,
+              `%${syn}%`,
+              `%${syn}%`,
+              `%${syn}%`,
+              `%${syn}%`,
+            );
           }
           verNameWhere += ` AND (${orConditions.join(" OR ")})`;
         }
