@@ -75,7 +75,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     const total = totalResult?.total || 0;
 
     // F. 获取数据 (分页)
-    const dataQuery = `SELECT * FROM phone_models ${whereClause} ORDER BY id DESC LIMIT ? OFFSET ?`;
+    const dataQuery = `SELECT *, rowid as _id FROM phone_models ${whereClause} ORDER BY rowid DESC LIMIT ? OFFSET ?`;
     // 注意：bind 时需要追加 limit 和 offset，但不能修改原 bindings 数组，因为上面 countQuery 还需要用
     const { results } = await context.env.DB.prepare(dataQuery)
       .bind(...bindings, limit, offset)
