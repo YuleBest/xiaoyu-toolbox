@@ -43,4 +43,6 @@ pnpm run dev    # 开发模式
 
 ## 许可
 
-MIT License
+- jichacha（机查查）工具相关代码：**CC BY-NC-SA 4.0** （本工具的数据源自 https://github.com/KHwang9883/MobileModels ，基于 CC BY-NC-SA 4.0 授权。）
+
+- 其他代码：MIT License
