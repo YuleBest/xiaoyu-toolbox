@@ -70,13 +70,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
               model_name LIKE ? OR
               brand LIKE ?
             )`);
-            bindings.push(
-              `%${syn}%`,
-              `%${syn}%`,
-              `%${syn}%`,
-              `%${syn}%`,
-              `%${syn}%`,
-            );
+            bindings.push(`%${syn}%`, `%${syn}%`, `%${syn}%`, `%${syn}%`);
           }
 
           whereClause += ` AND (${orConditions.join(" OR ")})`;
@@ -135,7 +129,6 @@ export const onRequest: PagesFunction<Env> = async (context) => {
               brand LIKE ?
             )`);
             verNameBindings.push(
-              `%${syn}%`,
               `%${syn}%`,
               `%${syn}%`,
               `%${syn}%`,
