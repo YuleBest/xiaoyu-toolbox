@@ -425,10 +425,20 @@ export async function getDTypes(): Promise<{ dtype: string; count: number }[]> {
  * 获取数据库更新时间
  */
 export async function getUpdateTime(): Promise<string> {
-  await loadData();
-  if (lastModifiedTime) {
-    const date = new Date(lastModifiedTime);
-    return date.toISOString().replace("T", " ").substring(0, 19);
+  try {
+    const response = await fetch(
+      `https://raw.githubusercontent.com/YuleBest/MobileModels-JSON/refs/heads/master/update_time.txt?t=${Date.now()}`,
+    );
+    if (!response.ok) throw new Error("Failed to fetch update time");
+    return await response.text();
+  } catch (e) {
+    console.error("Failed to fetch update time:", e);
+    // Fallback: try to get from headers if available
+    await loadData();
+    if (lastModifiedTime) {
+      const date = new Date(lastModifiedTime);
+      return date.toISOString().replace("T", " ").substring(0, 19);
+    }
+    return new Date().toISOString();
   }
-  return new Date().toISOString();
 }
