@@ -23,7 +23,7 @@ import { Github, Mail, Globe } from "lucide-vue-next";
       <!-- Links -->
       <div class="flex items-center gap-5">
         <a
-          href="https://github.com/YuleBest/xiaoyu-toolbox-next"
+          href="https://github.com/YuleBest/xiaoyu-toolbox"
           target="_blank"
           class="flex items-center gap-1.5 text-[12.5px] font-medium hover:text-blue-500 transition-colors group"
         >
