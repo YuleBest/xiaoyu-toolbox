@@ -17,6 +17,7 @@ import {
   RotateCcw,
   Clock,
   Trash2,
+  RefreshCw,
 } from "lucide-vue-next";
 import { useStorage } from "@vueuse/core";
 import ToolContainer from "@/components/tool/ToolContainer.vue";
@@ -25,6 +26,7 @@ import {
   getBrandStats,
   searchModels,
   getUpdateTime,
+  refreshData,
   type BrandStats,
   type MobileModel,
 } from "@/api/jichacha";
@@ -40,13 +42,35 @@ const showToast = inject("showToast") as (
 const tool = allTools.find((t) => t.id === "jichacha")!;
 
 // --- State ---
+const refreshing = ref(false);
+
+const handleRefreshData = async () => {
+  if (refreshing.value) return;
+  refreshing.value = true;
+  try {
+    await refreshData();
+    showToast("数据已更新", "success");
+    // Reload brands and update time
+    brands.value = [];
+    brandsPage.value = 1;
+    await fetchBrands();
+    await fetchDBUpdateTime();
+  } catch (e) {
+    console.error(e);
+    showToast("刷新失败", "error");
+  } finally {
+    refreshing.value = false;
+  }
+};
+
+// --- State ---
 // Search
 const searchKeyword = ref("");
 const searching = ref(false);
 const searchResults = ref<MobileModel[]>([]);
 const searchTotal = ref(0);
 const searchPage = ref(1);
-const searchLimit = 100;
+const searchLimit = 20;
 const showSearchResults = ref(false);
 const error = ref("");
 
@@ -143,10 +167,11 @@ const fetchBrands = async (append = false) => {
 
   try {
     const res = await getBrandStats(brandsPage.value, brandsLimit);
+    const results = res.results || [];
     if (append) {
-      brands.value.push(...res.results);
+      brands.value.push(...results);
     } else {
-      brands.value = res.results;
+      brands.value = results;
     }
     brandsTotal.value = res.total;
   } catch (e) {
@@ -240,6 +265,12 @@ const handleSearch = async (append = false) => {
   } finally {
     searching.value = false;
   }
+};
+
+const selectBrand = (brand: string) => {
+  searchKeyword.value = brand;
+  handleSearch(false);
+  window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
 const clearSearch = () => {
@@ -396,6 +427,15 @@ onMounted(() => {
   <ToolContainer :tool="tool">
     <template #actions>
       <div class="flex items-center gap-2">
+        <button
+          @click="handleRefreshData"
+          class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
+          :title="$t('common.refresh') || '刷新数据'"
+          :disabled="refreshing"
+        >
+          <RefreshCw class="h-4 w-4" :class="{ 'animate-spin': refreshing }" />
+          <span class="hidden sm:inline">刷新数据</span>
+        </button>
         <button
           @click="clearSearch"
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
@@ -745,10 +785,7 @@ onMounted(() => {
           <button
             v-for="b in brands"
             :key="b.brand"
-            @click="
-              searchKeyword = b.brand;
-              handleSearch(false);
-            "
+            @click="selectBrand(b.brand)"
             class="px-3 py-1.5 bg-background border border-muted rounded-xl text-sm hover:border-blue-500 hover:text-blue-500 transition-colors flex items-center gap-2 group"
           >
             <span
