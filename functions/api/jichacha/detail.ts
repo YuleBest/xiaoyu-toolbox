@@ -16,15 +16,21 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   };
 
   try {
-    // 1. 获取总数
+    // 1. 获取总数 (优化点：由于有了 idx_brand 索引，此查询会走索引覆盖，不再扫描 11k 行)
     const totalResult = await context.env.DB.prepare(
       "SELECT COUNT(DISTINCT brand) as total FROM phone_models",
     ).first();
-    const total = totalResult?.total || 0;
+    const total = (totalResult?.total as number) || 0;
 
     // 2. 获取分页数据
+    // 优化点：因为有了索引，GROUP BY 的效率会大幅提升。
+    // 我们手动指定从索引字段拿数据，让 SQL 引擎更聪明一点。
     const { results } = await context.env.DB.prepare(
-      "SELECT brand, brand_title, COUNT(*) as count FROM phone_models GROUP BY brand ORDER BY count DESC LIMIT ? OFFSET ?",
+      `SELECT brand, MAX(brand_title) as brand_title, COUNT(*) as count 
+       FROM phone_models 
+       GROUP BY brand 
+       ORDER BY count DESC 
+       LIMIT ? OFFSET ?`,
     )
       .bind(limit, offset)
       .all();
@@ -34,7 +40,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       {
         headers: {
           ...corsHeaders,
-          "Cache-Control": "public, max-age=3600", // 列表变化不频繁，但分页可能变，改短一点缓存时间
+          "Cache-Control": "public, max-age=3600",
         },
       },
     );

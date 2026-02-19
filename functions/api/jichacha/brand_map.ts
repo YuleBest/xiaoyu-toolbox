@@ -23,7 +23,7 @@ export const BRAND_MAP: Record<string, string> = {
   金立: "gionee",
   锤子: "smartisan",
   坚果: "smartisan",
-  360: "360",
+  "360": "360",
   华硕: "asus",
   HTC: "htc",
   谷歌: "google",
@@ -32,64 +32,52 @@ export const BRAND_MAP: Record<string, string> = {
   LG: "lg",
 };
 
+/**
+ * 获取品牌代码
+ */
 export const getBrandCode = (input: string): string | null => {
   const normalized = input.toLowerCase().trim();
   return BRAND_MAP[normalized] || null;
 };
 
 /**
- * Get related keywords for a given input (bi-directional lookups).
- * e.g. "红米" -> ["红米", "redmi"]
- * e.g. "redmi" -> ["redmi", "红米"]
+ * 获取相关关键词（优化版）
+ * 在 FTS5 模式下，我们主要用于 Fallback 逻辑
  */
 export const getRelatedKeywords = (input: string): string[] => {
-  const specializedMap: Record<string, string> = {
-    // Specialized mappings (lower case keys)
-    redmi: "红米",
-    realme: "真我",
-    sony: "索尼",
-    apple: "苹果",
-  };
-
   const normalized = input.toLowerCase().trim();
   const results = new Set<string>();
-  results.add(input); // Always include self
+  results.add(input);
 
-  // 1. Check if input is a key in BRAND_MAP (ZH -> EN)
+  // ZH -> EN
   if (BRAND_MAP[normalized]) {
     results.add(BRAND_MAP[normalized]);
   }
 
-  // 2. Check if input is a value in BRAND_MAP (EN -> ZH)
-  // This is O(N) but N is small.
+  // EN -> ZH (保持 O(N)，因为品牌列表很短)
   for (const [cn, en] of Object.entries(BRAND_MAP)) {
     if (en === normalized) {
       results.add(cn);
     }
   }
 
-  // 3. Check specialized map (explicit requests from user)
-  if (specializedMap[normalized]) {
-    results.add(specializedMap[normalized]);
-  }
-
   return Array.from(results);
 };
 
 /**
- * Simple keyword segmentation.
- * Splits between:
- * - Chinese & English/Number
- * - English & Number
+ * 智能分词（优化版）
+ * 增加对非法字符的过滤，确保生成的词可以直接喂给 FTS5
  */
 export const segmentSearchQuery = (input: string): string[] => {
-  let processed = input;
-  // Chinese vs English/Number
+  // 1. 过滤掉 SQL FTS5 的特殊控制字符，防止查询报错
+  let processed = input.replace(/[*\-"':()]/g, " ");
+
+  // 2. 插入空格：中英、中数、英数之间增加空格
   processed = processed.replace(/([\u4e00-\u9fa5])([a-zA-Z0-9])/g, "$1 $2");
   processed = processed.replace(/([a-zA-Z0-9])([\u4e00-\u9fa5])/g, "$1 $2");
-  // English vs Number
   processed = processed.replace(/([a-zA-Z])([0-9])/g, "$1 $2");
   processed = processed.replace(/([0-9])([a-zA-Z])/g, "$1 $2");
 
+  // 3. 按照空格切分，过滤掉空字符和超短字符（可选）
   return processed.split(/\s+/).filter((k) => k.length > 0);
 };

@@ -11,14 +11,18 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   };
 
   try {
+    // 这里的查询语句不变，但因为我们在 Python 脚本里加了 idx_phone_dtype 索引，
+    // D1 现在会自动使用索引进行覆盖扫描（Index Only Scan），
+    // 读取开销会从全表扫描降到极低。
     const { results } = await context.env.DB.prepare(
-      "SELECT dtype, COUNT(*) as count FROM phone_models GROUP BY dtype ORDER BY count DESC",
+      "SELECT dtype, COUNT(*) as count FROM phone_models WHERE dtype IS NOT NULL GROUP BY dtype ORDER BY count DESC",
     ).all();
 
     return new Response(JSON.stringify({ success: true, results }), {
       headers: {
         ...corsHeaders,
-        "Cache-Control": "public, max-age=86400", // 很少变动，缓存久一点
+        // 既然数据是爬虫定期更新的，这里的缓存策略非常明智
+        "Cache-Control": "public, max-age=86400",
       },
     });
   } catch (err: any) {

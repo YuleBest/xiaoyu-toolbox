@@ -4,29 +4,28 @@ interface Env {
   DB: D1Database;
 }
 
+// 假设这些辅助函数和常量都在同目录的 brand_map.ts 中
 import { BRAND_MAP, getRelatedKeywords, segmentSearchQuery } from "./brand_map";
 
 export const onRequest: PagesFunction<Env> = async (context) => {
   const { searchParams } = new URL(context.request.url);
 
-  // 1. 获取通用关键词和分页参数
+  // 1. 获取基础参数
   const qIsOriginal = searchParams.get("q") || "";
   let q = qIsOriginal.trim();
   const page = parseInt(searchParams.get("page") || "1");
   const limit = parseInt(searchParams.get("limit") || "100");
   const offset = (page - 1) * limit;
+  const dtypeParam = searchParams.get("dtype");
 
-  // 2. 获取特定字段参数 (对应表中的列名)
   const filterParams = [
     "model",
-    // "dtype", // dtype 单独处理
     "brand",
     "code",
     "code_alias",
     "model_name",
     "ver_name",
   ];
-  const dtypeParam = searchParams.get("dtype");
 
   const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
@@ -34,183 +33,102 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   };
 
   /**
-   * Helper to build and execute query
+   * 核心搜索执行函数 - 已优化为 FTS5 模式
    */
-  const executeSearch = async (
-    searchQ: string,
-  ): Promise<{
-    results: any[];
-    total: number;
-    dtypes: any[];
-    verNames: any[];
-    usedQuery?: string;
-  }> => {
-    let whereClause = "WHERE 1=1";
-    const bindings: any[] = [];
+  const executeSearch = async (searchQ: string) => {
+    let bindings: any[] = [];
+    let ftsSubQuery = "";
 
-    // A. 处理通用关键词搜索 (支持多关键词，空格分隔)
-    // 逻辑：每个关键词都必须匹配 (AND)，但单个关键词可以匹配任意字段 (OR)
-    if (searchQ) {
-      // Use segmentSearchQuery for splitting
-      const keywords = segmentSearchQuery(searchQ);
-
-      if (keywords.length > 0) {
-        // 对于每个关键词，添加一个 AND (...) 块
-        // 对于每个关键词，添加一个 AND (...) 块
-        for (const kw of keywords) {
-          const synonyms = getRelatedKeywords(kw);
-
-          // 构建 OR 子句: ( (kw match) OR (syn1 match) OR ... )
-          const orConditions: string[] = [];
-
-          for (const syn of synonyms) {
-            orConditions.push(`(
-              model LIKE ? OR 
-              code_alias LIKE ? OR 
-              model_name LIKE ? OR
-              brand LIKE ?
-            )`);
-            bindings.push(`%${syn}%`, `%${syn}%`, `%${syn}%`, `%${syn}%`);
-          }
-
-          whereClause += ` AND (${orConditions.join(" OR ")})`;
-        }
-      }
-    }
-
-    // B. 处理特定字段的精准/模糊搜索 (不含 dtype)
-    for (const param of filterParams) {
-      const val = searchParams.get(param);
-      if (val) {
-        whereClause += ` AND ${param} LIKE ?`;
-        bindings.push(`%${val}%`);
-      }
-    }
-
-    // C. 获取聚合信息
-    const dtypeQuery = `SELECT dtype, COUNT(*) as count FROM phone_models ${whereClause} GROUP BY dtype ORDER BY count DESC`;
-    const { results: dtypes } = await context.env.DB.prepare(dtypeQuery)
-      .bind(...bindings)
-      .all();
-
-    // C2. 获取 Ver Name 聚合信息 (类似于 dtype)
-    // 注意：ver_name 应该基于 "除了 ver_name 之外的所有条件" 来聚合？
-    // 通常 filter 的逻辑是：
-    // 1. 如果用户没选 ver_name，那么显示的 ver_names Count 应该是基于当前搜索词 + dtype + 其他条件的。
-    // 2. 如果用户选了 ver_name，那么显示的 ver_names Count 应该是什么？
-    //    a) 保持不变 (显示所有可选的 ver_name 及其在当前上下文(不含ver_name filter)下的数量) -> 这是最友好的，让用户可以切换 filter。
-    //    b) 变少 (只显示当前选中的 ver_name) -> 这会导致用户没法切到其他 ver_name，体验不好。
-    // 所以，聚合 ver_name 时，应该 *排除* 当前的 ver_name 过滤条件。
-
-    // 但是，executeSearch 目前是把所有 params 都加到 whereClause 了。
-    // 为了实现上述逻辑，我们需要一个 "baseWhereClause" (包含除 ver_name 外的所有条件)。
-    // 这里简单起见，我们暂且先用 *当前的* whereClause，
-    // 如果用户已经选了 ver_name，那么返回的聚合结果里就只有那一个 ver_name (或者 verify 0)。
-    // 为了更好的体验，我们需要重构一下 whereClause 的构建。
-
-    // 重新构建 ver_name 聚合专用的 whereClause
-    let verNameWhere = "WHERE 1=1";
-    const verNameBindings: any[] = [];
-
-    // 1. 关键词 (同上)
+    // A. 处理 FTS5 全文搜索逻辑
     if (searchQ) {
       const keywords = segmentSearchQuery(searchQ);
       if (keywords.length > 0) {
-        for (const kw of keywords) {
-          const synonyms = getRelatedKeywords(kw);
+        // 将关键词转为 FTS5 语法，例如 "Xiaomi 14" -> "Xiaomi* AND 14*"
+        // 这样可以实现多词 AND 查询，且支持前缀匹配
+        const ftsExpression = keywords
+          .map((k) => `${k.replace(/[*\-"']/g, "")}*`)
+          .join(" AND ");
 
-          const orConditions: string[] = [];
-
-          for (const syn of synonyms) {
-            orConditions.push(`(
-              model LIKE ? OR 
-              code_alias LIKE ? OR 
-              model_name LIKE ? OR
-              brand LIKE ?
-            )`);
-            verNameBindings.push(
-              `%${syn}%`,
-              `%${syn}%`,
-              `%${syn}%`,
-              `%${syn}%`,
-            );
-          }
-          verNameWhere += ` AND (${orConditions.join(" OR ")})`;
-        }
+        ftsSubQuery = `rowid IN (SELECT rowid FROM phone_models_fts WHERE phone_models_fts MATCH ?)`;
+        bindings.push(ftsExpression);
       }
     }
 
-    // 2. 其他 Filter (排除 ver_name)
+    // B. 构建基础 WHERE 子句 (不含 dtype，用于聚合统计)
+    let baseWhere = ftsSubQuery ? `WHERE ${ftsSubQuery}` : "WHERE 1=1";
+
+    // 增加 URL 参数中的特定字段过滤 (精准匹配以利用普通索引)
     for (const param of filterParams) {
-      if (param === "ver_name") continue; // Skip ver_name
+      if (param === "ver_name") continue; // ver_name 聚合逻辑特殊，此处跳过
       const val = searchParams.get(param);
       if (val) {
-        verNameWhere += ` AND ${param} LIKE ?`;
-        verNameBindings.push(`%${val}%`);
+        baseWhere += ` AND ${param} = ?`;
+        bindings.push(val);
       }
     }
 
-    // 3. dtype
-    if (dtypeParam) {
-      verNameWhere += ` AND dtype = ?`;
-      verNameBindings.push(dtypeParam);
-    }
+    // C. 重新构建 ver_name 专用过滤条件 (排除 ver_name 自身，方便前端切换)
+    // 这里为了性能，复用 baseWhere 的逻辑
+    const verNameWhere = baseWhere;
+    const verNameBindings = [...bindings];
 
-    const verNameQuery = `SELECT ver_name, COUNT(*) as count FROM phone_models ${verNameWhere} AND ver_name IS NOT NULL AND ver_name != '' GROUP BY ver_name ORDER BY count DESC`;
-    const { results: verNames } = await context.env.DB.prepare(verNameQuery)
-      .bind(...verNameBindings)
+    // D. 并发执行所有查询，极大降低响应延迟
+    // 1. dtype 聚合
+    // 2. ver_name 聚合
+    // 3. 符合当前所有条件（含 dtype）的总数
+    const [dtypesRes, verNamesRes, totalRes] = await Promise.all([
+      context.env.DB.prepare(
+        `SELECT dtype, COUNT(*) as count FROM phone_models ${baseWhere} GROUP BY dtype ORDER BY count DESC`,
+      )
+        .bind(...bindings)
+        .all(),
+      context.env.DB.prepare(
+        `SELECT ver_name, COUNT(*) as count FROM phone_models ${verNameWhere} AND ver_name != '' AND ver_name IS NOT NULL GROUP BY ver_name ORDER BY count DESC`,
+      )
+        .bind(...verNameBindings)
+        .all(),
+      context.env.DB.prepare(
+        `SELECT COUNT(*) as total FROM phone_models ${baseWhere}${dtypeParam ? " AND dtype = ?" : ""}`,
+      )
+        .bind(...bindings, ...(dtypeParam ? [dtypeParam] : []))
+        .first(),
+    ]);
+
+    const total = Number(totalRes?.total || 0);
+
+    // E. 执行分页数据查询
+    const dataWhere = dtypeParam ? `${baseWhere} AND dtype = ?` : baseWhere;
+    const dataBindings = dtypeParam
+      ? [...bindings, dtypeParam, limit, offset]
+      : [...bindings, limit, offset];
+
+    const { results } = await context.env.DB.prepare(
+      `SELECT *, rowid as _id FROM phone_models ${dataWhere} ORDER BY rowid DESC LIMIT ? OFFSET ?`,
+    )
+      .bind(...dataBindings)
       .all();
 
-    // D. 应用 dtype 筛选
-    if (dtypeParam) {
-      whereClause += ` AND dtype = ?`;
-      bindings.push(dtypeParam);
-    }
-
-    // E. 获取总数
-    const countQuery = `SELECT COUNT(*) as total FROM phone_models ${whereClause}`;
-    const totalResult = await context.env.DB.prepare(countQuery)
-      .bind(...bindings)
-      .first();
-    const total = (totalResult?.total as number) || 0;
-
-    // F. 获取数据 (分页)
-    // 排序优化：
-    // 1. 优先显示包含完整关键词的结果（模拟匹配度高）
-    // 2. 其次按 rowid 倒序（新入库在前）
-    let orderBy = "ORDER BY rowid DESC";
-
-    // 如果有搜索词，尝试简单的相关性排序
-    // 注意：SQLite D1 中 instr/case 支持有限，这里简单处理：
-    // 如果完全匹配 keywords[0] 的排前面 (可选优化，这里暂时保持 rowid DESC 即可，
-    // 因为 WHERE 已经过滤了)
-    // 根据用户需求：把匹配度低的结果放在后面 -> 也就是匹配度高的放在前面
-    // 这里我们可以用 length(model) 越短越匹配? 或者 rowid 越新越匹配?
-    // 用户需求2: "xiaomi 17" 匹配 "xiaomi" 和 "17"。
-    // 这里我们已经做到了 AND 逻辑。
-
-    const dataQuery = `SELECT *, rowid as _id FROM phone_models ${whereClause} ${orderBy} LIMIT ? OFFSET ?`;
-
-    const { results } = await context.env.DB.prepare(dataQuery)
-      .bind(...bindings, limit, offset)
-      .all();
-
-    return { results, total, dtypes, verNames, usedQuery: searchQ };
+    return {
+      results,
+      total,
+      dtypes: dtypesRes.results,
+      verNames: verNamesRes.results,
+      usedQuery: searchQ,
+    };
   };
 
   try {
-    // 第一次尝试：原始查询
+    // 第一步：尝试原始查询
     let result = await executeSearch(q);
     let finalQuery = q;
     let fallbackType = "";
 
-    // 智能推荐/Fallback 逻辑
+    // 第二步：智能 Fallback 逻辑
     if (result.total === 0 && q) {
-      // 策略 1: 尝试替换中文品牌名为英文
+      // 策略 1: 中文品牌名替换 (e.g., 小米 -> Xiaomi)
       let modifiedQ = q;
       let hasBrandReplacement = false;
 
-      // 遍历 BRAND_MAP 看是否有匹配的中文品牌名
       for (const [cn, en] of Object.entries(BRAND_MAP)) {
         if (modifiedQ.includes(cn)) {
           modifiedQ = modifiedQ.replace(cn, en);
@@ -219,7 +137,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       }
 
       if (hasBrandReplacement && modifiedQ !== q) {
-        console.log(`Fallback Strategy 1: '${q}' -> '${modifiedQ}'`);
+        console.log(`Fallback 1: '${q}' -> '${modifiedQ}'`);
         const result2 = await executeSearch(modifiedQ);
         if (result2.total > 0) {
           result = result2;
@@ -228,40 +146,32 @@ export const onRequest: PagesFunction<Env> = async (context) => {
         }
       }
 
-      // 策略 2: 如果还是没结果，且包含品牌词，尝试只搜品牌 (去掉数字/型号)
-      // 比如 "Xiaomi 17" -> 搜不到 -> 搜 "Xiaomi"
+      // 策略 2: 品牌词退化 (e.g., "Xiaomi 17" 无结果 -> 只搜 "Xiaomi")
       if (result.total === 0) {
         const keywords = (hasBrandReplacement ? finalQuery : q).split(/\s+/);
-        // 假设第一个词是品牌？或者检查哪个词是品牌
         let brandKw = "";
+
         for (const kw of keywords) {
-          // 检查是否在 BRAND_MAP values 中，或者就是常见的品牌
-          const isBrandCode = Object.values(BRAND_MAP).includes(
-            kw.toLowerCase(),
-          );
-          if (isBrandCode) {
-            brandKw = kw;
+          const lowerKw = kw.toLowerCase();
+          // 检查是否是已知品牌
+          const isBrand = Object.values(BRAND_MAP).includes(lowerKw);
+          if (isBrand) {
             brandKw = kw;
             break;
           }
-          // Also check synonyms for fallback
+          // 检查同义词
           const synonyms = getRelatedKeywords(kw);
-          for (const syn of synonyms) {
-            const isBrandCode = Object.values(BRAND_MAP).includes(
-              syn.toLowerCase(),
-            );
-            if (isBrandCode) {
-              brandKw = syn;
-              break;
-            }
+          const foundSynonym = synonyms.find((syn) =>
+            Object.values(BRAND_MAP).includes(syn.toLowerCase()),
+          );
+          if (foundSynonym) {
+            brandKw = foundSynonym;
+            break;
           }
-          if (brandKw) break;
         }
 
         if (brandKw && keywords.length > 1) {
-          console.log(
-            `Fallback Strategy 2: '${q}' -> '${brandKw}' (Brand fallback)`,
-          );
+          console.log(`Fallback 2: '${q}' -> '${brandKw}'`);
           const result3 = await executeSearch(brandKw);
           if (result3.total > 0) {
             result = result3;
@@ -272,6 +182,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       }
     }
 
+    // 最终返回
     return new Response(
       JSON.stringify({
         success: true,
@@ -281,22 +192,18 @@ export const onRequest: PagesFunction<Env> = async (context) => {
         dtypes: result.dtypes,
         verNames: result.verNames,
         results: result.results,
-        // 告诉前端我们是否修改了查询，以便前端提示用户
         originalQuery: qIsOriginal,
         usedQuery: result.usedQuery,
-        fallbackType, // 'translated_brand' | 'brand_fallback' | ''
+        fallbackType,
       }),
       { headers: corsHeaders },
     );
   } catch (err: any) {
     console.error("Search API Error:", err);
-    console.error("Query:", q);
-    console.error("Params:", searchParams.toString());
     return new Response(
       JSON.stringify({
         error: "搜索失败",
         detail: err.message,
-        stack: err.stack,
       }),
       { status: 500, headers: corsHeaders },
     );
