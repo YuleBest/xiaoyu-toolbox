@@ -66,7 +66,6 @@ export const onRequest: PagesFunction<Env> = async (context) => {
           for (const syn of synonyms) {
             orConditions.push(`(
               model LIKE ? OR 
-              code LIKE ? OR 
               code_alias LIKE ? OR 
               model_name LIKE ? OR
               brand LIKE ?
@@ -131,7 +130,6 @@ export const onRequest: PagesFunction<Env> = async (context) => {
           for (const syn of synonyms) {
             orConditions.push(`(
               model LIKE ? OR 
-              code LIKE ? OR 
               code_alias LIKE ? OR 
               model_name LIKE ? OR
               brand LIKE ?
