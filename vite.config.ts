@@ -8,13 +8,13 @@ import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 // Oxlint
 import oxlint from "vite-plugin-oxlint";
-import Markdown from "unplugin-vue-markdown/vite";
+// Markdown plugin removed
 
 export default defineConfig({
   plugins: [
     vueRouter({
       routesFolder: "src/pages",
-      extensions: [".vue", ".md"],
+      extensions: [".vue"],
     }),
     AutoImport({
       imports: ["vue", "vue-router"],
@@ -22,18 +22,16 @@ export default defineConfig({
     }),
     Components({
       dirs: ["src/components"],
-      extensions: ["vue", ".md"],
+      extensions: ["vue"],
       dts: "src/components.d.ts",
       deep: true,
-      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+      include: [/\.vue$/, /\.vue\?vue/],
     }),
     tailwindcss(),
     vue({
-      include: [/\.vue$/, /\.md$/],
+      include: [/\.vue$/],
     }),
-    Markdown({
-      wrapperComponent: "DocLayout",
-    }),
+    // Markdown plugin removed
     oxlint({
       path: "src",
     }),

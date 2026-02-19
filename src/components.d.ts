@@ -13,7 +13,6 @@ declare module 'vue' {
   export interface GlobalComponents {
     BackButton: typeof import('./components/layout/BackButton.vue')['default']
     Button: typeof import('./components/ui/button/Button.vue')['default']
-    DocLayout: typeof import('./components/DocLayout.vue')['default']
     DropdownMenu: typeof import('./components/ui/dropdown-menu/DropdownMenu.vue')['default']
     DropdownMenuCheckboxItem: typeof import('./components/ui/dropdown-menu/DropdownMenuCheckboxItem.vue')['default']
     DropdownMenuContent: typeof import('./components/ui/dropdown-menu/DropdownMenuContent.vue')['default']
@@ -30,7 +29,6 @@ declare module 'vue' {
     DropdownMenuTrigger: typeof import('./components/ui/dropdown-menu/DropdownMenuTrigger.vue')['default']
     Footer: typeof import('./components/layout/Footer.vue')['default']
     GlobalToast: typeof import('./components/GlobalToast.vue')['default']
-    LangToggle: typeof import('./components/LangToggle.vue')['default']
     LanguageToggle: typeof import('./components/LanguageToggle.vue')['default']
     MobileNav: typeof import('./components/layout/MobileNav.vue')['default']
     ModeToggle: typeof import('./components/ModeToggle.vue')['default']

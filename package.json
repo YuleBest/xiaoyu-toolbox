@@ -50,7 +50,6 @@
     "typescript": "~5.9.3",
     "unplugin-auto-import": "^21.0.0",
     "unplugin-vue-components": "^31.0.0",
-    "unplugin-vue-markdown": "^29.2.0",
     "unplugin-vue-router": "^0.19.2",
     "vite": "^8.0.0-beta.13",
     "vite-plugin-oxlint": "^1.6.0",

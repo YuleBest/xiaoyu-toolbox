@@ -154,7 +154,7 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/pages/about.md': {
+    'src/pages/about.vue': {
       routes:
         | '/about'
       views:

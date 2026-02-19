@@ -6,8 +6,7 @@ const { t } = useI18n();
 import { Camera, Upload, Copy, Download, Trash2, Info } from "lucide-vue-next";
 import ToolContainer from "@/components/tool/ToolContainer.vue";
 import { allTools } from "@/config/tools";
-import * as exifr from "exifr";
-import heic2any from "heic2any";
+// Imports moved to dynamic imports inside functions
 
 const showToast = inject("showToast") as (
   msg: string,
@@ -120,6 +119,7 @@ watch(
       if (isHeic) {
         loading.value = true;
         try {
+          const heic2any = (await import("heic2any")).default;
           const convertedBlob = await heic2any({
             blob: newFile,
             toType: "image/jpeg",
@@ -214,7 +214,8 @@ const parseExif = async () => {
 
   loading.value = true;
   try {
-    const data = await exifr.parse(file.value, {
+    const { parse } = await import("exifr");
+    const data = await parse(file.value, {
       tiff: true,
       exif: true,
       gps: true,
