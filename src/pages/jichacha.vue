@@ -825,10 +825,7 @@ onMounted(() => {
           class="text-xs text-muted-foreground flex items-center justify-center gap-2"
         >
           <Clock class="h-3 w-3" />
-          <span
-            >数据库更新于 {{ updateTime.split(" ")[1] }},
-            {{ relativeTime }}</span
-          >
+          <span>数据库更新于 {{ updateTime }}, {{ relativeTime }}</span>
         </p>
       </div>
 
