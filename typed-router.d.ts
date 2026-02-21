@@ -100,6 +100,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/mcapks': RouteRecordInfo<
+      '/mcapks',
+      '/mcapks',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/playground': RouteRecordInfo<
       '/playground',
       '/playground',
@@ -211,6 +218,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/lyric.vue': {
       routes:
         | '/lyric'
+      views:
+        | never
+    }
+    'src/pages/mcapks.vue': {
+      routes:
+        | '/mcapks'
       views:
         | never
     }
