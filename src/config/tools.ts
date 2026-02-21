@@ -11,6 +11,7 @@ import {
   Swords,
   Zap,
   Smartphone,
+  Gamepad2,
 } from "lucide-vue-next";
 
 export interface Tool {
@@ -205,6 +206,20 @@ export const toolsData: Record<string, Tool[]> = {
       color: "text-yellow-500",
       path: "/reaction",
       date: "2026-01-28",
+    },
+    {
+      id: "mcpe",
+      title: "tools.mcpe.title",
+      subtitle: "tools.mcpe.subtitle",
+      description: "tools.mcpe.description",
+      author: "Yule",
+      usage: "tools.mcpe.usage",
+      icon: Gamepad2,
+      color: "text-blue-500",
+      path: "/mcpe",
+      backEnd: "/api/getmcpe",
+      date: "2026-02-21",
+      isHot: true,
     },
   ],
 };

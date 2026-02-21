@@ -100,9 +100,9 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/mcapks': RouteRecordInfo<
-      '/mcapks',
-      '/mcapks',
+    '/mcpe': RouteRecordInfo<
+      '/mcpe',
+      '/mcpe',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -221,9 +221,9 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/pages/mcapks.vue': {
+    'src/pages/mcpe.vue': {
       routes:
-        | '/mcapks'
+        | '/mcpe'
       views:
         | never
     }

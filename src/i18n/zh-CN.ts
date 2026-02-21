@@ -210,6 +210,13 @@ export default {
         tv_hub: "电视盒子",
       },
     },
+    mcpe: {
+      title: "MC PE 全版本下载",
+      subtitle: "MC PE 全版本下载",
+      description: "浏览和下载 Minecraft PE 版全版本",
+      usage:
+        "1. 通过搜索框筛选需要的版本号。\n2. 点击版本卡片即可查看或下载不同渠道的安装包。\n3. 注意区分正式版与测试版 (Beta)。",
+    },
   },
 
   // === Base64 页面 ===
@@ -585,5 +592,29 @@ export default {
     template: "模板",
     javascript: "JavaScript",
     typescript: "TypeScript",
+  },
+
+  // === MCPE ===
+  mcpe: {
+    hideBeta: "隐藏测试版",
+    searchPlaceholder: "搜索版本号...",
+    loadFailed: "数据加载失败",
+    noResults: "未找到相关版本",
+    resultCount: "共 {count} 个版本",
+    beta: "测试版",
+    release: "正式版",
+    downloadTitle: "下载安装包",
+    archSelector: "选择架构体系",
+    v8a: "64位 (v8a)",
+    v7a: "32位 (v7a)",
+    downloadingInfo: "正在获取下载链接...",
+    fetchFailed: "获取下载链接失败",
+    downloadWay: "下载方式",
+    password: "密码",
+    copyPassword: "复制密码并打开",
+    openLink: "立即下载",
+    viewMode: "视图模式",
+    groupView: "分类视图",
+    timelineView: "时间轴视图",
   },
 };
