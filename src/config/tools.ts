@@ -193,7 +193,6 @@ export const toolsData: Record<string, Tool[]> = {
       backEnd: "https://github.com/YuleBest/GetHOK",
       date: "2026-01-28",
       isHot: true,
-      isTop: true,
     },
     {
       id: "reaction",
@@ -219,7 +218,7 @@ export const toolsData: Record<string, Tool[]> = {
       path: "/mcpe",
       backEnd: "/api/getmcpe",
       date: "2026-02-21",
-      isHot: true,
+      isTop: true,
     },
   ],
 };
