@@ -12,6 +12,7 @@ import {
   Zap,
   Smartphone,
   Gamepad2,
+  Image,
 } from "lucide-vue-next";
 
 export interface Tool {
@@ -84,6 +85,19 @@ export const toolsData: Record<string, Tool[]> = {
       color: "text-blue-500",
       path: "/translator-ai",
       date: "2026-02-22",
+    },
+    {
+      id: "codeimg",
+      title: "tools.codeimg.title",
+      subtitle: "tools.codeimg.subtitle",
+      description: "tools.codeimg.description",
+      author: "Yule",
+      usage: "tools.codeimg.usage",
+      icon: Image,
+      color: "text-blue-500",
+      path: "/codeimg",
+      date: "2026-02-22",
+      isHot: true,
     },
   ],
   image: [

@@ -225,6 +225,14 @@ export default {
       usage:
         "1. 输入或粘贴需要翻译的文本。\n2. 语言检测器会自动识别源语言。\n3. 选择目标语言（支持中、英、日、法、俄、西）。\n4. 点击“翻译”或等待自动翻译结果。",
     },
+    codeimg: {
+      title: "代码图片生成",
+      subtitle: "将代码转换为精美的图片",
+      description:
+        "生成类似 Carbon 的精美代码截图，支持多种语言高亮、主题切换、自定义背景和窗口样式。",
+      usage:
+        "1. 在左侧输入或粘贴代码。\n2. 在右侧调整代码语言、主题、背景颜色或渐变。\n3. 点击复制图片或下载图片。",
+    },
   },
 
   // === Base64 页面 ===
@@ -654,6 +662,37 @@ export default {
       fr: "法语",
       ru: "俄语",
       es: "西班牙语",
+    },
+  },
+
+  // === Codeimg 代码图片生成 ===
+  codeimg: {
+    exporting: "正在生成图片...",
+    copySuccess: "已复制到剪贴板",
+    copyFailed: "复制失败",
+    language: "语言",
+    theme: "主题",
+    background: "背景",
+    minWidth: "最小宽度",
+    showFileName: "显示文件名",
+    fileNamePlaceholder: "自定义文件名",
+    windowControls: "显示窗口控件",
+    lineNumbers: "显示行号",
+    shadow: "显示阴影",
+    solidColor: "纯色",
+    gradientColor: "渐变",
+    transparent: "透明",
+    resetDefaults: "恢复默认设置",
+    importCode: "导入代码文件",
+    copyImage: "复制图片",
+    downloadImage: "下载 PNG",
+    themes: {
+      tomorrow: "Tomorrow Night",
+      okaidia: "Okaidia",
+      coy: "Coy",
+      solarizedLight: "Solarized Light",
+      twilight: "Twilight",
+      dark: "Dark",
     },
   },
 };

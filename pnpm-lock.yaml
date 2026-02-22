@@ -41,6 +41,9 @@ importers:
       heic2any:
         specifier: ^0.0.4
         version: 0.0.4
+      html-to-image:
+        specifier: ^1.11.13
+        version: 1.11.13
       js-yaml:
         specifier: ^4.1.1
         version: 4.1.1
@@ -1016,6 +1019,9 @@ packages:
 
   heic2any@0.0.4:
     resolution: {integrity: sha512-3lLnZiDELfabVH87htnRolZ2iehX9zwpRyGNz22GKXIu0fznlblf0/ftppXKNqS26dqFSeqfIBhAmAj/uSp0cA==}
+
+  html-to-image@1.11.13:
+    resolution: {integrity: sha512-cuOPoI7WApyhBElTTb9oqsawRvZ0rHhaHwghRLlTuffoD1B2aDemlCruLeZrUIIdvG7gs9xeELEPm6PhuASqrg==}
 
   immutable@5.1.4:
     resolution: {integrity: sha512-p6u1bG3YSnINT5RQmx/yRZBpenIl30kVxkTLDyHLIMk0gict704Q9n+thfDI7lTRm9vXdDYutVzXhzcThxTnXA==}
@@ -2473,6 +2479,8 @@ snapshots:
       function-bind: 1.1.2
 
   heic2any@0.0.4: {}
+
+  html-to-image@1.11.13: {}
 
   immutable@5.1.4: {}
 

@@ -58,6 +58,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/codeimg': RouteRecordInfo<
+      '/codeimg',
+      '/codeimg',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/dydown': RouteRecordInfo<
       '/dydown',
       '/dydown',
@@ -189,6 +196,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/categories.vue': {
       routes:
         | '/categories'
+      views:
+        | never
+    }
+    'src/pages/codeimg.vue': {
+      routes:
+        | '/codeimg'
       views:
         | never
     }

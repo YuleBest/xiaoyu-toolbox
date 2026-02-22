@@ -28,16 +28,20 @@ const toggleInfo = () => {
     <header
       class="bg-background/80 backdrop-blur-xl border-b -mx-6 md:-mx-14 lg:-mx-20 px-6 md:px-14 lg:px-20 py-3 md:py-4 transition-all"
     >
-      <div class="flex items-center justify-between max-w-7xl mx-auto gap-4">
+      <div
+        class="flex flex-wrap items-center justify-between max-w-7xl mx-auto gap-4"
+      >
         <!-- Left: Tool Info -->
-        <div class="flex items-center gap-3 md:gap-4 min-w-0">
+        <div
+          class="flex items-center gap-3 md:gap-4 shrink-0 whitespace-nowrap"
+        >
           <div
             class="h-10 w-10 md:h-12 md:w-12 rounded-xl bg-card flex items-center justify-center shrink-0 border"
             :class="tool.color"
           >
             <component :is="tool.icon" class="h-5 w-5 md:h-6 md:w-6" />
           </div>
-          <div class="min-w-0">
+          <div>
             <h1>
               {{ $t(tool.title) }}
             </h1>
@@ -48,7 +52,7 @@ const toggleInfo = () => {
         </div>
 
         <!-- Right: Actions & Info Toggle -->
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2 flex-1 justify-end">
           <!-- Actions Slot -->
           <slot name="actions" />
 
@@ -92,7 +96,7 @@ const toggleInfo = () => {
               <Info class="h-3.5 w-3.5" /> {{ $t("toolContainer.description") }}
             </h3>
             <p
-              class="text-[14px] leading-relaxed font-normal opacity-90 text-foreground"
+              class="text-[14px] leading-relaxed font-normal opacity-90 text-foreground whitespace-pre-wrap"
             >
               {{ $t(tool.description) }}
             </p>
