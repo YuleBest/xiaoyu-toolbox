@@ -79,6 +79,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/hhsh': RouteRecordInfo<
+      '/hhsh',
+      '/hhsh',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/hok': RouteRecordInfo<
       '/hok',
       '/hok',
@@ -214,6 +221,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/exif.vue': {
       routes:
         | '/exif'
+      views:
+        | never
+    }
+    'src/pages/hhsh.vue': {
+      routes:
+        | '/hhsh'
       views:
         | never
     }

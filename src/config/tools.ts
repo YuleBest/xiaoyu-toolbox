@@ -13,6 +13,7 @@ import {
   Smartphone,
   Gamepad2,
   Image,
+  MessageCircle,
 } from "lucide-vue-next";
 
 export interface Tool {
@@ -174,6 +175,21 @@ export const toolsData: Record<string, Tool[]> = {
     },
   ],
   life: [
+    {
+      id: "hhsh",
+      title: "tools.hhsh.title",
+      subtitle: "tools.hhsh.subtitle",
+      description: "tools.hhsh.description",
+      author: "Yule",
+      usage: "tools.hhsh.usage",
+      icon: MessageCircle,
+      color: "text-blue-500",
+      path: "/hhsh",
+      backEnd: "/api/hhsh/guess",
+      date: "2026-02-22",
+      isTop: true,
+      license: "Apache License 2.0",
+    },
     {
       id: "jichacha",
       title: "tools.jichacha.title",

@@ -233,6 +233,14 @@ export default {
       usage:
         "1. 在左侧输入或粘贴代码。\n2. 在右侧调整代码语言、主题、背景颜色或渐变。\n3. 点击复制图片或下载图片。",
     },
+    hhsh: {
+      title: "好好说话",
+      subtitle: "拼音首字母缩写释义",
+      description:
+        "查询网络常见拼音首字母缩写的含义，例如 awsl、xswl 等。支持提交新词条。",
+      usage:
+        "1. 在输入框中输入拼音缩写。\n2. 点击查询，获取可能的含义解析。\n3. 如果词频库中没有，你可以帮助补全翻译。\nAPI 上游: https://lab.magiconch.com",
+    },
   },
 
   // === Base64 页面 ===
@@ -694,5 +702,23 @@ export default {
       twilight: "Twilight",
       dark: "Dark",
     },
+  },
+
+  // === 好好说话页面 ===
+  hhsh: {
+    inputPlaceholder: "输入你想查询的缩写...",
+    query: "查询",
+    querying: "查询中...",
+    noResults: "未找到相关解释",
+    transLabel: "可能含义",
+    inputtingLabel: "候选词",
+    submitNew: "贡献新词条",
+    submitPlaceholder: "输入你认为的含义（例如：永远的神）",
+    submitPrefix: "为",
+    submit: "提交",
+    submitting: "提交中...",
+    submitSuccess: "提交成功，感谢您的贡献！通常会进入审核流程。",
+    submitError: "提交失败",
+    nameLabel: "缩写",
   },
 };
