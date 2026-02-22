@@ -51,7 +51,7 @@ jobs:
           echo "### Dist File List" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           pnpm run build
-          npx -y tree-node-cli dist | tee -a $GITHUB_STEP_SUMMARY
+          npx -y tree-node-cli dist --sizes | tee -a $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Check Status
