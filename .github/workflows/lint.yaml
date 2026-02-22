@@ -49,9 +49,9 @@ jobs:
         continue-on-error: true
         run: |
           echo "### Dist File List" >> $GITHUB_STEP_SUMMARY
+          pnpm run build
           echo "$(find dist -type f | wc -l) Files:" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          pnpm run build
           npx -y tree-node-cli dist --sizes --all-files --dirs-first --trailing-slash | tee -a $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
