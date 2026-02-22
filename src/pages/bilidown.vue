@@ -648,7 +648,7 @@ const formatDuration = (seconds: number) => {
           @click.self="disclaimerVisible = false"
         >
           <div
-            class="bg-card border rounded-3xl p-6 md:p-8 max-w-md w-full mx-4 space-y-5 shadow-2xl animate-in fade-in zoom-in-95 duration-200"
+            class="bg-card border rounded-3xl p-6 md:p-8 max-w-md w-full mx-4 space-y-5 animate-in fade-in zoom-in-95 duration-200"
           >
             <div class="flex items-center gap-3">
               <div

@@ -201,7 +201,7 @@ onMounted(() => {
           class="flex items-center gap-2 px-6 py-2.5 rounded-xl transition-all font-medium text-sm"
           :class="
             activeTab === 'generate'
-              ? 'bg-background shadow-sm text-foreground'
+              ? 'bg-background text-foreground'
               : 'btn-ghost'
           "
         >
@@ -212,9 +212,7 @@ onMounted(() => {
           @click="activeTab = 'scan'"
           class="flex items-center gap-2 px-6 py-2.5 rounded-xl transition-all font-medium text-sm"
           :class="
-            activeTab === 'scan'
-              ? 'bg-background shadow-sm text-foreground'
-              : 'btn-ghost'
+            activeTab === 'scan' ? 'bg-background text-foreground' : 'btn-ghost'
           "
         >
           <Scan class="h-4 w-4" />
@@ -406,7 +404,7 @@ onMounted(() => {
                       class="flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all"
                       :class="
                         qrOptions.errorCorrectionLevel === level
-                          ? 'bg-background shadow-sm text-blue-600'
+                          ? 'bg-background text-blue-600'
                           : 'btn-ghost'
                       "
                     >
@@ -431,7 +429,7 @@ onMounted(() => {
                       class="flex-1 flex items-center gap-2 bg-muted/50 p-2 rounded-xl"
                     >
                       <div
-                        class="w-6 h-6 rounded-md border border-muted/80 shadow-inner"
+                        class="w-6 h-6 rounded-md border border-muted/80"
                         :style="{ backgroundColor: qrOptions.color.dark }"
                       >
                         <input
@@ -448,7 +446,7 @@ onMounted(() => {
                       class="flex-1 flex items-center gap-2 bg-muted/50 p-2 rounded-xl"
                     >
                       <div
-                        class="w-6 h-6 rounded-md border border-muted/80 shadow-inner"
+                        class="w-6 h-6 rounded-md border border-muted/80"
                         :style="{ backgroundColor: qrOptions.color.light }"
                       >
                         <input
@@ -511,14 +509,14 @@ onMounted(() => {
         <div class="lg:col-span-4 flex flex-col items-center">
           <div class="sticky top-6 w-full space-y-6">
             <div
-              class="bg-card/40 border border-muted/80 rounded-3xl p-6 flex flex-col items-center gap-6 shadow-sm"
+              class="bg-card/40 border border-muted/80 rounded-3xl p-6 flex flex-col items-center gap-6"
             >
               <label class="label-uppercase w-full text-center">{{
                 $t("qrcode.preview")
               }}</label>
 
               <div
-                class="relative group bg-white p-4 rounded-2xl shadow-sm overflow-hidden min-w-[200px] min-h-[200px] flex items-center justify-center"
+                class="relative group bg-white p-4 rounded-2xl overflow-hidden min-w-[200px] min-h-[200px] flex items-center justify-center"
               >
                 <img
                   v-if="qrDataUrl"
@@ -603,7 +601,7 @@ onMounted(() => {
               <img
                 v-else
                 :src="scanPreviewUrl"
-                class="w-full h-full object-cover rounded-3xl relative z-10 border-2 border-white shadow-xl"
+                class="w-full h-full object-cover rounded-3xl relative z-10 border-2 border-white"
               />
             </div>
 
@@ -652,7 +650,7 @@ onMounted(() => {
               </button>
             </div>
             <div
-              class="bg-card border border-blue-500/20 rounded-3xl p-6 shadow-sm overflow-hidden"
+              class="bg-card border border-blue-500/20 rounded-3xl p-6 overflow-hidden"
             >
               <pre
                 class="text-[14px] leading-relaxed whitespace-pre-wrap break-all font-mono text-foreground"
@@ -666,7 +664,7 @@ onMounted(() => {
               <a
                 :href="scanResult"
                 target="_blank"
-                class="btn-primary px-8 py-3 rounded-2xl shadow-lg shadow-blue-500/20"
+                class="btn-primary px-8 py-3 rounded-2xl"
               >
                 <Link class="h-4 w-4" />
                 {{ $t("qrcode.visitLink") }}

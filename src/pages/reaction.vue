@@ -187,17 +187,10 @@ onUnmounted(() => {
         </div>
 
         <!-- Title -->
-        <h2
-          class="text-3xl md:text-4xl font-bold text-white mb-2"
-          style="text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)"
-        >
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-2" style="">
           {{ stateConfig.title }}
         </h2>
-        <p
-          v-if="stateConfig.subtitle"
-          class="text-lg text-white/80"
-          style="text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)"
-        >
+        <p v-if="stateConfig.subtitle" class="text-lg text-white/80" style="">
           {{ stateConfig.subtitle }}
         </p>
 
@@ -205,7 +198,7 @@ onUnmounted(() => {
         <div v-if="gameState === 'now'" class="mt-8">
           <span
             class="text-6xl md:text-7xl font-bold text-white font-mono"
-            style="text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)"
+            style=""
           >
             {{ liveTimer ?? 0 }} ms
           </span>
@@ -215,14 +208,11 @@ onUnmounted(() => {
         <div v-if="gameState === 'result'" class="mt-8 space-y-4">
           <div
             class="text-6xl md:text-7xl font-black text-white font-mono"
-            style="text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)"
+            style=""
           >
             {{ reactionTime }} ms
           </div>
-          <div
-            class="text-2xl font-bold text-white"
-            style="text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)"
-          >
+          <div class="text-2xl font-bold text-white" style="">
             {{ rankMessage }}
           </div>
         </div>

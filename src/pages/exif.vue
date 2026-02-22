@@ -417,7 +417,7 @@ const copySingle = async (key: string, value: any) => {
             <img
               v-if="previewUrl"
               :src="previewUrl"
-              class="w-24 h-24 object-cover rounded-2xl border border-muted/50 shadow-sm shrink-0"
+              class="w-24 h-24 object-cover rounded-2xl border border-muted/50 shrink-0"
               alt="Preview"
             />
             <div class="flex-1 space-y-2 text-center sm:text-left">

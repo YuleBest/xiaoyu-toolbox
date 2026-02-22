@@ -451,9 +451,7 @@ onMounted(() => {
     <div class="space-y-6 max-w-4xl mx-auto">
       <!-- Search Bar & Filter -->
       <div class="space-y-4">
-        <div
-          class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6 shadow-sm"
-        >
+        <div class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6">
           <div class="flex gap-3">
             <div class="relative flex-1">
               <Search
@@ -470,7 +468,7 @@ onMounted(() => {
             <button
               @click="handleSearch(false)"
               :disabled="(!searchKeyword.trim() && !selectedDtype) || searching"
-              class="px-6 py-3 bg-blue-500 text-white rounded-2xl text-sm font-medium hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center gap-2 shadow-sm"
+              class="px-6 py-3 bg-blue-500 text-white rounded-2xl text-sm font-medium hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
             >
               <div
                 v-if="searching && searchPage === 1"
@@ -502,7 +500,7 @@ onMounted(() => {
                 class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border"
                 :class="
                   !selectedDtype
-                    ? 'bg-blue-500 text-white border-blue-500 shadow-sm'
+                    ? 'bg-blue-500 text-white border-blue-500'
                     : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
                 "
               >
@@ -515,7 +513,7 @@ onMounted(() => {
                 class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5"
                 :class="
                   selectedDtype === d.dtype
-                    ? 'bg-blue-500 text-white border-blue-500 shadow-sm'
+                    ? 'bg-blue-500 text-white border-blue-500'
                     : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
                 "
               >
@@ -544,7 +542,7 @@ onMounted(() => {
                 class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border"
                 :class="
                   !selectedVerName
-                    ? 'bg-blue-500 text-white border-blue-500 shadow-sm'
+                    ? 'bg-blue-500 text-white border-blue-500'
                     : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
                 "
               >
@@ -557,7 +555,7 @@ onMounted(() => {
                 class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5"
                 :class="
                   selectedVerName === v.ver_name
-                    ? 'bg-blue-500 text-white border-blue-500 shadow-sm'
+                    ? 'bg-blue-500 text-white border-blue-500'
                     : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
                 "
               >
@@ -588,7 +586,7 @@ onMounted(() => {
       <!-- Error -->
       <div
         v-if="error"
-        class="px-5 py-4 rounded-2xl flex items-start gap-3 shadow-sm"
+        class="px-5 py-4 rounded-2xl flex items-start gap-3"
         :class="
           error.includes('未找到') && !error.includes('相关机型')
             ? 'bg-amber-500/10 border border-amber-500/20'
@@ -836,7 +834,7 @@ onMounted(() => {
         @click.self="selectedModel = null"
       >
         <div
-          class="bg-card/90 backdrop-blur-md w-full max-w-3xl rounded-t-3xl flex flex-col shadow-2xl sheet-panel transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+          class="bg-card/90 backdrop-blur-md w-full max-w-3xl rounded-t-3xl flex flex-col sheet-panel transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
           :style="{ height: `${sheetHeight}vh` }"
           @touchstart="onTouchStart"
           @touchmove="onTouchMove"

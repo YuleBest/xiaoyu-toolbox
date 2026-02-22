@@ -275,7 +275,7 @@ onMounted(async () => {
               class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 sm:py-1.5 rounded-lg text-xs font-medium transition-all"
               :class="
                 viewMode === 'group'
-                  ? 'bg-background shadow text-foreground'
+                  ? 'bg-background text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
               "
             >
@@ -287,7 +287,7 @@ onMounted(async () => {
               class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 sm:py-1.5 rounded-lg text-xs font-medium transition-all"
               :class="
                 viewMode === 'timeline'
-                  ? 'bg-background shadow text-foreground'
+                  ? 'bg-background text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
               "
             >
@@ -361,7 +361,7 @@ onMounted(async () => {
                     v-for="version in versions"
                     :key="version.version"
                     @click="openVersionInfo(version)"
-                    class="group/card flex flex-col p-4 rounded-2xl bg-card border border-muted/80 hover:border-blue-500/50 hover:bg-blue-500/5 hover:shadow-lg hover:shadow-blue-500/10 transition-all active:scale-[0.98] text-left"
+                    class="group/card flex flex-col p-4 rounded-2xl bg-card border border-muted/80 hover:border-blue-500/50 hover:bg-blue-500/5 transition-all active:scale-[0.98] text-left"
                   >
                     <div class="flex items-center justify-between mb-2">
                       <span
@@ -406,7 +406,7 @@ onMounted(async () => {
         >
           <!-- Month Banner/Box Header -->
           <div
-            class="sticky top-20 z-20 w-fit mx-auto px-5 py-2 rounded-2xl bg-card/80 backdrop-blur-md border border-muted shadow-sm text-sm font-bold text-important tracking-widest mb-8 flex items-center gap-2"
+            class="sticky top-20 z-20 w-fit mx-auto px-5 py-2 rounded-2xl bg-card/80 backdrop-blur-md border border-muted text-sm font-bold text-important tracking-widest mb-8 flex items-center gap-2"
           >
             <Clock class="w-4 h-4 text-blue-500" />
             {{ month }}
@@ -422,12 +422,12 @@ onMounted(async () => {
             >
               <!-- Timeline Dot -->
               <div
-                class="flex items-center justify-center w-6 h-6 rounded-full border-4 border-background bg-muted text-muted-foreground group-hover:bg-blue-500 group-hover:border-blue-100 group-hover:text-white shrink-0 sm:order-1 sm:group-odd:-translate-x-1/2 sm:group-even:translate-x-1/2 shadow transition-all duration-300 absolute left-0 sm:left-1/2 transform sm:-translate-x-1/2 z-10"
+                class="flex items-center justify-center w-6 h-6 rounded-full border-4 border-background bg-muted text-muted-foreground group-hover:bg-blue-500 group-hover:border-blue-100 group-hover:text-white shrink-0 sm:order-1 sm:group-odd:-translate-x-1/2 sm:group-even:translate-x-1/2 transition-all duration-300 absolute left-0 sm:left-1/2 transform sm:-translate-x-1/2 z-10"
               ></div>
 
               <!-- Content Card -->
               <div
-                class="w-[calc(100%-2rem)] sm:w-[calc(50%-2.5rem)] p-4 sm:p-5 rounded-2xl bg-card/60 backdrop-blur-sm border border-muted/80 cursor-pointer hover:border-blue-500/50 hover:bg-card hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 active:scale-[0.98] text-left ml-7 sm:ml-0 overflow-hidden relative"
+                class="w-[calc(100%-2rem)] sm:w-[calc(50%-2.5rem)] p-4 sm:p-5 rounded-2xl bg-card/60 backdrop-blur-sm border border-muted/80 cursor-pointer hover:border-blue-500/50 hover:bg-card transition-all duration-300 active:scale-[0.98] text-left ml-7 sm:ml-0 overflow-hidden relative"
                 @click="openVersionInfo(version)"
               >
                 <div
@@ -477,7 +477,7 @@ onMounted(async () => {
         @click.self="infoDialog = false"
       >
         <div
-          class="bg-card w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden transition-transform duration-300"
+          class="bg-card w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl flex flex-col overflow-hidden transition-transform duration-300"
           :class="
             infoDialog
               ? 'translate-y-0 sm:scale-100'
@@ -602,7 +602,7 @@ onMounted(async () => {
 
                 <button
                   @click="handleCopyAndOpen(link)"
-                  class="w-full flex items-center justify-center gap-2 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl transition-all hover:shadow-lg hover:shadow-blue-500/20 active:scale-[0.98]"
+                  class="w-full flex items-center justify-center gap-2 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl transition-all active:scale-[0.98]"
                 >
                   {{
                     link.password

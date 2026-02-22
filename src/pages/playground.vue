@@ -238,7 +238,7 @@ const logTypeClass = (type: string) => {
             class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
             :class="
               currentView === 'editor'
-                ? 'bg-background text-foreground shadow-sm'
+                ? 'bg-background text-foreground'
                 : 'text-muted-foreground hover:text-foreground'
             "
           >
@@ -250,7 +250,7 @@ const logTypeClass = (type: string) => {
             class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
             :class="
               currentView === 'logs'
-                ? 'bg-background text-foreground shadow-sm'
+                ? 'bg-background text-foreground'
                 : 'text-muted-foreground hover:text-foreground'
             "
           >

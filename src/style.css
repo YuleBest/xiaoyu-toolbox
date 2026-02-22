@@ -174,7 +174,7 @@
 
   /* Utility classes */
   .btn-primary {
-    @apply bg-blue-500 text-white hover:bg-blue-600 shadow-sm shadow-blue-500/20;
+    @apply bg-blue-500 text-white hover:bg-blue-600;
   }
 
   .btn-secondary {

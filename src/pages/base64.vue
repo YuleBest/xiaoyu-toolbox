@@ -291,7 +291,7 @@ const isCollapsed = ref(true);
 
         <!-- Intersection Icon (Desktop Only) -->
         <div
-          class="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-2 h-10 w-10 bg-background border shadow-sm rounded-full items-center justify-center z-10 text-muted-foreground"
+          class="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-2 h-10 w-10 bg-background border rounded-full items-center justify-center z-10 text-muted-foreground"
         >
           <ArrowRightLeft class="h-5 w-5" />
         </div>

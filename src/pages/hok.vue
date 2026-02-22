@@ -530,7 +530,7 @@ onMounted(async () => {
         @click.self="heroDialog = false"
       >
         <div
-          class="bg-card/90 backdrop-blur-md w-full max-w-3xl rounded-t-3xl flex flex-col shadow-2xl sheet-panel transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+          class="bg-card/90 backdrop-blur-md w-full max-w-3xl rounded-t-3xl flex flex-col sheet-panel transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
           :style="{ height: `${sheetHeight}vh` }"
           @touchstart="onTouchStart"
           @touchmove="onTouchMove"

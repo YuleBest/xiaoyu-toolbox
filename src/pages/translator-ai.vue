@@ -265,7 +265,7 @@ const swapLanguages = () => {
       <!-- Status Banner for Downloading -->
       <div
         v-if="isDownloading"
-        class="bg-blue-500/5 border border-blue-500/10 rounded-2xl p-4 flex items-center justify-between shadow-sm animate-in fade-in slide-in-from-top-2 duration-300"
+        class="bg-blue-500/5 border border-blue-500/10 rounded-2xl p-4 flex items-center justify-between animate-in fade-in slide-in-from-top-2 duration-300"
       >
         <div class="flex items-center gap-3">
           <Loader2 class="h-5 w-5 text-blue-500 animate-spin" />
@@ -314,7 +314,7 @@ const swapLanguages = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   align="start"
-                  class="w-40 p-1.5 rounded-xl shadow-xl border-muted/50 backdrop-blur-lg z-50"
+                  class="w-40 p-1.5 rounded-xl border-muted/50 backdrop-blur-lg z-50"
                 >
                   <DropdownMenuItem
                     @click="sourceLangSelected = 'auto'"
@@ -390,7 +390,7 @@ const swapLanguages = () => {
 
         <!-- Desktop Swap Button -->
         <div
-          class="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-10 w-10 bg-background border shadow-sm rounded-full items-center justify-center z-10 text-muted-foreground hover:text-blue-500 transition-colors cursor-pointer group active:scale-90"
+          class="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-10 w-10 bg-background border rounded-full items-center justify-center z-10 text-muted-foreground hover:text-blue-500 transition-colors cursor-pointer group active:scale-90"
           @click="swapLanguages"
           title="Swap"
         >
@@ -423,7 +423,7 @@ const swapLanguages = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   align="start"
-                  class="w-40 p-1.5 rounded-xl shadow-xl border-muted/50 backdrop-blur-lg z-50"
+                  class="w-40 p-1.5 rounded-xl border-muted/50 backdrop-blur-lg z-50"
                 >
                   <DropdownMenuItem
                     v-for="lang in languages"

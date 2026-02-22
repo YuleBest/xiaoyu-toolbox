@@ -527,7 +527,7 @@ const resetDefaults = () => {
                   class="w-10 h-5 bg-muted rounded-full relative transition-colors group-has-checked:bg-blue-500"
                 >
                   <div
-                    class="absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-all group-has-checked:left-6 shadow-sm"
+                    class="absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-all group-has-checked:left-6"
                   ></div>
                 </div>
               </label>
@@ -549,7 +549,7 @@ const resetDefaults = () => {
                     class="w-8 h-4 bg-muted rounded-full relative transition-colors group-has-checked:bg-blue-500"
                   >
                     <div
-                      class="absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full transition-all group-has-checked:left-4.5 shadow-sm"
+                      class="absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full transition-all group-has-checked:left-4.5"
                     ></div>
                   </div>
                 </label>
@@ -572,7 +572,7 @@ const resetDefaults = () => {
                   class="w-10 h-5 bg-muted rounded-full relative transition-colors group-has-checked:bg-blue-500"
                 >
                   <div
-                    class="absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-all group-has-checked:left-6 shadow-sm"
+                    class="absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-all group-has-checked:left-6"
                   ></div>
                 </div>
               </label>
@@ -590,7 +590,7 @@ const resetDefaults = () => {
                   class="w-10 h-5 bg-muted rounded-full relative transition-colors group-has-checked:bg-blue-500"
                 >
                   <div
-                    class="absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-all group-has-checked:left-6 shadow-sm"
+                    class="absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-all group-has-checked:left-6"
                   ></div>
                 </div>
               </label>
@@ -727,7 +727,7 @@ const resetDefaults = () => {
             variant="outline"
             @click="copyImage"
             :disabled="isGenerating"
-            class="flex-1 sm:flex-none sm:w-40 shadow-sm bg-background/80 backdrop-blur-md"
+            class="flex-1 sm:flex-none sm:w-40 bg-background/80 backdrop-blur-md"
           >
             <Copy class="w-4 h-4 mr-2 shrink-0" />
             <span class="truncate">{{ $t("codeimg.copyImage") }}</span>
@@ -736,7 +736,7 @@ const resetDefaults = () => {
             size="lg"
             @click="downloadImage"
             :disabled="isGenerating"
-            class="flex-1 sm:flex-none sm:w-40 shadow-sm"
+            class="flex-1 sm:flex-none sm:w-40"
           >
             <Download class="w-4 h-4 mr-2 shrink-0" />
             <span class="truncate">{{ $t("codeimg.downloadImage") }}</span>
