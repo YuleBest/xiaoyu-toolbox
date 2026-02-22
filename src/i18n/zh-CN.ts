@@ -706,11 +706,10 @@ export default {
 
   // === 好好说话页面 ===
   hhsh: {
-    inputPlaceholder: "输入你想查询的缩写...",
+    inputPlaceholder: "输入缩写（可多个，空格分割）、含缩写的句子...",
     query: "查询",
     querying: "查询中...",
     noResults: "未找到相关解释",
-    transLabel: "可能含义",
     inputtingLabel: "候选词",
     submitNew: "贡献新词条",
     submitPlaceholder: "输入你认为的含义（例如：永远的神）",

@@ -186,7 +186,7 @@ const getContextSnippet = (word: string, fullText: string) => {
           <!-- Head: Name & Quick Action -->
           <div class="flex items-start justify-between gap-4">
             <h3
-              class="text-2xl font-black text-foreground tracking-tight break-all flex items-baseline gap-2 flex-wrap"
+              class="text-2xl font-semibold text-foreground tracking-tight break-all flex items-baseline gap-2 flex-wrap"
             >
               <span>{{ item.name }}</span>
               <span
@@ -205,14 +205,6 @@ const getContextSnippet = (word: string, fullText: string) => {
 
           <!-- Main Translation Labels -->
           <div class="space-y-2">
-            <p
-              class="text-xs font-semibold text-muted-foreground uppercase tracking-wider relative pl-2"
-            >
-              <span
-                class="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-3 bg-blue-500 rounded-full"
-              ></span>
-              {{ t("hhsh.transLabel") }}
-            </p>
             <div
               v-if="item.trans && item.trans.length > 0"
               class="flex flex-wrap gap-2"
