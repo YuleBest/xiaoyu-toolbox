@@ -8,8 +8,6 @@
 
 [![在线使用](https://img.shields.io/badge/在线使用-tool.yule.ink-blue?style=for-the-badge)](https://tool.yule.ink)
 
-**[简体中文](README.md)** | [English](README_EN.md)
-
 </div>
 
 ## 特性
@@ -43,6 +41,8 @@ pnpm run dev    # 开发模式
 
 ## 许可
 
-- jichacha（机查查）工具相关代码：**CC BY-NC-SA 4.0** （本工具的数据源自 https://github.com/KHwang9883/MobileModels ，基于 CC BY-NC-SA 4.0 授权。）
+- jichacha（机查查）工具相关代码：**CC BY-NC-SA 4.0**（本工具的数据源自 https://github.com/KHwang9883/MobileModels，基于 CC BY-NC-SA 4.0 授权）
+
+- mcpe（MC PE 全版本下载）工具的数据源自 https://mcapks.net/）
 
 - 其他代码：MIT License
