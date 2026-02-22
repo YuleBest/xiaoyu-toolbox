@@ -1,4 +1,4 @@
-name: Code Lint
+name: Code Lint & Build Test
 
 on:
   push:
@@ -6,9 +6,13 @@ on:
   pull_request:
     branches: ["main"]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  eslint:
-    name: Run ESLint
+  eslint_and_build:
+    name: Run ESLint and Build
     runs-on: ubuntu-latest
 
     steps:
@@ -38,4 +42,18 @@ jobs:
 
       - name: Check Status
         if: steps.eslint_run.outcome == 'failure'
+        run: exit 1
+
+      - name: Run Build
+        id: build_run
+        continue-on-error: true
+        run: |
+          echo "### Dist File List" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          pnpm run build
+          npx -y tree-node-cli dist | tee -a $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Check Status
+        if: steps.build_run.outcome == 'failure'
         run: exit 1
