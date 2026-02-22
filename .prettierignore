@@ -1,1 +1,6 @@
 .old_project/
+pnpm-lock.yaml
+package-lock.json
+package.json
+DEV-DOCS/
+*.d.ts
