@@ -1,6 +1,9 @@
 .old_project/
+dist
+node_modules
 pnpm-lock.yaml
 package-lock.json
 package.json
 DEV-DOCS/
 *.d.ts
+.eslintcache

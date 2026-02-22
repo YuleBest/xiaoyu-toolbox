@@ -22,7 +22,8 @@ export interface MobileModel {
   market_name?: string;
   dtype?: string;
   ver_name?: string;
-  [key: string]: any;
+  brand_title?: string;
+  [key: string]: unknown;
 }
 
 export interface SearchParams {
@@ -196,8 +197,8 @@ function performSearch(
   });
 
   // 1. Standard Search
-  let searchResult = fuseStandard.search(q);
-  let itemsStandard = searchResult.map((r) => r.item);
+  const searchResult = fuseStandard.search(q);
+  const itemsStandard = searchResult.map((r) => r.item);
 
   // 2. Extended Search
   const tokens = q.split(/\s+/).filter((t) => t.length > 0);
@@ -209,7 +210,7 @@ function performSearch(
   }
 
   // Merge
-  const seen = new Set<any>();
+  const seen = new Set<MobileModel>();
   let finalResults: MobileModel[] = [];
 
   for (const item of itemsStandard) {
@@ -351,11 +352,12 @@ export async function searchModels(
   });
 
   // Search
-  let {
-    results: finalResults,
+  const {
+    results: searchResultArr,
     usedQuery,
     fallbackType,
   } = performSearch(q, filtered);
+  let finalResults = searchResultArr;
 
   if (!q && !params.brand && !params.dtype && !params.ver_name) {
     if (!q) finalResults = filtered;

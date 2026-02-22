@@ -23,7 +23,7 @@ export type SupportedLocale = (typeof supportedLocales)[number]["code"];
  * 切换语言并持久化到 localStorage
  */
 export function setLanguage(locale: SupportedLocale) {
-  (i18n.global.locale as any).value = locale;
+  i18n.global.locale.value = locale;
   localStorage.setItem(STORAGE_KEY, locale);
   document.documentElement.lang = locale;
 }
