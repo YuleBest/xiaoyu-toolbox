@@ -68,6 +68,7 @@
     "unplugin-vue-router": "^0.19.2",
     "vite": "^8.0.0-beta.13",
     "vite-plugin-oxlint": "^1.6.0",
+    "vite-plugin-pwa": "^1.2.0",
     "vue-eslint-parser": "^10.4.0",
     "vue-tsc": "^3.1.5"
   },
