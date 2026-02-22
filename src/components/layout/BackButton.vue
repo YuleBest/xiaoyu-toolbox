@@ -51,7 +51,3 @@ const goBack = () => {
     </button>
   </Transition>
 </template>
-
-<style scoped>
-/* 可以在这里添加一些特殊的微交互动画 */
-</style>

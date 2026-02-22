@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import { routes } from "vue-router/auto-routes";
+import { createHead } from "@unhead/vue/client";
 import "./style.css";
 import App from "./App.vue";
 import i18n from "./i18n";
@@ -38,4 +39,10 @@ router.beforeEach((to) => {
   return true;
 });
 
-createApp(App).use(router).use(i18n).mount("#app");
+const head = createHead();
+const app = createApp(App);
+
+app.use(router);
+app.use(i18n);
+app.use(head);
+app.mount("#app");

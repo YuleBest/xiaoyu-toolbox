@@ -17,6 +17,7 @@
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
     "@tailwindcss/vite": "^4.1.18",
+    "@unhead/vue": "^2.1.4",
     "@vueuse/core": "^14.2.1",
     "axios": "^1.13.5",
     "class-variance-authority": "^0.7.1",
