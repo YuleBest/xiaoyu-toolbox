@@ -217,6 +217,14 @@ export default {
       usage:
         "1. 通过搜索框筛选需要的版本号。\n2. 点击版本卡片即可查看或下载不同渠道的安装包。\n3. 注意区分正式版与测试版 (Beta)。",
     },
+    "translator-ai": {
+      title: "翻译 (Builtin AI)",
+      subtitle: "基于 Chrome 内置 AI 的翻译工具",
+      description:
+        "[仅限 Chrome 131+ 版本] 利用 Chrome 浏览器内置的 Translator API 进行本地翻译。无需联网上传文本，保护隐私且响应迅速。",
+      usage:
+        "1. 输入或粘贴需要翻译的文本。\n2. 语言检测器会自动识别源语言。\n3. 选择目标语言（支持中、英、日、法、俄、西）。\n4. 点击“翻译”或等待自动翻译结果。",
+    },
   },
 
   // === Base64 页面 ===
@@ -616,5 +624,36 @@ export default {
     viewMode: "视图模式",
     groupView: "分类视图",
     timelineView: "时间轴视图",
+  },
+
+  // === Translator AI 页面 ===
+  translatorAi: {
+    source: "源文本",
+    target: "翻译结果",
+    sourcePlaceholder: "在此输入需要翻译的内容...",
+    targetPlaceholder: "翻译结果将显示在这里...",
+    detecting: "正在识别语言...",
+    detected: "已识别: {lang}",
+    detectFailed: "未能识别语言",
+    translating: "正在翻译...",
+    translate: "翻译",
+    notSupportedTitle: "浏览器不支持",
+    notSupportedDesc:
+      "您的浏览器不支持原生 Translator API。请使用最新版的 Chrome 浏览器 (131+)，并确保开启了相关实验性功能。",
+    howToEnable: "如何开启？",
+    modelDownloading: "正在下载 AI 模型... {progress}%",
+    modelReady: "已准备就绪",
+    notAvailable: "该语言对暂不可用",
+    apiError: "翻译出错，请重试",
+    languages: {
+      auto: "自动检测",
+      zh: "简体中文",
+      "zh-Hant": "繁体中文",
+      en: "英语",
+      ja: "日语",
+      fr: "法语",
+      ru: "俄语",
+      es: "西班牙语",
+    },
   },
 };

@@ -73,6 +73,18 @@ export const toolsData: Record<string, Tool[]> = {
       path: "/playground",
       date: "2026-01-27",
     },
+    {
+      id: "translator-ai",
+      title: "tools.translator-ai.title",
+      subtitle: "tools.translator-ai.subtitle",
+      description: "tools.translator-ai.description",
+      author: "Yule",
+      usage: "tools.translator-ai.usage",
+      icon: FileType,
+      color: "text-blue-500",
+      path: "/translator-ai",
+      date: "2026-02-22",
+    },
   ],
   image: [
     {

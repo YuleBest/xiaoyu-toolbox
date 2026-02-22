@@ -135,6 +135,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/translator-ai': RouteRecordInfo<
+      '/translator-ai',
+      '/translator-ai',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/weather': RouteRecordInfo<
       '/weather',
       '/weather',
@@ -248,6 +255,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/search.vue': {
       routes:
         | '/search'
+      views:
+        | never
+    }
+    'src/pages/translator-ai.vue': {
+      routes:
+        | '/translator-ai'
       views:
         | never
     }
