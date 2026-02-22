@@ -4,7 +4,10 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev:vite": "vite",
+    "dev:cf": "wrangler pages dev --proxy 5678",
+    "dev:cf:dist": "wrangler pages dev ./dist",
+    "dev": "concurrently \"pnpm run dev:vite\" \"sleep 1 && pnpm run dev:cf\"",
     "build": "vue-tsc -b && vite build",
     "build:only": "vite build",
     "preview": "vite preview",
@@ -55,6 +58,7 @@
     "@typescript-eslint/parser": "^8.56.0",
     "@vitejs/plugin-vue": "^6.0.2",
     "@vue/tsconfig": "^0.8.1",
+    "concurrently": "^9.2.1",
     "eslint": "^10.0.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
@@ -70,7 +74,6 @@
     "unplugin-vue-router": "^0.19.2",
     "vite": "^8.0.0-beta.13",
     "vite-plugin-oxlint": "^1.6.0",
-    "vite-plugin-pwa": "^1.2.0",
     "vue-eslint-parser": "^10.4.0",
     "vue-tsc": "^3.1.5"
   },

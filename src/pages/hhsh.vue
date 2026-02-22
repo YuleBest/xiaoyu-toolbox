@@ -25,15 +25,25 @@ const submitting = ref(false);
 const showSubmit = ref<string | null>(null);
 
 const handleQuery = async () => {
-  let text = inputText.value.trim();
-  if (!text) {
+  const originalText = inputText.value.trim();
+  if (!originalText) {
     results.value = [];
     searched.value = false;
     return;
   }
 
-  text = text.split(/[,，\s]+/)[0] || "";
-  inputText.value = text;
+  // Match English letter sequences of length 2 to 14
+  const matches = originalText.match(/[a-zA-Z]{2,14}/g);
+  if (!matches || matches.length === 0) {
+    showToast(t("hhsh.noResults"), "warning");
+    results.value = [];
+    searched.value = true;
+    return;
+  }
+
+  // Deduplicate and join with comma
+  const uniqueMatches = Array.from(new Set(matches));
+  const text = uniqueMatches.join(",");
 
   loading.value = true;
   searched.value = true;
@@ -79,6 +89,33 @@ const handleSubmit = async () => {
   } finally {
     submitting.value = false;
   }
+};
+
+const expandedCards = ref(new Set<string>());
+
+const toggleExpand = (name: string) => {
+  if (expandedCards.value.has(name)) {
+    expandedCards.value.delete(name);
+  } else {
+    expandedCards.value.add(name);
+  }
+};
+
+const getContextSnippet = (word: string, fullText: string) => {
+  if (!fullText) return "";
+  const index = fullText.indexOf(word);
+  if (index === -1) return "";
+
+  const start = Math.max(0, index - 5);
+  const end = Math.min(fullText.length, index + word.length + 5);
+
+  let prefix = start > 0 ? "..." : "";
+  let suffix = end < fullText.length ? "..." : "";
+
+  const before = fullText.substring(start, index);
+  const after = fullText.substring(index + word.length, end);
+
+  return `(${prefix}${before}<span class="text-red-500 font-bold">${word}</span>${after}${suffix})`;
 };
 </script>
 
@@ -137,7 +174,10 @@ const handleSubmit = async () => {
       </div>
 
       <!-- Results Grid -->
-      <div v-if="results.length > 0" class="grid grid-cols-1 gap-4">
+      <div
+        v-if="results.length > 0"
+        class="grid grid-cols-1 md:grid-cols-2 gap-4"
+      >
         <div
           v-for="item in results"
           :key="item.name"
@@ -146,9 +186,13 @@ const handleSubmit = async () => {
           <!-- Head: Name & Quick Action -->
           <div class="flex items-start justify-between gap-4">
             <h3
-              class="text-2xl font-black text-foreground tracking-tight break-all"
+              class="text-2xl font-black text-foreground tracking-tight break-all flex items-baseline gap-2 flex-wrap"
             >
-              {{ item.name }}
+              <span>{{ item.name }}</span>
+              <span
+                class="text-xs font-normal text-muted-foreground"
+                v-html="getContextSnippet(item.name, inputText)"
+              ></span>
             </h3>
             <button
               @click="openSubmit(item.name)"
@@ -174,12 +218,26 @@ const handleSubmit = async () => {
               class="flex flex-wrap gap-2"
             >
               <span
-                v-for="tr in item.trans"
+                v-for="tr in expandedCards.has(item.name)
+                  ? item.trans
+                  : item.trans.slice(0, 10)"
                 :key="tr"
                 class="px-3 py-1.5 border border-muted/80 rounded-xl text-[15px] font-medium text-foreground"
               >
                 {{ tr }}
               </span>
+
+              <button
+                v-if="item.trans.length > 10"
+                @click="toggleExpand(item.name)"
+                class="px-3 py-1.5 border border-transparent hover:bg-muted/50 rounded-xl text-[13px] font-medium text-blue-500 flex items-center gap-1 transition-colors"
+              >
+                {{
+                  expandedCards.has(item.name)
+                    ? "收起"
+                    : `展开更多 (${item.trans.length - 10})`
+                }}
+              </button>
             </div>
             <div
               v-else
