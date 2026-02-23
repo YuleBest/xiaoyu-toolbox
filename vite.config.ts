@@ -5,9 +5,11 @@ import tailwindcss from "@tailwindcss/vite";
 import vue from "@vitejs/plugin-vue";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
+import sitemapPlugin from "./src/plugins/vite-plugin-sitemap";
 
 export default defineConfig({
   plugins: [
+    sitemapPlugin(),
     vueRouter({
       routesFolder: "src/pages",
       extensions: [".vue"],
