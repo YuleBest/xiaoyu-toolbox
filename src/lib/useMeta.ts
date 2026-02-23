@@ -28,7 +28,7 @@ export function useToolMeta() {
       const toolDescription = t(currentTool.value.description);
 
       return {
-        title: `${toolTitle} - ${appName.value}`,
+        title: `${toolTitle} | ${appName.value}`,
         description: toolDescription,
         keywords: `${toolTitle}, ${toolSubtitle}, ${appName.value}`,
       };
@@ -37,7 +37,7 @@ export function useToolMeta() {
     // 默认或首页 Meta
     if (route.path === "/") {
       return {
-        title: `${appName.value} - 极简、清爽的在线工具集`,
+        title: `${appName.value} | 开源、免费、无广告的在线工具箱`,
         description:
           "提供 Base64、JSON 转换、二维码生成、EXIF 查看、视频解析、反应力测试等多种常用在线工具，极简设计，即开即用。",
         keywords:
@@ -65,10 +65,9 @@ export function useToolMeta() {
     }
 
     return {
-      title: pageTitle ? `${pageTitle} - ${appName.value}` : appName.value,
-      description:
-        "小于工具箱，您的在线效率助手。提供多种常用在线工具，极简设计，即开即用。",
-      keywords: "工具箱, 在线工具, 效率工具, 小于工具箱",
+      title: pageTitle ? `${pageTitle} | ${appName.value}` : appName.value,
+      description: "一个集合了众多实用工具的在线工具箱，开源、免费、无广告",
+      keywords: "在线工具,实用工具,工具,在线工具箱,小于工具箱,效率工具",
     };
   });
 
