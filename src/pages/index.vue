@@ -22,6 +22,33 @@ const handleToolClick = (path: string) => {
 
 <template>
   <div class="space-y-10">
+    <!-- Notice -->
+    <div
+      class="px-4 py-3 bg-secondary/30 rounded-2xl flex items-center justify-center gap-2 text-muted-foreground transition-colors hover:bg-secondary/50"
+    >
+      <div class="shrink-0">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="16" x2="12" y2="12" />
+          <line x1="12" y1="8" x2="12.01" y2="8" />
+        </svg>
+      </div>
+      <div
+        class="text-[13px] leading-relaxed"
+        v-html="$t('home.cacheNotice')"
+      ></div>
+    </div>
+
     <!-- Top Tools -->
     <section v-if="topTools.length" class="space-y-6">
       <div class="flex items-end justify-between px-1">

@@ -65,8 +65,9 @@ export default {
     en: "English",
   },
 
-  // === 首页 ===
   home: {
+    cacheNotice:
+      "如果您遇到页面无法访问、加载异常或样式错乱等问题，可能是由于浏览器缓存导致的。请尝试<strong>清除浏览器缓存</strong>或使用<strong>无痕模式/隐私模式</strong>重新打开本站",
     featured: "精选推荐",
     hot: "热门使用",
     latest: "最新发布",
