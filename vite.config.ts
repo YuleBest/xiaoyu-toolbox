@@ -6,9 +6,30 @@ import vue from "@vitejs/plugin-vue";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import sitemapPlugin from "./src/plugins/vite-plugin-sitemap";
+import { prismjsPlugin } from "vite-plugin-prismjs";
 
 export default defineConfig({
   plugins: [
+    prismjsPlugin({
+      languages: [
+        "javascript",
+        "typescript",
+        "css",
+        "html",
+        "json",
+        "yaml",
+        "python",
+        "bash",
+        "java",
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "rust",
+      ],
+      theme: "tomorrow",
+      css: true,
+    }),
     sitemapPlugin(),
     vueRouter({
       routesFolder: "src/pages",

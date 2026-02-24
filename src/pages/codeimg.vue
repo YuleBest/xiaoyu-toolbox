@@ -20,25 +20,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import Prism from "prismjs";
-(window as any).Prism = Prism; // 防止被 tree-shaking 去掉
-import "prismjs/components/prism-javascript";
-import "prismjs/components/prism-typescript";
-import "prismjs/components/prism-css";
-import "prismjs/components/prism-json";
-import "prismjs/components/prism-yaml";
-import "prismjs/components/prism-python";
-import "prismjs/components/prism-bash";
-import "prismjs/components/prism-java";
-import "prismjs/components/prism-c";
-import "prismjs/components/prism-cpp";
-import "prismjs/components/prism-csharp";
-import "prismjs/components/prism-go";
-import "prismjs/components/prism-rust";
-
-// Include default theme for immediate render
-import "prismjs/themes/prism-tomorrow.css";
-
 const { t } = useI18n();
 const showToast = inject("showToast") as (
   msg: string,
@@ -143,12 +124,23 @@ const currentBackground = computed(() => {
   }
 });
 
-const highlightedCode = computed(() => {
-  if (!codeText.value) return "";
+const highlightedCode = ref("");
+
+const updateHighlightedCode = async () => {
+  if (!codeText.value) {
+    highlightedCode.value = "";
+    return;
+  }
+
+  const Prism = (await import("prismjs")).default;
+
   const langObj =
     Prism.languages[selectedLanguage.value] || Prism.languages.javascript;
 
-  if (!langObj) return codeText.value;
+  if (!langObj) {
+    highlightedCode.value = codeText.value;
+    return;
+  }
 
   let result = Prism.highlight(codeText.value, langObj, selectedLanguage.value);
   if (showLineNumbers.value) {
@@ -161,7 +153,12 @@ const highlightedCode = computed(() => {
       })
       .join("\n");
   }
-  return result;
+  highlightedCode.value = result;
+};
+
+import { watch } from "vue";
+watch([codeText, selectedLanguage, showLineNumbers], updateHighlightedCode, {
+  immediate: true,
 });
 
 // --- Methods ---
