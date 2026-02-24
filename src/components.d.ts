@@ -13,6 +13,10 @@ declare module 'vue' {
   export interface GlobalComponents {
     BackButton: typeof import('./components/layout/BackButton.vue')['default']
     Button: typeof import('./components/ui/button/Button.vue')['default']
+    ChartContainer: typeof import('./components/ui/chart/ChartContainer.vue')['default']
+    ChartLegendContent: typeof import('./components/ui/chart/ChartLegendContent.vue')['default']
+    ChartStyle: typeof import('./components/ui/chart/ChartStyle.vue')['default']
+    ChartTooltipContent: typeof import('./components/ui/chart/ChartTooltipContent.vue')['default']
     DropdownMenu: typeof import('./components/ui/dropdown-menu/DropdownMenu.vue')['default']
     DropdownMenuCheckboxItem: typeof import('./components/ui/dropdown-menu/DropdownMenuCheckboxItem.vue')['default']
     DropdownMenuContent: typeof import('./components/ui/dropdown-menu/DropdownMenuContent.vue')['default']

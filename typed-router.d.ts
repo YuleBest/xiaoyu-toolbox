@@ -72,6 +72,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/exchange': RouteRecordInfo<
+      '/exchange',
+      '/exchange',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/exif': RouteRecordInfo<
       '/exif',
       '/exif',
@@ -215,6 +222,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/dydown.vue': {
       routes:
         | '/dydown'
+      views:
+        | never
+    }
+    'src/pages/exchange.vue': {
+      routes:
+        | '/exchange'
       views:
         | never
     }

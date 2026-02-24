@@ -14,6 +14,7 @@ import {
   Gamepad2,
   Image,
   MessageCircle,
+  BadgeDollarSign,
 } from "lucide-vue-next";
 
 export interface Tool {
@@ -219,6 +220,20 @@ export const toolsData: Record<string, Tool[]> = {
       path: "/weather",
       backEnd: "https://open-meteo.com/",
       date: "2026-01-20",
+    },
+    {
+      id: "exchange",
+      title: "tools.exchange.title",
+      subtitle: "tools.exchange.subtitle",
+      description: "tools.exchange.description",
+      author: "Yule",
+      usage: "tools.exchange.usage",
+      icon: BadgeDollarSign,
+      color: "text-blue-500",
+      path: "/exchange",
+      backEnd: "/api/frankfurter",
+      date: "2026-02-24",
+      isHot: true,
     },
   ],
   game: [
