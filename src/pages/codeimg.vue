@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 
 import Prism from "prismjs";
+(window as any).Prism = Prism; // 防止被 tree-shaking 去掉
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-typescript";
 import "prismjs/components/prism-css";
