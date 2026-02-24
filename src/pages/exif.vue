@@ -117,28 +117,11 @@ watch(
         newFile.name.toLowerCase().endsWith(".heif");
 
       if (isHeic) {
-        loading.value = true;
-        try {
-          const heic2any = (await import("heic2any")).default;
-          const convertedBlob = await heic2any({
-            blob: newFile,
-            toType: "image/jpeg",
-            quality: 0.7,
-          });
-          const resultBlob = Array.isArray(convertedBlob)
-            ? convertedBlob[0]
-            : convertedBlob;
-          if (resultBlob) {
-            previewUrl.value = URL.createObjectURL(resultBlob);
-          }
-        } catch (e) {
-          previewUrl.value = URL.createObjectURL(newFile);
-        } finally {
-          loading.value = false;
-        }
-      } else {
-        previewUrl.value = URL.createObjectURL(newFile);
+        error.value = t("exif.heicNotSupported");
+        return;
       }
+
+      previewUrl.value = URL.createObjectURL(newFile);
 
       // Auto-parse on upload
       await parseExif();

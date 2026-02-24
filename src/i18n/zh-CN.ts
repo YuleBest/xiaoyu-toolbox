@@ -353,6 +353,7 @@ export default {
     exportJson: "正在导出 JSON",
     changeImage: "换一张",
     replaceImage: "更换图片",
+    heicNotSupported: "暂不支持 HEIC 格式图片",
     unknownDevice: "未知设备",
     exifDetails: "EXIF 详细参数",
     totalItems: "共 {count} 项数据",
