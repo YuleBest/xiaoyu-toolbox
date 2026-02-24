@@ -60,8 +60,8 @@ export const onRequest: PagesFunction = async (context) => {
             shareCount: Number(shareCount || 0),
           },
           // 注意：这里的下载地址也要同步更新为新的路径
-          downloadApi: `/api/video/download?videoId=${videoId}&filename=${encodeURIComponent(`${createTime}_${safeNickname}.mp4`)}`,
-          previewApi: `/api/video/preview?videoId=${videoId}`,
+          downloadApi: `/api/dydown/download?videoId=${videoId}&filename=${encodeURIComponent(`${createTime}_${safeNickname}.mp4`)}`,
+          previewApi: `/api/dydown/preview?videoId=${videoId}`,
         },
       }),
       { headers },
