@@ -63,6 +63,9 @@ export async function parseDyVideo(input: string): Promise<DyParseResponse> {
  * 后端返回的 downloadApi 已经是 "/api/video/download?..."
  */
 export function getDownloadUrl(downloadApi: string): string {
+  if (typeof window !== "undefined" && downloadApi.startsWith("/")) {
+    return `${window.location.origin}${downloadApi}`;
+  }
   return downloadApi;
 }
 
@@ -70,5 +73,9 @@ export function getDownloadUrl(downloadApi: string): string {
  * 获取预览链接
  */
 export function getPreviewUrl(videoId: string): string {
-  return `${API_PREFIX}/preview?videoId=${videoId}`;
+  const path = `${API_PREFIX}/preview?videoId=${videoId}`;
+  if (typeof window !== "undefined") {
+    return `${window.location.origin}${path}`;
+  }
+  return path;
 }
