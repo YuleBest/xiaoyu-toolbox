@@ -250,6 +250,14 @@ export default {
       usage:
         "1. 选择基准货币和目标货币。\n2. 输入金额，实时查看转换后的数值。\n3. 切换日期可查询特定日期的历史汇率。\n4. 支持查看多种货币对比基准货币的实时报价。",
     },
+    "phone-number": {
+      title: "归属地查询",
+      subtitle: "手机号码归属地查询",
+      description:
+        "查询手机号码的归属地信息，包括所属省份、城市和运营商。纯离线数据库，无需网络请求。数据库来自 https://github.com/zxc7563598/php-mobile-locator, MIT License。",
+      usage:
+        "1. 输入 11 位手机号码。\n2. 点击查询或按回车键。\n3. 查看号码归属地信息（省份、城市、运营商）。",
+    },
   },
 
   // === Base64 页面 ===
@@ -739,6 +747,7 @@ export default {
     convertedAmount: "转换金额",
     historicalDate: "历史日期",
     latestRates: "实时汇率",
+    swap: "交换",
     selectDate: "选择日期",
     allRates: "更多货币汇率",
     unit: "单位:",
@@ -779,5 +788,18 @@ export default {
       USD: "美元",
       ZAR: "南非兰特",
     },
+  },
+
+  // === 归属地查询 ===
+  phoneNumber: {
+    inputPlaceholder: "输入手机号码...",
+    query: "查询",
+    province: "省份",
+    city: "城市",
+    isp: "运营商",
+    notFound: "未找到该号码的归属地信息",
+    queryFailed: "查询失败，请重试",
+    checkInput: "请检查输入的手机号码是否正确（11位数字）",
+    history: "查询历史",
   },
 };

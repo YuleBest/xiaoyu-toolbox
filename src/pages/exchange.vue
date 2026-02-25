@@ -13,6 +13,12 @@ import {
   Clock,
   RefreshCcw,
 } from "lucide-vue-next";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import ToolContainer from "@/components/tool/ToolContainer.vue";
 import { allTools } from "@/config/tools";
 import {
@@ -57,6 +63,32 @@ const trendData = ref<ChartData[]>([]);
 const loadingTrend = ref(false);
 const lastUpdated = ref<number | null>(null);
 const searchQuery = ref("");
+const baseDropdownOpen = ref(false);
+const targetDropdownOpen = ref(false);
+const baseCurrencySearch = ref("");
+const targetCurrencySearch = ref("");
+
+const filteredBaseCurrencies = computed(() => {
+  if (!baseCurrencySearch.value) return currencies.value;
+  const q = baseCurrencySearch.value.toLowerCase();
+  return Object.fromEntries(
+    Object.entries(currencies.value).filter(
+      ([code, name]) =>
+        code.toLowerCase().includes(q) || name.toLowerCase().includes(q),
+    ),
+  );
+});
+
+const filteredTargetCurrencies = computed(() => {
+  if (!targetCurrencySearch.value) return currencies.value;
+  const q = targetCurrencySearch.value.toLowerCase();
+  return Object.fromEntries(
+    Object.entries(currencies.value).filter(
+      ([code, name]) =>
+        code.toLowerCase().includes(q) || name.toLowerCase().includes(q),
+    ),
+  );
+});
 
 // Computed
 interface ChartData {
@@ -106,46 +138,9 @@ const filteredCurrencies = computed(() => {
 
 const convertedValue = computed(() => {
   const rate = ratesData.value?.rates?.[targetCurrency.value];
-  if (rate === undefined) return "0.00";
-  return (amount.value * rate).toFixed(2);
+  if (rate === undefined) return "0";
+  return amount.value * rate;
 });
-
-const getFlagEmoji = (code: string) => {
-  const flags: Record<string, string> = {
-    AUD: "🇦🇺",
-    BGN: "🇧🇬",
-    BRL: "🇧🇷",
-    CAD: "🇨🇦",
-    CHF: "🇨🇭",
-    CNY: "🇨🇳",
-    CZK: "🇨🇿",
-    DKK: "🇩🇰",
-    EUR: "🇪🇺",
-    GBP: "🇬🇧",
-    HKD: "🇭🇰",
-    HUF: "🇭🇺",
-    IDR: "🇮🇩",
-    ILS: "🇮🇱",
-    INR: "🇮🇳",
-    ISK: "🇮🇸",
-    JPY: "🇯🇵",
-    KRW: "🇰🇷",
-    MXN: "🇲🇽",
-    MYR: "🇲🇾",
-    NOK: "🇳🇴",
-    NZD: "🇳🇿",
-    PHP: "🇵🇭",
-    PLN: "🇵🇱",
-    RON: "🇷🇴",
-    SEK: "🇸🇪",
-    SGD: "🇸🇬",
-    THB: "🇹🇭",
-    TRY: "🇹🇷",
-    USD: "🇺🇸",
-    ZAR: "🇿🇦",
-  };
-  return flags[code] || "";
-};
 
 // Methods
 const fetchCurrencyList = async () => {
@@ -306,142 +301,175 @@ watch(baseCurrency, (newBase) => {
   <ToolContainer :tool="tool">
     <div class="max-w-4xl mx-auto space-y-6 md:space-y-8">
       <!-- Main Converter Card -->
-      <div
-        class="bg-card/30 border border-muted/80 rounded-[32px] p-6 md:p-10 relative overflow-hidden"
-      >
-        <!-- Background accents -->
-        <div
-          class="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 blur-[100px] -mr-32 -mt-32 rounded-full"
-        ></div>
-        <div
-          class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/5 blur-[100px] -ml-32 -mb-32 rounded-full"
-        ></div>
-
-        <div
-          class="relative grid grid-cols-1 md:grid-cols-[1fr,auto,1fr] gap-6 md:gap-10 items-end"
-        >
+      <div class="bg-card/30 border border-muted/80 rounded-3xl p-4 md:p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-end">
           <!-- From -->
-          <div class="space-y-3">
+          <div class="space-y-2">
             <label
               class="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1"
             >
               {{ t("exchange.baseCurrency") }}
             </label>
-            <div class="group relative">
-              <select
-                v-model="baseCurrency"
-                class="w-full appearance-none bg-background border border-muted/80 rounded-2xl px-5 py-4 text-lg font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/50 transition-all cursor-pointer"
-              >
-                <option
-                  v-for="(name, code) in currencies"
-                  :key="code"
-                  :value="code"
-                >
-                  {{ getFlagEmoji(code) }} {{ code }} - {{ name }}
-                </option>
-              </select>
-              <ChevronDown
-                class="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none group-hover:text-foreground transition-colors"
-              />
-            </div>
-            <div class="relative">
+            <div class="flex gap-2">
               <input
                 v-model.number="amount"
                 type="number"
                 min="0"
                 step="0.01"
-                class="w-full bg-background border border-muted/80 rounded-2xl px-5 py-4 text-2xl font-black focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/50 transition-all font-mono"
+                class="flex-1 min-w-0 bg-background border border-muted rounded-2xl px-4 py-3 text-xl font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 transition-all font-mono"
               />
-              <div
-                class="absolute right-5 top-1/2 -translate-y-1/2 text-muted-foreground font-bold"
-              >
-                {{ baseCurrency }}
-              </div>
+              <DropdownMenu v-model:open="baseDropdownOpen">
+                <DropdownMenuTrigger as-child>
+                  <button
+                    class="flex items-center gap-2 px-4 py-3 bg-background border border-muted rounded-2xl text-sm font-bold hover:bg-muted/30 transition-all cursor-pointer shrink-0"
+                  >
+                    {{ baseCurrency }}
+                    <ChevronDown
+                      class="h-4 w-4 text-muted-foreground transition-transform"
+                      :class="{ 'rotate-180': baseDropdownOpen }"
+                    />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  class="w-56 p-1.5 rounded-xl shadow-xl border-muted/50 backdrop-blur-lg max-h-80 overflow-y-auto"
+                >
+                  <div class="px-2 pb-2 pt-1 sticky top-0 bg-popover z-10">
+                    <input
+                      v-model="baseCurrencySearch"
+                      type="text"
+                      :placeholder="t('exchange.searchCurrency')"
+                      class="w-full px-3 py-1.5 bg-muted/30 border border-muted/50 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-blue-500/30"
+                      @click.stop
+                    />
+                  </div>
+                  <DropdownMenuItem
+                    v-for="(name, code) in filteredBaseCurrencies"
+                    :key="code"
+                    @click="
+                      baseCurrency = code;
+                      baseCurrencySearch = '';
+                    "
+                    class="rounded-lg cursor-pointer flex items-center gap-2.5 py-2 px-3 transition-colors"
+                    :class="
+                      baseCurrency === code
+                        ? 'bg-blue-500/10 text-blue-500 font-bold'
+                        : ''
+                    "
+                  >
+                    <span class="font-mono text-xs font-bold w-8">{{
+                      code
+                    }}</span>
+                    <span class="font-medium text-sm truncate">{{ name }}</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
 
-          <!-- Swap Button -->
-          <div class="flex justify-center pb-2 md:pb-4">
-            <button
-              @click="swapCurrencies"
-              class="h-12 w-12 rounded-full bg-blue-500 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-110 active:scale-95 transition-all flex items-center justify-center group"
-              title="Swap"
-            >
-              <ArrowRightLeft
-                class="h-6 w-6 group-hover:rotate-180 transition-transform duration-500"
-              />
-            </button>
-          </div>
-
           <!-- To -->
-          <div class="space-y-3">
+          <div class="space-y-2">
             <label
               class="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1"
             >
               {{ t("exchange.targetCurrency") }}
             </label>
-            <div class="group relative">
-              <select
-                v-model="targetCurrency"
-                class="w-full appearance-none bg-background border border-muted/80 rounded-2xl px-5 py-4 text-lg font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/50 transition-all cursor-pointer"
-              >
-                <option
-                  v-for="(name, code) in currencies"
-                  :key="code"
-                  :value="code"
-                  :disabled="code === baseCurrency"
-                >
-                  {{ getFlagEmoji(code) }} {{ code }} - {{ name }}
-                </option>
-              </select>
-              <ChevronDown
-                class="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none group-hover:text-foreground transition-colors"
-              />
-            </div>
-            <div class="relative">
+            <div class="flex gap-2">
               <div
-                class="w-full bg-muted/20 border border-muted/40 rounded-2xl px-5 py-4 text-2xl font-black text-important flex items-center min-h-[64px] font-mono"
+                class="flex-1 min-w-0 bg-muted/20 border border-muted/50 rounded-2xl px-4 py-3 text-xl font-bold text-important flex items-center min-h-[52px] font-mono"
               >
                 <Loader2
                   v-if="loading"
-                  class="h-6 w-6 animate-spin text-blue-500"
+                  class="h-5 w-5 animate-spin text-blue-500"
                 />
                 <span v-else>{{ convertedValue }}</span>
-                <div class="ml-auto text-muted-foreground font-bold text-base">
-                  {{ targetCurrency }}
-                </div>
               </div>
+              <DropdownMenu v-model:open="targetDropdownOpen">
+                <DropdownMenuTrigger as-child>
+                  <button
+                    class="flex items-center gap-2 px-4 py-3 bg-background border border-muted rounded-2xl text-sm font-bold hover:bg-muted/30 transition-all cursor-pointer shrink-0"
+                  >
+                    {{ targetCurrency }}
+                    <ChevronDown
+                      class="h-4 w-4 text-muted-foreground transition-transform"
+                      :class="{ 'rotate-180': targetDropdownOpen }"
+                    />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  class="w-56 p-1.5 rounded-xl shadow-xl border-muted/50 backdrop-blur-lg max-h-80 overflow-y-auto"
+                >
+                  <div class="px-2 pb-2 pt-1 sticky top-0 bg-popover z-10">
+                    <input
+                      v-model="targetCurrencySearch"
+                      type="text"
+                      :placeholder="t('exchange.searchCurrency')"
+                      class="w-full px-3 py-1.5 bg-muted/30 border border-muted/50 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-blue-500/30"
+                      @click.stop
+                    />
+                  </div>
+                  <DropdownMenuItem
+                    v-for="(name, code) in filteredTargetCurrencies"
+                    :key="code"
+                    :disabled="code === baseCurrency"
+                    @click="
+                      targetCurrency = code;
+                      targetCurrencySearch = '';
+                    "
+                    class="rounded-lg cursor-pointer flex items-center gap-2.5 py-2 px-3 transition-colors"
+                    :class="
+                      targetCurrency === code
+                        ? 'bg-blue-500/10 text-blue-500 font-bold'
+                        : ''
+                    "
+                  >
+                    <span class="font-mono text-xs font-bold w-8">{{
+                      code
+                    }}</span>
+                    <span class="font-medium text-sm truncate">{{ name }}</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
 
-        <!-- Date & Mode Selector -->
+        <!-- Actions Bar -->
         <div
-          class="mt-10 flex flex-wrap items-center gap-4 pt-8 border-t border-muted/30"
+          class="mt-4 flex flex-wrap items-center gap-3 pt-4 border-t border-muted/30"
         >
+          <button
+            @click="swapCurrencies"
+            class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
+          >
+            <ArrowRightLeft class="h-4 w-4" />
+            {{ t("exchange.swap") }}
+          </button>
+
           <div class="flex bg-muted/30 p-1 rounded-xl">
             <button
               @click="resetDate"
-              class="px-4 py-2 rounded-lg text-sm font-medium transition-all"
+              class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all"
               :class="
                 !isHistory
                   ? 'bg-background shadow-sm text-blue-500'
                   : 'text-muted-foreground hover:text-foreground'
               "
             >
-              <TrendingUp class="w-4 h-4 inline-block mr-1.5" />
+              <TrendingUp class="w-4 h-4 inline-block mr-1" />
               {{ t("exchange.latestRates") }}
             </button>
             <button
               @click="isHistory = true"
-              class="px-4 py-2 rounded-lg text-sm font-medium transition-all"
+              class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all"
               :class="
                 isHistory
                   ? 'bg-background shadow-sm text-blue-500'
                   : 'text-muted-foreground hover:text-foreground'
               "
             >
-              <History class="w-4 h-4 inline-block mr-1.5" />
+              <History class="w-4 h-4 inline-block mr-1" />
               {{ t("exchange.historicalDate") }}
             </button>
           </div>
@@ -486,14 +514,15 @@ watch(baseCurrency, (newBase) => {
       <!-- Trend Chart Section -->
       <div
         v-if="!isHistory"
-        class="bg-card/30 border border-muted/80 rounded-[32px] p-6 md:p-8"
+        class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6"
       >
-        <div class="flex items-center justify-between mb-8 px-2">
+        <div class="flex items-center justify-between mb-6 px-1">
           <div class="space-y-1">
-            <h3 class="flex items-center gap-2">
+            <h3
+              class="text-lg font-semibold flex items-center gap-2 text-foreground/80"
+            >
               <TrendingUp class="w-5 h-5 text-blue-500" />
-              {{ getFlagEmoji(baseCurrency) }} {{ baseCurrency }} /
-              {{ getFlagEmoji(targetCurrency) }} {{ targetCurrency }}
+              {{ baseCurrency }} / {{ targetCurrency }}
             </h3>
             <p class="text-xs text-muted-foreground">
               {{ t("exchange.last30DaysTrend") }}
@@ -505,7 +534,9 @@ watch(baseCurrency, (newBase) => {
           v-if="loadingTrend"
           class="h-[260px] flex items-center justify-center"
         >
-          <Loader2 class="h-8 w-8 animate-spin text-blue-500/50" />
+          <div
+            class="h-6 w-6 border-2 border-blue-500/30 border-t-blue-500 rounded-full animate-spin"
+          ></div>
         </div>
         <div
           v-else-if="trendData.length === 0"
@@ -567,9 +598,11 @@ watch(baseCurrency, (newBase) => {
       </div>
 
       <!-- Result Grid -->
-      <div v-if="ratesData" class="space-y-5">
-        <div class="flex items-center justify-between px-2">
-          <h3 class="flex items-center gap-2">
+      <div v-if="ratesData" class="space-y-4">
+        <div class="flex items-center justify-between px-1">
+          <h3
+            class="text-lg font-semibold flex items-center gap-2 text-foreground/80"
+          >
             <TrendingUp class="w-5 h-5 text-blue-500" />
             {{ t("exchange.allRates") }}
             <span
@@ -587,22 +620,22 @@ watch(baseCurrency, (newBase) => {
               v-model="searchQuery"
               type="text"
               :placeholder="t('exchange.searchCurrency')"
-              class="w-full pl-9 pr-4 py-2 bg-muted/20 border border-muted/50 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+              class="w-full pl-9 pr-4 py-2 bg-background border border-muted rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 transition-all font-medium"
             />
           </div>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           <div
             v-for="(rate, code) in ratesData.rates"
             v-show="filteredCurrencies[code]"
             :key="code"
-            class="bg-card/20 border border-muted/50 rounded-2xl p-4 hover:border-blue-500/30 hover:bg-muted/10 transition-all cursor-pointer group"
+            class="bg-card border border-muted/60 rounded-xl p-4 hover:border-blue-500/30 hover:bg-muted/30 transition-all cursor-pointer group"
             @click="targetCurrency = code"
           >
-            <div class="flex items-center justify-between mb-3 text-xs">
-              <span class="font-black text-blue-500">
-                {{ getFlagEmoji(code) }} {{ code }}
+            <div class="flex items-center justify-between mb-2 text-xs">
+              <span class="font-bold text-blue-500">
+                {{ code }}
               </span>
               <span
                 class="text-[10px] text-muted-foreground uppercase opacity-0 group-hover:opacity-100 transition-opacity"
@@ -610,7 +643,7 @@ watch(baseCurrency, (newBase) => {
               >
             </div>
             <div
-              class="text-xl font-mono font-bold text-important leading-none mb-1"
+              class="text-lg font-mono font-bold text-important leading-none mb-1"
             >
               {{ rate.toFixed(4) }}
             </div>
@@ -625,20 +658,26 @@ watch(baseCurrency, (newBase) => {
 
         <div
           v-if="Object.keys(filteredCurrencies).length === 0"
-          class="py-20 flex flex-col items-center gap-3 opacity-30"
+          class="bg-card/30 border border-muted/80 rounded-3xl p-12 flex flex-col items-center justify-center text-center space-y-3"
         >
-          <Search class="h-12 w-12" />
-          <p>{{ t("search.emptyTitle") }}</p>
+          <div
+            class="w-16 h-16 bg-muted/50 rounded-full flex items-center justify-center mb-2"
+          >
+            <Search class="h-8 w-8 text-muted-foreground opacity-50" />
+          </div>
+          <p class="text-lg font-medium text-foreground">
+            {{ t("search.emptyTitle") }}
+          </p>
         </div>
       </div>
 
       <!-- Error State -->
       <div
         v-if="!loading && !ratesData"
-        class="py-20 flex flex-col items-center gap-4 text-center"
+        class="bg-card/30 border border-muted/80 rounded-3xl p-12 flex flex-col items-center justify-center text-center space-y-4"
       >
         <div
-          class="h-16 w-16 rounded-full bg-red-500/10 flex items-center justify-center"
+          class="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center"
         >
           <AlertCircle class="h-8 w-8 text-red-500" />
         </div>
@@ -649,8 +688,11 @@ watch(baseCurrency, (newBase) => {
             connection and try again.
           </p>
         </div>
-        <button @click="onRefresh" class="btn-primary py-2.5 px-6">
-          <RefreshCcw class="w-4 h-4 mr-2" />
+        <button
+          @click="onRefresh"
+          class="flex items-center gap-2 px-6 py-2.5 bg-blue-500 text-white font-medium rounded-xl hover:bg-blue-600 active:scale-95 transition-all"
+        >
+          <RefreshCcw class="w-4 h-4" />
           Retry
         </button>
       </div>

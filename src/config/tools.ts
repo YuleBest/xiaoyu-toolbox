@@ -235,6 +235,18 @@ export const toolsData: Record<string, Tool[]> = {
       date: "2026-02-24",
       isHot: true,
     },
+    {
+      id: "phone-number",
+      title: "tools.phone-number.title",
+      subtitle: "tools.phone-number.subtitle",
+      description: "tools.phone-number.description",
+      author: "Yule",
+      usage: "tools.phone-number.usage",
+      icon: Smartphone,
+      color: "text-teal-500",
+      path: "/phone-number",
+      date: "2026-02-25",
+    },
   ],
   game: [
     {
