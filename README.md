@@ -39,10 +39,14 @@ pnpm run dev    # 开发模式
 
 欢迎提交 Issue 或 Pull Request 来改进这个项目！
 
-## 许可
+## 感谢
 
-- jichacha（机查查）工具相关代码：**CC BY-NC-SA 4.0**（本工具的数据源自 https://github.com/KHwang9883/MobileModels，基于 CC BY-NC-SA 4.0 授权）
+以下项目为本项目提供了数据或灵感支持：
 
-- mcpe（MC PE 全版本下载）工具的数据源自 https://mcapks.net/）
+- [MobileModels](https://github.com/KHwang9883/MobileModels), [@KHwang9883](https://github.com/KHwang9883), CC BY-NC-SA 4.0 license.
 
-- 其他代码：MIT License
+- [mcapks.net](https://mcapks.net)
+
+- [能不能好好说话](https://github.com/itorr/nbnhhsh), [@itorr](https://github.com/itorr), Apache-2.0 license.
+
+- [php-mobile-locator](https://github.com/zxc7563598/php-mobile-locator), [@zxc7563598](https://github.com/zxc7563598), MIT license.
