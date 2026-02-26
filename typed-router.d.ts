@@ -51,6 +51,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/bvav': RouteRecordInfo<
+      '/bvav',
+      '/bvav',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/categories': RouteRecordInfo<
       '/categories',
       '/categories',
@@ -218,6 +225,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/bilidown.vue': {
       routes:
         | '/bilidown'
+      views:
+        | never
+    }
+    'src/pages/bvav.vue': {
+      routes:
+        | '/bvav'
       views:
         | never
     }

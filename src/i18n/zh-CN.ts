@@ -258,6 +258,14 @@ export default {
       usage:
         "1. 输入 11 位手机号码。\n2. 点击查询或按回车键。\n3. 查看号码归属地信息（省份、城市、运营商）。",
     },
+    bvav: {
+      title: "BV/AV 号互转",
+      subtitle: "哔哩哔哩 BV 号与 AV 号互转",
+      description:
+        "将哔哩哔哩视频的 BV 号转换为 AV 号，或将 AV 号转换为 BV 号。纯前端运算，无需网络请求。",
+      usage:
+        "1. 输入 BV 号（如 BV17x411w7KC）或 AV 号（如 170001 或 av170001）。\n2. 点击转换按钮或按回车键。\n3. 查看转换结果，支持一键复制。",
+    },
     "weibo-hot": {
       title: "微博热搜",
       subtitle: "获取历史和实时热搜",
@@ -822,5 +830,20 @@ export default {
     history: "查询历史",
     loadingDb: "正在加载号码数据库...",
     dbLoadFailed: "号码数据库加载失败，请刷新页面重试",
+  },
+
+  // === BV/AV 号互转 ===
+  bvav: {
+    inputPlaceholder: "输入 BV 号或 AV 号...",
+    convert: "转换",
+    clear: "清空",
+    resultBv: "BV 号",
+    resultAv: "AV 号",
+    copied: "已复制",
+    invalidInput: "输入格式有误，请输入有效的 BV 号或 AV 号",
+    invalidBv: "BV 号格式不正确（应为 BV1 开头的 12 位字符串）",
+    invalidAv: "AV 号格式不正确（应为正整数）",
+    history: "转换历史",
+    tip: "提示: 输入 BV 号（如 BV17x411w7KC）将自动转换为 AV 号；输入 AV 号（如 170001 或 av170001）将自动转换为 BV 号。纯前端运算，无需联网。",
   },
 };

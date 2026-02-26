@@ -15,6 +15,7 @@ import {
   Image,
   MessageCircle,
   BadgeDollarSign,
+  ArrowRightLeft,
 } from "lucide-vue-next";
 
 export interface Tool {
@@ -158,6 +159,18 @@ export const toolsData: Record<string, Tool[]> = {
         "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/bilidown.js",
       date: "2026-01-27",
       isHot: true,
+    },
+    {
+      id: "bvav",
+      title: "tools.bvav.title",
+      subtitle: "tools.bvav.subtitle",
+      description: "tools.bvav.description",
+      author: "Yule",
+      usage: "tools.bvav.usage",
+      icon: ArrowRightLeft,
+      color: "text-pink-400",
+      path: "/bvav",
+      date: "2026-02-27",
     },
     {
       id: "lyric",

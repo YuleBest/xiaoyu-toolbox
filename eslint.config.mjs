@@ -20,6 +20,7 @@ export default tseslint.config(
       "*.d.ts",
       ".eslintcache",
       "src/components/ui",
+      "public",
     ],
   },
   js.configs.recommended,
