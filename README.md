@@ -50,3 +50,17 @@ pnpm run dev    # 开发模式
 - [能不能好好说话](https://github.com/itorr/nbnhhsh), [@itorr](https://github.com/itorr), Apache-2.0 license.
 
 - [php-mobile-locator](https://github.com/zxc7563598/php-mobile-locator), [@zxc7563598](https://github.com/zxc7563598), MIT license.
+
+- [weibo-trending-hot-search](https://github.com/justjavac/weibo-trending-hot-search), [@justjavac](https://github.com/justjavac), MIT license.
+
+## 关联仓库
+
+以下仓库与本项目有部分关联，但由于规模、方便管理等原因需分仓库：
+
+- [GetHOK](https://github.com/YuleBest/GetHOK): 自动化爬取王者荣耀英雄、装备、召唤师技能
+
+- [MobileModels-JSON](https://github.com/YuleBest/MobileModels-JSON): 将 [MobileModels](https://github.com/KHwang9883/MobileModels) 中的数据转为 JSON
+
+# 相关技术分享
+
+- [B站BV/AV号互转算法原理](./DEV-DOCS/B站BV-AV号互转算法原理.md)
