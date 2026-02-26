@@ -1,6 +1,6 @@
 <div align="center">
 
-# 小于工具箱
+# <img src="./public/logo.svg" width="25"> 小于工具箱
 
 一个纯净、开源、无广告的在线工具集
 
