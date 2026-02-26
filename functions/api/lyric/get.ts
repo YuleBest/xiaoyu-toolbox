@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // 根据 hash 获取歌词
 
 import { PagesFunction } from "@cloudflare/workers-types";

@@ -37,7 +37,7 @@ const encode = (text: string) => {
   try {
     // Encodes UTF-8 properly to avoid issues with Chinese characters
     return btoa(unescape(encodeURIComponent(text)));
-  } catch (e) {
+  } catch (_e) {
     return t("base64.encodeError");
   }
 };
@@ -46,7 +46,7 @@ const encode = (text: string) => {
 const decode = (b64: string) => {
   try {
     return decodeURIComponent(escape(atob(b64)));
-  } catch (e) {
+  } catch (_e) {
     return t("base64.decodeError");
   }
 };
@@ -141,7 +141,7 @@ const triggerFileUpload = () => {
 const downloadBase64 = () => {
   if (!base64Text.value) return;
 
-  let fileName = "";
+  let fileName;
   if (currentFileName.value) {
     fileName = `${currentFileName.value}.base64.txt`;
   } else {
@@ -199,15 +199,15 @@ const isCollapsed = ref(true);
     <template #actions>
       <div class="flex items-center gap-2">
         <input
-          type="file"
           ref="fileInput"
+          type="file"
           class="hidden"
           @change="handleFileUpload"
         />
         <button
-          @click="triggerFileUpload"
           :disabled="isUploading"
           class="btn-primary px-3 py-1.5 md:px-4 md:py-2"
+          @click="triggerFileUpload"
         >
           <component
             :is="isUploading ? Loader2 : Upload"
@@ -220,8 +220,8 @@ const isCollapsed = ref(true);
         </button>
 
         <button
-          @click="clearAll"
           class="btn-destructive px-3 py-1.5 md:px-4 md:py-2"
+          @click="clearAll"
         >
           <Trash2 class="h-4 w-4" />
           <span class="hidden sm:inline">{{ $t("common.clearAll") }}</span>
@@ -244,10 +244,10 @@ const isCollapsed = ref(true);
               </span>
             </div>
             <button
-              @click="copyToClipboard(sourceText, 'source')"
               class="btn-icon"
               :title="$t('base64.copySource')"
               :disabled="!sourceText || !!currentFileName"
+              @click="copyToClipboard(sourceText, 'source')"
             >
               <Check v-if="copiedSource" class="h-4 w-4 text-green-500" />
               <Copy v-else class="h-4 w-4 opacity-50 hover:opacity-100" />
@@ -279,8 +279,8 @@ const isCollapsed = ref(true);
                 </p>
               </div>
               <button
-                @click="clearAll"
                 class="btn-destructive px-4 py-2 text-xs"
+                @click="clearAll"
               >
                 <X class="h-3.5 w-3.5" />
                 {{ $t("base64.removeFile") }}
@@ -312,18 +312,18 @@ const isCollapsed = ref(true);
             </div>
             <div class="flex items-center gap-1">
               <button
-                @click="downloadBase64"
                 class="btn-icon"
                 :title="$t('base64.downloadBase64')"
                 :disabled="!base64Text"
+                @click="downloadBase64"
               >
                 <Download class="h-4 w-4 opacity-50 hover:opacity-100" />
               </button>
               <button
-                @click="copyToClipboard(base64Text, 'base64')"
                 class="btn-icon"
                 :title="$t('base64.copyBase64')"
                 :disabled="!base64Text"
+                @click="copyToClipboard(base64Text, 'base64')"
               >
                 <Check v-if="copiedBase64" class="h-4 w-4 text-green-500" />
                 <Copy v-else class="h-4 w-4 opacity-50 hover:opacity-100" />
@@ -354,8 +354,8 @@ const isCollapsed = ref(true);
                 class="absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-background/90 to-transparent z-10 rounded-b-3xl flex items-center justify-center pt-10"
               >
                 <button
-                  @click="isCollapsed = false"
                   class="btn-primary px-5 py-2.5 rounded-full"
+                  @click="isCollapsed = false"
                 >
                   {{ $t("base64.showAll", { count: base64Stats.chars }) }}
                 </button>
@@ -369,9 +369,9 @@ const isCollapsed = ref(true);
             <template v-else>
               <textarea
                 :value="base64Text"
-                @input="handleBase64Input"
                 :placeholder="$t('base64.base64Placeholder')"
                 class="h-[28vh] md:h-80"
+                @input="handleBase64Input"
               ></textarea>
             </template>
           </div>

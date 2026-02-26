@@ -125,9 +125,9 @@ const clearHistory = () => {
             />
           </div>
           <button
-            @click="doQuery"
             :disabled="loading || !phoneInput.trim()"
             class="px-5 py-3 rounded-2xl bg-blue-500 text-white font-medium hover:bg-blue-600 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
+            @click="doQuery"
           >
             <Search class="h-4 w-4" />
             {{ t("phoneNumber.query") }}
@@ -237,8 +237,8 @@ const clearHistory = () => {
             {{ t("phoneNumber.history") }}
           </h3>
           <button
-            @click="clearHistory"
             class="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+            @click="clearHistory"
           >
             <X class="h-3 w-3" />
             {{ t("common.clearAll") }}
@@ -248,8 +248,8 @@ const clearHistory = () => {
           <button
             v-for="item in history"
             :key="item.phone"
-            @click="queryFromHistory(item.phone)"
             class="w-full flex items-center justify-between bg-card border border-muted/60 rounded-xl px-4 py-3 hover:border-blue-500/30 hover:bg-muted/30 transition-all text-left cursor-pointer group"
+            @click="queryFromHistory(item.phone)"
           >
             <span class="font-mono text-sm font-bold">
               {{ item.phone.slice(0, 3) }} {{ item.phone.slice(3, 7) }}

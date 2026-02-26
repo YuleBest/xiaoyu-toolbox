@@ -1,5 +1,6 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
-import { ref, computed, onMounted, inject } from "vue";
+import { ref, computed, onMounted, inject, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
@@ -305,7 +306,7 @@ onMounted(async () => {
     itemImages.value = iImages;
     skillsData.value = skills;
     skillImages.value = sImages;
-  } catch (e: any) {
+  } catch (_e: any) {
     showToast(t("hok.loadFailed"), "error");
   } finally {
     loading.value = false;
@@ -325,13 +326,13 @@ onMounted(async () => {
           <button
             v-for="cat in categories"
             :key="cat.id"
-            @click="
-              selectedCategory = cat.id as any;
-              searchQuery = '';
-            "
             class="px-4 py-2"
             :class="
               selectedCategory === cat.id ? 'btn-primary' : 'btn-secondary'
+            "
+            @click="
+              selectedCategory = cat.id as any;
+              searchQuery = '';
             "
           >
             <component :is="cat.icon" class="h-4 w-4" />
@@ -363,13 +364,13 @@ onMounted(async () => {
           <button
             v-for="ht in heroTypes"
             :key="ht.value"
-            @click="selectedHeroType = ht.value"
             class="px-3 py-1 text-xs"
             :class="
               selectedHeroType === ht.value
                 ? 'btn-primary'
                 : 'btn-secondary opacity-70'
             "
+            @click="selectedHeroType = ht.value"
           >
             {{ ht.label }}
           </button>
@@ -378,13 +379,13 @@ onMounted(async () => {
           <button
             v-for="it in itemTypes"
             :key="it.value"
-            @click="selectedItemType = it.value"
             class="px-3 py-1 text-xs"
             :class="
               selectedItemType === it.value
                 ? 'btn-primary'
                 : 'btn-secondary opacity-70'
             "
+            @click="selectedItemType = it.value"
           >
             {{ it.label }}
           </button>
@@ -409,8 +410,8 @@ onMounted(async () => {
         <button
           v-for="hero in filteredData as Hero[]"
           :key="hero.ename"
-          @click="showHeroDetail(hero)"
           class="group flex-col p-0 rounded-xl overflow-hidden bg-card border border-muted/80 hover:border-blue-500/50 transition-all active:scale-95"
+          @click="showHeroDetail(hero)"
         >
           <img
             :src="getHeroImage(hero)"
@@ -577,7 +578,7 @@ onMounted(async () => {
                 </span>
               </div>
             </div>
-            <button @click="heroDialog = false" class="btn-icon">
+            <button class="btn-icon" @click="heroDialog = false">
               <X class="h-5 w-5" />
             </button>
           </div>

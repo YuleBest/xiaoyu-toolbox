@@ -170,7 +170,7 @@ const copyPassword = async (pwd: string) => {
   try {
     await navigator.clipboard.writeText(pwd);
     showToast(t("common.copySuccess"), "success");
-  } catch (e) {
+  } catch (_e) {
     showToast(t("common.copyFailed"), "error");
   }
 };
@@ -229,13 +229,13 @@ onMounted(async () => {
 
           <!-- Options -->
           <button
-            @click="hideBeta = !hideBeta"
             class="px-4 py-3 border rounded-2xl text-sm font-medium transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
             :class="
               hideBeta
                 ? 'bg-blue-500/10 text-blue-500 border-blue-500/30'
                 : 'bg-background border-muted text-foreground hover:bg-muted/50'
             "
+            @click="hideBeta = !hideBeta"
           >
             <div
               class="w-4 h-4 rounded border flex items-center justify-center transition-colors"
@@ -271,25 +271,25 @@ onMounted(async () => {
           </p>
           <div class="flex bg-muted/50 p-1 rounded-xl w-full sm:w-auto">
             <button
-              @click="viewMode = 'group'"
               class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 sm:py-1.5 rounded-lg text-xs font-medium transition-all"
               :class="
                 viewMode === 'group'
                   ? 'bg-background text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
               "
+              @click="viewMode = 'group'"
             >
               <ListTree class="w-4 h-4" />
               {{ $t("mcpe.groupView") }}
             </button>
             <button
-              @click="viewMode = 'timeline'"
               class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 sm:py-1.5 rounded-lg text-xs font-medium transition-all"
               :class="
                 viewMode === 'timeline'
                   ? 'bg-background text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
               "
+              @click="viewMode = 'timeline'"
             >
               <Clock class="w-4 h-4" />
               {{ $t("mcpe.timelineView") }}
@@ -319,8 +319,8 @@ onMounted(async () => {
           class="bg-card/50 border border-muted/80 rounded-2xl overflow-hidden transition-all duration-300"
         >
           <button
-            @click="toggleGroup(major)"
             class="w-full flex items-center justify-between p-4 sm:p-5 hover:bg-muted/30 transition-colors text-left focus:outline-none group"
+            @click="toggleGroup(major)"
           >
             <div class="flex items-center gap-3">
               <ChevronRight
@@ -360,8 +360,8 @@ onMounted(async () => {
                   <button
                     v-for="version in versions"
                     :key="version.version"
-                    @click="openVersionInfo(version)"
                     class="group/card flex flex-col p-4 rounded-2xl bg-card border border-muted/80 hover:border-blue-500/50 hover:bg-blue-500/5 transition-all active:scale-[0.98] text-left"
+                    @click="openVersionInfo(version)"
                   >
                     <div class="flex items-center justify-between mb-2">
                       <span
@@ -491,8 +491,8 @@ onMounted(async () => {
                 {{ $t("mcpe.downloadTitle") }}
               </h3>
               <button
-                @click="infoDialog = false"
                 class="btn-icon bg-muted/50 hover:bg-muted text-muted-foreground rounded-full p-1.5 transition-colors"
+                @click="infoDialog = false"
               >
                 <X class="h-5 w-5" />
               </button>
@@ -563,8 +563,8 @@ onMounted(async () => {
               </div>
 
               <div
-                v-else-if="downloadLinks.length > 0"
                 v-for="(link, index) in downloadLinks"
+                v-else-if="downloadLinks.length > 0"
                 :key="index"
                 class="p-4 rounded-2xl border border-muted/80 bg-muted/10 group hover:border-blue-500/30 transition-colors"
               >
@@ -592,17 +592,17 @@ onMounted(async () => {
                     >
                   </div>
                   <button
-                    @click="copyPassword(link.password)"
                     class="btn-icon p-2 hover:bg-blue-500/10 hover:text-blue-500 rounded-lg transition-colors"
                     :title="$t('common.copy')"
+                    @click="copyPassword(link.password)"
                   >
                     <Copy class="w-4 h-4" />
                   </button>
                 </div>
 
                 <button
-                  @click="handleCopyAndOpen(link)"
                   class="w-full flex items-center justify-center gap-2 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl transition-all active:scale-[0.98]"
+                  @click="handleCopyAndOpen(link)"
                 >
                   {{
                     link.password

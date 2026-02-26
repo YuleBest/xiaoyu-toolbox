@@ -247,6 +247,19 @@ export const toolsData: Record<string, Tool[]> = {
       path: "/phone-number",
       date: "2026-02-25",
     },
+    {
+      id: "weibo-hot",
+      title: "tools.weibo-hot.title",
+      subtitle: "tools.weibo-hot.subtitle",
+      description: "tools.weibo-hot.description",
+      author: "Yule",
+      usage: "tools.weibo-hot.usage",
+      icon: Zap,
+      color: "text-orange-500",
+      path: "/weibo-hot",
+      date: "2026-02-26",
+      isHot: true,
+    },
   ],
   game: [
     {

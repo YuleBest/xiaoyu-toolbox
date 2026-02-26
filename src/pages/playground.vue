@@ -214,9 +214,9 @@ const logTypeClass = (type: string) => {
     <template #actions>
       <div class="flex items-center gap-2">
         <button
-          @click="runCode"
           :disabled="isRunning || !code.trim()"
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 rounded-xl transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+          @click="runCode"
         >
           <div
             v-if="isRunning"
@@ -234,25 +234,25 @@ const logTypeClass = (type: string) => {
         <!-- View Tabs -->
         <div class="flex items-center bg-muted/30 rounded-xl p-1 gap-0.5">
           <button
-            @click="currentView = 'editor'"
             class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
             :class="
               currentView === 'editor'
                 ? 'bg-background text-foreground'
                 : 'text-muted-foreground hover:text-foreground'
             "
+            @click="currentView = 'editor'"
           >
             <Code2 class="h-3.5 w-3.5" />
             {{ $t("playground.console") }}
           </button>
           <button
-            @click="currentView = 'logs'"
             class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
             :class="
               currentView === 'logs'
                 ? 'bg-background text-foreground'
                 : 'text-muted-foreground hover:text-foreground'
             "
+            @click="currentView = 'logs'"
           >
             <Terminal class="h-3.5 w-3.5" />
             {{ $t("playground.console") }}
@@ -268,24 +268,24 @@ const logTypeClass = (type: string) => {
         <!-- Action Buttons -->
         <div class="flex items-center gap-2">
           <button
-            @click="copyCode"
             class="p-2 rounded-lg hover:bg-muted transition-colors"
             :title="$t('common.copy')"
+            @click="copyCode"
           >
             <Check v-if="copiedCode" class="h-4 w-4 text-green-500" />
             <Copy v-else class="h-4 w-4 text-muted-foreground" />
           </button>
           <button
-            @click="downloadCode"
             class="p-2 rounded-lg hover:bg-muted transition-colors"
             :title="$t('common.download')"
+            @click="downloadCode"
           >
             <Download class="h-4 w-4 text-muted-foreground" />
           </button>
           <button
-            @click="clearCode"
             class="p-2 rounded-lg hover:bg-muted transition-colors"
             :title="$t('common.clear')"
+            @click="clearCode"
           >
             <Trash2 class="h-4 w-4 text-muted-foreground" />
           </button>
@@ -338,8 +338,8 @@ const logTypeClass = (type: string) => {
           </span>
           <button
             v-if="logs.length > 0"
-            @click="clearLogs"
             class="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            @click="clearLogs"
           >
             <RotateCcw class="h-3 w-3" />
             {{ $t("common.clear") }}

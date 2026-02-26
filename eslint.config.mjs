@@ -3,10 +3,12 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 import prettierConfig from "eslint-config-prettier";
 import prettierPlugin from "eslint-plugin-prettier";
+// 引入 Vue 插件和解析器
+import pluginVue from "eslint-plugin-vue";
+import vueParser from "vue-eslint-parser";
 
 export default tseslint.config(
   {
-    // 忽略特定目录
     ignores: [
       ".old_project",
       "dist",
@@ -17,14 +19,26 @@ export default tseslint.config(
       "DEV-DOCS",
       "*.d.ts",
       ".eslintcache",
+      "src/components/ui",
     ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  // 注入 Vue 推荐配置
+  ...pluginVue.configs["flat/recommended"],
   {
+    files: ["**/*.ts", "**/*.tsx", "**/*.vue"],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "module",
+      // 用 vue-parser 才能看懂 SFC
+      parser: vueParser,
+      parserOptions: {
+        // 在 Vue 文件里，script 标签部分依然交给 TS 解析
+        parser: tseslint.parser,
+        extraFileExtensions: [".vue"],
+        sourceType: "module",
+      },
       globals: {
         ...globals.browser,
         ...globals.node,
@@ -34,21 +48,20 @@ export default tseslint.config(
       prettier: prettierPlugin,
     },
     rules: {
-      // 开启 Prettier 冲突检查
       "prettier/prettier": "error",
-
-      // 自定义你的规矩
-      "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-      "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
-
       // TS 相关
       "@typescript-eslint/no-unused-vars": [
         "warn",
-        { argsIgnorePattern: "^_" },
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
       ],
       "@typescript-eslint/no-explicit-any": "warn",
+      "vue/multi-word-component-names": "off",
+      "vue/no-v-html": "off",
     },
   },
-  // 务必把 prettier 配置放在最后，用来覆盖掉冲突的规则
   prettierConfig,
 );

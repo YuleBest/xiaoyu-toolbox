@@ -30,6 +30,6 @@ useToolMeta();
     </router-view>
   </component>
 
-  <Toaster richColors position="top-center" />
+  <Toaster rich-colors position="top-center" />
   <GlobalToast ref="toastRef" />
 </template>

@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
@@ -82,7 +83,7 @@ const languageTagToHumanReadable = (languageTag: string) => {
       },
     );
     return displayNames.of(languageTag);
-  } catch (e) {
+  } catch (_e) {
     return languageTag;
   }
 };
@@ -228,8 +229,8 @@ const swapLanguages = () => {
   <ToolContainer :tool="tool">
     <template #actions>
       <button
-        @click="clearAll"
         class="btn-destructive px-3 py-1.5 md:px-4 md:py-2"
+        @click="clearAll"
       >
         <Trash2 class="h-4 w-4" />
         <span class="hidden sm:inline">{{ $t("common.clearAll") }}</span>
@@ -317,13 +318,13 @@ const swapLanguages = () => {
                   class="w-40 p-1.5 rounded-xl border-muted/50 backdrop-blur-lg z-50"
                 >
                   <DropdownMenuItem
-                    @click="sourceLangSelected = 'auto'"
                     class="rounded-lg cursor-pointer flex items-center justify-between py-2 px-3 transition-colors outline-none"
                     :class="
                       sourceLangSelected === 'auto'
                         ? 'bg-blue-500/10 text-blue-500'
                         : 'focus:bg-muted focus:text-foreground'
                     "
+                    @click="sourceLangSelected = 'auto'"
                   >
                     <span class="font-medium text-sm">{{
                       $t("translatorAi.languages.auto")
@@ -336,13 +337,13 @@ const swapLanguages = () => {
                   <DropdownMenuItem
                     v-for="lang in languages"
                     :key="lang.code"
-                    @click="sourceLangSelected = lang.code"
                     class="rounded-lg cursor-pointer flex items-center justify-between py-2 px-3 transition-colors outline-none"
                     :class="
                       sourceLangSelected === lang.code
                         ? 'bg-blue-500/10 text-blue-500'
                         : 'focus:bg-muted focus:text-foreground'
                     "
+                    @click="sourceLangSelected = lang.code"
                   >
                     <span class="font-medium text-sm">{{ lang.name }}</span>
                     <Check
@@ -372,9 +373,9 @@ const swapLanguages = () => {
               </span>
             </div>
             <button
-              @click="copyToClipboard(sourceText, 'source')"
               class="btn-icon h-8 w-8"
               :disabled="!sourceText"
+              @click="copyToClipboard(sourceText, 'source')"
             >
               <Check v-if="copiedSource" class="h-4 w-4 text-green-500" />
               <Copy v-else class="h-4 w-4 opacity-50 hover:opacity-100" />
@@ -391,8 +392,8 @@ const swapLanguages = () => {
         <!-- Desktop Swap Button -->
         <div
           class="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-10 w-10 bg-background border rounded-full items-center justify-center z-10 text-muted-foreground hover:text-blue-500 transition-colors cursor-pointer group active:scale-90"
-          @click="swapLanguages"
           title="Swap"
+          @click="swapLanguages"
         >
           <ArrowRightLeft
             class="h-5 w-5 group-hover:scale-110 transition-transform"
@@ -428,13 +429,13 @@ const swapLanguages = () => {
                   <DropdownMenuItem
                     v-for="lang in languages"
                     :key="lang.code"
-                    @click="targetLang = lang.code"
                     class="rounded-lg cursor-pointer flex items-center justify-between py-2 px-3 transition-colors outline-none"
                     :class="
                       targetLang === lang.code
                         ? 'bg-blue-500/10 text-blue-500'
                         : 'focus:bg-muted focus:text-foreground'
                     "
+                    @click="targetLang = lang.code"
                   >
                     <span class="font-medium text-sm">{{ lang.name }}</span>
                     <Check
@@ -454,9 +455,9 @@ const swapLanguages = () => {
                 {{ $t("translatorAi.translating") }}
               </span>
               <button
-                @click="copyToClipboard(targetText, 'target')"
                 class="btn-icon h-8 w-8"
                 :disabled="!targetText"
+                @click="copyToClipboard(targetText, 'target')"
               >
                 <Check v-if="copiedTarget" class="h-4 w-4 text-green-500" />
                 <Copy v-else class="h-4 w-4 opacity-50 hover:opacity-100" />

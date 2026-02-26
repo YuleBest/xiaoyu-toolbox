@@ -177,6 +177,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/weibo-hot': RouteRecordInfo<
+      '/weibo-hot',
+      '/weibo-hot',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
   }
 
   /**
@@ -319,6 +326,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/weather.vue': {
       routes:
         | '/weather'
+      views:
+        | never
+    }
+    'src/pages/weibo-hot.vue': {
+      routes:
+        | '/weibo-hot'
       views:
         | never
     }

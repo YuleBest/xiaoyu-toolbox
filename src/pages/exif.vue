@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { ref, computed, watch, onBeforeUnmount, inject } from "vue";
 import { useI18n } from "vue-i18n";
@@ -307,24 +308,24 @@ const copySingle = async (key: string, value: any) => {
       <div class="flex items-center gap-2">
         <button
           v-if="exif"
-          @click="copyAll"
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
+          @click="copyAll"
         >
           <Copy class="h-4 w-4" />
           <span class="hidden sm:inline">{{ $t("exif.copyJson") }}</span>
         </button>
         <button
           v-if="exif"
-          @click="exportJson"
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 rounded-xl transition-all active:scale-95"
+          @click="exportJson"
         >
           <Download class="h-4 w-4" />
           <span class="hidden sm:inline">{{ $t("common.export") }}</span>
         </button>
         <button
           v-if="file"
-          @click="clearAll"
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium text-destructive hover:bg-destructive/10 rounded-xl transition-all active:scale-95"
+          @click="clearAll"
         >
           <Trash2 class="h-4 w-4" />
           <span class="hidden sm:inline">{{ $t("common.clear") }}</span>
@@ -335,8 +336,8 @@ const copySingle = async (key: string, value: any) => {
     <div class="space-y-6">
       <!-- Hidden file input -->
       <input
-        type="file"
         ref="fileInput"
+        type="file"
         accept="image/*"
         class="hidden"
         @change="handleFileUpload"
@@ -367,8 +368,8 @@ const copySingle = async (key: string, value: any) => {
           </div>
 
           <button
-            @click="fileInput?.click()"
             class="flex items-center gap-2 px-6 py-2.5 bg-background border border-muted text-foreground rounded-2xl font-medium transition-all hover:bg-muted active:scale-95 mt-2"
+            @click="fileInput?.click()"
           >
             <Upload class="h-4 w-4" />
             {{ $t("exif.selectImage") }}
@@ -418,8 +419,8 @@ const copySingle = async (key: string, value: any) => {
               </div>
             </div>
             <button
-              @click="fileInput?.click()"
               class="flex items-center gap-2 px-5 py-2 bg-background border border-muted text-foreground rounded-xl text-sm font-medium transition-all hover:bg-muted active:scale-95 shrink-0"
+              @click="fileInput?.click()"
             >
               <Upload class="h-4 w-4" />
               {{ $t("exif.changeImage") }}
@@ -466,8 +467,8 @@ const copySingle = async (key: string, value: any) => {
                   {{ exifSummary }}
                 </p>
                 <button
-                  @click="fileInput?.click()"
                   class="flex items-center gap-2 w-full justify-center px-4 py-2 mt-2 bg-muted/30 hover:bg-muted/50 text-sm text-muted-foreground hover:text-foreground rounded-xl font-medium transition-all active:scale-95"
+                  @click="fileInput?.click()"
                 >
                   <Upload class="h-3.5 w-3.5" />
                   {{ $t("exif.replaceImage") }}
@@ -493,7 +494,7 @@ const copySingle = async (key: string, value: any) => {
               <label
                 class="flex items-center gap-2 cursor-pointer group select-none"
               >
-                <input type="checkbox" v-model="hideInvalid" class="sr-only" />
+                <input v-model="hideInvalid" type="checkbox" class="sr-only" />
                 <div
                   class="w-10 h-5 bg-muted rounded-full relative transition-colors group-has-checked:bg-blue-500"
                 >
@@ -557,9 +558,9 @@ const copySingle = async (key: string, value: any) => {
                       </td>
                       <td class="px-5 py-3 text-right">
                         <button
-                          @click="copySingle(String(key), value)"
                           class="p-1.5 rounded-lg hover:bg-muted transition-all active:scale-90"
                           :title="$t('exif.copyItem')"
+                          @click="copySingle(String(key), value)"
                         >
                           <Copy
                             class="h-3.5 w-3.5 opacity-40 hover:opacity-100"

@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, inject } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -109,7 +110,7 @@ const fetchDBUpdateTime = async () => {
   }
 };
 
-let timer: NodeJS.Timeout | null = null;
+let timer: ReturnType<typeof setInterval> | null = null;
 onUnmounted(() => {
   if (timer) clearInterval(timer);
 });
@@ -428,18 +429,18 @@ onMounted(() => {
     <template #actions>
       <div class="flex items-center gap-2">
         <button
-          @click="handleRefreshData"
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
           :title="$t('common.refresh') || '刷新数据'"
           :disabled="refreshing"
+          @click="handleRefreshData"
         >
           <RefreshCw class="h-4 w-4" :class="{ 'animate-spin': refreshing }" />
           <span class="hidden sm:inline">刷新数据</span>
         </button>
         <button
-          @click="clearSearch"
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
           :title="$t('common.reset')"
+          @click="clearSearch"
         >
           <RotateCcw class="h-4 w-4" />
           <span class="hidden sm:inline">{{
@@ -466,9 +467,9 @@ onMounted(() => {
               />
             </div>
             <button
-              @click="handleSearch(false)"
               :disabled="(!searchKeyword.trim() && !selectedDtype) || searching"
               class="px-6 py-3 bg-blue-500 text-white rounded-2xl text-sm font-medium hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
+              @click="handleSearch(false)"
             >
               <div
                 v-if="searching && searchPage === 1"
@@ -496,26 +497,26 @@ onMounted(() => {
                 {{ $t("tools.jichacha.filterType") }}:
               </div>
               <button
-                @click="toggleDtype('')"
                 class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border"
                 :class="
                   !selectedDtype
                     ? 'bg-blue-500 text-white border-blue-500'
                     : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
                 "
+                @click="toggleDtype('')"
               >
                 {{ $t("common.all") }}
               </button>
               <button
                 v-for="d in dtypes"
                 :key="d.dtype"
-                @click="toggleDtype(d.dtype)"
                 class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5"
                 :class="
                   selectedDtype === d.dtype
                     ? 'bg-blue-500 text-white border-blue-500'
                     : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
                 "
+                @click="toggleDtype(d.dtype)"
               >
                 {{ $t(`tools.jichacha.dtypes.${d.dtype}`) || d.dtype }}
                 <span
@@ -538,26 +539,26 @@ onMounted(() => {
                 版本:
               </div>
               <button
-                @click="toggleVerName('')"
                 class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border"
                 :class="
                   !selectedVerName
                     ? 'bg-blue-500 text-white border-blue-500'
                     : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
                 "
+                @click="toggleVerName('')"
               >
                 {{ $t("common.all") }}
               </button>
               <button
                 v-for="v in showAllVerNames ? verNames : verNames.slice(0, 8)"
                 :key="v.ver_name"
-                @click="toggleVerName(v.ver_name)"
                 class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5"
                 :class="
                   selectedVerName === v.ver_name
                     ? 'bg-blue-500 text-white border-blue-500'
                     : 'bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60'
                 "
+                @click="toggleVerName(v.ver_name)"
               >
                 {{ v.ver_name }}
                 <span
@@ -569,8 +570,8 @@ onMounted(() => {
 
               <button
                 v-if="verNames.length > 8"
-                @click="showAllVerNames = !showAllVerNames"
                 class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60 flex items-center gap-1"
+                @click="showAllVerNames = !showAllVerNames"
               >
                 {{ showAllVerNames ? "收起" : "更多" }}
                 <ChevronDown
@@ -626,8 +627,8 @@ onMounted(() => {
             <span>最近查看</span>
           </h3>
           <button
-            @click="clearHistory"
             class="text-xs text-muted-foreground hover:text-destructive flex items-center gap-1 hover:bg-muted/50 px-2 py-1 rounded-md transition-colors"
+            @click="clearHistory"
           >
             <Trash2 class="h-3 w-3" />
             清除记录
@@ -640,8 +641,8 @@ onMounted(() => {
           <button
             v-for="model in searchHistory"
             :key="model.id"
-            @click="selectModel(model)"
             class="text-left px-4 py-3 bg-card border border-muted/60 hover:border-blue-500/30 hover:bg-muted/30 rounded-xl transition-all group"
+            @click="selectModel(model)"
           >
             <div
               class="font-medium text-sm truncate group-hover:text-blue-600 transition-colors"
@@ -679,8 +680,8 @@ onMounted(() => {
               已筛选: {{ $t(`tools.jichacha.dtypes.${selectedDtype}`) }}
             </span>
             <button
-              @click="toggleDtype('')"
               class="hover:text-foreground transition-colors"
+              @click="toggleDtype('')"
             >
               <X class="h-3 w-3" />
             </button>
@@ -691,8 +692,8 @@ onMounted(() => {
           <button
             v-for="model in searchResults"
             :key="model.id"
-            @click="selectModel(model)"
             class="w-full py-4 px-2 flex items-start gap-4 text-left hover:bg-muted/10 transition-colors group -mx-2 rounded-xl"
+            @click="selectModel(model)"
           >
             <div class="flex-1 min-w-0">
               <h4 class="text-base font-medium text-foreground truncate mb-1.5">
@@ -761,9 +762,9 @@ onMounted(() => {
           class="pt-4 flex justify-center"
         >
           <button
-            @click="handleSearch(true)"
             :disabled="searching"
             class="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 text-sm font-medium text-blue-600 bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 rounded-xl transition-all"
+            @click="handleSearch(true)"
           >
             <Loader2 v-if="searching" class="h-4 w-4 animate-spin" />
             <span v-else>查看更多结果</span>
@@ -783,8 +784,8 @@ onMounted(() => {
           <button
             v-for="b in brands"
             :key="b.brand"
-            @click="selectBrand(b.brand)"
             class="px-3 py-1.5 bg-background border border-muted rounded-xl text-sm hover:border-blue-500 hover:text-blue-500 transition-colors flex items-center gap-2 group"
+            @click="selectBrand(b.brand)"
           >
             <span
               class="font-medium group-hover:text-blue-500 transition-colors"
@@ -803,9 +804,9 @@ onMounted(() => {
           class="mt-6 flex justify-center"
         >
           <button
-            @click="fetchBrands(true)"
             :disabled="loadingBrands"
             class="flex items-center gap-2 px-4 py-2 text-sm text-muted-foreground hover:text-foreground bg-muted/30 hover:bg-muted/50 rounded-xl transition-all"
+            @click="fetchBrands(true)"
           >
             <Loader2 v-if="loadingBrands" class="h-4 w-4 animate-spin" />
             <ChevronDown v-else class="h-4 w-4" />
@@ -882,7 +883,7 @@ onMounted(() => {
                 </span>
               </div>
             </div>
-            <button @click="selectedModel = null" class="btn-icon">
+            <button class="btn-icon" @click="selectedModel = null">
               <X class="h-5 w-5" />
             </button>
           </div>
@@ -907,9 +908,9 @@ onMounted(() => {
                       v-html="highlightMatches(selectedModel?.model)"
                     ></span>
                     <button
-                      @click="copyToClipboard(selectedModel?.model)"
                       class="transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
                       title="复制"
+                      @click="copyToClipboard(selectedModel?.model)"
                     >
                       <Copy class="h-3 w-3" />
                     </button>
@@ -924,9 +925,9 @@ onMounted(() => {
                       v-html="highlightMatches(selectedModel?.code)"
                     ></span>
                     <button
-                      @click="copyToClipboard(selectedModel?.code)"
                       class="transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
                       title="复制"
+                      @click="copyToClipboard(selectedModel?.code)"
                     >
                       <Copy class="h-3 w-3" />
                     </button>
@@ -946,9 +947,9 @@ onMounted(() => {
                       v-html="highlightMatches(selectedModel?.code_alias)"
                     ></span>
                     <button
-                      @click="copyToClipboard(selectedModel?.code_alias)"
                       class="transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
                       title="复制"
+                      @click="copyToClipboard(selectedModel?.code_alias)"
                     >
                       <Copy class="h-3 w-3" />
                     </button>
@@ -990,9 +991,9 @@ onMounted(() => {
                             v-html="highlightMatches(String(val))"
                           ></span>
                           <button
-                            @click="copyToClipboard(val)"
                             class="transition-opacity p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground shrink-0"
                             title="复制"
+                            @click="copyToClipboard(val)"
                           >
                             <Copy class="h-3 w-3" />
                           </button>

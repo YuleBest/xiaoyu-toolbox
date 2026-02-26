@@ -34,13 +34,13 @@ const { locale } = useI18n();
       <DropdownMenuItem
         v-for="l in supportedLocales"
         :key="l.code"
-        @click="setLanguage(l.code as SupportedLocale)"
         class="rounded-lg cursor-pointer flex items-center justify-between py-2 px-3 transition-colors"
         :class="
           locale === l.code
             ? 'bg-blue-500/10 text-blue-500'
             : 'focus:bg-muted focus:text-foreground'
         "
+        @click="setLanguage(l.code as SupportedLocale)"
       >
         <span class="font-medium text-sm">{{ l.label }}</span>
         <Check v-if="locale === l.code" class="h-3.5 w-3.5" />

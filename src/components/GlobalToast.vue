@@ -59,8 +59,8 @@ defineExpose({ addToast });
             {{ toast.message }}
           </p>
           <button
-            @click="removeToast(toast.id)"
             class="shrink-0 p-1 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg active:scale-90 transition-all font-mono"
+            @click="removeToast(toast.id)"
           >
             <X class="h-4 w-4 opacity-50" />
           </button>

@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { ref, inject, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
@@ -325,9 +326,9 @@ const formatDuration = (seconds: number) => {
             />
           </div>
           <button
-            @click="handleParse"
             :disabled="!inputText.trim() || loading || cooldown > 0"
             class="px-6 py-3 bg-blue-500 text-white rounded-2xl text-sm font-medium hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
+            @click="handleParse"
           >
             <Loader2 v-if="loading" class="h-4 w-4 animate-spin" />
             <Video v-else class="h-4 w-4" />
@@ -337,8 +338,8 @@ const formatDuration = (seconds: number) => {
 
         <!-- Advanced Settings Toggle -->
         <button
-          @click="showAdvanced = !showAdvanced"
           class="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          @click="showAdvanced = !showAdvanced"
         >
           <Settings class="h-3.5 w-3.5" />
           {{ $t("bilidown.advancedSettings") }}
@@ -373,16 +374,16 @@ const formatDuration = (seconds: number) => {
               </div>
               <div class="flex gap-2">
                 <button
-                  @click="triggerCookieImport"
                   class="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-muted text-foreground rounded-xl hover:bg-muted/80 transition-all active:scale-95"
+                  @click="triggerCookieImport"
                 >
                   <Upload class="h-3 w-3" />
                   {{ $t("common.import") }} Cookie
                 </button>
                 <button
                   v-if="cookie"
-                  @click="exportCookie"
                   class="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-muted text-foreground rounded-xl hover:bg-muted/80 transition-all active:scale-95"
+                  @click="exportCookie"
                 >
                   <Download class="h-3 w-3" />
                   {{ $t("common.export") }} Cookie
@@ -509,9 +510,9 @@ const formatDuration = (seconds: number) => {
             </div>
 
             <button
-              @click="mergeAndDownload"
               :disabled="merging || !selectedVideo || !selectedAudio"
               class="w-full flex items-center justify-center gap-2 px-5 py-3 bg-blue-500 text-white rounded-2xl font-medium hover:bg-blue-600 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+              @click="mergeAndDownload"
             >
               <Loader2 v-if="merging" class="h-4 w-4 animate-spin" />
               <Merge v-else class="h-4 w-4" />
@@ -573,8 +574,8 @@ const formatDuration = (seconds: number) => {
                   </div>
                 </div>
                 <button
-                  @click="downloadStream(vs, 'video')"
                   class="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all active:scale-95 shrink-0"
+                  @click="downloadStream(vs, 'video')"
                 >
                   <Download class="h-3 w-3" />
                   {{ $t("common.download") }}
@@ -619,8 +620,8 @@ const formatDuration = (seconds: number) => {
                   </div>
                 </div>
                 <button
-                  @click="downloadStream(as2, 'audio')"
                   class="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-all active:scale-95 shrink-0"
+                  @click="downloadStream(as2, 'audio')"
                 >
                   <Download class="h-3 w-3" />
                   {{ $t("common.download") }}
@@ -676,14 +677,14 @@ const formatDuration = (seconds: number) => {
 
             <div class="flex gap-3">
               <button
-                @click="disclaimerVisible = false"
                 class="flex-1 px-5 py-2.5 bg-muted text-foreground rounded-xl font-medium hover:bg-muted/80 transition-all active:scale-95"
+                @click="disclaimerVisible = false"
               >
                 {{ $t("common.cancel") }}
               </button>
               <button
-                @click="acceptDisclaimer"
                 class="flex-1 px-5 py-2.5 bg-blue-500 text-white rounded-xl font-medium hover:bg-blue-600 transition-all active:scale-95"
+                @click="acceptDisclaimer"
               >
                 {{ $t("bilidown.agree") }}
               </button>

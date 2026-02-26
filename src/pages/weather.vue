@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { ref, inject } from "vue";
 import { useI18n } from "vue-i18n";
@@ -147,9 +148,9 @@ const formatHour = (date: Date) => {
             />
           </div>
           <button
-            @click="handleSearch"
             :disabled="!searchQuery.trim() || searching"
             class="btn-primary px-6 py-3"
+            @click="handleSearch"
           >
             <Loader2 v-if="searching" class="h-4 w-4 animate-spin" />
             <Search v-else class="h-4 w-4" />
@@ -176,8 +177,8 @@ const formatHour = (date: Date) => {
             <button
               v-for="result in searchResults"
               :key="result.id"
-              @click="selectCity(result)"
               class="w-full px-5 py-4 flex items-center gap-4 text-left hover:bg-muted/10 transition-colors group"
+              @click="selectCity(result)"
             >
               <div
                 class="h-10 w-10 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0"

@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { ref, computed, inject } from "vue";
 import { useI18n } from "vue-i18n";
@@ -156,9 +157,9 @@ const formatCount = (n: number) => {
             />
           </div>
           <button
-            @click="handleParse"
             :disabled="!inputText.trim() || loading || cooldown > 0"
             class="px-6 py-3 bg-blue-500 text-white rounded-2xl text-sm font-medium hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
+            @click="handleParse"
           >
             <Loader2 v-if="loading" class="h-4 w-4 animate-spin" />
             <Video v-else class="h-4 w-4" />
@@ -249,8 +250,8 @@ const formatCount = (n: number) => {
             </a>
             <button
               v-if="fullDownloadUrl"
-              @click="copyUrl"
               class="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-background border border-muted text-foreground rounded-2xl font-medium transition-all hover:bg-muted active:scale-[0.98]"
+              @click="copyUrl"
             >
               <Check v-if="copiedUrl" class="h-4 w-4 text-green-500" />
               <Copy v-else class="h-4 w-4" />
@@ -304,14 +305,14 @@ const formatCount = (n: number) => {
 
             <div class="flex gap-3">
               <button
-                @click="disclaimerVisible = false"
                 class="flex-1 px-5 py-2.5 bg-muted text-foreground rounded-xl font-medium hover:bg-muted/80 transition-all active:scale-95"
+                @click="disclaimerVisible = false"
               >
                 {{ $t("common.cancel") }}
               </button>
               <button
-                @click="acceptDisclaimer"
                 class="flex-1 px-5 py-2.5 bg-blue-500 text-white rounded-xl font-medium hover:bg-blue-600 transition-all active:scale-95"
+                @click="acceptDisclaimer"
               >
                 {{ $t("dydown.agree") }}
               </button>

@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { ref, inject, computed, onMounted, onUnmounted } from "vue";
 import { useI18n } from "vue-i18n";
@@ -349,8 +350,8 @@ const resetDefaults = () => {
           {{ $t("codeimg.resetDefaults") }}
         </Button>
         <input
-          type="file"
           ref="fileInput"
+          type="file"
           accept=".txt,.js,.ts,.vue,.html,.css,.json,.yml,.yaml,.py,.sh,.java,.c,.cpp,.cs,.go,.rs"
           class="hidden"
           @change="handleFileUpload"
@@ -392,7 +393,7 @@ const resetDefaults = () => {
                 <Label>{{ $t("codeimg.theme") }}</Label>
                 <Select
                   v-model="selectedTheme"
-                  @update:modelValue="loadThemeCss"
+                  @update:model-value="loadThemeCss"
                 >
                   <SelectTrigger>
                     <SelectValue :placeholder="$t('codeimg.theme')" />
@@ -456,8 +457,8 @@ const resetDefaults = () => {
                 class="flex gap-2 items-center"
               >
                 <input
-                  type="color"
                   v-model="solidColor"
+                  type="color"
                   class="w-8 h-8 rounded shrink-0 border-none cursor-pointer p-0"
                 />
                 <span class="text-sm font-mono flex-1">{{ solidColor }}</span>
@@ -465,8 +466,8 @@ const resetDefaults = () => {
               <div v-else class="space-y-3">
                 <div class="flex gap-2 items-center">
                   <input
-                    type="color"
                     v-model="gradientStart"
+                    type="color"
                     class="w-8 h-8 rounded shrink-0 border-none cursor-pointer p-0"
                   />
                   <span class="text-sm font-mono flex-1">{{
@@ -475,8 +476,8 @@ const resetDefaults = () => {
                 </div>
                 <div class="flex gap-2 items-center">
                   <input
-                    type="color"
                     v-model="gradientEnd"
+                    type="color"
                     class="w-8 h-8 rounded shrink-0 border-none cursor-pointer p-0"
                   />
                   <span class="text-sm font-mono flex-1">{{
@@ -517,8 +518,8 @@ const resetDefaults = () => {
                   $t("codeimg.windowControls")
                 }}</span>
                 <input
-                  type="checkbox"
                   v-model="showWindowControls"
+                  type="checkbox"
                   class="sr-only"
                 />
                 <div
@@ -539,8 +540,8 @@ const resetDefaults = () => {
                     >{{ $t("codeimg.showFileName") }}</span
                   >
                   <input
-                    type="checkbox"
                     v-model="showFileName"
+                    type="checkbox"
                     class="sr-only"
                   />
                   <div
@@ -562,8 +563,8 @@ const resetDefaults = () => {
                   $t("codeimg.lineNumbers")
                 }}</span>
                 <input
-                  type="checkbox"
                   v-model="showLineNumbers"
+                  type="checkbox"
                   class="sr-only"
                 />
                 <div
@@ -583,7 +584,7 @@ const resetDefaults = () => {
                 <span class="text-sm font-medium leading-none">{{
                   $t("codeimg.shadow")
                 }}</span>
-                <input type="checkbox" v-model="showShadow" class="sr-only" />
+                <input v-model="showShadow" type="checkbox" class="sr-only" />
                 <div
                   class="w-10 h-5 bg-muted rounded-full relative transition-colors group-has-checked:bg-blue-500"
                 >
@@ -599,8 +600,8 @@ const resetDefaults = () => {
 
       <!-- Main/Editor Area -->
       <div
-        class="w-full flex flex-col items-center relative min-h-0"
         ref="previewContainerRef"
+        class="w-full flex flex-col items-center relative min-h-0"
       >
         <!-- Wrapper for responsive centering without transform clipping issues -->
         <div
@@ -703,12 +704,12 @@ const resetDefaults = () => {
                   <textarea
                     ref="codeScrollRef"
                     v-model="codeText"
-                    @input="handleInput"
-                    @scroll="syncScroll"
                     placeholder="Type or paste your code here..."
                     class="code-editor-font absolute inset-0 w-full h-full bg-transparent resize-none outline-none text-transparent shadow-none z-10 rounded-none hide-scrollbar whitespace-pre-wrap break-all"
                     :class="isLightTheme ? 'caret-black' : 'caret-white'"
                     spellcheck="false"
+                    @input="handleInput"
+                    @scroll="syncScroll"
                   ></textarea>
                 </div>
               </div>
@@ -723,18 +724,18 @@ const resetDefaults = () => {
           <Button
             size="lg"
             variant="outline"
-            @click="copyImage"
             :disabled="isGenerating"
             class="flex-1 sm:flex-none sm:w-40 bg-background/80 backdrop-blur-md"
+            @click="copyImage"
           >
             <Copy class="w-4 h-4 mr-2 shrink-0" />
             <span class="truncate">{{ $t("codeimg.copyImage") }}</span>
           </Button>
           <Button
             size="lg"
-            @click="downloadImage"
             :disabled="isGenerating"
             class="flex-1 sm:flex-none sm:w-40"
+            @click="downloadImage"
           >
             <Download class="w-4 h-4 mr-2 shrink-0" />
             <span class="truncate">{{ $t("codeimg.downloadImage") }}</span>

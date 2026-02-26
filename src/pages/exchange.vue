@@ -346,15 +346,15 @@ watch(baseCurrency, (newBase) => {
                   <DropdownMenuItem
                     v-for="(name, code) in filteredBaseCurrencies"
                     :key="code"
-                    @click="
-                      baseCurrency = code;
-                      baseCurrencySearch = '';
-                    "
                     class="rounded-lg cursor-pointer flex items-center gap-2.5 py-2 px-3 transition-colors"
                     :class="
                       baseCurrency === code
                         ? 'bg-blue-500/10 text-blue-500 font-bold'
                         : ''
+                    "
+                    @click="
+                      baseCurrency = code;
+                      baseCurrencySearch = '';
                     "
                   >
                     <span class="font-mono text-xs font-bold w-8">{{
@@ -413,15 +413,15 @@ watch(baseCurrency, (newBase) => {
                     v-for="(name, code) in filteredTargetCurrencies"
                     :key="code"
                     :disabled="code === baseCurrency"
-                    @click="
-                      targetCurrency = code;
-                      targetCurrencySearch = '';
-                    "
                     class="rounded-lg cursor-pointer flex items-center gap-2.5 py-2 px-3 transition-colors"
                     :class="
                       targetCurrency === code
                         ? 'bg-blue-500/10 text-blue-500 font-bold'
                         : ''
+                    "
+                    @click="
+                      targetCurrency = code;
+                      targetCurrencySearch = '';
                     "
                   >
                     <span class="font-mono text-xs font-bold w-8">{{
@@ -440,8 +440,8 @@ watch(baseCurrency, (newBase) => {
           class="mt-4 flex flex-wrap items-center gap-3 pt-4 border-t border-muted/30"
         >
           <button
-            @click="swapCurrencies"
             class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
+            @click="swapCurrencies"
           >
             <ArrowRightLeft class="h-4 w-4" />
             {{ t("exchange.swap") }}
@@ -449,25 +449,25 @@ watch(baseCurrency, (newBase) => {
 
           <div class="flex bg-muted/30 p-1 rounded-xl">
             <button
-              @click="resetDate"
               class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all"
               :class="
                 !isHistory
                   ? 'bg-background shadow-sm text-blue-500'
                   : 'text-muted-foreground hover:text-foreground'
               "
+              @click="resetDate"
             >
               <TrendingUp class="w-4 h-4 inline-block mr-1" />
               {{ t("exchange.latestRates") }}
             </button>
             <button
-              @click="isHistory = true"
               class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all"
               :class="
                 isHistory
                   ? 'bg-background shadow-sm text-blue-500'
                   : 'text-muted-foreground hover:text-foreground'
               "
+              @click="isHistory = true"
             >
               <History class="w-4 h-4 inline-block mr-1" />
               {{ t("exchange.historicalDate") }}
@@ -500,10 +500,10 @@ watch(baseCurrency, (newBase) => {
               formattedLastUpdated
             }}</span>
             <button
-              @click="onRefresh"
               class="p-1.5 hover:bg-muted/50 rounded-lg transition-colors ml-1"
               :class="{ 'animate-spin': loading }"
               :disabled="loading"
+              @click="onRefresh"
             >
               <RefreshCcw class="w-3.5 h-3.5" />
             </button>
@@ -689,8 +689,8 @@ watch(baseCurrency, (newBase) => {
           </p>
         </div>
         <button
-          @click="onRefresh"
           class="flex items-center gap-2 px-6 py-2.5 bg-blue-500 text-white font-medium rounded-xl hover:bg-blue-600 active:scale-95 transition-all"
+          @click="onRefresh"
         >
           <RefreshCcw class="w-4 h-4" />
           Retry

@@ -85,13 +85,13 @@ const handleToolClick = (path: string) => {
         <button
           v-for="cat in categories"
           :key="cat.id"
-          @click="scrollToCategory(cat.id)"
           class="shrink-0 px-4 py-1.5 rounded-full"
           :class="[
             navigationStore.activeCategoryId === cat.id
               ? 'btn-primary'
               : 'btn-secondary',
           ]"
+          @click="scrollToCategory(cat.id)"
         >
           {{ $t(cat.name) }}
         </button>
@@ -102,8 +102,8 @@ const handleToolClick = (path: string) => {
     <div class="space-y-20 mt-8">
       <section
         v-for="cat in categories"
-        :key="cat.id"
         :id="cat.id"
+        :key="cat.id"
         class="scroll-mt-24 space-y-6"
       >
         <div class="flex items-end justify-between px-1">

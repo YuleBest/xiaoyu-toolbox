@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PagesFunction } from "@cloudflare/workers-types";
 
 // 辅助函数：质量描述字典

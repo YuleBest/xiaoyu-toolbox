@@ -34,22 +34,22 @@ const mode = useColorMode();
       class="w-36 p-1.5 rounded-xl shadow-xl border-muted/50 backdrop-blur-lg"
     >
       <DropdownMenuItem
-        @click="mode = 'light'"
         class="rounded-lg cursor-pointer flex items-center gap-2.5 py-2 px-3 focus:bg-amber-500/10 focus:text-amber-600 transition-colors"
+        @click="mode = 'light'"
       >
         <Sun class="h-4 w-4" />
         <span class="font-medium text-sm">{{ $t("theme.light") }}</span>
       </DropdownMenuItem>
       <DropdownMenuItem
-        @click="mode = 'dark'"
         class="rounded-lg cursor-pointer flex items-center gap-2.5 py-2 px-3 focus:bg-blue-500/10 focus:text-blue-500 transition-colors"
+        @click="mode = 'dark'"
       >
         <Moon class="h-4 w-4" />
         <span class="font-medium text-sm">{{ $t("theme.dark") }}</span>
       </DropdownMenuItem>
       <DropdownMenuItem
-        @click="mode = 'auto'"
         class="rounded-lg cursor-pointer flex items-center gap-2.5 py-2 px-3 focus:bg-muted focus:text-foreground transition-colors border-t mt-1 pt-2"
+        @click="mode = 'auto'"
       >
         <Monitor class="h-4 w-4 text-muted-foreground" />
         <span class="font-medium text-sm">{{ $t("theme.system") }}</span>

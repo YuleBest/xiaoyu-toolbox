@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { ref, inject, computed } from "vue";
 import { useI18n } from "vue-i18n";
@@ -182,7 +183,7 @@ const copyToClipboard = async (text: string, type: "json" | "yaml") => {
       copiedYaml.value = true;
       setTimeout(() => (copiedYaml.value = false), 2000);
     }
-  } catch (err) {
+  } catch (_err) {
     showToast(t("common.copyFailed"), "error");
   }
 };
@@ -213,32 +214,32 @@ const formatJson = () => {
     <template #actions>
       <div class="flex items-center gap-2">
         <input
-          type="file"
           ref="fileInput"
+          type="file"
           accept=".json,.yaml,.yml"
           class="hidden"
           @change="handleFileUpload"
         />
         <button
-          @click="fileInput?.click()"
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
+          @click="fileInput?.click()"
         >
           <Upload class="h-4 w-4" />
           <span class="hidden sm:inline">{{ $t("jsonYaml.importFile") }}</span>
         </button>
 
         <button
-          @click="formatJson"
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 rounded-xl transition-all active:scale-95 disabled:opacity-50"
           :disabled="!jsonText.trim()"
+          @click="formatJson"
         >
           <FileJson class="h-4 w-4" />
           <span class="hidden sm:inline">{{ $t("jsonYaml.formatJson") }}</span>
         </button>
 
         <button
-          @click="clearAll"
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium text-destructive hover:bg-destructive/10 rounded-xl transition-all active:scale-95"
+          @click="clearAll"
         >
           <Trash2 class="h-4 w-4" />
           <span class="hidden sm:inline">{{ $t("common.clear") }}</span>
@@ -259,18 +260,18 @@ const formatJson = () => {
             </div>
             <div class="flex items-center gap-1">
               <button
-                @click="downloadFile('json')"
                 class="p-1.5 md:p-2 rounded-lg hover:bg-muted transition-all active:scale-90"
                 :title="$t('jsonYaml.exportJson')"
                 :disabled="!jsonText"
+                @click="downloadFile('json')"
               >
                 <Download class="h-4 w-4 opacity-50 hover:opacity-100" />
               </button>
               <button
-                @click="copyToClipboard(jsonText, 'json')"
                 class="p-1.5 md:p-2 rounded-lg hover:bg-muted transition-all active:scale-90"
                 :title="$t('jsonYaml.copyJson')"
                 :disabled="!jsonText"
+                @click="copyToClipboard(jsonText, 'json')"
               >
                 <Check v-if="copiedJson" class="h-4 w-4 text-green-500" />
                 <Copy v-else class="h-4 w-4 opacity-50 hover:opacity-100" />
@@ -293,10 +294,10 @@ const formatJson = () => {
               <textarea
                 ref="jsonScrollRef"
                 :value="jsonText"
-                @input="handleJsonInput"
-                @scroll="syncScroll('json')"
                 :placeholder="$t('jsonYaml.jsonPlaceholder')"
                 class="w-full h-full bg-transparent p-5 md:p-6 text-[13px] md:text-[14px] font-mono resize-none outline-none text-transparent caret-foreground selection:bg-blue-500/20 shadow-none z-10 block border-none"
+                @input="handleJsonInput"
+                @scroll="syncScroll('json')"
               ></textarea>
             </div>
             <div
@@ -330,18 +331,18 @@ const formatJson = () => {
             </div>
             <div class="flex items-center gap-1">
               <button
-                @click="downloadFile('yaml')"
                 class="p-1.5 md:p-2 rounded-lg hover:bg-muted transition-all active:scale-90"
                 :title="$t('jsonYaml.exportYaml')"
                 :disabled="!yamlText"
+                @click="downloadFile('yaml')"
               >
                 <Download class="h-4 w-4 opacity-50 hover:opacity-100" />
               </button>
               <button
-                @click="copyToClipboard(yamlText, 'yaml')"
                 class="p-1.5 md:p-2 rounded-lg hover:bg-muted transition-all active:scale-90"
                 :title="$t('jsonYaml.copyYaml')"
                 :disabled="!yamlText"
+                @click="copyToClipboard(yamlText, 'yaml')"
               >
                 <Check v-if="copiedYaml" class="h-4 w-4 text-green-500" />
                 <Copy v-else class="h-4 w-4 opacity-50 hover:opacity-100" />
@@ -364,10 +365,10 @@ const formatJson = () => {
               <textarea
                 ref="yamlScrollRef"
                 :value="yamlText"
-                @input="handleYamlInput"
-                @scroll="syncScroll('yaml')"
                 :placeholder="$t('jsonYaml.yamlPlaceholder')"
                 class="w-full h-full bg-transparent p-5 md:p-6 text-[13px] md:text-[14px] font-mono resize-none outline-none text-transparent caret-foreground selection:bg-blue-500/20 shadow-none z-10 block border-none"
+                @input="handleYamlInput"
+                @scroll="syncScroll('yaml')"
               ></textarea>
             </div>
             <div

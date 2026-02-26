@@ -233,16 +233,16 @@ const onSliderInput = (e: Event) => {
       <div class="flex items-center gap-2">
         <button
           v-if="parsedLyrics.length > 0"
-          @click="copyLyric"
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
+          @click="copyLyric"
         >
           <Copy class="h-4 w-4" />
           <span class="hidden sm:inline">{{ $t("lyric.copyLyric") }}</span>
         </button>
         <button
           v-if="parsedLyrics.length > 0"
-          @click="downloadLyric"
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 rounded-xl transition-all active:scale-95"
+          @click="downloadLyric"
         >
           <Download class="h-4 w-4" />
           <span class="hidden sm:inline">{{ $t("lyric.downloadLrc") }}</span>
@@ -267,9 +267,9 @@ const onSliderInput = (e: Event) => {
             />
           </div>
           <button
-            @click="handleSearch"
             :disabled="!searchKeyword.trim() || searching"
             class="px-6 py-3 bg-blue-500 text-white rounded-2xl text-sm font-medium hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
+            @click="handleSearch"
           >
             <div
               v-if="searching"
@@ -308,8 +308,8 @@ const onSliderInput = (e: Event) => {
             <button
               v-for="song in searchResults"
               :key="song.hash"
-              @click="handleGetLyric(song)"
               class="w-full px-5 py-4 flex items-center gap-4 text-left hover:bg-muted/10 transition-colors group"
+              @click="handleGetLyric(song)"
             >
               <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-foreground truncate">
@@ -356,8 +356,8 @@ const onSliderInput = (e: Event) => {
                 </p>
               </div>
               <button
-                @click="backToResults"
                 class="text-xs text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-xl hover:bg-muted/30 transition-all shrink-0"
+                @click="backToResults"
               >
                 {{ $t("common.back") }}
               </button>
@@ -420,25 +420,25 @@ const onSliderInput = (e: Event) => {
             >
             <div class="flex items-center bg-muted/30 rounded-xl p-1 gap-0.5">
               <button
-                @click="displayMode = 'timeline'"
                 class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
                 :class="
                   displayMode === 'timeline'
                     ? 'bg-background text-foreground'
                     : 'text-muted-foreground hover:text-foreground'
                 "
+                @click="displayMode = 'timeline'"
               >
                 <Clock class="h-3.5 w-3.5" />
                 {{ $t("lyric.timeline") }}
               </button>
               <button
-                @click="displayMode = 'plain'"
                 class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
                 :class="
                   displayMode === 'plain'
                     ? 'bg-background text-foreground'
                     : 'text-muted-foreground hover:text-foreground'
                 "
+                @click="displayMode = 'plain'"
               >
                 <AlignLeft class="h-3.5 w-3.5" />
                 {{ $t("lyric.lyricMode") }}
@@ -507,15 +507,15 @@ const onSliderInput = (e: Event) => {
           <!-- Action Buttons (mobile-friendly) -->
           <div class="flex flex-col sm:flex-row gap-3">
             <button
-              @click="downloadLyric"
               class="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-background border border-muted text-foreground rounded-2xl font-medium transition-all hover:bg-muted active:scale-[0.98]"
+              @click="downloadLyric"
             >
               <Download class="h-4 w-4" />
               {{ $t("lyric.downloadLrc") }}
             </button>
             <button
-              @click="copyLyric"
               class="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-background border border-muted text-foreground rounded-2xl font-medium transition-all hover:bg-muted active:scale-[0.98]"
+              @click="copyLyric"
             >
               <Copy class="h-4 w-4" />
               {{ $t("lyric.copyLyric") }}

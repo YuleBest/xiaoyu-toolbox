@@ -153,7 +153,7 @@ const copyResult = async () => {
   try {
     await navigator.clipboard.writeText(scanResult.value);
     showToast(t("common.copySuccess"));
-  } catch (err) {
+  } catch (_err) {
     showToast(t("common.copyFailed"), "error");
   }
 };
@@ -197,23 +197,23 @@ onMounted(() => {
       <!-- Tabs -->
       <div class="flex p-1 bg-muted/30 rounded-2xl w-fit">
         <button
-          @click="activeTab = 'generate'"
           class="flex items-center gap-2 px-6 py-2.5 rounded-xl transition-all font-medium text-sm"
           :class="
             activeTab === 'generate'
               ? 'bg-background text-foreground'
               : 'btn-ghost'
           "
+          @click="activeTab = 'generate'"
         >
           <QrCode class="h-4 w-4" />
           {{ $t("qrcode.generateTab") }}
         </button>
         <button
-          @click="activeTab = 'scan'"
           class="flex items-center gap-2 px-6 py-2.5 rounded-xl transition-all font-medium text-sm"
           :class="
             activeTab === 'scan' ? 'bg-background text-foreground' : 'btn-ghost'
           "
+          @click="activeTab = 'scan'"
         >
           <Scan class="h-4 w-4" />
           {{ $t("qrcode.scanTab") }}
@@ -244,13 +244,13 @@ onMounted(() => {
                     { id: 'mail', label: $t('qrcode.mail'), icon: Mail },
                   ]"
                   :key="type.id"
-                  @click="qrType = type.id as any"
                   class="flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all active:scale-95"
                   :class="
                     qrType === type.id
                       ? 'bg-blue-500/10 border-blue-500/30 text-blue-600'
                       : 'bg-background border-muted/50 text-muted-foreground hover:border-muted-foreground/30'
                   "
+                  @click="qrType = type.id as any"
                 >
                   <component :is="type.icon" class="h-5 w-5" />
                   <span class="text-xs font-medium">{{ type.label }}</span>
@@ -325,8 +325,8 @@ onMounted(() => {
                 <div class="flex items-end pb-2 px-1">
                   <label class="flex items-center gap-2 cursor-pointer group">
                     <input
-                      type="checkbox"
                       v-model="wifiHidden"
+                      type="checkbox"
                       class="sr-only"
                     />
                     <div
@@ -400,13 +400,13 @@ onMounted(() => {
                     <button
                       v-for="level in ['L', 'M', 'Q', 'H']"
                       :key="level"
-                      @click="qrOptions.errorCorrectionLevel = level as any"
                       class="flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all"
                       :class="
                         qrOptions.errorCorrectionLevel === level
                           ? 'bg-background text-blue-600'
                           : 'btn-ghost'
                       "
+                      @click="qrOptions.errorCorrectionLevel = level as any"
                     >
                       {{ level }}
                     </button>
@@ -433,8 +433,8 @@ onMounted(() => {
                         :style="{ backgroundColor: qrOptions.color.dark }"
                       >
                         <input
-                          type="color"
                           v-model="qrOptions.color.dark"
+                          type="color"
                           class="opacity-0 w-full h-full cursor-pointer"
                         />
                       </div>
@@ -450,8 +450,8 @@ onMounted(() => {
                         :style="{ backgroundColor: qrOptions.color.light }"
                       >
                         <input
-                          type="color"
                           v-model="qrOptions.color.light"
+                          type="color"
                           class="opacity-0 w-full h-full cursor-pointer"
                         />
                       </div>
@@ -474,8 +474,8 @@ onMounted(() => {
                     }}</span>
                   </div>
                   <input
-                    type="range"
                     v-model.number="qrOptions.margin"
+                    type="range"
                     min="0"
                     max="20"
                     step="1"
@@ -492,8 +492,8 @@ onMounted(() => {
                     >
                   </div>
                   <input
-                    type="range"
                     v-model.number="qrOptions.width"
+                    type="range"
                     min="100"
                     max="1000"
                     step="50"
@@ -540,9 +540,9 @@ onMounted(() => {
 
               <div class="flex flex-col w-full gap-3">
                 <button
-                  @click="downloadQR"
                   :disabled="!qrDataUrl"
                   class="btn-primary w-full py-3 rounded-2xl group"
+                  @click="downloadQR"
                 >
                   <Download class="h-5 w-5 group-hover:bounce-y" />
                   {{ $t("qrcode.saveQr") }}
@@ -578,8 +578,8 @@ onMounted(() => {
           @drop.prevent="handleFileUpload"
         >
           <input
-            type="file"
             ref="scannerInput"
+            type="file"
             accept="image/*"
             class="hidden"
             @change="handleFileUpload"
@@ -588,8 +588,8 @@ onMounted(() => {
           <div class="flex flex-col items-center gap-4 py-8">
             <div class="relative w-24 h-24 flex items-center justify-center">
               <div
-                class="absolute inset-0 bg-blue-500/10 rounded-full animate-ping opacity-20"
                 v-if="isScanning"
+                class="absolute inset-0 bg-blue-500/10 rounded-full animate-ping opacity-20"
               ></div>
               <div
                 class="absolute inset-0 bg-blue-500/5 rounded-full scale-125"
@@ -616,16 +616,16 @@ onMounted(() => {
 
             <div class="flex gap-3 mt-4">
               <button
-                @click="scannerInput?.click()"
                 class="btn-secondary px-6 py-2.5 rounded-2xl"
+                @click="scannerInput?.click()"
               >
                 <ImageIcon class="h-4 w-4" />
                 {{ $t("qrcode.selectImage") }}
               </button>
               <button
                 v-if="scanPreviewUrl"
-                @click="clearScan"
                 class="btn-destructive px-6 py-2.5 rounded-2xl"
+                @click="clearScan"
               >
                 <Trash2 class="h-4 w-4" />
                 {{ $t("common.clear") }}
@@ -642,8 +642,8 @@ onMounted(() => {
                 $t("qrcode.scanResult")
               }}</label>
               <button
-                @click="copyResult"
                 class="btn-ghost p-1 bg-transparent text-xs text-blue-600 font-medium hover:underline"
+                @click="copyResult"
               >
                 <Copy class="h-3 w-3" />
                 {{ $t("qrcode.copyContent") }}

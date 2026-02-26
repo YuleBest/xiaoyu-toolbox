@@ -10,9 +10,9 @@ const router = useRouter();
 const topTools = computed(() => allTools.filter((t) => t.isTop));
 const hotTools = computed(() => allTools.filter((t) => t.isHot && !t.isTop));
 const latestTools = computed(() =>
-  [...allTools]
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 6),
+  [...allTools].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  ),
 );
 
 const handleToolClick = (path: string) => {

@@ -53,8 +53,8 @@ const handleToolClick = (path: string) => {
     <div class="sticky top-0 z-30 pt-4 pb-6 bg-background/80 backdrop-blur-xl">
       <div class="flex items-center gap-4">
         <button
-          @click="goBack"
           class="p-2.5 rounded-full hover:bg-muted transition-colors active:scale-90"
+          @click="goBack"
         >
           <ArrowLeft class="h-6 w-6" />
         </button>
@@ -72,8 +72,8 @@ const handleToolClick = (path: string) => {
           />
           <button
             v-if="searchQuery"
-            @click="clearSearch"
             class="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full bg-muted-foreground/10 hover:bg-muted-foreground/20 transition-colors"
+            @click="clearSearch"
           >
             <X class="h-4 w-4" />
           </button>

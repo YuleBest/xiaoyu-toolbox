@@ -11,7 +11,7 @@ import {
 } from "lucide-vue-next";
 import { type Tool, default_license, default_copyright } from "@/config/tools";
 
-const props = defineProps<{
+defineProps<{
   tool: Tool;
 }>();
 
@@ -57,12 +57,12 @@ const toggleInfo = () => {
           <slot name="actions" />
 
           <button
-            @click="toggleInfo"
             class="flex items-center gap-2 p-2 md:px-4 md:py-2 rounded-xl hover:bg-muted transition-all active:scale-95 group border border-transparent"
             :class="{
               'bg-blue-500/10 text-blue-500 border-blue-500/20': isInfoOpen,
             }"
             :aria-label="$t('toolContainer.toolInfo')"
+            @click="toggleInfo"
           >
             <Info class="h-5 w-5 md:h-4 md:w-4" />
             <span class="text-sm font-medium hidden sm:inline">{{

@@ -44,6 +44,19 @@ jobs:
         if: steps.eslint_run.outcome == 'failure'
         run: exit 1
 
+      - name: Run Vue-tsc
+        id: vue_tsc_run
+        continue-on-error: true
+        run: |
+          echo "### Vue-tsc Output" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          pnpm run lint:vue-tsc --no-color | tee -a $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Check Status
+        if: steps.vue_tsc_run.outcome == 'failure'
+        run: exit 1
+
       - name: Run Build
         id: build_run
         continue-on-error: true

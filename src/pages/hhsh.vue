@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { ref, inject } from "vue";
 import { useI18n } from "vue-i18n";
@@ -140,15 +141,15 @@ const getContextSnippet = (word: string, fullText: string) => {
             v-model="inputText"
             type="text"
             :placeholder="t('hhsh.inputPlaceholder')"
-            @keyup.enter="handleQuery"
             class="w-full pl-12 pr-4 py-4 bg-card/50 border-2 border-muted/60 focus:border-blue-500/50 focus:bg-card/80 rounded-2xl outline-none transition-all text-base shadow-none"
             :disabled="loading"
+            @keyup.enter="handleQuery"
           />
         </div>
         <button
-          @click="handleQuery"
           :disabled="loading || !inputText.trim()"
           class="flex items-center justify-center gap-2 px-8 py-4 bg-blue-500 text-white font-medium rounded-2xl hover:bg-blue-600 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+          @click="handleQuery"
         >
           <div
             v-if="loading"
@@ -195,8 +196,8 @@ const getContextSnippet = (word: string, fullText: string) => {
               ></span>
             </h3>
             <button
-              @click="openSubmit(item.name)"
               class="flex items-center gap-1.5 px-3 py-1.5 bg-blue-500/10 text-blue-600 dark:text-blue-400 hover:bg-blue-500/20 rounded-xl text-sm font-medium transition-all active:scale-95 shrink-0"
+              @click="openSubmit(item.name)"
             >
               <Plus class="w-4 h-4" />
               <span class="hidden sm:inline">{{ t("hhsh.submitNew") }}</span>
@@ -221,8 +222,8 @@ const getContextSnippet = (word: string, fullText: string) => {
 
               <button
                 v-if="item.trans.length > 10"
-                @click="toggleExpand(item.name)"
                 class="px-3 py-1.5 border border-transparent hover:bg-muted/50 rounded-xl text-[13px] font-medium text-blue-500 flex items-center gap-1 transition-colors"
+                @click="toggleExpand(item.name)"
               >
                 {{
                   expandedCards.has(item.name)
@@ -280,16 +281,16 @@ const getContextSnippet = (word: string, fullText: string) => {
                   v-model="submitForm.text"
                   type="text"
                   :placeholder="t('hhsh.submitPlaceholder')"
-                  @keyup.enter="handleSubmit"
                   class="flex-1 px-3 py-2 bg-background border border-muted focus:border-blue-500 rounded-xl outline-none text-sm transition-all"
                   :disabled="submitting"
+                  @keyup.enter="handleSubmit"
                 />
                 <button
-                  @click="handleSubmit"
                   :disabled="submitting || !submitForm.text.trim()"
                   class="flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-xl hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50 shrink-0"
+                  @click="handleSubmit"
                 >
-                  <Send class="w-3.5 h-3.5" v-if="!submitting" />
+                  <Send v-if="!submitting" class="w-3.5 h-3.5" />
                   <div
                     v-else
                     class="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin"
