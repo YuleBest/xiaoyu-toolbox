@@ -820,5 +820,7 @@ export default {
     queryFailed: "查询失败，请重试",
     checkInput: "请检查输入的手机号码是否正确（11位数字）",
     history: "查询历史",
+    loadingDb: "正在加载号码数据库...",
+    dbLoadFailed: "号码数据库加载失败，请刷新页面重试",
   },
 };

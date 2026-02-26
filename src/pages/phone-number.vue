@@ -1,10 +1,22 @@
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import { useI18n } from "vue-i18n";
-import { Search, MapPin, Building2, Wifi, Phone, X } from "lucide-vue-next";
+import {
+  Search,
+  MapPin,
+  Building2,
+  Wifi,
+  Phone,
+  X,
+  Loader2,
+} from "lucide-vue-next";
 import ToolContainer from "@/components/tool/ToolContainer.vue";
 import { allTools } from "@/config/tools";
-import { lookupPhoneNumber, type PhoneNumberResult } from "@/api/phoneNumber";
+import {
+  lookupPhoneNumber,
+  loadConfig,
+  type PhoneNumberResult,
+} from "@/api/phoneNumber";
 
 const { t } = useI18n();
 const tool = allTools.find((t) => t.id === "phone-number")!;
@@ -14,6 +26,17 @@ const loading = ref(false);
 const result = ref<PhoneNumberResult | null>(null);
 const hasQueried = ref(false);
 const errorMsg = ref("");
+
+// 异步加载号码数据库配置
+const dbReady = ref(false);
+const dbError = ref(false);
+loadConfig()
+  .then(() => {
+    dbReady.value = true;
+  })
+  .catch(() => {
+    dbError.value = true;
+  });
 
 const history = ref<{ phone: string; result: PhoneNumberResult }[]>([]);
 
@@ -107,7 +130,36 @@ const clearHistory = () => {
 
 <template>
   <ToolContainer :tool="tool">
-    <div class="max-w-2xl mx-auto space-y-6">
+    <!-- 数据库加载中 -->
+    <div v-if="!dbReady && !dbError" class="max-w-2xl mx-auto">
+      <div
+        class="bg-card/30 border border-muted/80 rounded-3xl p-12 flex flex-col items-center justify-center space-y-4"
+      >
+        <Loader2 class="h-8 w-8 text-blue-500 animate-spin" />
+        <p class="text-sm text-muted-foreground font-medium">
+          {{ t("phoneNumber.loadingDb") }}
+        </p>
+      </div>
+    </div>
+
+    <!-- 数据库加载失败 -->
+    <div v-else-if="dbError" class="max-w-2xl mx-auto">
+      <div
+        class="bg-card/30 border border-red-500/30 rounded-3xl p-12 flex flex-col items-center justify-center space-y-3"
+      >
+        <div
+          class="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mb-2"
+        >
+          <X class="h-8 w-8 text-red-500" />
+        </div>
+        <p class="text-lg font-medium text-foreground">
+          {{ t("phoneNumber.dbLoadFailed") }}
+        </p>
+      </div>
+    </div>
+
+    <!-- 正常内容 -->
+    <div v-else class="max-w-2xl mx-auto space-y-6">
       <!-- Input Card -->
       <div class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-8">
         <div class="flex gap-3">

@@ -1,9 +1,23 @@
-import configData from "@/assets/database/phone_number/config.json";
-
 export interface PhoneNumberResult {
   province: string;
   city: string;
   isp: string;
+}
+
+interface ConfigData {
+  p: string[];
+  c: string[];
+  i: string[];
+}
+
+let configData: ConfigData | null = null;
+
+export async function loadConfig(): Promise<ConfigData> {
+  if (configData) return configData;
+  const res = await fetch("/database/phone_number/config.json");
+  if (!res.ok) throw new Error("Failed to load phone number config");
+  configData = (await res.json()) as ConfigData;
+  return configData;
 }
 
 const dataCache = new Map<string, Record<string, number[]>>();
@@ -15,8 +29,9 @@ async function loadPrefixData(
     return dataCache.get(prefix3)!;
   }
   try {
-    const mod = await import(`@/assets/database/phone_number/${prefix3}.json`);
-    const data = mod.default as Record<string, number[]>;
+    const res = await fetch(`/database/phone_number/${prefix3}.json`);
+    if (!res.ok) return null;
+    const data = (await res.json()) as Record<string, number[]>;
     dataCache.set(prefix3, data);
     return data;
   } catch {
@@ -34,6 +49,8 @@ export async function lookupPhoneNumber(
     return null;
   }
 
+  const config = await loadConfig();
+
   const prefix3 = cleaned.substring(0, 3);
   const prefix7 = cleaned.substring(0, 7);
 
@@ -46,8 +63,8 @@ export async function lookupPhoneNumber(
   const [pIdx, cIdx, iIdx] = indices;
 
   return {
-    province: (pIdx != null ? configData.p[pIdx] : undefined) ?? "未知",
-    city: (cIdx != null ? configData.c[cIdx] : undefined) ?? "未知",
-    isp: (iIdx != null ? configData.i[iIdx] : undefined) ?? "未知",
+    province: (pIdx != null ? config.p[pIdx] : undefined) ?? "未知",
+    city: (cIdx != null ? config.c[cIdx] : undefined) ?? "未知",
+    isp: (iIdx != null ? config.i[iIdx] : undefined) ?? "未知",
   };
 }
