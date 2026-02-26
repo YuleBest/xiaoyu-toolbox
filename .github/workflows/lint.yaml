@@ -1,5 +1,8 @@
 name: Code Lint & Build Test
 
+env:
+  NO_COLOR: 1
+
 on:
   push:
     branches: ["main"]
@@ -50,7 +53,7 @@ jobs:
         run: |
           echo "### Vue-tsc Output" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          pnpm run lint:vue-tsc --no-color | tee -a $GITHUB_STEP_SUMMARY
+          pnpm run lint:vue-tsc | tee -a $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Check Status
