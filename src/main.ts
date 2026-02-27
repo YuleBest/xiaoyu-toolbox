@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { routes } from "vue-router/auto-routes";
 import { createHead } from "@unhead/vue/client";
 import "./style.css";
+import "./assets/fonts.css";
 import App from "./App.vue";
 import i18n from "./i18n";
 
