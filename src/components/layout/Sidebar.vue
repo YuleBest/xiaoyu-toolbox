@@ -7,6 +7,7 @@ import { navigationStore } from "@/stores/navigation";
 
 import ModeToggle from "@/components/ModeToggle.vue";
 import LanguageToggle from "@/components/LanguageToggle.vue";
+import ConnectionToggle from "@/components/ConnectionToggle.vue";
 
 const route = useRoute();
 
@@ -115,6 +116,15 @@ defineProps<{
 
     <!-- Bottom Controls -->
     <div class="px-2 pt-4 border-t border-muted-foreground/5 mt-auto space-y-2">
+      <!-- Connection -->
+      <div
+        class="flex items-center justify-between px-3 py-1.5 rounded-lg bg-muted/20"
+      >
+        <span class="text-[12px] font-medium text-muted-foreground">{{
+          $t("connection.label")
+        }}</span>
+        <ConnectionToggle />
+      </div>
       <!-- Theme -->
       <div
         class="flex items-center justify-between px-3 py-1.5 rounded-lg bg-muted/20"

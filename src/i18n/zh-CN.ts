@@ -65,6 +65,13 @@ export default {
     en: "English",
   },
 
+  // === 连接设置 ===
+  connection: {
+    label: "连接节点",
+    cn: "腾讯云",
+    intl: "Cloudflare",
+  },
+
   home: {
     featured: "精选推荐",
     hot: "热门使用",

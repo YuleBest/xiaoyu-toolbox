@@ -6,6 +6,7 @@ import { mainNav, categories } from "@/config/nav";
 import { navigationStore } from "@/stores/navigation";
 import ModeToggle from "@/components/ModeToggle.vue";
 import LanguageToggle from "@/components/LanguageToggle.vue";
+import ConnectionToggle from "@/components/ConnectionToggle.vue";
 
 const isMobileMenuOpen = ref(false);
 const route = useRoute();
@@ -67,6 +68,12 @@ watch(
       </div>
 
       <div class="flex items-center gap-2">
+        <ConnectionToggle
+          :class="[
+            isMobileMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100',
+          ]"
+          class="transition-opacity duration-300"
+        />
         <LanguageToggle
           :class="[
             isMobileMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100',
