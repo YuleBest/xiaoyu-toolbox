@@ -18,8 +18,9 @@ useHead({
       crossorigin: "",
     },
     {
+      rel: "preload",
+      as: "style",
       href: "https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap",
-      rel: "stylesheet",
     },
   ],
 });

@@ -25,7 +25,7 @@ import BackButton from "@/components/layout/BackButton.vue";
       <div
         class="flex flex-col min-h-screen p-6 md:px-14 md:py-8 lg:px-20 lg:py-10 max-w-7xl mx-auto"
       >
-        <div class="flex-1">
+        <div class="flex-1 min-h-[60vh]">
           <slot />
         </div>
         <Footer />
