@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useRoute, RouterLink } from "vue-router";
-import { Search, ChevronRight } from "lucide-vue-next";
+import { Search, ChevronRight, Settings } from "lucide-vue-next";
 import { mainNav, categories } from "@/config/nav";
 import { navigationStore } from "@/stores/navigation";
 import ModeToggle from "@/components/ModeToggle.vue";
@@ -9,6 +9,7 @@ import LanguageToggle from "@/components/LanguageToggle.vue";
 import ConnectionToggle from "@/components/ConnectionToggle.vue";
 
 const isMobileMenuOpen = ref(false);
+const isSettingsOpen = ref(false);
 const route = useRoute();
 
 // 路由改变自动关闭
@@ -16,15 +17,21 @@ watch(
   () => route.path,
   () => {
     isMobileMenuOpen.value = false;
+    isSettingsOpen.value = false;
   },
 );
+
+function toggleSettings() {
+  isSettingsOpen.value = !isSettingsOpen.value;
+}
 </script>
 
 <template>
   <header
     class="md:hidden fixed top-0 w-full z-50 border-b overflow-hidden mobile-nav-transition"
+    :class="[isSettingsOpen && !isMobileMenuOpen ? 'rounded-b-2xl' : '']"
     :style="{
-      height: isMobileMenuOpen ? '100dvh' : '64px',
+      height: isMobileMenuOpen ? '100dvh' : isSettingsOpen ? '320px' : '64px',
       backgroundColor: isMobileMenuOpen
         ? 'var(--card)'
         : 'color-mix(in srgb, var(--card), transparent 20%)',
@@ -37,7 +44,10 @@ watch(
       <div class="flex items-center gap-1">
         <button
           class="w-10 h-10 flex items-center justify-start active:scale-95 transition-all outline-none"
-          @click="isMobileMenuOpen = !isMobileMenuOpen"
+          @click="
+            isMobileMenuOpen = !isMobileMenuOpen;
+            isSettingsOpen = false;
+          "
         >
           <div class="relative w-6 h-6">
             <div
@@ -67,25 +77,63 @@ watch(
         }}</span>
       </div>
 
-      <div class="flex items-center gap-2">
-        <ConnectionToggle
-          :class="[
-            isMobileMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100',
-          ]"
-          class="transition-opacity duration-300"
-        />
-        <LanguageToggle
-          :class="[
-            isMobileMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100',
-          ]"
-          class="transition-opacity duration-300"
-        />
-        <ModeToggle
-          :class="[
-            isMobileMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100',
-          ]"
-          class="transition-opacity duration-300"
-        />
+      <div class="flex items-center gap-1">
+        <button
+          class="w-10 h-10 flex items-center justify-end active:scale-95 transition-all outline-none"
+          :class="[isMobileMenuOpen ? 'pointer-events-none' : '']"
+          @click="toggleSettings"
+        >
+          <Settings
+            :size="22"
+            class="transition-all duration-500 shrink-0"
+            style="width: 22px; height: 22px; min-width: 22px; min-height: 22px"
+            :class="[
+              isSettingsOpen ? 'rotate-90 text-blue-500' : 'text-foreground/80',
+            ]"
+          />
+        </button>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div
+      class="relative transition-opacity duration-300"
+      :class="[
+        isMobileMenuOpen
+          ? 'h-0 overflow-hidden'
+          : isSettingsOpen
+            ? 'opacity-100 border-t border-muted/30'
+            : 'border-t border-transparent',
+      ]"
+    >
+      <div class="px-6 py-5 space-y-3">
+        <!-- Connection -->
+        <div
+          class="flex items-center justify-between px-4 py-3 rounded-xl bg-muted/30"
+        >
+          <span class="text-[13px] font-medium text-muted-foreground">{{
+            $t("connection.label")
+          }}</span>
+          <ConnectionToggle />
+        </div>
+        <!-- Theme -->
+        <div
+          class="flex items-center justify-between px-4 py-3 rounded-xl bg-muted/30"
+        >
+          <span class="text-[13px] font-medium text-muted-foreground">{{
+            $t("theme.label")
+          }}</span>
+          <ModeToggle />
+        </div>
+        <!-- Language -->
+        <div
+          class="flex items-center justify-between px-4 py-3 rounded-xl bg-muted/30"
+        >
+          <span class="text-[13px] font-medium text-muted-foreground">{{
+            $t("lang.label")
+          }}</span>
+          <LanguageToggle />
+        </div>
       </div>
     </div>
 
