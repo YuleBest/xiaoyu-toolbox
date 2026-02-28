@@ -128,7 +128,7 @@ export default {
         "1. 粘贴 JSON 或 YAML 内容。\n2. 点击转换按钮即可进行格式转换。\n3. 支持一键复制和清空。",
     },
     playground: {
-      title: "TypeScript 演练场",
+      title: "JS 演练场",
       subtitle: "浏览器内的 JS / TS 沙盒",
       description:
         "基于 Sandpack 和 Monaco Editor 的在线代码演练场，支持实时预览 JavaScript/TypeScript 代码运行效果。",
@@ -137,7 +137,7 @@ export default {
     },
     qrcode: {
       title: "二维码工具",
-      subtitle: "生成与识别二维码",
+      subtitle: "生成与识别二维码，支持多种样式",
       description:
         "快速生成自定义二维码，或识别图片中的二维码内容。支持下载生成的二维码图片。",
       usage:
@@ -183,7 +183,7 @@ export default {
         "1. 输入城市名称（支持中文拼音或英文）进行搜索。\n2. 选择正确的城市。\n3. 查看详细的天气信息。\n\nTip: 由于使用非本土化接口，搜索不到国内城市时，可尝试使用拼音。例如：beijing 代替北京",
     },
     hok: {
-      title: "王者荣耀战斗查询",
+      title: "王者荣耀查询",
       subtitle: "英雄装备技能查询",
       description:
         "王者荣耀游戏数据查询工具，支持查询英雄信息、装备属性和召唤师技能详情。包含完整的英雄皮肤列表、装备效果说明和技能冷却时间等详细信息。",
@@ -221,8 +221,8 @@ export default {
       },
     },
     mcpe: {
-      title: "MC PE 全版本下载",
-      subtitle: "MC PE 全版本下载",
+      title: "MC PE 下载",
+      subtitle: "Minecrat PE 全版本下载",
       description: "浏览和下载 Minecraft PE 版全版本",
       usage:
         "1. 通过搜索框筛选需要的版本号。\n2. 点击版本卡片即可查看或下载不同渠道的安装包。\n3. 注意区分正式版与测试版 (Beta)。",

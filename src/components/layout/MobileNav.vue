@@ -71,7 +71,7 @@ function toggleSettings() {
       <div
         class="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-none"
       >
-        <img src="/logo.svg" class="h-5 w-5" alt="Logo" />
+        <img src="/favicon.svg" class="h-5 w-5" alt="Logo" />
         <span class="font-semibold text-[16px] tracking-tight">{{
           $t("common.appName")
         }}</span>

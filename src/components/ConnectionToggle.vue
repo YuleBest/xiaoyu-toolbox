@@ -30,12 +30,12 @@ const latencies = ref<Record<string, number | null>>({
 const measuring = ref(false);
 
 /**
- * 单次加载 logo.svg（每次唯一随机参数绕过缓存）
+ * 单次加载 favicon.svg（每次唯一随机参数绕过缓存）
  */
 function measureOnce(host: string): Promise<number> {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    const url = `https://${host}/logo.svg?_=${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    const url = `https://${host}/favicon.svg?_=${Date.now()}_${Math.random().toString(36).slice(2)}`;
     const start = performance.now();
     img.onload = () => resolve(performance.now() - start);
     img.onerror = () => reject(new Error("load failed"));

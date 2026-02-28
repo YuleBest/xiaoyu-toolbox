@@ -17,12 +17,12 @@ const handleToolClick = (path: string) => {
 
 <template>
   <div
-    class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-3xl bg-secondary/20 hover:bg-secondary/40 border border-transparent hover:border-blue-500/10 transition-all duration-300 group cursor-pointer relative"
+    class="aspect-square flex flex-col justify-between items-start p-4 sm:p-5 rounded-3xl bg-secondary/20 hover:bg-secondary/40 border border-transparent hover:border-blue-500/10 transition-all duration-300 group cursor-pointer relative"
     @click="handleToolClick(tool.path)"
   >
     <!-- Star Icon Overlay -->
     <div
-      class="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 p-1 rounded-full hover:bg-background/80 transition-colors"
+      class="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 p-1 flex items-center justify-center rounded-full hover:bg-background/80 transition-colors"
       @click.stop="toggleFavorite(tool.id)"
     >
       <Star
@@ -35,13 +35,16 @@ const handleToolClick = (path: string) => {
       />
     </div>
 
+    <!-- Icon -->
     <div
       class="h-12 w-12 sm:h-14 sm:w-14 shrink-0 rounded-[0.9rem] sm:rounded-[1.1rem] bg-secondary flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform duration-500"
       :class="tool.color"
     >
       <component :is="tool.icon" class="h-6 w-6 sm:h-7 sm:w-7" />
     </div>
-    <div class="flex-1 min-w-0 w-full pr-6 sm:pr-8">
+
+    <!-- Text Content -->
+    <div class="flex-1 flex flex-col justify-end min-w-0 w-full mt-2">
       <h3
         class="truncate group-hover:text-blue-500 transition-colors text-sm sm:text-base font-semibold"
       >

@@ -16,5 +16,5 @@
 /robots.txt
   Cache-Control: public, max-age=0, must-revalidate
 
-/logo.svg
+/favicon.svg
   Cache-Control: public, max-age=86400

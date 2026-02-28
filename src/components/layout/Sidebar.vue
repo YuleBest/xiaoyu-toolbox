@@ -31,7 +31,7 @@ defineProps<{
         >
           <div class="flex items-center gap-2.5">
             <div class="h-8 w-8 rounded-full flex items-center justify-center">
-              <img src="/logo.svg" class="h-5 w-5" alt="Logo" />
+              <img src="/favicon.svg" class="h-5 w-5" alt="Logo" />
             </div>
             <div class="flex flex-col overflow-hidden">
               <span class="text-[16px] font-semibold truncate leading-tight">{{
