@@ -17,13 +17,42 @@
 - **无广告**：纯净的使用体验，无任何干扰广告。
 - **保护隐私**：大部分工具纯前端运行，数据不上传服务器。
 
-## 工具列表
-
-请查看 [工具列表](https://tool.yule.ink/#/tools) 或 [tools.json](./src/assets/data/tools.json)
-
 ## 开始使用
 
 你可以 [在线使用](https://tool.yule.ink) 或自行部署
+
+## 工具列表
+
+- 开发工具
+  - [Base64 转换](https://tool.yule.ink/base64)
+  - [JSON-YAML 转换](https://tool.yule.ink/json-yaml)
+  - [JS 演练场](https://tool.yule.ink/playground)
+  - [翻译 (Builtin AI)](https://tool.yule.ink/translator-ai)
+  - [代码图片生成](https://tool.yule.ink/codeimg)
+
+- 图像工具
+  - [二维码工具](https://tool.yule.ink/qrcode)
+  - [图片 EXIF 查看](https://tool.yule.ink/exif)
+
+- 多媒体工具
+  - [抖音视频解析](https://tool.yule.ink/dydown)
+  - [B站视频解析](https://tool.yule.ink/bilidown)
+  - [BV/AV 号互转](https://tool.yule.ink/bvav)
+  - [歌词获取](https://tool.yule.ink/lyric)
+
+- 生活查询
+  - [好好说话](https://tool.yule.ink/hhsh)
+  - [机查查](https://tool.yule.ink/jichacha)
+  - [天气查询](https://tool.yule.ink/weather)
+  - [汇率查询](https://tool.yule.ink/exchange)
+  - [长度单位换算](https://tool.yule.ink/length)
+  - [归属地查询](https://tool.yule.ink/phone-number)
+  - [微博热搜](https://tool.yule.ink/weibo-hot)
+
+- 游戏工具
+  - [王者荣耀查询](https://tool.yule.ink/hok)
+  - [反应力测试](https://tool.yule.ink/reaction)
+  - [MC PE 下载](https://tool.yule.ink/mcpe)
 
 ### 部署指南
 
