@@ -97,13 +97,11 @@ function toggleSettings() {
 
     <!-- Settings Panel -->
     <div
-      class="relative transition-opacity duration-300"
+      class="absolute top-16 left-0 w-full transition-opacity duration-300"
       :class="[
-        isMobileMenuOpen
-          ? 'h-0 overflow-hidden'
-          : isSettingsOpen
-            ? 'opacity-100 border-t border-muted/30'
-            : 'border-t border-transparent',
+        isSettingsOpen && !isMobileMenuOpen
+          ? 'opacity-100 border-t border-muted/30 pointer-events-auto'
+          : 'opacity-0 border-t border-transparent pointer-events-none',
       ]"
     >
       <div class="px-6 py-5 space-y-3">
