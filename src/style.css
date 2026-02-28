@@ -200,3 +200,14 @@
 .page-leave-to {
   opacity: 0;
 }
+
+/* Custom NProgress */
+#nprogress .bar {
+  background: var(--color-blue-500, #3b82f6) !important;
+  height: 3px !important;
+}
+#nprogress .peg {
+  box-shadow:
+    0 0 10px var(--color-blue-500, #3b82f6),
+    0 0 5px var(--color-blue-500, #3b82f6) !important;
+}

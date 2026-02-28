@@ -15,7 +15,8 @@
     "lint:vue-tsc": "npx vue-tsc --noEmit -p ./tsconfig.app.json",
     "lint:fix": "pnpm run lint --fix",
     "lint:format:check": "prettier --check .",
-    "lint:format:fix": "prettier --write ."
+    "lint:format:fix": "prettier --write .",
+    "lint:full": "pnpm run lint && pnpm run lint:vue-tsc && pnpm run lint:format:check"
   },
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
@@ -35,6 +36,7 @@
     "js-yaml": "^4.1.1",
     "jsqr": "^1.4.0",
     "lucide-vue-next": "^0.564.0",
+    "nprogress": "^0.2.0",
     "openmeteo": "^1.2.3",
     "prismjs": "^1.30.0",
     "qrcode": "^1.5.4",
@@ -53,6 +55,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^24.10.1",
+    "@types/nprogress": "^0.2.3",
     "@types/prismjs": "^1.26.6",
     "@types/qrcode": "^1.5.6",
     "@typescript-eslint/eslint-plugin": "^8.56.0",

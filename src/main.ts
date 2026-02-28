@@ -26,8 +26,15 @@ const router = createRouter({
   },
 });
 
+import nprogress from "nprogress";
+import "nprogress/nprogress.css";
+
+// Configure nprogress
+nprogress.configure({ showSpinner: false, speed: 400 });
+
 // --- 兼容旧版 Hash URL ---
 router.beforeEach((to) => {
+  nprogress.start();
   const hash = window.location.hash;
 
   if (to.path === "/" && hash.startsWith("#/")) {
@@ -38,6 +45,10 @@ router.beforeEach((to) => {
   }
 
   return true;
+});
+
+router.afterEach(() => {
+  nprogress.done();
 });
 
 const head = createHead();

@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useRoute } from "vue-router";
-import { Search } from "lucide-vue-next";
+import { Search, Settings, ChevronUp } from "lucide-vue-next";
 import { mainNav, categories } from "@/config/nav";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { navigationStore } from "@/stores/navigation";
@@ -10,6 +11,7 @@ import LanguageToggle from "@/components/LanguageToggle.vue";
 import ConnectionToggle from "@/components/ConnectionToggle.vue";
 
 const route = useRoute();
+const settingsOpen = ref(false);
 
 defineProps<{
   userEmail?: string;
@@ -114,46 +116,79 @@ defineProps<{
       </div>
     </div>
 
-    <!-- Bottom Controls -->
-    <div class="px-2 pt-4 border-t border-muted-foreground/5 mt-auto space-y-2">
-      <!-- Connection -->
-      <div
-        class="flex items-center justify-between px-3 py-1.5 rounded-lg bg-muted/20"
+    <!-- Bottom Controls (Collapsible) -->
+    <div class="px-2 pt-4 border-t border-muted-foreground/5 mt-auto">
+      <button
+        class="w-full flex items-center justify-between px-3 py-1.5 rounded-lg hover:bg-muted/30 transition-colors cursor-pointer group"
+        @click="settingsOpen = !settingsOpen"
       >
-        <span class="text-[12px] font-medium text-muted-foreground">{{
-          $t("connection.label")
-        }}</span>
-        <ConnectionToggle />
-      </div>
-      <!-- Theme -->
+        <div class="flex items-center gap-2">
+          <Settings
+            class="h-4 w-4 text-muted-foreground/60 group-hover:text-muted-foreground transition-colors"
+          />
+          <span
+            class="text-[12px] font-medium text-muted-foreground group-hover:text-foreground/80 transition-colors"
+            >{{ $t("common.settings") }}</span
+          >
+        </div>
+        <ChevronUp
+          class="h-3.5 w-3.5 text-muted-foreground/40 transition-transform duration-300"
+          :class="{ 'rotate-180': !settingsOpen }"
+        />
+      </button>
       <div
-        class="flex items-center justify-between px-3 py-1.5 rounded-lg bg-muted/20"
+        class="settings-panel overflow-hidden transition-all duration-300 ease-in-out"
+        :class="settingsOpen ? 'settings-panel-open' : 'settings-panel-closed'"
       >
-        <span class="text-[12px] font-medium text-muted-foreground">{{
-          $t("theme.label")
-        }}</span>
-        <ModeToggle />
-      </div>
-      <!-- Language -->
-      <div
-        class="flex items-center justify-between px-3 py-1.5 rounded-lg bg-muted/20"
-      >
-        <span class="text-[12px] font-medium text-muted-foreground">{{
-          $t("lang.label")
-        }}</span>
-        <LanguageToggle />
+        <div class="space-y-2 pt-2">
+          <!-- Connection -->
+          <div
+            class="flex items-center justify-between px-3 py-1.5 rounded-lg bg-muted/20"
+          >
+            <span class="text-[12px] font-medium text-muted-foreground">{{
+              $t("connection.label")
+            }}</span>
+            <ConnectionToggle />
+          </div>
+          <!-- Theme -->
+          <div
+            class="flex items-center justify-between px-3 py-1.5 rounded-lg bg-muted/20"
+          >
+            <span class="text-[12px] font-medium text-muted-foreground">{{
+              $t("theme.label")
+            }}</span>
+            <ModeToggle />
+          </div>
+          <!-- Language -->
+          <div
+            class="flex items-center justify-between px-3 py-1.5 rounded-lg bg-muted/20"
+          >
+            <span class="text-[12px] font-medium text-muted-foreground">{{
+              $t("lang.label")
+            }}</span>
+            <LanguageToggle />
+          </div>
+        </div>
       </div>
     </div>
   </aside>
 </template>
 
 <style scoped>
+.settings-panel-open {
+  max-height: 200px;
+  opacity: 1;
+}
+.settings-panel-closed {
+  max-height: 0;
+  opacity: 0;
+}
+
 @media (max-height: 800px) {
   .short-screen-grid {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 0.35rem !important;
-    space-y: 0 !important;
     margin-bottom: 1rem !important;
   }
   .short-screen-grid > * {

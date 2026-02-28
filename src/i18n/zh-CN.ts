@@ -28,6 +28,7 @@ export default {
     chars: "字",
     approx: "约",
     reset: "重置",
+    settings: "设置",
   },
 
   // === 导航 ===
