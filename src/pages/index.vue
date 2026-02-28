@@ -3,10 +3,15 @@ import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { ChevronRight } from "lucide-vue-next";
 import { allTools } from "@/config/tools";
+import { favoriteIds } from "@/stores/favorites";
+import ToolCard from "@/components/tool/ToolCard.vue";
 
 const router = useRouter();
 
 // Filters
+const favoriteTools = computed(() =>
+  allTools.filter((t) => favoriteIds.value.includes(t.id)),
+);
 const topTools = computed(() => allTools.filter((t) => t.isTop));
 const hotTools = computed(() => allTools.filter((t) => t.isHot && !t.isTop));
 const latestTools = computed(() =>
@@ -14,14 +19,29 @@ const latestTools = computed(() =>
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   ),
 );
-
-const handleToolClick = (path: string) => {
-  router.push(path);
-};
 </script>
 
 <template>
   <div class="space-y-10">
+    <!-- Favorite Tools -->
+    <section v-if="favoriteTools.length" class="space-y-6">
+      <div class="flex items-end justify-between px-1">
+        <h2>
+          {{ $t("home.favorites") }}
+        </h2>
+      </div>
+
+      <div
+        class="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-6"
+      >
+        <ToolCard
+          v-for="tool in favoriteTools"
+          :key="'fav-' + tool.id"
+          :tool="tool"
+        />
+      </div>
+    </section>
+
     <!-- Top Tools -->
     <section v-if="topTools.length" class="space-y-6">
       <div class="flex items-end justify-between px-1">
@@ -34,32 +54,9 @@ const handleToolClick = (path: string) => {
       </div>
 
       <div
-        class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-6"
+        class="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-6"
       >
-        <div
-          v-for="tool in topTools"
-          :key="tool.id"
-          class="flex items-center gap-4 p-3 rounded-3xl bg-secondary/20 hover:bg-secondary/40 border border-transparent hover:border-blue-500/10 transition-all duration-300 group cursor-pointer"
-          @click="handleToolClick(tool.path)"
-        >
-          <div
-            class="h-14 w-14 shrink-0 rounded-[1.1rem] bg-secondary flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform duration-500"
-            :class="tool.color"
-          >
-            <component :is="tool.icon" class="h-7 w-7" />
-          </div>
-          <div class="flex-1 min-w-0">
-            <h3 class="truncate group-hover:text-blue-500 transition-colors">
-              {{ $t(tool.title) }}
-            </h3>
-            <p class="line-clamp-2 mt-1">
-              {{ $t(tool.subtitle) }}
-            </p>
-          </div>
-          <ChevronRight
-            class="h-5 w-5 text-muted-foreground/30 group-hover:text-blue-500 group-hover:translate-x-1 transition-all"
-          />
-        </div>
+        <ToolCard v-for="tool in topTools" :key="tool.id" :tool="tool" />
       </div>
     </section>
 
@@ -75,32 +72,9 @@ const handleToolClick = (path: string) => {
       </div>
 
       <div
-        class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-6"
+        class="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-6"
       >
-        <div
-          v-for="tool in hotTools"
-          :key="tool.id"
-          class="flex items-center gap-4 p-3 rounded-3xl bg-secondary/20 hover:bg-secondary/40 border border-transparent hover:border-blue-500/10 transition-all duration-300 group cursor-pointer"
-          @click="handleToolClick(tool.path)"
-        >
-          <div
-            class="h-14 w-14 shrink-0 rounded-[1.1rem] bg-secondary flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform duration-500"
-            :class="tool.color"
-          >
-            <component :is="tool.icon" class="h-7 w-7" />
-          </div>
-          <div class="flex-1 min-w-0">
-            <h3 class="truncate group-hover:text-blue-500 transition-colors">
-              {{ $t(tool.title) }}
-            </h3>
-            <p class="line-clamp-2 mt-1">
-              {{ $t(tool.subtitle) }}
-            </p>
-          </div>
-          <ChevronRight
-            class="h-5 w-5 text-muted-foreground/30 group-hover:text-blue-500 group-hover:translate-x-1 transition-all"
-          />
-        </div>
+        <ToolCard v-for="tool in hotTools" :key="tool.id" :tool="tool" />
       </div>
     </section>
 
@@ -113,34 +87,9 @@ const handleToolClick = (path: string) => {
       </div>
 
       <div
-        class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-6"
+        class="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-6"
       >
-        <div
-          v-for="tool in latestTools"
-          :key="tool.id"
-          class="flex items-center gap-4 p-3 rounded-3xl bg-secondary/20 hover:bg-secondary/40 border border-transparent hover:border-blue-500/10 transition-all duration-300 group cursor-pointer"
-          @click="handleToolClick(tool.path)"
-        >
-          <div
-            class="h-14 w-14 shrink-0 rounded-[1.1rem] bg-secondary flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform duration-500"
-            :class="tool.color"
-          >
-            <component :is="tool.icon" class="h-7 w-7" />
-          </div>
-          <div class="flex-1 min-w-0">
-            <h4 class="truncate group-hover:text-blue-500 transition-colors">
-              {{ $t(tool.title) }}
-            </h4>
-            <div class="flex items-center gap-2 mt-0.5">
-              <p class="line-clamp-2">
-                {{ $t(tool.subtitle) }}
-              </p>
-            </div>
-          </div>
-          <ChevronRight
-            class="h-5 w-5 text-muted-foreground/30 group-hover:text-blue-500 group-hover:translate-x-1 transition-all"
-          />
-        </div>
+        <ToolCard v-for="tool in latestTools" :key="tool.id" :tool="tool" />
       </div>
     </section>
   </div>

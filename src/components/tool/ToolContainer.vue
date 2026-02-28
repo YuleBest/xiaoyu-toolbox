@@ -8,8 +8,10 @@ import {
   BookOpen,
   Scale,
   Copyright,
+  Star,
 } from "lucide-vue-next";
 import { type Tool, default_license, default_copyright } from "@/config/tools";
+import { toggleFavorite, isFavorite } from "@/stores/favorites";
 
 defineProps<{
   tool: Tool;
@@ -55,6 +57,27 @@ const toggleInfo = () => {
         <div class="flex flex-wrap items-center gap-2 flex-1 justify-end">
           <!-- Actions Slot -->
           <slot name="actions" />
+
+          <button
+            class="flex items-center gap-2 p-2 md:px-4 md:py-2 rounded-xl hover:bg-muted transition-all active:scale-95 group border border-transparent"
+            :class="{
+              'bg-amber-500/10 text-amber-500 border-amber-500/20': isFavorite(
+                tool.id,
+              ),
+              'text-muted-foreground': !isFavorite(tool.id),
+            }"
+            :title="
+              isFavorite(tool.id)
+                ? $t('toolContainer.unfavorite')
+                : $t('toolContainer.favorite')
+            "
+            @click="toggleFavorite(tool.id)"
+          >
+            <Star
+              class="h-5 w-5 md:h-4 md:w-4 transition-all"
+              :class="{ 'fill-amber-500 text-amber-500': isFavorite(tool.id) }"
+            />
+          </button>
 
           <button
             class="flex items-center gap-2 p-2 md:px-4 md:py-2 rounded-xl hover:bg-muted transition-all active:scale-95 group border border-transparent"

@@ -86,6 +86,7 @@ declare module 'vue' {
     Slider: typeof import('./components/ui/slider/Slider.vue')['default']
     Sonner: typeof import('./components/ui/sonner/Sonner.vue')['default']
     Switch: typeof import('./components/ui/switch/Switch.vue')['default']
+    ToolCard: typeof import('./components/tool/ToolCard.vue')['default']
     ToolContainer: typeof import('./components/tool/ToolContainer.vue')['default']
   }
 }

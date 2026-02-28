@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { onMounted, watch } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRoute } from "vue-router";
 import { categories } from "@/config/nav";
 import { toolsData } from "@/config/tools";
 import { useIntersectionObserver } from "@vueuse/core";
 import { navigationStore, setActiveCategory } from "@/stores/navigation";
+import ToolCard from "@/components/tool/ToolCard.vue";
 
-const router = useRouter();
 const route = useRoute();
 
 const scrollToCategory = (id: string) => {
@@ -67,10 +67,6 @@ watch(
     }
   },
 );
-
-const handleToolClick = (path: string) => {
-  router.push(path);
-};
 </script>
 
 <template>
@@ -113,32 +109,13 @@ const handleToolClick = (path: string) => {
         </div>
 
         <div
-          class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-6"
+          class="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-6"
         >
-          <div
+          <ToolCard
             v-for="tool in toolsData[cat.id] || []"
             :key="tool.id"
-            class="flex items-center gap-4 p-3 rounded-3xl bg-secondary/20 hover:bg-secondary/40 border border-transparent hover:border-blue-500/10 transition-all duration-300 group cursor-pointer"
-            @click="handleToolClick(tool.path)"
-          >
-            <div
-              class="h-14 w-14 shrink-0 rounded-[1.1rem] bg-secondary flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform duration-500"
-              :class="tool.color"
-            >
-              <component :is="tool.icon" class="h-7 w-7" />
-            </div>
-            <div class="flex-1 min-w-0">
-              <h3 class="truncate group-hover:text-blue-500 transition-colors">
-                {{ $t(tool.title) }}
-              </h3>
-              <p class="line-clamp-2 mt-1">
-                {{ $t(tool.subtitle) }}
-              </p>
-            </div>
-            <ChevronRight
-              class="h-5 w-5 text-muted-foreground/30 group-hover:text-blue-500 group-hover:translate-x-1 transition-all"
-            />
-          </div>
+            :tool="tool"
+          />
         </div>
       </section>
     </div>

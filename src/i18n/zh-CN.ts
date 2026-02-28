@@ -74,6 +74,7 @@ export default {
   },
 
   home: {
+    favorites: "收藏的工具",
     featured: "精选推荐",
     hot: "热门使用",
     latest: "最新发布",
@@ -104,6 +105,8 @@ export default {
     usage: "使用指南",
     author: "作者:",
     publishDate: "发布日期:",
+    favorite: "收藏",
+    unfavorite: "取消收藏",
   },
 
   // === 工具列表 ===
