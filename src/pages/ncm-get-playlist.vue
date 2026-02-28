@@ -23,6 +23,8 @@ const limit = ref<number>(200);
 const offset = ref<number>(0);
 const chunkSize = ref<number>(50);
 
+const showConfirmDialog = ref(false);
+
 // Added state for incremental loading
 const loadingProgress = ref({ fetched: 0, total: 0 });
 
@@ -111,6 +113,19 @@ const handleFetch = async () => {
 
 const copyAll = async () => {
   if (!songs.value.length) return;
+
+  if (songs.value.length > 200) {
+    showConfirmDialog.value = true;
+    return;
+  }
+
+  await executeCopy();
+};
+
+const executeCopy = async () => {
+  showConfirmDialog.value = false;
+  if (!songs.value.length) return;
+
   const text = songs.value
     .map((s) => `${s.name} - ${s.ar.map((a) => a.name).join("/")}`)
     .join("\n");
@@ -431,6 +446,46 @@ const exportJson = () => {
         </div>
       </Transition>
     </div>
+
+    <!-- Custom Copy Confirmation Dialog -->
+    <Transition name="fade">
+      <div
+        v-if="showConfirmDialog"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4"
+        @click="showConfirmDialog = false"
+      >
+        <div
+          class="bg-background border border-muted/80 rounded-3xl p-6 shadow-2xl max-w-sm w-full animate-in zoom-in-95 duration-200"
+          @click.stop
+        >
+          <div class="flex items-center gap-3 mb-3">
+            <div class="p-2 bg-amber-500/10 text-amber-500 rounded-full">
+              <Info class="h-5 w-5" />
+            </div>
+            <h3 class="text-lg font-bold text-foreground">
+              {{ $t("common.tips") || "提示" }}
+            </h3>
+          </div>
+          <p class="text-sm text-muted-foreground mb-6 leading-relaxed">
+            {{ $t("ncm-get-playlist.copyConfirm") }}
+          </p>
+          <div class="flex justify-end gap-3">
+            <button
+              class="px-4 py-2 text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
+              @click="showConfirmDialog = false"
+            >
+              {{ $t("common.cancel") || "取消" }}
+            </button>
+            <button
+              class="px-4 py-2 text-sm font-medium bg-blue-500 hover:bg-blue-600 text-white rounded-xl transition-all active:scale-95"
+              @click="executeCopy"
+            >
+              {{ $t("common.confirm") || "确认继续" }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </Transition>
   </ToolContainer>
 </template>
 
@@ -450,5 +505,15 @@ const exportJson = () => {
 .slide-leave-to {
   opacity: 0;
   transform: translateY(-8px);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -29,6 +29,7 @@ export default {
     approx: "约",
     reset: "重置",
     settings: "设置",
+    tips: "提示",
   },
 
   // === 导航 ===
@@ -657,6 +658,8 @@ export default {
     parsing: "获取中...",
     parseFailed: "获取失败，请检查歌单链接或 ID 是否正确，且歌单需为公开状态",
     copySongs: "复制歌曲列表",
+    copyConfirm:
+      "歌曲数量较多，直接复制文本可能会导致卡顿，建议使用导出功能。是否继续复制？",
     exportTxt: "导出 TXT",
     exportCsv: "导出 CSV",
     exportJson: "导出 JSON",
