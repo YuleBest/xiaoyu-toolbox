@@ -142,6 +142,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/period': RouteRecordInfo<
+      '/period',
+      '/period',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/phone-number': RouteRecordInfo<
       '/phone-number',
       '/phone-number',
@@ -310,6 +317,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/mcpe.vue': {
       routes:
         | '/mcpe'
+      views:
+        | never
+    }
+    'src/pages/period.vue': {
+      routes:
+        | '/period'
       views:
         | never
     }

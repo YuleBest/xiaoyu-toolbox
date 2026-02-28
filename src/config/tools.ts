@@ -17,6 +17,7 @@ import {
   BadgeDollarSign,
   ArrowRightLeft,
   Ruler,
+  Activity,
 } from "lucide-vue-next";
 
 export interface Tool {
@@ -275,6 +276,18 @@ export const toolsData: Record<string, Tool[]> = {
       color: "text-orange-500",
       path: "/weibo-hot",
       date: "2026-02-26",
+    },
+    {
+      id: "period",
+      title: "tools.period.title",
+      subtitle: "tools.period.subtitle",
+      description: "tools.period.description",
+      author: "Yule",
+      usage: "tools.period.usage",
+      icon: Activity,
+      color: "text-rose-400",
+      path: "/period",
+      date: "2026-02-28",
     },
   ],
   game: [

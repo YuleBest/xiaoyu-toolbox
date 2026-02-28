@@ -302,6 +302,36 @@ export default {
       noResults: "该日期未收录热搜数据",
       rank: "万",
     },
+    period: {
+      title: "月经周期",
+      subtitle: "生理期计算器",
+      description:
+        "计算月经周期各项指标：月经期、卵泡期、排卵日、排卵期、易孕期和黄体期。仅基于 28 天标准周期计算。",
+      usage:
+        "1. 默认以上次月经来的第一天为本月1日。\n2. 可通过顶部日期选择器修改上次月经第一天的日期。\n3. 直观查看各项周期的天数、区间和对应日期。",
+      lastPeriod: "上次月经第一天",
+      selectDate: "选择日期",
+      today: "回到今天",
+      phases: {
+        menstrual: "月经期",
+        follicular: "卵泡期",
+        ovulationDay: "排卵日",
+        ovulation: "排卵期",
+        fertileWindow: "易孕期",
+        luteal: "黄体期",
+      },
+      phaseDesc: {
+        menstrual: "第 1 - 5 天，共 5 天",
+        follicular: "第 6 - 13 天，共 8 天",
+        ovulationDay: "第 14 天，共 1 天",
+        ovulation: "第 9 - 18 天，排卵日前 5 天至后 4 天",
+        fertileWindow: "第 9 - 15 天，排卵日前 5 天至后 1 天",
+        luteal: "第 15 - 28 天，共 14 天",
+      },
+      legend: "图例与说明",
+      notice:
+        "注：本工具基于标准 28 天周期计算，仅供参考，不作为医疗或避孕依据。一个月经周期是指从一次月经的第一天持续到下一次月经的第一天。",
+    },
   },
 
   // === Base64 页面 ===
