@@ -54,8 +54,25 @@ const handleFetch = async () => {
 
   const requestedLimit = limit.value || 200;
   let currentOffset = offset.value || 0;
-  // Ensure chunk size is at least 1 and capped at a reasonable max (e.g. 500) if user inputs something crazy, though max in UI is 50.
-  const currentChunkSize = Math.max(1, Math.min(chunkSize.value || 50, 500));
+  // Get raw chunk size for testing without aggressive max capping
+  const currentChunkSize = chunkSize.value || 50;
+
+  if (currentChunkSize > requestedLimit) {
+    error.value = t("ncm-get-playlist.errChunkSizeGTLimit");
+    return;
+  }
+  if (currentChunkSize > 200) {
+    error.value = t("ncm-get-playlist.errChunkSizeGT200");
+    return;
+  }
+  if (requestedLimit > 3000) {
+    error.value = t("ncm-get-playlist.errLimitGT3000");
+    return;
+  }
+  if (currentOffset > requestedLimit) {
+    error.value = t("ncm-get-playlist.errOffsetGTLimit");
+    return;
+  }
 
   parsedId.value = id;
   loading.value = true;
@@ -262,7 +279,7 @@ const exportJson = () => {
               v-model.number="chunkSize"
               type="number"
               min="1"
-              max="1000"
+              max="200"
               class="w-24 px-3 py-1.5 bg-background border border-muted rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-all"
             />
           </div>
