@@ -121,6 +121,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/length': RouteRecordInfo<
+      '/length',
+      '/length',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/lyric': RouteRecordInfo<
       '/lyric',
       '/lyric',
@@ -285,6 +292,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/json-yaml.vue': {
       routes:
         | '/json-yaml'
+      views:
+        | never
+    }
+    'src/pages/length.vue': {
+      routes:
+        | '/length'
       views:
         | never
     }

@@ -256,6 +256,14 @@ export default {
       usage:
         "1. 选择基准货币和目标货币。\n2. 输入金额，实时查看转换后的数值。\n3. 切换日期可查询特定日期的历史汇率。\n4. 支持查看多种货币对比基准货币的实时报价。",
     },
+    length: {
+      title: "长度单位换算",
+      subtitle: "常用长度单位双向换算",
+      description:
+        "支持常见的公制、英制、市制等多种长度单位的双向实时换算转换。",
+      usage:
+        "1. 在上方的两个下拉框中分别选择源单位和目标单位。\n2. 在源单位对应的输入框中输入长度数值。\n3. 目标单位及下方的所有常用单位汇算面板会即刻更新结果。",
+    },
     "phone-number": {
       title: "归属地查询",
       subtitle: "手机号码归属地查询",
@@ -851,5 +859,55 @@ export default {
     invalidAv: "AV 号格式不正确（应为正整数）",
     history: "转换历史",
     tip: "提示: 输入 BV 号（如 BV17x411w7KC）将自动转换为 AV 号；输入 AV 号（如 170001 或 av170001）将自动转换为 BV 号。纯前端运算，无需联网。",
+  },
+
+  // === 长度换算页面 ===
+  length: {
+    baseAmount: "基准长度",
+    baseUnit: "基准单位",
+    targetUnit: "目标单位",
+    convertedAmount: "换算长度",
+    allRates: "所有单位换算结果",
+    searchUnit: "搜索单位...",
+    unit: "单位:",
+    swap: "交换",
+    scientific: "科学计数法",
+    types: {
+      metric: "公制",
+      imperial: "英制",
+      traditional: "市制",
+    },
+    units: {
+      metric: {
+        dm: "分米",
+        ly: "光年",
+        mm: "毫米",
+        km: "千米",
+        cm: "厘米",
+        m: "米",
+        μm: "微米",
+        pc: "秒差距",
+        AU: "天文单位",
+        ld: "月球距离",
+        pm: "皮米",
+        nm: "纳米",
+      },
+      imperial: {
+        fur: "弗隆",
+        fm: "英寻",
+        yd: "码",
+        nmi: "海里",
+        ft: "英尺",
+        mi: "英里",
+        in: "英寸",
+      },
+      traditional: {
+        zhang: "丈",
+        fen: "分",
+        hao: "毫",
+        chi: "尺",
+        li: "里",
+      },
+    },
   },
 };

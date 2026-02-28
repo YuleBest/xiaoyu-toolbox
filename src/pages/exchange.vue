@@ -605,11 +605,6 @@ watch(baseCurrency, (newBase) => {
           >
             <TrendingUp class="w-5 h-5 text-blue-500" />
             {{ t("exchange.allRates") }}
-            <span
-              class="text-xs font-normal text-muted-foreground bg-muted/30 px-2 py-0.5 rounded-full ml-1"
-            >
-              1 {{ baseCurrency }} =
-            </span>
           </h3>
 
           <div class="relative w-48 md:w-64">

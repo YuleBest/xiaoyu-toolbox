@@ -16,6 +16,7 @@ import {
   MessageCircle,
   BadgeDollarSign,
   ArrowRightLeft,
+  Ruler,
 } from "lucide-vue-next";
 
 export interface Tool {
@@ -247,6 +248,18 @@ export const toolsData: Record<string, Tool[]> = {
       backEnd: "/api/frankfurter",
       date: "2026-02-24",
       isHot: true,
+    },
+    {
+      id: "length",
+      title: "tools.length.title",
+      subtitle: "tools.length.subtitle",
+      description: "tools.length.description",
+      author: "Yule",
+      usage: "tools.length.usage",
+      icon: Ruler,
+      color: "text-purple-500",
+      path: "/length",
+      date: "2026-02-28",
     },
     {
       id: "phone-number",
