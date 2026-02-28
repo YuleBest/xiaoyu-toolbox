@@ -101,7 +101,7 @@ export const toolsData: Record<string, Tool[]> = {
       color: "text-blue-500",
       path: "/codeimg",
       date: "2026-02-22",
-      isHot: true,
+      isTop: true,
     },
   ],
   image: [
@@ -144,7 +144,7 @@ export const toolsData: Record<string, Tool[]> = {
       backEnd:
         "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/dydown.js",
       date: "2026-01-25",
-      isTop: true,
+      isHot: true,
     },
     {
       id: "bilidown",
@@ -247,7 +247,7 @@ export const toolsData: Record<string, Tool[]> = {
       path: "/exchange",
       backEnd: "/api/frankfurter",
       date: "2026-02-24",
-      isHot: true,
+      isTop: true,
     },
     {
       id: "length",
@@ -260,6 +260,7 @@ export const toolsData: Record<string, Tool[]> = {
       color: "text-purple-500",
       path: "/length",
       date: "2026-02-28",
+      isTop: true,
     },
     {
       id: "phone-number",
@@ -326,7 +327,6 @@ export const toolsData: Record<string, Tool[]> = {
       path: "/mcpe",
       backEnd: "/api/getmcpe",
       date: "2026-02-21",
-      isTop: true,
     },
   ],
 };

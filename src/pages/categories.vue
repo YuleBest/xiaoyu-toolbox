@@ -109,7 +109,7 @@ watch(
         </div>
 
         <div
-          class="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-6"
+          class="grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-3 md:gap-6"
         >
           <ToolCard
             v-for="tool in toolsData[cat.id] || []"
