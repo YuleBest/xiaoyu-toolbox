@@ -332,6 +332,14 @@ export default {
       notice:
         "注：本工具基于标准 28 天周期计算，仅供参考，不作为医疗或避孕依据。一个月经周期是指从一次月经的第一天持续到下一次月经的第一天。",
     },
+    "ncm-get-playlist": {
+      title: "网易云歌单",
+      subtitle: "网易云音乐歌单歌曲列表解析",
+      description:
+        "输入网易云音乐歌单链接或 ID，获取歌单内的所有歌曲名称和歌手信息。突破默认接口限制提取全量数据。",
+      usage:
+        "1. 复制网易云音乐歌单分享链接或提取数字 ID。\n2. 粘贴至输入框并点击获取按钮。\n3. 查看完整的歌单歌曲和歌手列表，支持一键复制所有文本结果。",
+    },
   },
 
   // === Base64 页面 ===
@@ -640,6 +648,27 @@ export default {
     singer: "歌手",
     album: "专辑",
     duration: "时长",
+  },
+
+  // === 网易云音乐歌单获取 ===
+  "ncm-get-playlist": {
+    inputPlaceholder: "输入网易云音乐歌单链接或 ID...",
+    parse: "立即获取",
+    parsing: "获取中...",
+    parseFailed: "获取失败，请检查歌单链接或 ID 是否正确，且歌单需为公开状态",
+    copySongs: "复制歌曲列表",
+    exportTxt: "导出 TXT",
+    exportCsv: "导出 CSV",
+    exportJson: "导出 JSON",
+    limit: "获取数量",
+    offset: "跳过首部数量",
+    chunkSize: "单次获取数",
+    songCount: "共 {count} 首歌曲",
+    idExtracted: "已解析歌单 ID: {id}",
+    songName: "歌曲名",
+    artist: "歌手",
+    album: "专辑",
+    noData: "该歌单暂无内容或为私密状态",
   },
 
   // === 天气 ===

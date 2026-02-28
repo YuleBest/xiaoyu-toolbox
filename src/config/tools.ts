@@ -39,6 +39,18 @@ export interface Tool {
 export const default_license = "MIT License";
 export const default_copyright = "";
 
+export const tops = ["codeimg", "hhsh", "exchange", "length"];
+
+export const hots = [
+  "ncm-get-playlist",
+  "dydown",
+  "bilidown",
+  "lyric",
+  "jichacha",
+  "weibo-hot",
+  "hok",
+];
+
 export const toolsData: Record<string, Tool[]> = {
   dev: [
     {
@@ -182,6 +194,18 @@ export const toolsData: Record<string, Tool[]> = {
       backEnd:
         "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/getlyric.js",
       date: "2026-02-13",
+    },
+    {
+      id: "ncm-get-playlist",
+      title: "tools.ncm-get-playlist.title",
+      subtitle: "tools.ncm-get-playlist.subtitle",
+      description: "tools.ncm-get-playlist.description",
+      author: "Yule",
+      usage: "tools.ncm-get-playlist.usage",
+      icon: Music,
+      color: "text-red-500",
+      path: "/ncm-get-playlist",
+      date: "2026-02-28",
     },
   ],
   life: [
@@ -333,14 +357,3 @@ export const toolsData: Record<string, Tool[]> = {
 };
 
 export const allTools = Object.values(toolsData).flat();
-
-export const tops = ["codeimg", "hhsh", "exchange", "length"];
-
-export const hots = [
-  "dydown",
-  "bilidown",
-  "lyric",
-  "jichacha",
-  "weibo-hot",
-  "hok",
-];

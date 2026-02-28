@@ -142,6 +142,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/ncm-get-playlist': RouteRecordInfo<
+      '/ncm-get-playlist',
+      '/ncm-get-playlist',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/period': RouteRecordInfo<
       '/period',
       '/period',
@@ -317,6 +324,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/mcpe.vue': {
       routes:
         | '/mcpe'
+      views:
+        | never
+    }
+    'src/pages/ncm-get-playlist.vue': {
+      routes:
+        | '/ncm-get-playlist'
       views:
         | never
     }
