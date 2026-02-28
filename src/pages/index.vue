@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { ChevronRight } from "lucide-vue-next";
-import { allTools } from "@/config/tools";
+import { allTools, hots, tops } from "@/config/tools";
 import { favoriteIds } from "@/stores/favorites";
 import ToolCard from "@/components/tool/ToolCard.vue";
 
@@ -12,8 +12,10 @@ const router = useRouter();
 const favoriteTools = computed(() =>
   allTools.filter((t) => favoriteIds.value.includes(t.id)),
 );
-const topTools = computed(() => allTools.filter((t) => t.isTop));
-const hotTools = computed(() => allTools.filter((t) => t.isHot && !t.isTop));
+const topTools = computed(() => allTools.filter((t) => tops.includes(t.id)));
+const hotTools = computed(() =>
+  allTools.filter((t) => hots.includes(t.id) && !tops.includes(t.id)),
+);
 const latestTools = computed(() =>
   [...allTools].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),

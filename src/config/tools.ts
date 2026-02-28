@@ -30,8 +30,6 @@ export interface Tool {
   color: string;
   path: string;
   date: string;
-  isHot?: boolean;
-  isTop?: boolean;
   backEnd?: string;
   license?: string;
   copyright?: string;
@@ -101,7 +99,6 @@ export const toolsData: Record<string, Tool[]> = {
       color: "text-blue-500",
       path: "/codeimg",
       date: "2026-02-22",
-      isTop: true,
     },
   ],
   image: [
@@ -144,7 +141,6 @@ export const toolsData: Record<string, Tool[]> = {
       backEnd:
         "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/dydown.js",
       date: "2026-01-25",
-      isHot: true,
     },
     {
       id: "bilidown",
@@ -159,7 +155,6 @@ export const toolsData: Record<string, Tool[]> = {
       backEnd:
         "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/bilidown.js",
       date: "2026-01-27",
-      isHot: true,
     },
     {
       id: "bvav",
@@ -186,7 +181,6 @@ export const toolsData: Record<string, Tool[]> = {
       backEnd:
         "https://github.com/YuleBest/xiaoyu-toolbox/blob/main/src/back-end/cf-workers/getlyric.js",
       date: "2026-02-13",
-      isHot: true,
     },
   ],
   life: [
@@ -202,7 +196,6 @@ export const toolsData: Record<string, Tool[]> = {
       path: "/hhsh",
       backEnd: "/api/hhsh/guess",
       date: "2026-02-22",
-      isTop: true,
       license: "Apache License 2.0",
     },
     {
@@ -217,7 +210,6 @@ export const toolsData: Record<string, Tool[]> = {
       path: "/jichacha",
       backEnd: "/api/jichacha",
       date: "2026-02-19",
-      isHot: true,
       license: "CC BY-NC-SA 4.0",
       copyright:
         "本工具的数据源自 https://github.com/KHwang9883/MobileModels ，基于 CC BY-NC-SA 4.0 授权。",
@@ -247,7 +239,6 @@ export const toolsData: Record<string, Tool[]> = {
       path: "/exchange",
       backEnd: "/api/frankfurter",
       date: "2026-02-24",
-      isTop: true,
     },
     {
       id: "length",
@@ -260,7 +251,6 @@ export const toolsData: Record<string, Tool[]> = {
       color: "text-purple-500",
       path: "/length",
       date: "2026-02-28",
-      isTop: true,
     },
     {
       id: "phone-number",
@@ -285,7 +275,6 @@ export const toolsData: Record<string, Tool[]> = {
       color: "text-orange-500",
       path: "/weibo-hot",
       date: "2026-02-26",
-      isHot: true,
     },
   ],
   game: [
@@ -301,7 +290,6 @@ export const toolsData: Record<string, Tool[]> = {
       path: "/hok",
       backEnd: "https://github.com/YuleBest/GetHOK",
       date: "2026-01-28",
-      isHot: true,
     },
     {
       id: "reaction",
@@ -332,3 +320,14 @@ export const toolsData: Record<string, Tool[]> = {
 };
 
 export const allTools = Object.values(toolsData).flat();
+
+export const tops = ["codeimg", "hhsh", "exchange", "length"];
+
+export const hots = [
+  "dydown",
+  "bilidown",
+  "lyric",
+  "jichacha",
+  "weibo-hot",
+  "hok",
+];
