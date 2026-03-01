@@ -30,6 +30,11 @@ export default {
     reset: "重置",
     settings: "设置",
     tips: "提示",
+    updateLog: {
+      title: "最近更新",
+      collapse: "收起更多记录",
+      expand: "展开其余 {count} 条记录",
+    },
   },
 
   // === 导航 ===

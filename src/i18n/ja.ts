@@ -30,6 +30,11 @@ export default {
     reset: "リセット",
     settings: "設定",
     tips: "ヒント",
+    updateLog: {
+      title: "最近の更新",
+      collapse: "閉じる",
+      expand: "残り {count} 件の履歴を展開",
+    },
   },
 
   // === Navigation ===

@@ -30,6 +30,11 @@ export default {
     reset: "Reset",
     settings: "Settings",
     tips: "Tips",
+    updateLog: {
+      title: "Recent Updates",
+      collapse: "Collapse logs",
+      expand: "Expand other {count} logs",
+    },
   },
 
   // === Navigation ===

@@ -5,6 +5,7 @@ import Sidebar from "@/components/layout/Sidebar.vue";
 import MobileNav from "@/components/layout/MobileNav.vue";
 import Footer from "@/components/layout/Footer.vue";
 import BackButton from "@/components/layout/BackButton.vue";
+import UpdateLog from "@/components/UpdateLog.vue";
 
 const isCollapsed = computed(() => navigationStore.isCollapsed);
 </script>
@@ -32,6 +33,7 @@ const isCollapsed = computed(() => navigationStore.isCollapsed);
       >
         <div class="flex-1 min-h-[60vh]">
           <slot />
+          <UpdateLog />
         </div>
         <Footer />
       </div>

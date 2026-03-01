@@ -88,5 +88,6 @@ declare module 'vue' {
     Switch: typeof import('./components/ui/switch/Switch.vue')['default']
     ToolCard: typeof import('./components/tool/ToolCard.vue')['default']
     ToolContainer: typeof import('./components/tool/ToolContainer.vue')['default']
+    UpdateLog: typeof import('./components/UpdateLog.vue')['default']
   }
 }
