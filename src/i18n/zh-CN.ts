@@ -78,6 +78,7 @@ export default {
     label: "连接节点",
     cn: "腾讯云",
     intl: "Cloudflare",
+    switchWarning: "域名不一样，数据不互通",
   },
 
   home: {

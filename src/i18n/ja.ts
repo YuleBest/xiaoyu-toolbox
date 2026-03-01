@@ -78,6 +78,7 @@ export default {
     label: "接続ノード",
     cn: "Tencent Cloud",
     intl: "Cloudflare",
+    switchWarning: "ドメインが異なるため、データは共有されません。",
   },
 
   home: {

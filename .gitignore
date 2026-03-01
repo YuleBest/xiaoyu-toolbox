@@ -24,3 +24,4 @@ build.txt
 .old_project/*
 .wrangler
 .eslintcache
+.agents

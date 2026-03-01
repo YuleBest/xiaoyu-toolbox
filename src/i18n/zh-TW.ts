@@ -78,6 +78,7 @@ export default {
     label: "連接節點",
     cn: "騰訊雲",
     intl: "Cloudflare",
+    switchWarning: "域名不一樣，數據不互通",
   },
 
   home: {

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue"; // 1. 引入 onMounted
+import { ref, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
 import { Wifi, Check, RefreshCw, Loader2 } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,6 +9,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+
+useI18n(); // 保持 i18n 初始化
 
 interface ServerOption {
   id: string;
@@ -31,6 +44,10 @@ const measuring = ref(false);
 
 /** 只有在浏览器端才使用的 currentId */
 const currentId = ref("cn"); // 默认给个 'cn'，防止打包时模版变量未定义
+
+// 控制确认弹窗
+const showConfirm = ref(false);
+const pendingServer = ref<ServerOption | null>(null);
 
 function measureOnce(host: string): Promise<number> {
   return new Promise((resolve, reject) => {
@@ -88,8 +105,15 @@ function getCurrentServerId(): string {
 function switchServer(server: ServerOption) {
   if (typeof window === "undefined") return;
   if (server.host === window.location.hostname) return;
+
+  pendingServer.value = server;
+  showConfirm.value = true;
+}
+
+function confirmSwitch() {
+  if (!pendingServer.value) return;
   const url = new URL(window.location.href);
-  url.hostname = server.host;
+  url.hostname = pendingServer.value.host;
   window.location.href = url.toString();
 }
 
@@ -113,60 +137,82 @@ onMounted(() => {
 </script>
 
 <template>
-  <DropdownMenu @update:open="onDropdownOpen">
-    <DropdownMenuTrigger as-child>
-      <Button
-        variant="ghost"
-        size="icon"
-        class="h-9 w-9 rounded-xl hover:bg-secondary/80 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all active:scale-95 border-none"
-      >
-        <Wifi
-          class="h-[1.2rem] w-[1.2rem] scale-100 transition-all text-blue-500"
-        />
-        <span class="sr-only">{{ $t("connection.label") }}</span>
-      </Button>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent
-      align="end"
-      class="w-52 p-1.5 rounded-xl shadow-xl border-muted/50 backdrop-blur-lg"
-    >
-      <div class="flex items-center justify-between px-3 py-1.5 mb-1">
-        <span class="text-xs font-medium text-muted-foreground">{{
-          $t("connection.label")
-        }}</span>
-        <button
-          class="h-5 w-5 flex items-center justify-center rounded text-muted-foreground/60 hover:text-foreground transition-colors cursor-pointer"
-          :class="{ 'animate-spin': measuring }"
-          :disabled="measuring"
-          @click.stop="refreshLatencies"
+  <div class="flex items-center">
+    <DropdownMenu @update:open="onDropdownOpen">
+      <DropdownMenuTrigger as-child>
+        <Button
+          variant="ghost"
+          size="icon"
+          class="h-9 w-9 rounded-xl hover:bg-secondary/80 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all active:scale-95 border-none"
         >
-          <RefreshCw v-if="!measuring" class="h-3 w-3" />
-          <Loader2 v-else class="h-3 w-3" />
-        </button>
-      </div>
-      <DropdownMenuItem
-        v-for="server in servers"
-        :key="server.id"
-        class="rounded-lg cursor-pointer flex items-center justify-between py-2.5 px-3 transition-colors"
-        :class="
-          currentId === server.id
-            ? 'bg-blue-500/10 text-blue-500'
-            : 'focus:bg-muted focus:text-foreground'
-        "
-        @click="switchServer(server)"
+          <Wifi
+            class="h-[1.2rem] w-[1.2rem] scale-100 transition-all text-blue-500"
+          />
+          <span class="sr-only">{{ $t("connection.label") }}</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="end"
+        class="w-52 p-1.5 rounded-xl shadow-xl border-muted/50 backdrop-blur-lg"
       >
-        <div class="flex items-center gap-2">
-          <Check v-if="currentId === server.id" class="h-3.5 w-3.5 shrink-0" />
-          <div v-else class="h-3.5 w-3.5 shrink-0" />
-          <span class="font-medium text-sm">{{ $t(server.labelKey) }}</span>
+        <div class="flex items-center justify-between px-3 py-1.5 mb-1">
+          <span class="text-xs font-medium text-muted-foreground">{{
+            $t("connection.label")
+          }}</span>
+          <button
+            class="h-5 w-5 flex items-center justify-center rounded text-muted-foreground/60 hover:text-foreground transition-colors cursor-pointer"
+            :class="{ 'animate-spin': measuring }"
+            :disabled="measuring"
+            @click.stop="refreshLatencies"
+          >
+            <RefreshCw v-if="!measuring" class="h-3 w-3" />
+            <Loader2 v-else class="h-3 w-3" />
+          </button>
         </div>
-        <span
-          class="text-xs font-mono tabular-nums"
-          :class="latencyColorClass(latencies[server.id] ?? null)"
+        <DropdownMenuItem
+          v-for="server in servers"
+          :key="server.id"
+          class="rounded-lg cursor-pointer flex items-center justify-between py-2.5 px-3 transition-colors"
+          :class="
+            currentId === server.id
+              ? 'bg-blue-500/10 text-blue-500'
+              : 'focus:bg-muted focus:text-foreground'
+          "
+          @click="switchServer(server)"
         >
-          {{ formatLatency(latencies[server.id] ?? null) }}
-        </span>
-      </DropdownMenuItem>
-    </DropdownMenuContent>
-  </DropdownMenu>
+          <div class="flex items-center gap-2">
+            <Check
+              v-if="currentId === server.id"
+              class="h-3.5 w-3.5 shrink-0"
+            />
+            <div v-else class="h-3.5 w-3.5 shrink-0" />
+            <span class="font-medium text-sm">{{ $t(server.labelKey) }}</span>
+          </div>
+          <span
+            class="text-xs font-mono tabular-nums"
+            :class="latencyColorClass(latencies[server.id] ?? null)"
+          >
+            {{ formatLatency(latencies[server.id] ?? null) }}
+          </span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+
+    <AlertDialog v-model:open="showConfirm">
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{{ $t("common.tips") }}</AlertDialogTitle>
+          <AlertDialogDescription>
+            {{ $t("connection.switchWarning") }}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>{{ $t("common.cancel") }}</AlertDialogCancel>
+          <AlertDialogAction @click="confirmSwitch">{{
+            $t("common.confirm")
+          }}</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  </div>
 </template>

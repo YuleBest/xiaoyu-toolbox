@@ -78,6 +78,7 @@ export default {
     label: "Node",
     cn: "Tencent",
     intl: "Cloudflare",
+    switchWarning: "Domains are different, data is not shared between nodes.",
   },
 
   home: {
