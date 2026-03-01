@@ -65,6 +65,7 @@ export default {
     zhCN: "简体中文",
     zhTW: "繁體中文",
     en: "English",
+    ja: "日本語",
   },
 
   // === 连接设置 ===
@@ -96,6 +97,17 @@ export default {
     blog: "博客",
     copyright: "© 2026 YuleBest. All rights reserved.",
     disclaimer: "本站提供的所有工具仅供学习和研究使用。部分资源来源于网络。",
+  },
+
+  // === Meta 信息 ===
+  meta: {
+    home: {
+      title: "开源、免费、无广告的在线工具箱",
+      description:
+        "一个集合了众多实用工具的在线工具箱，开源、免费、无广告。提供 Base64、JSON 转换、二维码生成、EXIF 查看、视频解析、反应力测试等多种常用在线工具，极简设计，即开即用。",
+      keywords:
+        "在线工具,实用工具,工具,在线工具箱,小于工具箱,效率工具,tools,toolbox,开发者工具,图像工具,视频解析",
+    },
   },
 
   // === 工具容器 ===

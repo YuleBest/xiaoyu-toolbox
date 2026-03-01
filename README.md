@@ -39,6 +39,7 @@
   - [B站视频解析](https://tool.yule.ink/bilidown)
   - [BV/AV 号互转](https://tool.yule.ink/bvav)
   - [歌词获取](https://tool.yule.ink/lyric)
+  - [网易云歌单](https://tool.yule.ink/ncm-get-playlist)
 
 - 生活查询
   - [好好说话](https://tool.yule.ink/hhsh)

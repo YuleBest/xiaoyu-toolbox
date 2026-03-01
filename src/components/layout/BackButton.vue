@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ArrowLeft } from "lucide-vue-next";
+import { navigationStore } from "@/stores/navigation";
 
 const route = useRoute();
 const router = useRouter();
 
 const showBackButton = ref(false);
+const isCollapsed = computed(() => navigationStore.isCollapsed);
 
 watch(
   () => route.path,
@@ -37,7 +39,8 @@ const goBack = () => {
   >
     <button
       v-if="showBackButton"
-      class="fixed bottom-10 md:bottom-12 left-6 md:left-[304px] z-60 flex items-center gap-2 px-3 py-1.5 rounded-full bg-card/60 backdrop-blur-2xl border border-muted/50 hover:border-blue-500/50 hover:bg-card/90 transition-all active:scale-95 group shadow-lg overflow-hidden"
+      class="fixed bottom-10 md:bottom-12 left-6 z-60 flex items-center gap-2 px-3 py-1.5 rounded-full bg-card/60 backdrop-blur-2xl border border-muted/50 hover:border-blue-500/50 hover:bg-card/90 transition-all duration-300 active:scale-95 group shadow-lg overflow-hidden"
+      :class="isCollapsed ? 'md:left-[104px]' : 'md:left-[280px]'"
       @click="goBack"
     >
       <ArrowLeft

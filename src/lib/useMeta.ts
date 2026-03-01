@@ -37,11 +37,9 @@ export function useToolMeta() {
     // 默认或首页 Meta
     if (route.path === "/") {
       return {
-        title: `${appName.value} | 开源、免费、无广告的在线工具箱`,
-        description:
-          "提供 Base64、JSON 转换、二维码生成、EXIF 查看、视频解析、反应力测试等多种常用在线工具，极简设计，即开即用。",
-        keywords:
-          "工具箱, 在线工具, 小于工具箱, 开发者工具, 图像工具, 视频解析",
+        title: `${appName.value} | ${t("meta.home.title")}`,
+        description: t("meta.home.description"),
+        keywords: t("meta.home.keywords"),
       };
     }
 
@@ -66,8 +64,8 @@ export function useToolMeta() {
 
     return {
       title: pageTitle ? `${pageTitle} | ${appName.value}` : appName.value,
-      description: "一个集合了众多实用工具的在线工具箱，开源、免费、无广告",
-      keywords: "在线工具,实用工具,工具,在线工具箱,小于工具箱,效率工具",
+      description: t("meta.home.description"),
+      keywords: t("meta.home.keywords"),
     };
   });
 

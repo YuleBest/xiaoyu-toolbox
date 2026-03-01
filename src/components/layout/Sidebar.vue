@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { Search, Settings, ChevronUp } from "lucide-vue-next";
+import {
+  Search,
+  Settings,
+  PanelLeftClose,
+  PanelLeftOpen,
+  ChevronDown,
+} from "lucide-vue-next";
 import { mainNav, categories } from "@/config/nav";
-import { DropdownMenu } from "@/components/ui/dropdown-menu";
-import { navigationStore } from "@/stores/navigation";
+import { toolsData } from "@/config/tools";
+import { navigationStore, toggleSidebar } from "@/stores/navigation";
 
 import ModeToggle from "@/components/ModeToggle.vue";
 import LanguageToggle from "@/components/LanguageToggle.vue";
@@ -13,190 +19,361 @@ import ConnectionToggle from "@/components/ConnectionToggle.vue";
 const route = useRoute();
 const settingsOpen = ref(false);
 
-defineProps<{
-  userEmail?: string;
-  userName?: string;
-}>();
+const isCollapsed = computed(() => navigationStore.isCollapsed);
+
+const expandedCategories = ref<Set<string>>(new Set());
+
+// Open the category that contains the current tool
+const openActiveCategory = () => {
+  for (const [catId, tools] of Object.entries(toolsData)) {
+    if (tools.some((tool) => tool.path === route.path)) {
+      expandedCategories.value.add(catId);
+    }
+  }
+};
+
+onMounted(() => {
+  openActiveCategory();
+});
+
+watch(
+  () => route.path,
+  () => {
+    openActiveCategory();
+  },
+);
+
+const toggleCategory = (catId: string) => {
+  if (isCollapsed.value) {
+    toggleSidebar();
+    expandedCategories.value.add(catId);
+    return;
+  }
+
+  if (expandedCategories.value.has(catId)) {
+    expandedCategories.value.delete(catId);
+  } else {
+    expandedCategories.value.add(catId);
+  }
+};
 </script>
 
 <template>
   <aside
-    class="hidden md:flex w-72 flex-col border-r bg-sidebar fixed h-screen overflow-hidden px-4 py-6"
+    class="hidden md:flex flex-col border-r bg-sidebar fixed h-screen overflow-hidden transition-all duration-300 z-50 border-muted/30"
+    :class="[isCollapsed ? 'w-[80px]' : 'w-64']"
   >
-    <!-- Profile / Header -->
-    <DropdownMenu>
-      <DropdownMenuTrigger as-child>
-        <button
-          class="w-full flex items-center justify-between px-2 mb-6 hover:opacity-80 transition-all outline-none group text-left cursor-pointer"
+    <!-- Logo Area -->
+    <div class="px-3 h-[60px] mb-3 mt-1">
+      <div
+        class="flex items-center cursor-pointer w-full group h-full rounded-lg transition-all duration-300 overflow-hidden"
+        :class="isCollapsed ? 'px-[14px]' : 'px-1'"
+        @click="$router.push('/')"
+      >
+        <img
+          src="/favicon.svg"
+          class="h-7 w-7 shrink-0 transition-transform group-hover:scale-110"
+          alt="Logo"
+        />
+        <span
+          class="text-[17px] font-bold tracking-tight leading-tight transition-all duration-300 whitespace-nowrap overflow-hidden text-foreground flex-1"
+          :class="
+            isCollapsed
+              ? 'max-w-0 opacity-0 ml-0'
+              : 'max-w-[150px] opacity-100 ml-2.5'
+          "
         >
-          <div class="flex items-center gap-2.5">
-            <div class="h-8 w-8 rounded-full flex items-center justify-center">
-              <img src="/favicon.svg" class="h-5 w-5" alt="Logo" />
-            </div>
-            <div class="flex flex-col overflow-hidden">
-              <span class="text-[16px] font-semibold truncate leading-tight">{{
-                $t("common.appName")
-              }}</span>
-            </div>
-          </div>
-        </button>
-      </DropdownMenuTrigger>
-    </DropdownMenu>
-
-    <!-- Search -->
-    <div class="relative mb-6 group px-1">
-      <Search
-        class="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/60 group-focus-within:text-blue-500 transition-colors"
-      />
-      <input
-        type="text"
-        :placeholder="$t('common.search')"
-        class="w-full bg-muted/40 rounded-lg pl-10 pr-4 py-1.5 text-sm outline-none transition-all placeholder:text-muted-foreground/50 border border-transparent focus:bg-background focus:border-muted-foreground/10 cursor-pointer"
-        readonly
-        @click="$router.push('/search')"
-      />
+          {{ $t("common.appName") }}
+        </span>
+      </div>
     </div>
 
-    <!-- Main Nav Items -->
-    <nav class="space-y-0.5 mb-8 short-screen-grid">
-      <RouterLink
-        v-for="item in mainNav"
-        :key="item.name"
-        :to="item.href"
-        class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-[13.5px] font-medium transition-all duration-200 group short-screen-item"
+    <!-- Search Section -->
+    <div class="px-3 mb-5">
+      <div
+        class="relative flex items-center transition-all duration-300 bg-background hover:bg-muted/50 rounded-lg group cursor-pointer border focus-within:ring-2 focus-within:ring-blue-500/20 overflow-hidden"
         :class="[
-          route.path === item.href
-            ? 'bg-muted/80 text-foreground'
-            : 'text-foreground/80 hover:bg-muted/30 hover:text-foreground',
+          isCollapsed
+            ? 'h-10 px-[18px] border-transparent bg-transparent shadow-none'
+            : 'h-9 px-3 border-border/50',
         ]"
+        @click="$router.push('/search')"
       >
-        <div
-          class="flex items-center justify-center transition-all duration-200"
+        <Search
+          class="h-5 w-5 shrink-0 transition-all text-muted-foreground/60 group-hover:text-foreground/80"
+        />
+        <span
+          class="text-[12.5px] text-muted-foreground/60 transition-all duration-300 whitespace-nowrap overflow-hidden flex-1"
+          :class="[
+            isCollapsed
+              ? 'max-w-0 opacity-0 ml-0'
+              : 'max-w-[110px] opacity-100 ml-2',
+          ]"
+        >
+          {{ $t("common.searchTools") }}...
+        </span>
+      </div>
+    </div>
+
+    <!-- Navigation List -->
+    <div class="flex-1 px-3 overflow-y-auto no-scrollbar space-y-6">
+      <!-- General Nav Section -->
+      <nav class="space-y-0.5">
+        <RouterLink
+          v-for="item in mainNav"
+          :key="item.name"
+          :to="item.href"
+          class="flex items-center rounded-lg text-[13px] transition-all duration-300 group relative h-9 w-full overflow-hidden"
           :class="[
             route.path === item.href
-              ? 'text-blue-500'
-              : 'text-blue-500 group-hover:scale-105',
+              ? 'bg-muted/80 text-foreground font-semibold'
+              : 'text-foreground/70 hover:bg-muted/40 font-medium',
+            isCollapsed ? 'px-[18px]' : 'px-3',
           ]"
         >
-          <component :is="item.icon" class="h-4 w-4 stroke-[2.5px]" />
-        </div>
-        {{ $t(item.name) }}
-      </RouterLink>
-    </nav>
+          <component
+            :is="item.icon"
+            class="h-5 w-5 shrink-0 transition-all duration-300"
+            :class="[
+              route.path === item.href
+                ? 'stroke-[2.5px] opacity-100'
+                : 'stroke-2 group-hover:scale-110 opacity-70 group-hover:opacity-100',
+            ]"
+          />
+          <span
+            class="transition-all duration-300 whitespace-nowrap overflow-hidden flex-1"
+            :class="[
+              isCollapsed
+                ? 'max-w-0 opacity-0 ml-0'
+                : 'max-w-[150px] opacity-100 ml-3',
+            ]"
+          >
+            {{ $t(item.name) }}
+          </span>
+        </RouterLink>
 
-    <!-- Categories Section -->
-    <div class="px-1 flex-1 flex flex-col min-h-0">
-      <h3
-        class="px-3 text-[11px] font-medium text-muted-foreground/40 uppercase tracking-widest mb-3"
-      >
-        {{ $t("nav.categoriesLabel") }}
-      </h3>
-      <div class="space-y-0.5 overflow-hidden short-screen-grid">
-        <button
+        <!-- Settings Section -->
+        <div>
+          <button
+            class="flex items-center rounded-lg text-[13px] transition-all duration-300 group relative h-9 w-full overflow-hidden px-0 py-0 gap-0"
+            :class="[
+              settingsOpen
+                ? 'bg-muted/80 text-foreground font-semibold'
+                : 'text-foreground/70 hover:bg-muted/40 font-medium',
+              isCollapsed ? 'px-[18px]' : 'px-3',
+            ]"
+            @click="settingsOpen = !settingsOpen"
+          >
+            <Settings
+              class="h-5 w-5 shrink-0 transition-all duration-300"
+              :class="[
+                settingsOpen
+                  ? 'stroke-[2.5px] opacity-100 text-foreground'
+                  : 'stroke-2 group-hover:scale-110 opacity-70 group-hover:opacity-100',
+              ]"
+            />
+            <span
+              class="transition-all duration-300 text-left whitespace-nowrap overflow-hidden flex-1"
+              :class="[
+                isCollapsed
+                  ? 'max-w-0 opacity-0 ml-0'
+                  : 'max-w-[150px] opacity-100 ml-3',
+              ]"
+            >
+              {{ $t("common.settings") }}
+            </span>
+            <!-- Chevron -->
+            <ChevronDown
+              class="h-3.5 w-3.5 transition-all duration-300 shrink-0 opacity-40 overflow-hidden"
+              :class="[
+                settingsOpen ? 'rotate-180' : '-rotate-90',
+                isCollapsed
+                  ? 'max-w-0 opacity-0 ml-0'
+                  : 'max-w-[14px] opacity-100 ml-auto',
+              ]"
+            />
+          </button>
+
+          <!-- Collapsible Settings Content -->
+          <div
+            class="overflow-hidden transition-all duration-300 ease-in-out pl-[34px] pr-1 space-y-0.5"
+            :class="[
+              settingsOpen && !isCollapsed
+                ? 'max-h-56 opacity-100 mt-0.5 pb-2'
+                : 'max-h-0 opacity-0',
+            ]"
+          >
+            <div
+              class="flex items-center justify-between px-2 py-1.5 rounded-lg border border-transparent"
+            >
+              <span
+                class="text-[11.5px] font-medium text-muted-foreground/80"
+                >{{ $t("connection.label") }}</span
+              >
+              <ConnectionToggle />
+            </div>
+            <div
+              class="flex items-center justify-between px-2 py-1.5 rounded-lg border border-transparent"
+            >
+              <span
+                class="text-[11.5px] font-medium text-muted-foreground/80"
+                >{{ $t("theme.label") }}</span
+              >
+              <ModeToggle />
+            </div>
+            <div
+              class="flex items-center justify-between px-2 py-1.5 rounded-lg border border-transparent"
+            >
+              <span
+                class="text-[11.5px] font-medium text-muted-foreground/80"
+                >{{ $t("lang.label") }}</span
+              >
+              <LanguageToggle />
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Build / Categories Section -->
+      <div class="space-y-1">
+        <h3
+          class="font-medium text-muted-foreground/60 transition-all duration-300 overflow-hidden whitespace-nowrap"
+          :class="[
+            isCollapsed
+              ? 'max-h-0 opacity-0 mb-0 px-0 text-[0px]'
+              : 'max-h-[20px] opacity-100 mb-2 px-3 text-[11px]',
+          ]"
+        >
+          {{ $t("nav.categoriesLabel") }}
+        </h3>
+
+        <div
           v-for="cat in categories"
           :key="cat.id"
-          class="w-full flex items-center gap-3.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-all group active:scale-[0.98] cursor-pointer short-screen-item"
-          :class="[
-            route.path === '/categories' &&
-            navigationStore.activeCategoryId === cat.id
-              ? 'bg-muted/80 text-foreground'
-              : 'text-foreground/80 hover:bg-muted/30 hover:text-foreground',
-          ]"
-          @click="$router.push(`/categories#${cat.id}`)"
+          class="flex flex-col mb-1 relative"
         >
-          <div class="w-5 h-5 flex items-center justify-center">
+          <!-- Category Header -->
+          <button
+            class="flex items-center rounded-lg text-[13px] transition-all duration-300 group overflow-hidden h-9 w-full px-0 py-0 gap-0"
+            :class="[
+              expandedCategories.has(cat.id) && !isCollapsed
+                ? 'text-foreground font-medium'
+                : 'text-foreground/70 hover:bg-muted/40 font-medium',
+              isCollapsed ? 'px-[18px]' : 'px-3',
+            ]"
+            @click="toggleCategory(cat.id)"
+          >
             <component
               :is="cat.icon"
-              class="h-4.5 w-4.5 transition-transform duration-200 group-hover:scale-105"
-              :class="cat.color"
+              class="h-[18px] w-[18px] shrink-0 transition-all duration-300"
+              :class="[
+                expandedCategories.has(cat.id) ||
+                (!isCollapsed &&
+                  toolsData[cat.id]?.some((t) => t.path === route.path))
+                  ? 'opacity-100'
+                  : 'opacity-50 group-hover:opacity-100 group-hover:scale-110',
+              ]"
             />
+            <span
+              class="transition-all duration-300 text-left whitespace-nowrap overflow-hidden flex-1"
+              :class="[
+                isCollapsed
+                  ? 'max-w-0 opacity-0 ml-0'
+                  : 'max-w-[140px] opacity-100 ml-2',
+              ]"
+            >
+              {{ $t(cat.name) }}
+            </span>
+            <!-- Chevron -->
+            <ChevronDown
+              class="h-3.5 w-3.5 transition-all duration-300 shrink-0 opacity-40 overflow-hidden"
+              :class="[
+                expandedCategories.has(cat.id) ? 'rotate-180' : '-rotate-90',
+                isCollapsed
+                  ? 'max-w-0 opacity-0 mr-0'
+                  : 'max-w-[14px] opacity-100 mr-2 ml-auto',
+              ]"
+            />
+          </button>
+
+          <!-- Tools List under Category -->
+          <div
+            class="overflow-hidden transition-all duration-300 ease-in-out mt-0.5 relative"
+            :class="[
+              expandedCategories.has(cat.id) && !isCollapsed
+                ? 'max-h-[800px] opacity-100 pb-2'
+                : 'max-h-0 opacity-0',
+            ]"
+          >
+            <!-- Vertical Tree Line -->
+            <div
+              class="absolute left-[21px] top-1 bottom-3 w-px bg-border/60 transition-opacity duration-300"
+              :class="
+                expandedCategories.has(cat.id) ? 'opacity-100' : 'opacity-0'
+              "
+            ></div>
+
+            <div class="pl-[34px] pr-1 space-y-0.5 w-full">
+              <RouterLink
+                v-for="tool in toolsData[cat.id]"
+                :key="tool.id"
+                :to="tool.path"
+                class="flex items-center justify-between px-3 py-[6px] rounded-md text-[12.5px] transition-all group overflow-hidden border border-transparent"
+                :class="[
+                  route.path === tool.path
+                    ? 'bg-muted/80 text-foreground font-medium'
+                    : 'text-foreground/60 hover:text-foreground hover:bg-muted/40',
+                ]"
+              >
+                <span class="truncate flex-1">{{ $t(tool.title) }}</span>
+              </RouterLink>
+            </div>
           </div>
-          <span class="flex-1 text-left line-clamp-1">{{ $t(cat.name) }}</span>
-        </button>
+        </div>
       </div>
     </div>
 
-    <!-- Bottom Controls (Collapsible) -->
-    <div class="px-2 pt-4 border-t border-muted-foreground/5 mt-auto">
+    <!-- Bottom Actions -->
+    <div class="mt-auto border-t border-muted/30 p-3 flex">
+      <!-- Collapse Action Bar -->
       <button
-        class="w-full flex items-center justify-between px-3 py-1.5 rounded-lg hover:bg-muted/30 transition-colors cursor-pointer group"
-        @click="settingsOpen = !settingsOpen"
+        class="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-muted/60 text-muted-foreground/60 hover:text-foreground transition-all duration-300 active:scale-95 group relative overflow-hidden px-0 py-0 gap-0"
+        :class="isCollapsed ? 'ml-3' : 'ml-1.5'"
+        @click="toggleSidebar"
       >
-        <div class="flex items-center gap-2">
-          <Settings
-            class="h-4 w-4 text-muted-foreground/60 group-hover:text-muted-foreground transition-colors"
-          />
-          <span
-            class="text-[12px] font-medium text-muted-foreground group-hover:text-foreground/80 transition-colors"
-            >{{ $t("common.settings") }}</span
-          >
-        </div>
-        <ChevronUp
-          class="h-3.5 w-3.5 text-muted-foreground/40 transition-transform duration-300"
-          :class="{ 'rotate-180': !settingsOpen }"
+        <PanelLeftClose
+          class="h-[18px] w-[18px] transition-all duration-300"
+          :class="
+            isCollapsed
+              ? 'opacity-0 absolute scale-50'
+              : 'opacity-100 scale-100'
+          "
         />
+        <PanelLeftOpen
+          class="h-[18px] w-[18px] transition-all duration-300"
+          :class="
+            isCollapsed
+              ? 'opacity-100 scale-100'
+              : 'opacity-0 absolute scale-50'
+          "
+        />
+        <span class="sr-only">Toggle Sidebar</span>
       </button>
-      <div
-        class="settings-panel overflow-hidden transition-all duration-300 ease-in-out"
-        :class="settingsOpen ? 'settings-panel-open' : 'settings-panel-closed'"
-      >
-        <div class="space-y-2 pt-2">
-          <!-- Connection -->
-          <div
-            class="flex items-center justify-between px-3 py-1.5 rounded-lg bg-muted/20"
-          >
-            <span class="text-[12px] font-medium text-muted-foreground">{{
-              $t("connection.label")
-            }}</span>
-            <ConnectionToggle />
-          </div>
-          <!-- Theme -->
-          <div
-            class="flex items-center justify-between px-3 py-1.5 rounded-lg bg-muted/20"
-          >
-            <span class="text-[12px] font-medium text-muted-foreground">{{
-              $t("theme.label")
-            }}</span>
-            <ModeToggle />
-          </div>
-          <!-- Language -->
-          <div
-            class="flex items-center justify-between px-3 py-1.5 rounded-lg bg-muted/20"
-          >
-            <span class="text-[12px] font-medium text-muted-foreground">{{
-              $t("lang.label")
-            }}</span>
-            <LanguageToggle />
-          </div>
-        </div>
-      </div>
     </div>
   </aside>
 </template>
 
 <style scoped>
-.settings-panel-open {
-  max-height: 200px;
-  opacity: 1;
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
-.settings-panel-closed {
-  max-height: 0;
-  opacity: 0;
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-@media (max-height: 800px) {
-  .short-screen-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 0.35rem !important;
-    margin-bottom: 1rem !important;
-  }
-  .short-screen-grid > * {
-    margin-top: 0 !important;
-  }
-  .short-screen-item {
-    padding: 0.35rem 0.5rem !important;
-    font-size: 12px !important;
-  }
+aside {
+  background: hsl(var(--sidebar));
+  backdrop-filter: blur(10px);
 }
 </style>
