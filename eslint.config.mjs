@@ -16,7 +16,7 @@ export default tseslint.config(
       "pnpm-lock.yaml",
       "package-lock.json",
       "package.json",
-      "DEV-DOCS",
+      "docs",
       "*.d.ts",
       ".eslintcache",
       "src/components/ui",

@@ -95,4 +95,4 @@ pnpm run dev    # 开发模式
 
 ## 相关技术分享
 
-- [B站BV/AV号互转算法原理](./DEV-DOCS/B站BV-AV号互转算法原理.md)
+- [B站BV/AV号互转算法原理](./docs/B站BV-AV号互转算法原理.md)
