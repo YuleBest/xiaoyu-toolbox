@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import path from "node:path";
 import { defineConfig } from "vite";
+// 1. 导入 ViteSSGOptions 类型
 import vueRouter from "unplugin-vue-router/vite";
 import tailwindcss from "@tailwindcss/vite";
 import vue from "@vitejs/plugin-vue";
@@ -8,8 +10,13 @@ import Components from "unplugin-vue-components/vite";
 import sitemapPlugin from "./src/plugins/vite-plugin-sitemap";
 import { prismjsPlugin } from "vite-plugin-prismjs";
 
+// 2. 这里的配置合并了 Vite 的原生配置和 SSG 的配置类型
 export default defineConfig({
   plugins: [
+    vueRouter({
+      routesFolder: "src/pages",
+      extensions: [".vue"],
+    }),
     prismjsPlugin({
       languages: [
         "javascript",
@@ -31,10 +38,6 @@ export default defineConfig({
       css: true,
     }),
     sitemapPlugin(),
-    vueRouter({
-      routesFolder: "src/pages",
-      extensions: [".vue"],
-    }),
     AutoImport({
       imports: ["vue", "vue-router"],
       dts: "src/auto-imports.d.ts",
@@ -52,11 +55,19 @@ export default defineConfig({
     }),
   ],
 
+  // 3. 现在的 ssgOptions 就不会报“未知属性”了
+  ssgOptions: {
+    script: "async",
+    formatting: "minify",
+    onFinished() {
+      console.log("SSG 构建完成");
+    },
+  },
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-    tsconfigPaths: true,
   },
   server: {
     port: 5678,
@@ -65,5 +76,6 @@ export default defineConfig({
   build: {
     sourcemap: false,
     cssCodeSplit: true,
+    outDir: "dist",
   },
-});
+} as any);

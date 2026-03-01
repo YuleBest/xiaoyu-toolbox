@@ -1,0 +1,14 @@
+{
+  "files.associations": {
+    "*.css": "tailwindcss",
+    "dist/**/**": "plaintext"
+  },
+  "tailwindCSS.files.exclude": [
+    "**/node_modules/**",
+    "**/.git/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.cache/**"
+  ],
+  "tailwindCSS.lint.cssConflict": "ignore"
+}

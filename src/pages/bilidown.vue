@@ -19,7 +19,6 @@ import {
   FileVideo,
   FileAudio,
 } from "lucide-vue-next";
-import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile, toBlobURL } from "@ffmpeg/util";
 import ToolContainer from "@/components/tool/ToolContainer.vue";
 import { allTools } from "@/config/tools";
@@ -52,7 +51,7 @@ const disclaimerVisible = ref(false);
 const pendingParse = ref(false);
 
 // FFmpeg
-const ffmpeg = new FFmpeg();
+const ffmpeg = ref<any>(null);
 const merging = ref(false);
 const mergeProgress = ref(0);
 const selectedVideo = ref<VideoStream | null>(null);
@@ -67,9 +66,19 @@ const isDisclaimerAccepted = () => {
 };
 
 // Cookie 自动导入
-onMounted(() => {
-  const saved = localStorage.getItem("bilidown_cookie");
-  if (saved) cookie.value = saved;
+onMounted(async () => {
+  // 1. 处理 Cookie (加入环境检查保险)
+  if (typeof window !== "undefined") {
+    const saved = localStorage.getItem("bilidown_cookie");
+    if (saved) cookie.value = saved;
+  }
+
+  // 2. 动态导入 FFmpeg
+  // 刚才报错就是因为这里用了 await 但外层函数不是 async
+  const { FFmpeg } = await import("@ffmpeg/ffmpeg");
+  ffmpeg.value = new FFmpeg();
+
+  // 如果后续还有 ffmpeg.value.load() 之类的操作，也可以写在这里
 });
 
 const startCooldown = () => {
@@ -183,10 +192,10 @@ const mergeAndDownload = async () => {
   mergeProgress.value = 0;
 
   try {
-    if (!ffmpeg.loaded) {
+    if (!ffmpeg.value.loaded) {
       showToast(t("bilidown.merging"));
       const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm";
-      await ffmpeg.load({
+      await ffmpeg.value.load({
         coreURL: await toBlobURL(
           `${baseURL}/ffmpeg-core.js`,
           "text/javascript",
@@ -198,7 +207,7 @@ const mergeAndDownload = async () => {
       });
     }
 
-    ffmpeg.on("progress", ({ progress }) => {
+    ffmpeg.value.on("progress", ({ progress }: { progress: number }) => {
       mergeProgress.value = Math.round(progress * 100);
     });
 
@@ -214,12 +223,12 @@ const mergeAndDownload = async () => {
     );
 
     showToast(t("bilidown.merging"));
-    await ffmpeg.writeFile("video.mp4", await fetchFile(videoUrl));
+    await ffmpeg.value.writeFile("video.mp4", await fetchFile(videoUrl));
     showToast(t("bilidown.merging"));
-    await ffmpeg.writeFile("audio.m4a", await fetchFile(audioUrl));
+    await ffmpeg.value.writeFile("audio.m4a", await fetchFile(audioUrl));
 
     showToast(t("bilidown.merging"));
-    await ffmpeg.exec([
+    await ffmpeg.value.exec([
       "-i",
       "video.mp4",
       "-i",
@@ -230,7 +239,7 @@ const mergeAndDownload = async () => {
       "output.mp4",
     ]);
 
-    const data = await ffmpeg.readFile("output.mp4");
+    const data = await ffmpeg.value.readFile("output.mp4");
     const blob = new Blob([new Uint8Array(data as Uint8Array)], {
       type: "video/mp4",
     });

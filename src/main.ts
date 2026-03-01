@@ -1,60 +1,51 @@
-import { createApp } from "vue";
-import { createRouter, createWebHistory } from "vue-router";
-import { routes } from "vue-router/auto-routes";
-import { createHead } from "@unhead/vue/client";
+import { ViteSSG } from "vite-ssg";
+import { routes } from "vue-router/auto-routes"; // 自动生成的路由依然能用
 import "./style.css";
 import "./assets/fonts.css";
 import App from "./App.vue";
 import i18n from "./i18n";
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-  scrollBehavior(to, from, savedPosition) {
-    if (to.path === from.path) {
-      return false;
-    }
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        if (savedPosition) {
-          resolve(savedPosition);
-        } else {
-          resolve({ top: 0, behavior: "smooth" });
-        }
-      }, 250);
-    });
-  },
-});
-
 import nprogress from "nprogress";
 import "nprogress/nprogress.css";
 
-// Configure nprogress
-nprogress.configure({ showSpinner: false, speed: 400 });
+// 导出 ViteSSG 入口
+export const createApp = ViteSSG(
+  App,
+  {
+    routes,
+    base: import.meta.env.BASE_URL,
+    // 这里的 scrollBehavior 搬过来就行
+    scrollBehavior(to, from, savedPosition) {
+      if (to.path === from.path) return false;
+      if (savedPosition) return savedPosition;
+      return { top: 0, behavior: "smooth" };
+    },
+  },
+  ({ app, router, isClient }) => {
+    // 注入 i18n
+    app.use(i18n);
 
-// --- 兼容旧版 Hash URL ---
-router.beforeEach((to) => {
-  nprogress.start();
-  const hash = window.location.hash;
+    // 只有在浏览器环境下（isClient 为 true）才执行的逻辑
+    if (isClient) {
+      nprogress.configure({ showSpinner: false, speed: 400 });
 
-  if (to.path === "/" && hash.startsWith("#/")) {
-    const targetPath = hash.substring(1);
-    history.replaceState(null, "", targetPath);
+      router.beforeEach((to) => {
+        nprogress.start();
 
-    return { path: targetPath, replace: true };
-  }
+        // --- 兼容旧版 Hash URL ---
+        // 注意：这里必须放在 isClient 里，因为打包环境没有 window
+        const hash = window.location.hash;
+        if (to.path === "/" && hash.startsWith("#/")) {
+          const targetPath = hash.substring(1);
+          history.replaceState(null, "", targetPath);
+          return { path: targetPath, replace: true };
+        }
+        return true;
+      });
 
-  return true;
-});
-
-router.afterEach(() => {
-  nprogress.done();
-});
-
-const head = createHead();
-const app = createApp(App);
-
-app.use(router);
-app.use(i18n);
-app.use(head);
-app.mount("#app");
+      router.afterEach(() => {
+        nprogress.done();
+      });
+    }
+  },
+);

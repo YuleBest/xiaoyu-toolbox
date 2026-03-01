@@ -3,11 +3,17 @@ import zhCN from "./zh-CN";
 
 const STORAGE_KEY = "xiaoyu-toolbox-lang";
 
-const savedLocale = localStorage.getItem(STORAGE_KEY) || "zh-CN";
+// 封装获取逻辑：兼容 Node (SSG阶段) 和 Browser
+const getInitialLocale = () => {
+  if (typeof window !== "undefined" && window.localStorage) {
+    return localStorage.getItem(STORAGE_KEY) || "zh-CN";
+  }
+  return "zh-CN";
+};
 
 const i18n = createI18n({
   legacy: false, // 使用 Composition API
-  locale: savedLocale,
+  locale: getInitialLocale(),
   fallbackLocale: "zh-CN",
   messages: {
     "zh-CN": zhCN,
@@ -24,8 +30,12 @@ export type SupportedLocale = (typeof supportedLocales)[number]["code"];
  */
 export function setLanguage(locale: SupportedLocale) {
   i18n.global.locale.value = locale;
-  localStorage.setItem(STORAGE_KEY, locale);
-  document.documentElement.lang = locale;
+
+  // 仅在浏览器环境下执行持久化和 DOM 操作
+  if (typeof window !== "undefined") {
+    localStorage.setItem(STORAGE_KEY, locale);
+    document.documentElement.lang = locale;
+  }
 }
 
 export default i18n;

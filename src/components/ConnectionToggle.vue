@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue"; // 1. 引入 onMounted
 import { Wifi, Check, RefreshCw, Loader2 } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,8 +15,8 @@ interface ServerOption {
   labelKey: string;
 }
 
-const MEASURE_COUNT = 3; // 总测试次数
-const DISCARD_COUNT = 1; // 丢弃前 N 次（预热）
+const MEASURE_COUNT = 3;
+const DISCARD_COUNT = 1;
 
 const servers: ServerOption[] = [
   { id: "cn", host: "tool.yule.ink", labelKey: "connection.cn" },
@@ -29,11 +29,14 @@ const latencies = ref<Record<string, number | null>>({
 });
 const measuring = ref(false);
 
-/**
- * 单次加载 favicon.svg（每次唯一随机参数绕过缓存）
- */
+/** 只有在浏览器端才使用的 currentId */
+const currentId = ref("cn"); // 默认给个 'cn'，防止打包时模版变量未定义
+
 function measureOnce(host: string): Promise<number> {
   return new Promise((resolve, reject) => {
+    // 增加环境判断，防止在 SSG 阶段意外触发
+    if (typeof window === "undefined") return resolve(0);
+
     const img = new Image();
     const url = `https://${host}/favicon.svg?_=${Date.now()}_${Math.random().toString(36).slice(2)}`;
     const start = performance.now();
@@ -43,9 +46,6 @@ function measureOnce(host: string): Promise<number> {
   });
 }
 
-/**
- * 对单个服务器测 MEASURE_COUNT 次，丢弃前 DISCARD_COUNT 次，取剩余平均值
- */
 async function measureServer(host: string): Promise<number> {
   const results: number[] = [];
   for (let i = 0; i < MEASURE_COUNT; i++) {
@@ -56,6 +56,7 @@ async function measureServer(host: string): Promise<number> {
 }
 
 async function refreshLatencies() {
+  if (typeof window === "undefined") return; // SSG 安全守卫
   measuring.value = true;
   latencies.value = { cn: null, intl: null };
   const results: Record<string, number | null> = {};
@@ -72,18 +73,20 @@ async function refreshLatencies() {
   measuring.value = false;
 }
 
-/** 下拉菜单打开时触发测速 */
 function onDropdownOpen(open: boolean) {
   if (open) refreshLatencies();
 }
 
+/** 核心修复：把获取逻辑包在判断里 */
 function getCurrentServerId(): string {
+  if (typeof window === "undefined") return "cn";
   const host = window.location.hostname;
   const found = servers.find((s) => s.host === host);
   return found ? found.id : "cn";
 }
 
 function switchServer(server: ServerOption) {
+  if (typeof window === "undefined") return;
   if (server.host === window.location.hostname) return;
   const url = new URL(window.location.href);
   url.hostname = server.host;
@@ -103,7 +106,10 @@ function latencyColorClass(val: number | null): string {
   return "text-red-500";
 }
 
-const currentId = getCurrentServerId();
+// 2. 使用 onMounted 来更新当前的 Server ID
+onMounted(() => {
+  currentId.value = getCurrentServerId();
+});
 </script>
 
 <template>

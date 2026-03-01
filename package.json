@@ -9,7 +9,7 @@
     "dev:cf:only": "wrangler pages dev ./dist",
     "dev": "pnpm run lint && pnpm run dev:vite",
     "build": "pnpm run lint && vue-tsc -b && pnpm run build:only",
-    "build:only": "vite build",
+    "build:only": "vite-ssg build",
     "preview": "vite preview",
     "lint": "eslint . --cache",
     "lint:vue-tsc": "npx vue-tsc --noEmit -p ./tsconfig.app.json",
@@ -79,6 +79,7 @@
     "unplugin-vue-router": "^0.19.2",
     "vite": "^8.0.0-beta.13",
     "vite-plugin-prismjs": "^0.0.11",
+    "vite-ssg": "^28.3.0",
     "vue-eslint-parser": "^10.4.0",
     "vue-tsc": "^3.1.5",
     "wrangler": "^4.68.1"
