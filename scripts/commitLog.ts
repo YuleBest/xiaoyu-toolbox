@@ -19,6 +19,7 @@ async function getGitLogToJson(
   targetDir: string,
   pattern: string = "**/*.vue",
   outputFile: string = "../commit.log.json",
+  minify: boolean = false,
 ) {
   const git: SimpleGit = simpleGit();
   const results: FileCommitLog[] = [];
@@ -47,7 +48,10 @@ async function getGitLogToJson(
     }
 
     // 写入 JSON
-    fs.writeFileSync(outputFile, JSON.stringify(results, null, 2), "utf-8");
+    const jsonContent = minify
+      ? JSON.stringify(results)
+      : JSON.stringify(results, null, 2);
+    fs.writeFileSync(outputFile, jsonContent, "utf-8");
     console.log(`Successfully saved commit logs to ${outputFile}`);
   } catch (error) {
     console.error("Error fetching git logs:", error);
@@ -58,8 +62,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const targetPath = path.resolve(__dirname, "../src/pages");
-const assetPath = path.resolve(__dirname, "../src/assets/_commit.log.json");
 const publicPath = path.resolve(__dirname, "../public/_commit.log.json");
+const publicMinPath = path.resolve(__dirname, "../public/_commit.log.min.json");
 
-getGitLogToJson(targetPath, "**/*.vue", assetPath);
-getGitLogToJson(targetPath, "**/*.vue", publicPath);
+async function run() {
+  await getGitLogToJson(targetPath, "**/*.vue", publicPath, false);
+  await getGitLogToJson(targetPath, "**/*.vue", publicMinPath, true);
+}
+
+run();

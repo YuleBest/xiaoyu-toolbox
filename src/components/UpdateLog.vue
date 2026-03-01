@@ -1,13 +1,41 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
-import commitData from "@/assets/_commit.log.json";
 import { Clock, ChevronDown, ChevronUp } from "lucide-vue-next";
+
+// 定义接口以匹配 JSON 结构
+interface CommitRecord {
+  hash: string;
+  date: string;
+  message: string;
+  author_name: string;
+}
+
+interface FileCommitLog {
+  filePath: string;
+  commits: CommitRecord[];
+}
 
 // 从 Vue Router 获取当前页面的路径名并提取文件名
 const route = useRoute();
 const { t } = useI18n();
+
+const commitData = ref<FileCommitLog[]>([]);
+const isLoading = ref(true);
+
+onMounted(async () => {
+  try {
+    const response = await fetch("/_commit.log.min.json");
+    if (response.ok) {
+      commitData.value = await response.json();
+    }
+  } catch (error) {
+    console.error("Failed to load commit logs:", error);
+  } finally {
+    isLoading.value = false;
+  }
+});
 
 const currentFileName = computed(() => {
   // 假设路由路径大体对应文件名，例如 /qrcode 对应 qrcode.vue
@@ -26,7 +54,7 @@ const currentFileName = computed(() => {
 
 // 计算当前页面匹配的更新日志
 const currentLogs = computed(() => {
-  const match = commitData.find(
+  const match = commitData.value.find(
     (item) => item.filePath === currentFileName.value,
   );
   return match ? match.commits : [];

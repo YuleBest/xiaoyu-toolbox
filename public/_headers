@@ -4,6 +4,12 @@
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
+/_commit.log.json
+  Cache-Control: public, max-age=0, must-revalidate
+
+/_commit.log.min.json
+  Cache-Control: public, max-age=0, must-revalidate
+
 /
   Cache-Control: no-cache, no-store, must-revalidate
 
