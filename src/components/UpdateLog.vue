@@ -129,8 +129,8 @@ const formatDate = (dateString: string) => {
 
     <button
       v-if="currentLogs.length > 1"
-      @click="isExpanded = !isExpanded"
       class="mt-4 flex items-center gap-1 text-xs text-muted-foreground/60 hover:text-primary transition-colors pl-4 sm:pl-0"
+      @click="isExpanded = !isExpanded"
     >
       <span>{{
         isExpanded
