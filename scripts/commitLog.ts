@@ -66,6 +66,19 @@ const publicPath = path.resolve(__dirname, "../public/_commit.log.json");
 const publicMinPath = path.resolve(__dirname, "../public/_commit.log.min.json");
 
 async function run() {
+  const git: SimpleGit = simpleGit();
+  try {
+    const isShallow = await git.revparse(["--is-shallow-repository"]);
+    if (isShallow === "true") {
+      console.log("Shallow clone detected, fetching full history...");
+      await git.fetch(["--unshallow"]).catch((err) => {
+        console.warn("Failed to unshallow repository:", err.message);
+      });
+    }
+  } catch (error) {
+    console.error("Error checking repository depth:", error);
+  }
+
   await getGitLogToJson(targetPath, "**/*.vue", publicPath, false);
   await getGitLogToJson(targetPath, "**/*.vue", publicMinPath, true);
 }
