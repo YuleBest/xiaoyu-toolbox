@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted } from "vue";
+import { computed, ref, onMounted, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { Clock, ChevronDown, ChevronUp } from "lucide-vue-next";
@@ -27,35 +27,85 @@ const isLoading = ref(true);
 onMounted(async () => {
   try {
     const response = await fetch("/_commit.log.min.json");
+    console.log("[UpdateLog] Fetch Status:", response.status);
     if (response.ok) {
       commitData.value = await response.json();
+      console.log(
+        "[UpdateLog] Log data loaded:",
+        commitData.value.length,
+        "entries.",
+      );
+      if (commitData.value.length > 0) {
+        console.log(
+          "[UpdateLog] Sample Path in JSON:",
+          commitData.value[0]?.filePath,
+        );
+      }
     }
   } catch (error) {
-    console.error("Failed to load commit logs:", error);
+    console.error("[UpdateLog] Failed to load commit logs:", error);
   } finally {
     isLoading.value = false;
   }
 });
 
 const currentFileName = computed(() => {
-  // 假设路由路径大体对应文件名，例如 /qrcode 对应 qrcode.vue
-  let path = route.path;
-  if (path.endsWith("/")) {
-    path = path.slice(0, -1);
+  // 按照优先级尝试提取文件名
+  let pathString = route.path;
+
+  if (pathString.endsWith("/")) {
+    pathString = pathString.slice(0, -1);
   }
-  if (path.endsWith(".html")) {
-    path = path.slice(0, -5);
+  if (pathString.endsWith(".html")) {
+    pathString = pathString.slice(0, -5);
   }
-  if (path === "" || path === "/") return "index.vue";
-  // 例如 path: "/translator-ai" -> "translator-ai.vue"
-  const baseName = path.split("/").pop();
+
+  if (pathString === "" || pathString === "/") {
+    return "index.vue";
+  }
+
+  // 提取最后一个斜线后的部分
+  const baseName = pathString.split("/").pop();
   return baseName ? `${baseName}.vue` : "index.vue";
+});
+
+// 调试所有可能的路径匹配相关属性
+watchEffect(() => {
+  if (!isLoading.value) {
+    const target = currentFileName.value.toLowerCase();
+    console.log("[UpdateLog] --- Matching Debug ---");
+    console.log("[UpdateLog] Route Path:", route.path);
+    console.log("[UpdateLog] Target FileName:", target);
+
+    const match = commitData.value.find((item) => {
+      const normalizedPath = item.filePath.replace(/\\/g, "/").toLowerCase();
+      return normalizedPath === target;
+    });
+
+    if (match) {
+      console.log(
+        "[UpdateLog] Found match for",
+        target,
+        "with",
+        match.commits.length,
+        "commits.",
+      );
+    } else {
+      console.warn("[UpdateLog] No match found for", target);
+      // 辅助打印前 3 条以对照路径格式
+      console.log(
+        "[UpdateLog] First 3 keys in JSON:",
+        commitData.value.slice(0, 3).map((i) => i.filePath),
+      );
+    }
+  }
 });
 
 // 计算当前页面匹配的更新日志
 const currentLogs = computed(() => {
+  const target = currentFileName.value.toLowerCase();
   const match = commitData.value.find(
-    (item) => item.filePath === currentFileName.value,
+    (item) => item.filePath.replace(/\\/g, "/").toLowerCase() === target,
   );
   return match ? match.commits : [];
 });
