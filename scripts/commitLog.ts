@@ -41,7 +41,7 @@ async function getGitLogToJson(
       results.push({
         filePath: path.relative(targetDir, file),
         commits: log.all.map((commit) => ({
-          hash: commit.hash.substring(0, 6),
+          hash: commit.hash.substring(0, 7),
           date: commit.date,
           message: commit.message,
           author_name: commit.author_name,

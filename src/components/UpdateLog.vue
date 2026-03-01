@@ -158,11 +158,18 @@ const formatDate = (dateString: string) => {
             {{ log.message }}
           </p>
           <div class="flex items-center gap-2 mt-1">
-            <span
-              class="text-[10px] font-mono bg-muted/50 px-1.5 py-0.5 rounded text-muted-foreground"
+            <a
+              :href="`https://github.com/YuleBest/xiaoyu-toolbox/commit/${log.hash}`"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-primary transition-colors"
             >
-              {{ log.hash }}
-            </span>
+              <span
+                class="text-[10px] font-mono bg-muted/50 px-1.5 py-0.5 rounded text-muted-foreground"
+              >
+                {{ log.hash }}
+              </span>
+            </a>
             <span class="text-xs text-muted-foreground/60"
               >· {{ log.author_name }}</span
             >
