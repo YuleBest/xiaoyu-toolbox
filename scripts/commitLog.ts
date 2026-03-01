@@ -33,8 +33,10 @@ async function getGitLogToJson(
     for (const file of files) {
       // 获取单个文件的 git log
       // file 是绝对路径，simple-git 会自动处理
-      console.log(`Get Log: ${file} ...`);
       const log = await git.log({ file });
+      console.log(
+        `[commitLog] ${path.relative(targetDir, file)}: Found ${log.all.length} commits`,
+      );
 
       results.push({
         filePath: path.relative(targetDir, file),

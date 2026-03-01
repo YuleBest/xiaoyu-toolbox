@@ -10,3 +10,6 @@ binding = "HOK_DATA"
 binding = "DB"
 database_name = "phone-db"
 database_id = "9b27749f-5199-40cb-b5cb-28df0b35abfd"
+
+[vars]
+GIT_CHECKOUT_DEPTH = 0
