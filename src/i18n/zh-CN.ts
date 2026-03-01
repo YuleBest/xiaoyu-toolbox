@@ -351,6 +351,13 @@ export default {
       notice:
         "注：本工具基于标准 28 天周期计算，仅供参考，不作为医疗或避孕依据。一个月经周期是指从一次月经的第一天持续到下一次月经的第一天。",
     },
+    "time-distance": {
+      title: "时间距离",
+      subtitle: "两日期间隔计算",
+      description: "计算两个选定日期的相距时间，最细支持到秒。",
+      usage:
+        "1. 选择开始时间和结束时间。\n2. 自动计算显示两者之间的相距天数、小时、分钟和秒数。",
+    },
     "ncm-get-playlist": {
       title: "网易云歌单",
       subtitle: "网易云音乐歌单歌曲列表解析",
@@ -359,6 +366,15 @@ export default {
       usage:
         "1. 复制网易云音乐歌单分享链接或提取数字 ID。\n2. 粘贴至输入框并点击获取按钮。\n3. 查看完整的歌单歌曲和歌手列表，支持一键复制所有文本结果。",
     },
+  },
+
+  // === 时间距离计算 ===
+  timeDistance: {
+    startTime: "开始时间",
+    endTime: "结束时间",
+    distance: "相距时间",
+    resultStr: "{days} 天 {hours} 小时 {minutes} 分钟 {seconds} 秒",
+    skipWeekend: "跳过周末",
   },
 
   // === Base64 页面 ===

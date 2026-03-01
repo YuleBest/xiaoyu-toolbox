@@ -351,6 +351,13 @@ export default {
       notice:
         "註：本工具基於標準 28 天週期計算，僅供參考，不作為醫療或避孕依據。一個月經週期是指從一次月經的第一天持續到下一次月經的第一天。",
     },
+    "time-distance": {
+      title: "時間距離",
+      subtitle: "兩日期間隔計算",
+      description: "計算兩個選定日期的相距時間，最細支援到秒。",
+      usage:
+        "1. 選擇開始時間和結束時間。\n2. 自動計算顯示兩者之間的相距天數、小時、分鐘和秒數。",
+    },
     "ncm-get-playlist": {
       title: "網易雲歌單",
       subtitle: "網易雲音樂歌單歌曲列表解析",
@@ -359,6 +366,15 @@ export default {
       usage:
         "1. 複製網易雲音樂歌單分享連結或提取數字 ID。\n2. 貼上至輸入框並點擊獲取按鈕。\n3. 查看完整的歌單歌曲和歌手列表，支援一鍵複製所有文本結果。",
     },
+  },
+
+  // === 時間距離計算 ===
+  timeDistance: {
+    startTime: "開始時間",
+    endTime: "結束時間",
+    distance: "相距時間",
+    resultStr: "{days} 天 {hours} 小時 {minutes} 分鐘 {seconds} 秒",
+    skipWeekend: "跳過週末",
   },
 
   // === Base64 頁面 ===

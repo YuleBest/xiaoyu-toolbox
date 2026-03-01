@@ -18,6 +18,7 @@ import {
   ArrowRightLeft,
   Ruler,
   Activity,
+  Clock,
 } from "lucide-vue-next";
 
 export interface Tool {
@@ -312,6 +313,18 @@ export const toolsData: Record<string, Tool[]> = {
       color: "text-rose-400",
       path: "/period",
       date: "2026-02-28",
+    },
+    {
+      id: "time-distance",
+      title: "tools.time-distance.title",
+      subtitle: "tools.time-distance.subtitle",
+      description: "tools.time-distance.description",
+      author: "Yule",
+      usage: "tools.time-distance.usage",
+      icon: Clock,
+      color: "text-sky-500",
+      path: "/time-distance",
+      date: "2026-03-01",
     },
   ],
   game: [

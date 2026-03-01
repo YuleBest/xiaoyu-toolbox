@@ -244,11 +244,28 @@ export default {
       subtitle: "Cycle Calculator",
       description: "Track and predict menstrual cycle phases.",
     },
+    "time-distance": {
+      title: "Time Distance",
+      subtitle: "Date Interval Calculator",
+      description:
+        "Calculate the time distance between two selected dates, down to seconds.",
+      usage:
+        "1. Select a start time and an end time.\n2. Automatically calculate and display the difference in days, hours, minutes, and seconds.",
+    },
     "ncm-get-playlist": {
       title: "NCM Playlist",
       subtitle: "Link to List",
       description: "Export all songs and artists from Netease playlists.",
     },
+  },
+
+  // === Time Distance Page ===
+  timeDistance: {
+    startTime: "Start Time",
+    endTime: "End Time",
+    distance: "Distance",
+    resultStr: "{days} d {hours} h {minutes} m {seconds} s",
+    skipWeekend: "Skip Weekends",
   },
 
   // === Base64 Page ===

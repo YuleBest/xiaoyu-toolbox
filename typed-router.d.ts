@@ -191,6 +191,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/time-distance': RouteRecordInfo<
+      '/time-distance',
+      '/time-distance',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/translator-ai': RouteRecordInfo<
       '/translator-ai',
       '/translator-ai',
@@ -366,6 +373,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/search.vue': {
       routes:
         | '/search'
+      views:
+        | never
+    }
+    'src/pages/time-distance.vue': {
+      routes:
+        | '/time-distance'
       views:
         | never
     }

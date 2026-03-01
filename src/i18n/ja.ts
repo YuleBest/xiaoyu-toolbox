@@ -260,12 +260,28 @@ export default {
       subtitle: "周期計算シミュレーター",
       description: "生理周期、排卵日、妊娠しやすい時期などを計算・予測します。",
     },
+    "time-distance": {
+      title: "時間距離計算",
+      subtitle: "日付間隔の計算",
+      description: "2つの選択された日付の間の時間を計算します（秒単位）。",
+      usage:
+        "1. 開始時間と終了時間を選択します。\n2. 自動的に計算され、日、時間、分、秒の差が表示されます。",
+    },
     "ncm-get-playlist": {
       title: "網易雲プレイリスト",
       subtitle: "プレイリスト楽曲解析",
       description:
         "網易雲音楽 (NetEase Cloud Music) のプレイリストから楽曲一覧をエクスポートします。",
     },
+  },
+
+  // === Time Distance Page ===
+  timeDistance: {
+    startTime: "開始時間",
+    endTime: "終了時間",
+    distance: "時間距離",
+    resultStr: "{days} 日 {hours} 時間 {minutes} 分 {seconds} 秒",
+    skipWeekend: "週末をスキップ",
   },
 
   // === Base64 Page ===
