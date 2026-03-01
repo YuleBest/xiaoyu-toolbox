@@ -11,9 +11,14 @@ const { t } = useI18n();
 
 const currentFileName = computed(() => {
   // 假设路由路径大体对应文件名，例如 /qrcode 对应 qrcode.vue
-  // 去掉前导斜线，并加上 .vue 后缀
-  const path = route.path;
-  if (path === "/" || path === "") return "index.vue";
+  let path = route.path;
+  if (path.endsWith("/")) {
+    path = path.slice(0, -1);
+  }
+  if (path.endsWith(".html")) {
+    path = path.slice(0, -5);
+  }
+  if (path === "" || path === "/") return "index.vue";
   // 例如 path: "/translator-ai" -> "translator-ai.vue"
   const baseName = path.split("/").pop();
   return baseName ? `${baseName}.vue` : "index.vue";

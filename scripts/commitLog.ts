@@ -58,6 +58,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const targetPath = path.resolve(__dirname, "../src/pages");
-const outputPath = path.resolve(__dirname, "../src/assets/_commit.log.json");
+const assetPath = path.resolve(__dirname, "../src/assets/_commit.log.json");
+const publicPath = path.resolve(__dirname, "../public/_commit.log.json");
 
-getGitLogToJson(targetPath, "**/*.vue", outputPath);
+getGitLogToJson(targetPath, "**/*.vue", assetPath);
+getGitLogToJson(targetPath, "**/*.vue", publicPath);
