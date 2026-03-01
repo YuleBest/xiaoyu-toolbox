@@ -84,6 +84,8 @@ pnpm run dev    # 开发模式
 
 - [weibo-trending-hot-search](https://github.com/justjavac/weibo-trending-hot-search), [@justjavac](https://github.com/justjavac), MIT license.
 
+- [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi), [Binaryify](https://github.com/Binaryify).
+
 ## 关联仓库
 
 以下仓库与本项目有部分关联，但由于规模、方便管理等原因需分仓库：
