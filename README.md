@@ -1,10 +1,10 @@
 <div align="center">
 
-# <img src="./public/favicon.svg" width="25"> 小于工具箱
+# <img src="./public/favicon.svg" width="25" /> 小于工具箱
 
 一个纯净、开源、无广告的在线工具集
 
-<img src="https://img.shields.io/github/stars/YuleBest/xiaoyu-toolbox?style=for-the-badge&color=4183c4" alt="Stars"> <img src="https://img.shields.io/github/commit-activity/m/YuleBest/xiaoyu-toolbox?style=for-the-badge&color=f05032" alt="Commits"> <img src="https://img.shields.io/github/languages/top/YuleBest/xiaoyu-toolbox?style=for-the-badge&color=yellow" alt="Top Language">
+<img src="https://img.shields.io/github/stars/YuleBest/xiaoyu-toolbox?style=for-the-badge&color=4183c4" alt="Stars" /> <img src="https://img.shields.io/github/commit-activity/m/YuleBest/xiaoyu-toolbox?style=for-the-badge&color=f05032" alt="Commits" /> <img src="https://img.shields.io/github/languages/top/YuleBest/xiaoyu-toolbox?style=for-the-badge&color=yellow" alt="Top Language" />
 
 [![在线使用](https://img.shields.io/badge/在线使用-tool.yule.ink-blue?style=for-the-badge)](https://tool.yule.ink)
 
@@ -12,9 +12,9 @@
 
 ## 特性
 
-- **现代化 UI 设计**：基于 Vuetify 3 构建，采用 Material Design 风格，界面简洁美观。
+- **现代化 UI 设计**：基于 Shadcn UI 构建，界面简洁美观。
 - **响应式布局**：适配桌面端和移动端，随时随地高效使用。
-- **无广告**：纯净的使用体验，无任何干扰广告。
+- **无广告**：纯净的使用体验，无干扰广告。
 - **保护隐私**：大部分工具纯前端运行，数据不上传服务器。
 
 ## 开始使用
@@ -72,19 +72,18 @@ pnpm run dev    # 开发模式
 
 ## 感谢
 
-以下项目为本项目提供了数据或灵感支持：
+以下项目为本项目提供了数据源或灵感支持：
 
-- [MobileModels](https://github.com/KHwang9883/MobileModels), [@KHwang9883](https://github.com/KHwang9883), CC BY-NC-SA 4.0 license.
+| 项目                                                         | 作者                                         | 开源许可证      |
+| ------------------------------------------------------------ | -------------------------------------------- | --------------- |
+| [MobileModels](https://github.com/KHwang9883/MobileModels)   | [@KHwang9883](https://github.com/KHwang9883) | CC BY-NC-SA 4.0 |
+| [mcapks.net](https://mcapks.net)                             |                                              |                 |
+| [能不能好好说话](https://github.com/itorr/nbnhhsh)           | [@itorr](https://github.com/itorr)           | Apache 2.0      |
+| [php-mobile-locator](https://github.com/zxc7563598/php-mobile-locator) | [@zxc7563598](https://github.com/zxc7563598) | MIT             |
+| [weibo-trending-hot-search](https://github.com/justjavac/weibo-trending-hot-search) | [@justjavac](https://github.com/justjavac)   | MIT             |
+| [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi) | [@Binaryify](https://github.com/Binaryify)   |                 |
 
-- [mcapks.net](https://mcapks.net)
 
-- [能不能好好说话](https://github.com/itorr/nbnhhsh), [@itorr](https://github.com/itorr), Apache-2.0 license.
-
-- [php-mobile-locator](https://github.com/zxc7563598/php-mobile-locator), [@zxc7563598](https://github.com/zxc7563598), MIT license.
-
-- [weibo-trending-hot-search](https://github.com/justjavac/weibo-trending-hot-search), [@justjavac](https://github.com/justjavac), MIT license.
-
-- [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi), [Binaryify](https://github.com/Binaryify).
 
 ## 关联仓库
 
