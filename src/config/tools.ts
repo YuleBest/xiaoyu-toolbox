@@ -348,7 +348,7 @@ export const toolsData: Record<string, Tool[]> = {
       author: 'Yule',
       usage: 'tools.hok-voices.usage',
       icon: Volume2,
-      color: 'text-amber-500',
+      color: 'text-blue-500',
       path: '/hok-voices',
       date: '2026-03-04',
     },

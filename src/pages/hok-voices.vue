@@ -116,9 +116,11 @@ const skinList = computed(() => {
 })
 
 const filteredVoices = computed(() => {
-  if (!selectedHero.value) return []
+  // 未选英雄或未选皮肤时不渲染任何语音，保持界面整齐且高性能
+  if (!selectedHero.value || !selectedSkin.value) return []
+
   let list = allVoices.value.filter((v) => v.heroName === selectedHero.value)
-  if (selectedSkin.value) list = list.filter((v) => v.skinName === selectedSkin.value)
+  list = list.filter((v) => v.skinName === selectedSkin.value)
   if (searchQuery.value.trim()) {
     const q = searchQuery.value.trim().toLowerCase()
     list = list.filter((v) => v.line.toLowerCase().includes(q))
@@ -241,7 +243,7 @@ onMounted(async () => {
           v-model="searchQuery"
           type="text"
           :placeholder="t('hokVoices.searchPlaceholder')"
-          class="w-full pl-11 pr-4 py-3 bg-card/30 border border-muted/80 rounded-2xl text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500/50 transition-all"
+          class="w-full pl-11 pr-4 py-3 bg-card/30 border border-muted/80 rounded-2xl text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 transition-all"
         />
       </div>
 
@@ -253,8 +255,8 @@ onMounted(async () => {
             class="px-2.5 py-1 text-xs rounded-lg transition-all border"
             :class="
               selectedRole === 'all'
-                ? 'bg-amber-500 text-white border-amber-500'
-                : 'bg-muted/30 border-muted/60 text-muted-foreground hover:border-amber-500/40'
+                ? 'bg-blue-500 text-white border-blue-500'
+                : 'bg-muted/30 border-muted/60 text-muted-foreground hover:border-blue-500/40'
             "
             @click="selectedRole = 'all'"
           >
@@ -266,8 +268,8 @@ onMounted(async () => {
             class="px-2.5 py-1 text-xs rounded-lg transition-all border"
             :class="
               selectedRole === String(role)
-                ? 'bg-amber-500 text-white border-amber-500'
-                : 'bg-muted/30 border-muted/60 text-muted-foreground hover:border-amber-500/40'
+                ? 'bg-blue-500 text-white border-blue-500'
+                : 'bg-muted/30 border-muted/60 text-muted-foreground hover:border-blue-500/40'
             "
             @click="selectedRole = String(role)"
           >
@@ -275,58 +277,60 @@ onMounted(async () => {
           </button>
         </div>
 
-        <!-- Hero Avatar Grid -->
+        <!-- Hero Avatar Grid with Scroll -->
         <div v-if="loading" class="flex justify-center py-6">
-          <Loader2 class="h-6 w-6 text-amber-500 animate-spin" />
+          <Loader2 class="h-6 w-6 text-blue-500 animate-spin" />
         </div>
-        <div v-else class="grid grid-cols-5 sm:grid-cols-7 md:grid-cols-9 lg:grid-cols-11 gap-2">
-          <button
-            v-for="hero in filteredHeroList"
-            :key="hero"
-            class="group flex flex-col items-center gap-1 p-1 rounded-xl transition-all"
-            :class="
-              selectedHero === hero
-                ? 'bg-amber-500/15 ring-2 ring-amber-500/60'
-                : 'hover:bg-muted/40'
-            "
-            @click="selectHero(hero)"
-          >
-            <!-- Avatar -->
-            <div class="relative w-full aspect-square">
-              <img
-                v-if="getHeroAvatar(hero)"
-                :src="getHeroAvatar(hero)"
-                :alt="hero"
-                class="w-full h-full object-cover rounded-lg"
-                loading="lazy"
-              />
-              <div
-                v-else
-                class="w-full h-full rounded-lg bg-muted/30 flex items-center justify-center"
-              >
-                <Volume2 class="h-4 w-4 text-muted-foreground/40" />
-              </div>
-              <!-- Role badge overlay -->
-              <span
-                v-if="getHeroInfo(hero)"
-                class="absolute bottom-0 left-0 right-0 text-center text-[9px] font-semibold px-0.5 py-px rounded-b-lg leading-tight"
-                :class="heroTypeColor(getHeroInfo(hero)!.hero_type)"
-              >
-                {{ heroTypeName(getHeroInfo(hero)!.hero_type) }}
-              </span>
-            </div>
-            <!-- Name -->
-            <span
-              class="text-[10px] leading-tight text-center truncate w-full"
+        <div v-else class="max-h-[320px] overflow-y-auto pr-1 custom-scrollbar">
+          <div class="grid grid-cols-5 sm:grid-cols-7 md:grid-cols-9 lg:grid-cols-11 gap-2 p-px">
+            <button
+              v-for="hero in filteredHeroList"
+              :key="hero"
+              class="group flex flex-col items-center gap-1 p-1 rounded-xl transition-all"
               :class="
                 selectedHero === hero
-                  ? 'text-amber-600 dark:text-amber-400 font-semibold'
-                  : 'text-muted-foreground'
+                  ? 'bg-blue-500/15 ring-2 ring-blue-500/60'
+                  : 'hover:bg-muted/40'
               "
+              @click="selectHero(hero)"
             >
-              {{ hero }}
-            </span>
-          </button>
+              <!-- Avatar -->
+              <div class="relative w-full aspect-square">
+                <img
+                  v-if="getHeroAvatar(hero)"
+                  :src="getHeroAvatar(hero)"
+                  :alt="hero"
+                  class="w-full h-full object-cover rounded-lg"
+                  loading="lazy"
+                />
+                <div
+                  v-else
+                  class="w-full h-full rounded-lg bg-muted/30 flex items-center justify-center"
+                >
+                  <Volume2 class="h-4 w-4 text-muted-foreground/40" />
+                </div>
+                <!-- Role badge overlay -->
+                <span
+                  v-if="getHeroInfo(hero)"
+                  class="absolute bottom-0 left-0 right-0 text-center text-[9px] font-semibold px-0.5 py-px rounded-b-lg leading-tight"
+                  :class="heroTypeColor(getHeroInfo(hero)!.hero_type)"
+                >
+                  {{ heroTypeName(getHeroInfo(hero)!.hero_type) }}
+                </span>
+              </div>
+              <!-- Name -->
+              <span
+                class="text-[10px] leading-tight text-center truncate w-full"
+                :class="
+                  selectedHero === hero
+                    ? 'text-blue-600 dark:text-blue-400 font-semibold'
+                    : 'text-muted-foreground'
+                "
+              >
+                {{ hero }}
+              </span>
+            </button>
+          </div>
         </div>
 
         <!-- Skin Filter -->
@@ -341,8 +345,8 @@ onMounted(async () => {
               class="px-3 py-1 text-xs rounded-lg transition-all border"
               :class="
                 selectedSkin === skin
-                  ? 'bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/50 font-semibold'
-                  : 'bg-muted/20 border-muted/50 text-muted-foreground hover:border-amber-500/30'
+                  ? 'bg-blue-500/20 text-blue-600 dark:text-blue-400 border-blue-500/50 font-semibold'
+                  : 'bg-muted/20 border-muted/50 text-muted-foreground hover:border-blue-500/30'
               "
               @click="selectSkin(skin)"
             >
@@ -375,13 +379,18 @@ onMounted(async () => {
 
       <!-- Loading -->
       <div v-if="loading" class="flex justify-center py-16">
-        <Loader2 class="h-10 w-10 text-amber-500 animate-spin" />
+        <Loader2 class="h-10 w-10 text-blue-500 animate-spin" />
       </div>
 
-      <!-- No hero selected hint -->
-      <div v-else-if="!selectedHero && !loading" class="text-center py-16 text-muted-foreground">
+      <!-- No skin selected hint -->
+      <div
+        v-else-if="(!selectedHero || !selectedSkin) && !loading"
+        class="text-center py-16 text-muted-foreground"
+      >
         <Volume2 class="h-12 w-12 mx-auto mb-3 opacity-20" />
-        <p class="text-sm">{{ t('hokVoices.selectHeroHint') }}</p>
+        <p class="text-sm">
+          {{ !selectedHero ? t('hokVoices.selectHeroHint') : '请选择具体皮肤以浏览语音' }}
+        </p>
       </div>
 
       <!-- Empty search results -->
@@ -411,9 +420,9 @@ onMounted(async () => {
             />
             <div
               v-else
-              class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0"
+              class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0"
             >
-              <Volume2 class="h-5 w-5 text-amber-500" />
+              <Volume2 class="h-5 w-5 text-blue-500" />
             </div>
             <div class="flex-1 min-w-0">
               <h2 class="text-sm font-bold text-important">{{ heroGroup.heroName }}</h2>
@@ -457,17 +466,17 @@ onMounted(async () => {
                 <button
                   v-for="voice in skinGroup.lines"
                   :key="voice.url"
-                  class="w-full flex items-center gap-4 px-5 py-3.5 text-left transition-colors hover:bg-muted/20 group"
-                  :class="playingUrl === voice.url && isPlaying ? 'bg-amber-500/5' : ''"
+                  class="w-full flex items-start gap-3 sm:gap-4 px-4 sm:px-5 py-4 text-left transition-colors hover:bg-muted/20 group"
+                  :class="playingUrl === voice.url && isPlaying ? 'bg-blue-500/5' : ''"
                   @click="togglePlay(voice)"
                 >
                   <!-- Play indicator -->
                   <div
-                    class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all"
+                    class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all mt-0.5"
                     :class="
                       playingUrl === voice.url && isPlaying
-                        ? 'bg-amber-500 text-white'
-                        : 'bg-muted/30 text-muted-foreground group-hover:bg-amber-500/20 group-hover:text-amber-500'
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-muted/30 text-muted-foreground group-hover:bg-blue-500/20 group-hover:text-blue-500'
                     "
                   >
                     <Pause v-if="playingUrl === voice.url && isPlaying" class="h-3.5 w-3.5" />
@@ -476,37 +485,38 @@ onMounted(async () => {
 
                   <!-- Line text -->
                   <p
-                    class="text-sm flex-1 leading-relaxed"
+                    class="text-sm flex-1 leading-relaxed py-1"
                     :class="
                       playingUrl === voice.url && isPlaying
-                        ? 'text-amber-600 dark:text-amber-400 font-medium'
+                        ? 'text-blue-600 dark:text-blue-400 font-medium'
                         : 'text-foreground'
                     "
                   >
                     {{ voice.line }}
                   </p>
 
-                  <!-- Playing wave animation -->
-                  <div
-                    v-if="playingUrl === voice.url && isPlaying"
-                    class="flex items-end gap-0.5 shrink-0"
-                  >
-                    <span class="w-0.5 h-3 bg-amber-500 rounded-full animate-wave1" />
-                    <span class="w-0.5 h-4 bg-amber-500 rounded-full animate-wave2" />
-                    <span class="w-0.5 h-2 bg-amber-500 rounded-full animate-wave3" />
-                    <span class="w-0.5 h-4 bg-amber-500 rounded-full animate-wave2" />
-                    <span class="w-0.5 h-3 bg-amber-500 rounded-full animate-wave1" />
-                  </div>
-
-                  <!-- Download button -->
-                  <div
-                    class="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                    @click="(e) => downloadVoice(voice, e)"
-                  >
+                  <!-- Status icons (Wave + Download) -->
+                  <div class="flex items-center gap-2 shrink-0 mt-1">
+                    <!-- Playing wave animation -->
                     <div
-                      class="w-7 h-7 rounded-full flex items-center justify-center text-muted-foreground hover:text-amber-500 hover:bg-amber-500/10 transition-all"
+                      v-if="playingUrl === voice.url && isPlaying"
+                      class="flex items-end gap-0.5 mb-1"
                     >
-                      <Download class="h-3.5 w-3.5" />
+                      <span class="w-0.5 h-3 bg-blue-500 rounded-full animate-wave1" />
+                      <span class="w-0.5 h-4 bg-blue-500 rounded-full animate-wave2" />
+                      <span class="w-0.5 h-2 bg-blue-500 rounded-full animate-wave3" />
+                    </div>
+
+                    <!-- Download button - Always visible icon on mobile, hover on desktop -->
+                    <div
+                      class="shrink-0 sm:opacity-0 group-hover:opacity-100 transition-opacity"
+                      @click="(e) => downloadVoice(voice, e)"
+                    >
+                      <div
+                        class="w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:text-blue-500 hover:bg-blue-500/10 transition-all"
+                      >
+                        <Download class="h-4 w-4" />
+                      </div>
                     </div>
                   </div>
                 </button>
@@ -520,6 +530,20 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.3);
+}
+
 @keyframes wave1 {
   0%,
   100% {
