@@ -12,11 +12,7 @@
 
       <p>
         本站由
-        <strong
-          ><a href="https://github.com/YuleBest" target="_blank"
-            >Yule</a
-          ></strong
-        >
+        <strong><a href="https://github.com/YuleBest" target="_blank">Yule</a></strong>
         开发维护，项目源码托管于 GitHub。
       </p>
 
@@ -26,15 +22,12 @@
 
       <ul>
         <li>
-          <strong>前端框架</strong>:
-          <a href="https://vuejs.org/" target="_blank">Vue 3</a> +
+          <strong>前端框架</strong>: <a href="https://vuejs.org/" target="_blank">Vue 3</a> +
           <a href="https://vitejs.dev/" target="_blank">Vite</a>
         </li>
         <li>
           <strong>UI 框架</strong>:
-          <a href="https://github.com/shadcn-vue/shadcn-vue" target="_blank"
-            >Shadcn-Vue</a
-          >
+          <a href="https://github.com/shadcn-vue/shadcn-vue" target="_blank">Shadcn-Vue</a>
         </li>
         <li>
           <strong>图标库</strong>:
@@ -45,22 +38,16 @@
       <h2>开源协议</h2>
 
       <p>
-        本项目遵循 <strong>MIT 协议</strong> 开源。欢迎提交 Issue 或 Pull
-        Request 来帮助改进这个项目！
+        本项目遵循 <strong>MIT 协议</strong> 开源。欢迎提交 Issue 或 Pull Request
+        来帮助改进这个项目！
       </p>
 
       <ul>
         <li>
-          <a href="https://github.com/YuleBest/xiaoyu-toolbox" target="_blank"
-            >GitHub 仓库</a
-          >
+          <a href="https://github.com/YuleBest/xiaoyu-toolbox" target="_blank">GitHub 仓库</a>
         </li>
         <li>
-          <a
-            href="https://github.com/YuleBest/xiaoyu-toolbox/issues"
-            target="_blank"
-            >提交反馈</a
-          >
+          <a href="https://github.com/YuleBest/xiaoyu-toolbox/issues" target="_blank">提交反馈</a>
         </li>
       </ul>
 

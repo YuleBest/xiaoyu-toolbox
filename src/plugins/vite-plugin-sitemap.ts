@@ -1,16 +1,16 @@
-import type { Plugin } from "vite";
-import { allTools } from "../config/tools";
+import type { Plugin } from 'vite'
+import { allTools } from '../config/tools'
 
 export default function sitemapPlugin(): Plugin {
   return {
-    name: "vite-plugin-sitemap",
-    apply: "build",
+    name: 'vite-plugin-sitemap',
+    apply: 'build',
     generateBundle() {
-      const baseUrl = "https://tool.yule.ink";
-      const staticPaths = ["", "/about", "/categories", "/search"];
-      const toolsPaths = allTools.map((tool) => tool.path);
+      const baseUrl = 'https://tool.yule.ink'
+      const staticPaths = ['', '/about', '/categories', '/search']
+      const toolsPaths = allTools.map((tool) => tool.path)
 
-      const allPaths = [...staticPaths, ...toolsPaths];
+      const allPaths = [...staticPaths, ...toolsPaths]
 
       // generate sitemap.xml
       const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
@@ -20,30 +20,30 @@ ${allPaths
     (path) => `  <url>
     <loc>${baseUrl}${path}</loc>
     <changefreq>weekly</changefreq>
-    <priority>${path === "" ? "1.0" : "0.8"}</priority>
+    <priority>${path === '' ? '1.0' : '0.8'}</priority>
   </url>`,
   )
-  .join("\n")}
-</urlset>`;
+  .join('\n')}
+</urlset>`
 
       this.emitFile({
-        type: "asset",
-        fileName: "sitemap.xml",
+        type: 'asset',
+        fileName: 'sitemap.xml',
         source: sitemapContent,
-      });
+      })
 
       // generate robots.txt
       const robotsContent = `User-agent: *
 Allow: /
 
 Sitemap: ${baseUrl}/sitemap.xml
-`;
+`
 
       this.emitFile({
-        type: "asset",
-        fileName: "robots.txt",
+        type: 'asset',
+        fileName: 'robots.txt',
         source: robotsContent,
-      });
+      })
     },
-  };
+  }
 }

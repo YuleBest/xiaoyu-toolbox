@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { useRoute, RouterLink } from "vue-router";
-import { Search, ChevronRight, Settings } from "lucide-vue-next";
-import { mainNav, categories } from "@/config/nav";
-import { navigationStore } from "@/stores/navigation";
-import ModeToggle from "@/components/ModeToggle.vue";
-import LanguageToggle from "@/components/LanguageToggle.vue";
-import ConnectionToggle from "@/components/ConnectionToggle.vue";
+import { ref, watch } from 'vue'
+import { useRoute, RouterLink } from 'vue-router'
+import { Search, ChevronRight, Settings } from 'lucide-vue-next'
+import { mainNav, categories } from '@/config/nav'
+import { navigationStore } from '@/stores/navigation'
+import ModeToggle from '@/components/ModeToggle.vue'
+import LanguageToggle from '@/components/LanguageToggle.vue'
+import ConnectionToggle from '@/components/ConnectionToggle.vue'
 
-const isMobileMenuOpen = ref(false);
-const isSettingsOpen = ref(false);
-const route = useRoute();
+const isMobileMenuOpen = ref(false)
+const isSettingsOpen = ref(false)
+const route = useRoute()
 
 // 路由改变自动关闭
 watch(
   () => route.path,
   () => {
-    isMobileMenuOpen.value = false;
-    isSettingsOpen.value = false;
+    isMobileMenuOpen.value = false
+    isSettingsOpen.value = false
   },
-);
+)
 
 function toggleSettings() {
-  isSettingsOpen.value = !isSettingsOpen.value;
+  isSettingsOpen.value = !isSettingsOpen.value
 }
 </script>
 
@@ -38,43 +38,31 @@ function toggleSettings() {
       backdropFilter: isMobileMenuOpen ? 'blur(0px)' : 'blur(24px)',
     }"
   >
-    <div
-      class="h-16 px-5 flex items-center justify-between relative z-10 shrink-0"
-    >
+    <div class="h-16 px-5 flex items-center justify-between relative z-10 shrink-0">
       <div class="flex items-center gap-1">
         <button
           class="w-10 h-10 flex items-center justify-start active:scale-95 transition-all outline-none"
           @click="
-            isMobileMenuOpen = !isMobileMenuOpen;
-            isSettingsOpen = false;
+            isMobileMenuOpen = !isMobileMenuOpen
+            isSettingsOpen = false
           "
         >
           <div class="relative w-6 h-6">
             <div
               class="absolute top-1/2 left-0 w-6 h-0.5 bg-foreground rounded-full transition-all duration-500"
-              :class="[
-                isMobileMenuOpen ? 'rotate-45 bg-blue-500' : '-translate-y-1',
-              ]"
+              :class="[isMobileMenuOpen ? 'rotate-45 bg-blue-500' : '-translate-y-1']"
             ></div>
             <div
               class="absolute top-1/2 left-0 w-6 h-0.5 bg-foreground rounded-full transition-all duration-500"
-              :class="[
-                isMobileMenuOpen
-                  ? '-rotate-45 bg-blue-500'
-                  : 'translate-y-1 w-4',
-              ]"
+              :class="[isMobileMenuOpen ? '-rotate-45 bg-blue-500' : 'translate-y-1 w-4']"
             ></div>
           </div>
         </button>
       </div>
 
-      <div
-        class="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-none"
-      >
+      <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-none">
         <img src="/favicon.svg" class="h-5 w-5" alt="Logo" />
-        <span class="font-semibold text-[16px] tracking-tight">{{
-          $t("common.appName")
-        }}</span>
+        <span class="font-semibold text-[16px] tracking-tight">{{ $t('common.appName') }}</span>
       </div>
 
       <div class="flex items-center gap-1">
@@ -87,9 +75,7 @@ function toggleSettings() {
             :size="22"
             class="transition-all duration-500 shrink-0"
             style="width: 22px; height: 22px; min-width: 22px; min-height: 22px"
-            :class="[
-              isSettingsOpen ? 'rotate-90 text-blue-500' : 'text-foreground/80',
-            ]"
+            :class="[isSettingsOpen ? 'rotate-90 text-blue-500' : 'text-foreground/80']"
           />
         </button>
       </div>
@@ -106,30 +92,20 @@ function toggleSettings() {
     >
       <div class="px-6 py-5 space-y-3">
         <!-- Connection -->
-        <div
-          class="flex items-center justify-between px-4 py-3 rounded-xl bg-muted/30"
-        >
+        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-muted/30">
           <span class="text-[13px] font-medium text-muted-foreground">{{
-            $t("connection.label")
+            $t('connection.label')
           }}</span>
           <ConnectionToggle />
         </div>
         <!-- Theme -->
-        <div
-          class="flex items-center justify-between px-4 py-3 rounded-xl bg-muted/30"
-        >
-          <span class="text-[13px] font-medium text-muted-foreground">{{
-            $t("theme.label")
-          }}</span>
+        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-muted/30">
+          <span class="text-[13px] font-medium text-muted-foreground">{{ $t('theme.label') }}</span>
           <ModeToggle />
         </div>
         <!-- Language -->
-        <div
-          class="flex items-center justify-between px-4 py-3 rounded-xl bg-muted/30"
-        >
-          <span class="text-[13px] font-medium text-muted-foreground">{{
-            $t("lang.label")
-          }}</span>
+        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-muted/30">
+          <span class="text-[13px] font-medium text-muted-foreground">{{ $t('lang.label') }}</span>
           <LanguageToggle />
         </div>
       </div>
@@ -143,9 +119,7 @@ function toggleSettings() {
           : 'opacity-0 -translate-y-4 pointer-events-none',
       ]"
     >
-      <div
-        class="py-6 space-y-8 h-[calc(100dvh-64px)] overflow-y-auto no-scrollbar"
-      >
+      <div class="py-6 space-y-8 h-[calc(100dvh-64px)] overflow-y-auto no-scrollbar">
         <div class="relative group">
           <Search
             class="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-blue-500"
@@ -157,8 +131,8 @@ function toggleSettings() {
             readonly
             @click="
               () => {
-                isMobileMenuOpen = false;
-                $router.push('/search');
+                isMobileMenuOpen = false
+                $router.push('/search')
               }
             "
           />
@@ -171,9 +145,7 @@ function toggleSettings() {
             :to="item.href"
             class="flex items-center gap-4 px-4 py-3 rounded-xl text-[18px] font-medium transition-all active:scale-[0.98]"
             :class="[
-              route.path === item.href
-                ? 'bg-muted/80 text-foreground'
-                : 'text-foreground/90',
+              route.path === item.href ? 'bg-muted/80 text-foreground' : 'text-foreground/90',
             ]"
           >
             <div
@@ -187,7 +159,7 @@ function toggleSettings() {
 
         <div>
           <h3 class="px-4 label-uppercase mb-4">
-            {{ $t("nav.browseCategories") }}
+            {{ $t('nav.browseCategories') }}
           </h3>
           <div class="grid grid-cols-1 gap-1">
             <button
@@ -195,15 +167,14 @@ function toggleSettings() {
               :key="cat.id"
               class="w-full flex items-center gap-4 px-4 py-3.5 rounded-xl text-[17px] font-medium transition-all active:scale-[0.98] group border-b border-muted/20"
               :class="[
-                route.path === '/categories' &&
-                navigationStore.activeCategoryId === cat.id
+                route.path === '/categories' && navigationStore.activeCategoryId === cat.id
                   ? 'text-blue-500'
                   : 'text-foreground/90',
               ]"
               @click="
                 () => {
-                  isMobileMenuOpen = false;
-                  $router.push(`/categories#${cat.id}`);
+                  isMobileMenuOpen = false
+                  $router.push(`/categories#${cat.id}`)
                 }
               "
             >
@@ -217,9 +188,7 @@ function toggleSettings() {
         </div>
 
         <div class="pt-10 flex flex-col items-center gap-4 pb-20">
-          <p class="font-medium opacity-50">
-            © 2026 {{ $t("common.appName") }}
-          </p>
+          <p class="font-medium opacity-50">© 2026 {{ $t('common.appName') }}</p>
         </div>
       </div>
     </div>

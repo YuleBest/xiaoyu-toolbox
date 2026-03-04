@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
-import { useI18n } from "vue-i18n";
-import { ArrowRightLeft, ChevronDown, Search, Ruler } from "lucide-vue-next";
+import { ref, watch, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { ArrowRightLeft, ChevronDown, Search, Ruler } from 'lucide-vue-next'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
+} from '@/components/ui/dropdown-menu'
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
 
-const { t } = useI18n();
-const tool = allTools.find((t) => t.id === "length")!;
+const { t } = useI18n()
+const tool = allTools.find((t) => t.id === 'length')!
 
 // Data
 // Conversion rates relative to 1 meter (m)
@@ -44,162 +44,143 @@ const conversionRates: Record<string, number> = {
   chi: 1 / 3, // 0.33333333
   fen: 1 / 30, // 0.03333333
   hao: 1 / 3000, // 0.00033333
-};
+}
 
 const unitTypes = {
-  metric: [
-    "dm",
-    "ly",
-    "mm",
-    "km",
-    "cm",
-    "m",
-    "μm",
-    "pc",
-    "AU",
-    "ld",
-    "pm",
-    "nm",
-  ],
-  imperial: ["fur", "fm", "yd", "nmi", "ft", "mi", "in"],
-  traditional: ["zhang", "fen", "hao", "chi", "li"],
-};
+  metric: ['dm', 'ly', 'mm', 'km', 'cm', 'm', 'μm', 'pc', 'AU', 'ld', 'pm', 'nm'],
+  imperial: ['fur', 'fm', 'yd', 'nmi', 'ft', 'mi', 'in'],
+  traditional: ['zhang', 'fen', 'hao', 'chi', 'li'],
+}
 
 // Flatten unit list for searching and iteration
-const unitList = Object.keys(conversionRates);
+const unitList = Object.keys(conversionRates)
 
 const getUnitName = (code: string) => {
   for (const [type, units] of Object.entries(unitTypes)) {
     if (units.includes(code)) {
-      return t(`length.units.${type}.${code}`);
+      return t(`length.units.${type}.${code}`)
     }
   }
-  return code;
-};
+  return code
+}
 
 const getUnitTypeLabel = (code: string) => {
-  if (unitTypes.metric.includes(code)) return t("length.types.metric");
-  if (unitTypes.imperial.includes(code)) return t("length.types.imperial");
-  if (unitTypes.traditional.includes(code))
-    return t("length.types.traditional");
-  return "";
-};
+  if (unitTypes.metric.includes(code)) return t('length.types.metric')
+  if (unitTypes.imperial.includes(code)) return t('length.types.imperial')
+  if (unitTypes.traditional.includes(code)) return t('length.types.traditional')
+  return ''
+}
 
-const baseUnit = ref("m");
-const targetUnit = ref("cm");
-const amount = ref<number | string>(1);
-const searchQuery = ref("");
+const baseUnit = ref('m')
+const targetUnit = ref('cm')
+const amount = ref<number | string>(1)
+const searchQuery = ref('')
 
-const baseDropdownOpen = ref(false);
-const targetDropdownOpen = ref(false);
-const baseUnitSearch = ref("");
-const targetUnitSearch = ref("");
+const baseDropdownOpen = ref(false)
+const targetDropdownOpen = ref(false)
+const baseUnitSearch = ref('')
+const targetUnitSearch = ref('')
 
 const filteredBaseUnits = computed(() => {
-  if (!baseUnitSearch.value) return unitTypes;
-  const q = baseUnitSearch.value.toLowerCase();
+  if (!baseUnitSearch.value) return unitTypes
+  const q = baseUnitSearch.value.toLowerCase()
   const filterGroup = (group: string[]) =>
-    group.filter(
-      (code) => code.toLowerCase().includes(q) || getUnitName(code).includes(q),
-    );
+    group.filter((code) => code.toLowerCase().includes(q) || getUnitName(code).includes(q))
 
   return {
     metric: filterGroup(unitTypes.metric),
     imperial: filterGroup(unitTypes.imperial),
     traditional: filterGroup(unitTypes.traditional),
-  };
-});
+  }
+})
 
 const filteredTargetUnits = computed(() => {
-  if (!targetUnitSearch.value) return unitTypes;
-  const q = targetUnitSearch.value.toLowerCase();
+  if (!targetUnitSearch.value) return unitTypes
+  const q = targetUnitSearch.value.toLowerCase()
   const filterGroup = (group: string[]) =>
-    group.filter(
-      (code) => code.toLowerCase().includes(q) || getUnitName(code).includes(q),
-    );
+    group.filter((code) => code.toLowerCase().includes(q) || getUnitName(code).includes(q))
 
   return {
     metric: filterGroup(unitTypes.metric),
     imperial: filterGroup(unitTypes.imperial),
     traditional: filterGroup(unitTypes.traditional),
-  };
-});
+  }
+})
 
 const filteredAllUnits = computed(() => {
-  if (!searchQuery.value) return unitList;
-  const query = searchQuery.value.toLowerCase();
+  if (!searchQuery.value) return unitList
+  const query = searchQuery.value.toLowerCase()
   return unitList.filter(
-    (code) =>
-      code.toLowerCase().includes(query) || getUnitName(code).includes(query),
-  );
-});
+    (code) => code.toLowerCase().includes(query) || getUnitName(code).includes(query),
+  )
+})
 
 // 格式化设置
-const useScientificNotation = ref(true);
+const useScientificNotation = ref(true)
 
 // 计算换算结果
 const formatResult = (result: number) => {
-  if (result === 0) return "0";
+  if (result === 0) return '0'
 
   // 修正常见的浮点数精度问题，如 1/1e-9 变成 999999999.9999999
-  const num = parseFloat(result.toPrecision(12));
+  const num = parseFloat(result.toPrecision(12))
 
   // 为了显示效果更好，太小或太大的数使用科学计数法
   if (Math.abs(num) < 1e-6 || Math.abs(num) >= 1e9) {
     if (useScientificNotation.value) {
-      const expStr = num.toExponential(4); // e.g., "1.0000e+9"
-      const [base = "0", exp = "0"] = expStr.split("e");
+      const expStr = num.toExponential(4) // e.g., "1.0000e+9"
+      const [base = '0', exp = '0'] = expStr.split('e')
 
       // Trim redundant zeros in the base
-      const cleanBase = parseFloat(base).toString();
+      const cleanBase = parseFloat(base).toString()
       // Remove the "+" from positive exponents for cleanliness (e.g., "+9" -> "9")
-      const cleanExp = exp.startsWith("+") ? exp.slice(1) : exp;
+      const cleanExp = exp.startsWith('+') ? exp.slice(1) : exp
 
-      return `${cleanBase} × 10^${cleanExp}`;
+      return `${cleanBase} × 10^${cleanExp}`
     }
-    return num.toExponential(4);
+    return num.toExponential(4)
   }
 
   // 配合 toFixed(8) 进一步抹平较小的小数位精度溢出
-  return parseFloat(num.toFixed(8)).toString();
-};
+  return parseFloat(num.toFixed(8)).toString()
+}
 
 const convertedValue = computed(() => {
-  const numAmount = Number(amount.value);
-  if (isNaN(numAmount)) return "0";
+  const numAmount = Number(amount.value)
+  if (isNaN(numAmount)) return '0'
 
-  const baseRate = conversionRates[baseUnit.value] || 1;
-  const targetRate = conversionRates[targetUnit.value] || 1;
+  const baseRate = conversionRates[baseUnit.value] || 1
+  const targetRate = conversionRates[targetUnit.value] || 1
 
   // 将基准单位转成米，再除以目标单位相对于米的换算率
-  const valueInMeters = numAmount * baseRate;
-  const result = valueInMeters / targetRate;
+  const valueInMeters = numAmount * baseRate
+  const result = valueInMeters / targetRate
 
-  return formatResult(result);
-});
+  return formatResult(result)
+})
 
 const getRateForUnit = (code: string) => {
-  const numAmount = 1; // display baseline as 1
-  const baseRate = conversionRates[baseUnit.value] || 1;
-  const targetRate = conversionRates[code] || 1;
-  const valueInMeters = numAmount * baseRate;
-  const result = valueInMeters / targetRate;
+  const numAmount = 1 // display baseline as 1
+  const baseRate = conversionRates[baseUnit.value] || 1
+  const targetRate = conversionRates[code] || 1
+  const valueInMeters = numAmount * baseRate
+  const result = valueInMeters / targetRate
 
-  return formatResult(result);
-};
+  return formatResult(result)
+}
 
 const swapUnits = () => {
-  const temp = baseUnit.value;
-  baseUnit.value = targetUnit.value;
-  targetUnit.value = temp;
-};
+  const temp = baseUnit.value
+  baseUnit.value = targetUnit.value
+  targetUnit.value = temp
+}
 
 // Ensure targetUnit exists and isn't same as baseUnit optionally
 watch(baseUnit, (newBase) => {
   if (targetUnit.value === newBase) {
-    targetUnit.value = newBase === "m" ? "cm" : "m";
+    targetUnit.value = newBase === 'm' ? 'cm' : 'm'
   }
-});
+})
 </script>
 
 <template>
@@ -213,7 +194,7 @@ watch(baseUnit, (newBase) => {
             <label
               class="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1"
             >
-              {{ t("length.baseUnit") }}
+              {{ t('length.baseUnit') }}
             </label>
             <div class="flex gap-2">
               <input
@@ -248,10 +229,7 @@ watch(baseUnit, (newBase) => {
                     />
                   </div>
 
-                  <template
-                    v-for="(group, key) in filteredBaseUnits"
-                    :key="key"
-                  >
+                  <template v-for="(group, key) in filteredBaseUnits" :key="key">
                     <div v-if="group.length > 0">
                       <div
                         class="px-2 py-1.5 text-xs font-semibold text-muted-foreground/70 uppercase"
@@ -262,23 +240,16 @@ watch(baseUnit, (newBase) => {
                         v-for="code in group"
                         :key="code"
                         class="rounded-lg cursor-pointer flex items-center justify-between py-2 px-3 transition-colors"
-                        :class="
-                          baseUnit === code
-                            ? 'bg-blue-500/10 text-blue-500 font-bold'
-                            : ''
-                        "
+                        :class="baseUnit === code ? 'bg-blue-500/10 text-blue-500 font-bold' : ''"
                         @click="
-                          baseUnit = code;
-                          baseUnitSearch = '';
+                          baseUnit = code
+                          baseUnitSearch = ''
                         "
                       >
-                        <span class="font-medium text-sm truncate">{{
-                          getUnitName(code)
+                        <span class="font-medium text-sm truncate">{{ getUnitName(code) }}</span>
+                        <span class="font-mono text-xs text-muted-foreground w-8 text-right">{{
+                          code
                         }}</span>
-                        <span
-                          class="font-mono text-xs text-muted-foreground w-8 text-right"
-                          >{{ code }}</span
-                        >
                       </DropdownMenuItem>
                     </div>
                   </template>
@@ -292,7 +263,7 @@ watch(baseUnit, (newBase) => {
             <label
               class="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1"
             >
-              {{ t("length.targetUnit") }}
+              {{ t('length.targetUnit') }}
             </label>
             <div class="flex gap-2">
               <div
@@ -326,10 +297,7 @@ watch(baseUnit, (newBase) => {
                     />
                   </div>
 
-                  <template
-                    v-for="(group, key) in filteredTargetUnits"
-                    :key="key"
-                  >
+                  <template v-for="(group, key) in filteredTargetUnits" :key="key">
                     <div v-if="group.length > 0">
                       <div
                         class="px-2 py-1.5 text-xs font-semibold text-muted-foreground/70 uppercase"
@@ -341,23 +309,16 @@ watch(baseUnit, (newBase) => {
                         :key="code"
                         :disabled="code === baseUnit"
                         class="rounded-lg cursor-pointer flex items-center justify-between py-2 px-3 transition-colors"
-                        :class="
-                          targetUnit === code
-                            ? 'bg-blue-500/10 text-blue-500 font-bold'
-                            : ''
-                        "
+                        :class="targetUnit === code ? 'bg-blue-500/10 text-blue-500 font-bold' : ''"
                         @click="
-                          targetUnit = code;
-                          targetUnitSearch = '';
+                          targetUnit = code
+                          targetUnitSearch = ''
                         "
                       >
-                        <span class="font-medium text-sm truncate">{{
-                          getUnitName(code)
+                        <span class="font-medium text-sm truncate">{{ getUnitName(code) }}</span>
+                        <span class="font-mono text-xs text-muted-foreground w-8 text-right">{{
+                          code
                         }}</span>
-                        <span
-                          class="font-mono text-xs text-muted-foreground w-8 text-right"
-                          >{{ code }}</span
-                        >
                       </DropdownMenuItem>
                     </div>
                   </template>
@@ -368,15 +329,13 @@ watch(baseUnit, (newBase) => {
         </div>
 
         <!-- Actions Bar -->
-        <div
-          class="mt-4 flex flex-wrap items-center gap-3 pt-4 border-t border-muted/30"
-        >
+        <div class="mt-4 flex flex-wrap items-center gap-3 pt-4 border-t border-muted/30">
           <button
             class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
             @click="swapUnits"
           >
             <ArrowRightLeft class="h-4 w-4" />
-            {{ t("length.swap") }}
+            {{ t('length.swap') }}
           </button>
 
           <button
@@ -395,7 +354,7 @@ watch(baseUnit, (newBase) => {
             >
               10^x
             </span>
-            {{ t("length.scientific") }}
+            {{ t('length.scientific') }}
           </button>
         </div>
       </div>
@@ -403,11 +362,9 @@ watch(baseUnit, (newBase) => {
       <!-- Result Grid -->
       <div class="space-y-4">
         <div class="flex items-center justify-between px-1">
-          <h3
-            class="text-lg font-semibold flex items-center gap-2 text-foreground/80"
-          >
+          <h3 class="text-lg font-semibold flex items-center gap-2 text-foreground/80">
             <Ruler class="w-5 h-5 text-blue-500" />
-            {{ t("length.allRates") }}
+            {{ t('length.allRates') }}
           </h3>
 
           <div class="relative w-48 md:w-64">
@@ -431,10 +388,7 @@ watch(baseUnit, (newBase) => {
             @click="targetUnit = code"
           >
             <div class="flex items-center justify-between mb-2 text-xs">
-              <span
-                class="font-bold text-blue-500"
-                :title="getUnitTypeLabel(code)"
-              >
+              <span class="font-bold text-blue-500" :title="getUnitTypeLabel(code)">
                 {{ code }}
               </span>
               <span
@@ -444,16 +398,11 @@ watch(baseUnit, (newBase) => {
             </div>
 
             <div class="flex-1 flex items-center mb-1">
-              <div
-                class="text-lg font-mono font-bold text-important leading-none break-all"
-              >
+              <div class="text-lg font-mono font-bold text-important leading-none break-all">
                 {{ getRateForUnit(code) }}
               </div>
             </div>
-            <div
-              class="text-[10px] text-muted-foreground truncate"
-              :title="getUnitName(code)"
-            >
+            <div class="text-[10px] text-muted-foreground truncate" :title="getUnitName(code)">
               {{ getUnitName(code) }}
             </div>
           </div>
@@ -463,13 +412,11 @@ watch(baseUnit, (newBase) => {
           v-if="filteredAllUnits.length === 0"
           class="bg-card/30 border border-muted/80 rounded-3xl p-12 flex flex-col items-center justify-center text-center space-y-3"
         >
-          <div
-            class="w-16 h-16 bg-muted/50 rounded-full flex items-center justify-center mb-2"
-          >
+          <div class="w-16 h-16 bg-muted/50 rounded-full flex items-center justify-center mb-2">
             <Search class="h-8 w-8 text-muted-foreground opacity-50" />
           </div>
           <p class="text-lg font-medium text-foreground">
-            {{ t("search.emptyTitle") }}
+            {{ t('search.emptyTitle') }}
           </p>
         </div>
       </div>
@@ -485,7 +432,7 @@ input::-webkit-inner-spin-button {
   appearance: none;
   margin: 0;
 }
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
   appearance: textfield;
 }

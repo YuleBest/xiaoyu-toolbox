@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Github, Mail, Globe } from "lucide-vue-next";
+import { Github, Mail, Globe } from 'lucide-vue-next'
 </script>
 
 <template>
@@ -10,13 +10,12 @@ import { Github, Mail, Globe } from "lucide-vue-next";
       <!-- Brand & Copy -->
       <div class="flex flex-col items-center md:items-start gap-1">
         <div class="flex items-center gap-2">
-          <span
-            class="text-[14px] font-semibold tracking-tight text-foreground"
-            >{{ $t("common.appName") }}</span
-          >
+          <span class="text-[14px] font-semibold tracking-tight text-foreground">{{
+            $t('common.appName')
+          }}</span>
         </div>
         <p class="opacity-60">
-          {{ $t("footer.copyright") }}
+          {{ $t('footer.copyright') }}
         </p>
       </div>
 
@@ -35,7 +34,7 @@ import { Github, Mail, Globe } from "lucide-vue-next";
           class="flex items-center gap-1.5 text-[12.5px] font-medium hover:text-blue-500 transition-colors group"
         >
           <Mail class="h-4 w-4 opacity-70 group-hover:opacity-100" />
-          {{ $t("footer.email") }}
+          {{ $t('footer.email') }}
         </a>
         <a
           href="https://blog.yule.ink"
@@ -43,7 +42,7 @@ import { Github, Mail, Globe } from "lucide-vue-next";
           class="flex items-center gap-1.5 text-[12.5px] font-medium hover:text-blue-500 transition-colors group"
         >
           <Globe class="h-4 w-4 opacity-70 group-hover:opacity-100" />
-          {{ $t("footer.blog") }}
+          {{ $t('footer.blog') }}
         </a>
       </div>
     </div>
@@ -51,7 +50,7 @@ import { Github, Mail, Globe } from "lucide-vue-next";
     <!-- Disclaimer -->
     <div class="mt-8 text-center md:text-left">
       <p class="text-[11px] opacity-40 max-w-2xl">
-        {{ $t("footer.disclaimer") }}
+        {{ $t('footer.disclaimer') }}
         <br class="hidden md:block" />
       </p>
     </div>

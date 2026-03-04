@@ -1,14 +1,14 @@
-import { reactive } from "vue";
+import { reactive } from 'vue'
 
 export const navigationStore = reactive({
-  activeCategoryId: "",
+  activeCategoryId: '',
   isCollapsed: false,
-});
+})
 
 export const setActiveCategory = (id: string) => {
-  navigationStore.activeCategoryId = id;
-};
+  navigationStore.activeCategoryId = id
+}
 
 export const toggleSidebar = () => {
-  navigationStore.isCollapsed = !navigationStore.isCollapsed;
-};
+  navigationStore.isCollapsed = !navigationStore.isCollapsed
+}

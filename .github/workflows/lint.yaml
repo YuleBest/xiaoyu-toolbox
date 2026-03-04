@@ -5,9 +5,9 @@ env:
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
   pull_request:
-    branches: ["main"]
+    branches: ['main']
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -31,35 +31,35 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run ESLint
-        id: eslint_run
+      - name: Run Lint
+        id: lint_run
         continue-on-error: true
         run: |
-          echo "### ESLint Output" >> $GITHUB_STEP_SUMMARY
+          echo "### Lint Output" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           pnpm run lint --no-color | tee -a $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Check Status
-        if: steps.eslint_run.outcome == 'failure'
+        if: steps.lint_run.outcome == 'failure'
         run: exit 1
 
-      - name: Run Vue-tsc
-        id: vue_tsc_run
+      - name: Run Type Check
+        id: type_check_run
         continue-on-error: true
         run: |
-          echo "### Vue-tsc Output" >> $GITHUB_STEP_SUMMARY
+          echo "### Type Check Output" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          pnpm run lint:vue-tsc | tee -a $GITHUB_STEP_SUMMARY
+          pnpm run type-check | tee -a $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Check Status
-        if: steps.vue_tsc_run.outcome == 'failure'
+        if: steps.type_check_run.outcome == 'failure'
         run: exit 1
 
       - name: Run Build

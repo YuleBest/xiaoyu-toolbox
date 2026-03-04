@@ -1,26 +1,14 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
-import { ref, watch, onMounted, inject, computed } from "vue";
-import { useI18n } from "vue-i18n";
-import { getLocalTimeZone, today, CalendarDate } from "@internationalized/date";
-import {
-  CalendarIcon,
-  TrendingUp,
-  ExternalLink,
-  Loader2,
-  Search,
-  History,
-} from "lucide-vue-next";
+import { ref, watch, onMounted, inject, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { getLocalTimeZone, today, CalendarDate } from '@internationalized/date'
+import { CalendarIcon, TrendingUp, ExternalLink, Loader2, Search, History } from 'lucide-vue-next'
 
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar/index";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar/index'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
   Select,
   SelectContent,
@@ -28,98 +16,96 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/select'
+import { cn } from '@/lib/utils'
 
-const { t } = useI18n();
+const { t } = useI18n()
 
-const showToast = inject("showToast") as (
+const showToast = inject('showToast') as (
   msg: string,
-  type?: "warning" | "error" | "success",
-) => void;
+  type?: 'warning' | 'error' | 'success',
+) => void
 
-const tool = allTools.find((t) => t.id === "weibo-hot")!;
+const tool = allTools.find((t) => t.id === 'weibo-hot')!
 
 interface WeiboHotItem {
-  url: string;
-  title: string;
+  url: string
+  title: string
 }
 
-const currentDate = ref<any>(today(getLocalTimeZone()));
-const selectedLimit = ref<string>("50");
-const hotItems = ref<WeiboHotItem[]>([]);
-const loading = ref(false);
-const error = ref("");
-const calendarOpen = ref(false);
+const currentDate = ref<any>(today(getLocalTimeZone()))
+const selectedLimit = ref<string>('50')
+const hotItems = ref<WeiboHotItem[]>([])
+const loading = ref(false)
+const error = ref('')
+const calendarOpen = ref(false)
 
-const minDate = new CalendarDate(2020, 11, 24);
+const minDate = new CalendarDate(2020, 11, 24)
 
 // Format date for API: YYYY-MM-DD
 const formatDateForApi = (date: any) => {
-  return date.toString();
-};
+  return date.toString()
+}
 
 const fetchDisasterSafe = async (dateStr: string) => {
   const res = await fetch(
     `https://raw.githubusercontent.com/justjavac/weibo-trending-hot-search/refs/heads/master/raw/${dateStr}.json`,
-  );
+  )
   if (!res.ok) {
-    throw new Error(`HTTP Error: ${res.status}`);
+    throw new Error(`HTTP Error: ${res.status}`)
   }
-  const data = await res.json();
-  return data;
-};
+  const data = await res.json()
+  return data
+}
 
 const fetchData = async () => {
-  loading.value = true;
-  error.value = "";
-  hotItems.value = [];
+  loading.value = true
+  error.value = ''
+  hotItems.value = []
 
-  if (!currentDate.value) return;
+  if (!currentDate.value) return
 
-  const dateStr = formatDateForApi(currentDate.value);
+  const dateStr = formatDateForApi(currentDate.value)
 
   try {
-    const data = await fetchDisasterSafe(dateStr);
+    const data = await fetchDisasterSafe(dateStr)
 
     if (Array.isArray(data)) {
-      hotItems.value = data;
+      hotItems.value = data
     } else {
-      throw new Error("Invalid data format");
+      throw new Error('Invalid data format')
     }
   } catch (err) {
-    console.error("Failed to fetch weibo hot search data", err);
-    error.value = t("tools.weibo-hot.fetchFailed");
-    showToast(t("tools.weibo-hot.fetchFailed"), "error");
+    console.error('Failed to fetch weibo hot search data', err)
+    error.value = t('tools.weibo-hot.fetchFailed')
+    showToast(t('tools.weibo-hot.fetchFailed'), 'error')
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
+}
 
 const displayedItems = computed(() => {
-  if (selectedLimit.value === "all") return hotItems.value;
-  return hotItems.value.slice(0, parseInt(selectedLimit.value));
-});
+  if (selectedLimit.value === 'all') return hotItems.value
+  return hotItems.value.slice(0, parseInt(selectedLimit.value))
+})
 
 // Watchers
 watch(currentDate, () => {
-  calendarOpen.value = false;
-  fetchData();
-});
+  calendarOpen.value = false
+  fetchData()
+})
 
 onMounted(() => {
-  fetchData();
-});
+  fetchData()
+})
 
 const isDateDisabled = (date: any) => {
-  return (
-    date.compare(today(getLocalTimeZone())) > 0 || date.compare(minDate) < 0
-  );
-};
+  return date.compare(today(getLocalTimeZone())) > 0 || date.compare(minDate) < 0
+}
 
 const getWeiboUrl = (path: string) => {
-  return `https://s.weibo.com${path}`;
-};
+  return `https://s.weibo.com${path}`
+}
 </script>
 
 <template>
@@ -145,23 +131,17 @@ const getWeiboUrl = (path: string) => {
                 "
               >
                 <CalendarIcon class="mr-2 h-4 w-4 text-orange-500" />
-                <span v-if="currentDate" class="font-medium">{{
-                  currentDate.toString()
-                }}</span>
-                <span v-else>{{ $t("tools.weibo-hot.dateSelect") }}</span>
+                <span v-if="currentDate" class="font-medium">{{ currentDate.toString() }}</span>
+                <span v-else>{{ $t('tools.weibo-hot.dateSelect') }}</span>
               </Button>
             </PopoverTrigger>
             <PopoverContent
               class="w-auto p-0 rounded-2xl border-muted/50 shadow-xl overflow-hidden"
               align="start"
             >
-              <div
-                class="flex items-center gap-2 px-4 py-3 bg-muted/20 border-b border-muted/20"
-              >
+              <div class="flex items-center gap-2 px-4 py-3 bg-muted/20 border-b border-muted/20">
                 <History class="h-4 w-4 text-orange-500" />
-                <span class="text-sm font-medium">{{
-                  $t("tools.weibo-hot.historical")
-                }}</span>
+                <span class="text-sm font-medium">{{ $t('tools.weibo-hot.historical') }}</span>
               </div>
               <Calendar
                 v-model="currentDate"
@@ -174,10 +154,9 @@ const getWeiboUrl = (path: string) => {
         </div>
 
         <div class="flex items-center gap-3 w-full sm:w-auto z-10">
-          <span
-            class="text-sm text-muted-foreground font-medium hidden sm:inline-block"
-            >{{ $t("tools.weibo-hot.displayCount") }}</span
-          >
+          <span class="text-sm text-muted-foreground font-medium hidden sm:inline-block">{{
+            $t('tools.weibo-hot.displayCount')
+          }}</span>
           <Select v-model="selectedLimit">
             <SelectTrigger
               class="w-[140px] rounded-2xl bg-background/50 backdrop-blur-sm border-muted/50 hover:bg-muted/20 transition-all"
@@ -187,16 +166,16 @@ const getWeiboUrl = (path: string) => {
             <SelectContent class="rounded-2xl border-muted/50 shadow-xl">
               <SelectGroup>
                 <SelectItem value="50" class="rounded-xl cursor-pointer">{{
-                  $t("tools.weibo-hot.show50")
+                  $t('tools.weibo-hot.show50')
                 }}</SelectItem>
                 <SelectItem value="100" class="rounded-xl cursor-pointer">{{
-                  $t("tools.weibo-hot.show100")
+                  $t('tools.weibo-hot.show100')
                 }}</SelectItem>
                 <SelectItem value="150" class="rounded-xl cursor-pointer">{{
-                  $t("tools.weibo-hot.show150")
+                  $t('tools.weibo-hot.show150')
                 }}</SelectItem>
                 <SelectItem value="all" class="rounded-xl cursor-pointer">{{
-                  $t("tools.weibo-hot.showAll")
+                  $t('tools.weibo-hot.showAll')
                 }}</SelectItem>
               </SelectGroup>
             </SelectContent>
@@ -210,13 +189,11 @@ const getWeiboUrl = (path: string) => {
         class="flex flex-col justify-center items-center py-20 bg-card/10 rounded-3xl border border-muted/30"
       >
         <div class="relative w-16 h-16 flex items-center justify-center">
-          <div
-            class="absolute inset-0 bg-orange-500/20 rounded-full animate-ping"
-          ></div>
+          <div class="absolute inset-0 bg-orange-500/20 rounded-full animate-ping"></div>
           <Loader2 class="h-8 w-8 text-orange-500 animate-spin relative z-10" />
         </div>
         <p class="mt-4 text-muted-foreground font-medium">
-          {{ $t("tools.weibo-hot.loading") }}
+          {{ $t('tools.weibo-hot.loading') }}
         </p>
       </div>
 
@@ -225,13 +202,11 @@ const getWeiboUrl = (path: string) => {
         v-else-if="error || displayedItems.length === 0"
         class="flex flex-col items-center justify-center py-20 bg-card/10 rounded-3xl border border-muted/30"
       >
-        <div
-          class="w-16 h-16 rounded-full bg-muted/20 flex items-center justify-center mb-4"
-        >
+        <div class="w-16 h-16 rounded-full bg-muted/20 flex items-center justify-center mb-4">
           <Search class="h-8 w-8 text-muted-foreground/50" />
         </div>
         <p class="text-lg font-medium text-muted-foreground">
-          {{ error || $t("tools.weibo-hot.noResults") }}
+          {{ error || $t('tools.weibo-hot.noResults') }}
         </p>
       </div>
 
@@ -273,9 +248,7 @@ const getWeiboUrl = (path: string) => {
             <div
               class="absolute right-5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-4 group-hover:translate-x-0"
             >
-              <div
-                class="h-8 w-8 rounded-full bg-orange-500/10 flex items-center justify-center"
-              >
+              <div class="h-8 w-8 rounded-full bg-orange-500/10 flex items-center justify-center">
                 <ExternalLink class="h-4 w-4 text-orange-500" />
               </div>
             </div>

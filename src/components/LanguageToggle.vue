@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { Languages, Check } from "lucide-vue-next";
-import { Button } from "@/components/ui/button";
+import { Languages, Check } from 'lucide-vue-next'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useI18n } from "vue-i18n";
-import { setLanguage, supportedLocales, type SupportedLocale } from "@/i18n";
+} from '@/components/ui/dropdown-menu'
+import { useI18n } from 'vue-i18n'
+import { setLanguage, supportedLocales, type SupportedLocale } from '@/i18n'
 
-const { locale } = useI18n();
+const { locale } = useI18n()
 </script>
 
 <template>
@@ -21,10 +21,8 @@ const { locale } = useI18n();
         size="icon"
         class="h-9 w-9 rounded-xl hover:bg-secondary/80 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all active:scale-95 border-none"
       >
-        <Languages
-          class="h-[1.2rem] w-[1.2rem] scale-100 transition-all text-blue-500"
-        />
-        <span class="sr-only">{{ $t("lang.label") }}</span>
+        <Languages class="h-[1.2rem] w-[1.2rem] scale-100 transition-all text-blue-500" />
+        <span class="sr-only">{{ $t('lang.label') }}</span>
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent

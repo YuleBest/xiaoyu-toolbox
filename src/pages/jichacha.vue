@@ -1,8 +1,7 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch, inject } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
+import { ref, onMounted, onUnmounted, watch, inject } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import {
   Search,
   Info,
@@ -19,10 +18,10 @@ import {
   Clock,
   Trash2,
   RefreshCw,
-} from "lucide-vue-next";
-import { useStorage } from "@vueuse/core";
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
+} from 'lucide-vue-next'
+import { useStorage } from '@vueuse/core'
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
 import {
   getBrandStats,
   searchModels,
@@ -30,161 +29,161 @@ import {
   refreshData,
   type BrandStats,
   type MobileModel,
-} from "@/api/jichacha";
+} from '@/api/jichacha'
 
-const { t } = useI18n();
-const route = useRoute();
-const router = useRouter();
-const showToast = inject("showToast") as (
+const { t } = useI18n()
+const route = useRoute()
+const router = useRouter()
+const showToast = inject('showToast') as (
   msg: string,
-  type?: "success" | "warning" | "error",
-) => void;
+  type?: 'success' | 'warning' | 'error',
+) => void
 
-const tool = allTools.find((t) => t.id === "jichacha")!;
+const tool = allTools.find((t) => t.id === 'jichacha')!
 
 // --- State ---
-const refreshing = ref(false);
+const refreshing = ref(false)
 
 const handleRefreshData = async () => {
-  if (refreshing.value) return;
-  refreshing.value = true;
+  if (refreshing.value) return
+  refreshing.value = true
   try {
-    await refreshData();
-    showToast("数据已更新", "success");
+    await refreshData()
+    showToast('数据已更新', 'success')
     // Reload brands and update time
-    brands.value = [];
-    brandsPage.value = 1;
-    await fetchBrands();
-    await fetchDBUpdateTime();
+    brands.value = []
+    brandsPage.value = 1
+    await fetchBrands()
+    await fetchDBUpdateTime()
   } catch (e) {
-    console.error(e);
-    showToast("刷新失败", "error");
+    console.error(e)
+    showToast('刷新失败', 'error')
   } finally {
-    refreshing.value = false;
+    refreshing.value = false
   }
-};
+}
 
 // --- State ---
 // Search
-const searchKeyword = ref("");
-const searching = ref(false);
-const searchResults = ref<MobileModel[]>([]);
-const searchTotal = ref(0);
-const searchPage = ref(1);
-const searchLimit = 20;
-const showSearchResults = ref(false);
-const error = ref("");
+const searchKeyword = ref('')
+const searching = ref(false)
+const searchResults = ref<MobileModel[]>([])
+const searchTotal = ref(0)
+const searchPage = ref(1)
+const searchLimit = 20
+const showSearchResults = ref(false)
+const error = ref('')
 
 // Filter
-const dtypes = ref<{ dtype: string; count: number }[]>([]);
-const selectedDtype = ref("");
-const verNames = ref<{ ver_name: string; count: number }[]>([]);
-const selectedVerName = ref("");
-const showAllVerNames = ref(false);
+const dtypes = ref<{ dtype: string; count: number }[]>([])
+const selectedDtype = ref('')
+const verNames = ref<{ ver_name: string; count: number }[]>([])
+const selectedVerName = ref('')
+const showAllVerNames = ref(false)
 
 // Brands
-const brands = ref<BrandStats[]>([]);
-const brandsTotal = ref(0);
-const brandsPage = ref(1);
-const brandsLimit = 100;
-const loadingBrands = ref(false);
+const brands = ref<BrandStats[]>([])
+const brandsTotal = ref(0)
+const brandsPage = ref(1)
+const brandsLimit = 100
+const loadingBrands = ref(false)
 
-const selectedModel = ref<MobileModel | null>(null);
+const selectedModel = ref<MobileModel | null>(null)
 
 // History
-const searchHistory = useStorage<MobileModel[]>("jichacha_history", []);
+const searchHistory = useStorage<MobileModel[]>('jichacha_history', [])
 
 // Update Time
-const updateTime = ref("");
-const relativeTime = ref("");
+const updateTime = ref('')
+const relativeTime = ref('')
 
 const fetchDBUpdateTime = async () => {
   try {
-    const time = await getUpdateTime();
-    updateTime.value = time.trim();
-    calcRelativeTime();
+    const time = await getUpdateTime()
+    updateTime.value = time.trim()
+    calcRelativeTime()
     // Refresh relative time every minuteStart
-    timer = setInterval(calcRelativeTime, 60000);
+    timer = setInterval(calcRelativeTime, 60000)
   } catch (e) {
-    console.error("Failed to fetch update time", e);
+    console.error('Failed to fetch update time', e)
   }
-};
+}
 
-let timer: ReturnType<typeof setInterval> | null = null;
+let timer: ReturnType<typeof setInterval> | null = null
 onUnmounted(() => {
-  if (timer) clearInterval(timer);
-});
+  if (timer) clearInterval(timer)
+})
 
 const calcRelativeTime = () => {
-  if (!updateTime.value) return;
-  const now = new Date();
+  if (!updateTime.value) return
+  const now = new Date()
   // Replace - with / for better compatibility if needed, though modern browsers support -
-  const update = new Date(updateTime.value.replace(/-/g, "/"));
-  const diff = now.getTime() - update.getTime();
+  const update = new Date(updateTime.value.replace(/-/g, '/'))
+  const diff = now.getTime() - update.getTime()
 
-  const minutes = Math.floor(diff / 60000);
+  const minutes = Math.floor(diff / 60000)
 
   if (minutes < 1) {
-    relativeTime.value = "刚刚";
+    relativeTime.value = '刚刚'
   } else if (minutes < 60) {
-    relativeTime.value = `${minutes} 分钟前`;
+    relativeTime.value = `${minutes} 分钟前`
   } else if (minutes < 1440) {
-    relativeTime.value = `${Math.floor(minutes / 60)} 小时前`;
+    relativeTime.value = `${Math.floor(minutes / 60)} 小时前`
   } else {
-    relativeTime.value = `${Math.floor(minutes / 1440)} 天前`;
+    relativeTime.value = `${Math.floor(minutes / 1440)} 天前`
   }
-};
+}
 
 // --- Methods ---
 
 const saveToHistory = (model: MobileModel) => {
   // Remove if exists
-  const idx = searchHistory.value.findIndex((m) => m.id === model.id);
+  const idx = searchHistory.value.findIndex((m) => m.id === model.id)
   if (idx > -1) {
-    searchHistory.value.splice(idx, 1);
+    searchHistory.value.splice(idx, 1)
   }
   // Add to top
-  searchHistory.value.unshift(model);
+  searchHistory.value.unshift(model)
   // Limit to 15
   if (searchHistory.value.length > 15) {
-    searchHistory.value.length = 15; // Directly truncate
+    searchHistory.value.length = 15 // Directly truncate
   }
-};
+}
 
 const clearHistory = () => {
-  searchHistory.value = [];
-  showToast(t("common.cleared") || "已清除", "success");
-};
+  searchHistory.value = []
+  showToast(t('common.cleared') || '已清除', 'success')
+}
 
 const fetchBrands = async (append = false) => {
-  if (loadingBrands.value) return;
-  loadingBrands.value = true;
+  if (loadingBrands.value) return
+  loadingBrands.value = true
 
   if (!append) {
-    brandsPage.value = 1;
+    brandsPage.value = 1
   } else {
-    brandsPage.value++;
+    brandsPage.value++
   }
 
   try {
-    const res = await getBrandStats(brandsPage.value, brandsLimit);
-    const results = res.results || [];
+    const res = await getBrandStats(brandsPage.value, brandsLimit)
+    const results = res.results || []
     if (append) {
-      brands.value.push(...results);
+      brands.value.push(...results)
     } else {
-      brands.value = results;
+      brands.value = results
     }
-    brandsTotal.value = res.total;
+    brandsTotal.value = res.total
   } catch (e) {
-    console.error("Failed to fetch brands", e);
-    if (append) brandsPage.value--; // Revert page on error
+    console.error('Failed to fetch brands', e)
+    if (append) brandsPage.value-- // Revert page on error
   } finally {
-    loadingBrands.value = false;
+    loadingBrands.value = false
   }
-};
+}
 
 const handleSearch = async (append = false) => {
-  const kw = searchKeyword.value.trim();
+  const kw = searchKeyword.value.trim()
 
   // Update URL query params
   router.replace({
@@ -193,33 +192,33 @@ const handleSearch = async (append = false) => {
       keyword: kw || undefined,
       dtype: selectedDtype.value || undefined,
     },
-  });
+  })
 
   if (!kw && !selectedDtype.value) {
     // If clearing search, reset state
     if (!append) {
-      searchResults.value = [];
-      searchTotal.value = 0;
-      showSearchResults.value = false;
-      error.value = "";
+      searchResults.value = []
+      searchTotal.value = 0
+      showSearchResults.value = false
+      error.value = ''
     }
-    return;
+    return
   }
 
   if (!append) {
     // New search
-    error.value = "";
-    searchResults.value = [];
-    searchTotal.value = 0;
-    searchPage.value = 1;
-    selectedModel.value = null;
-    showSearchResults.value = true;
+    error.value = ''
+    searchResults.value = []
+    searchTotal.value = 0
+    searchPage.value = 1
+    selectedModel.value = null
+    showSearchResults.value = true
   } else {
     // Load more
-    searchPage.value++;
+    searchPage.value++
   }
 
-  searching.value = true;
+  searching.value = true
 
   try {
     const res = await searchModels({
@@ -228,186 +227,179 @@ const handleSearch = async (append = false) => {
       ver_name: selectedVerName.value || undefined,
       page: searchPage.value,
       limit: searchLimit,
-    });
+    })
 
     if (append) {
-      searchResults.value.push(...res.results);
+      searchResults.value.push(...res.results)
     } else {
-      searchResults.value = res.results;
+      searchResults.value = res.results
     }
 
-    searchTotal.value = res.total;
+    searchTotal.value = res.total
 
     if (res.dtypes) {
-      dtypes.value = res.dtypes;
+      dtypes.value = res.dtypes
     }
 
     // Update ver_names from search results
     if (res.verNames) {
-      verNames.value = res.verNames;
+      verNames.value = res.verNames
     } else {
-      verNames.value = [];
+      verNames.value = []
     }
 
     if (searchResults.value.length === 0 && !append) {
-      error.value = t("tools.jichacha.noResults");
+      error.value = t('tools.jichacha.noResults')
     } else if (res.fallbackType) {
       // Show fallback message
-      if (res.fallbackType === "translated_brand") {
-        error.value = `未找到"${kw}"，已为您显示"${res.usedQuery}"的结果`;
-      } else if (res.fallbackType === "brand_fallback") {
-        error.value = `未找到"${kw}"的具体型号，已为您显示"${res.usedQuery}"品牌的所有机型`;
+      if (res.fallbackType === 'translated_brand') {
+        error.value = `未找到"${kw}"，已为您显示"${res.usedQuery}"的结果`
+      } else if (res.fallbackType === 'brand_fallback') {
+        error.value = `未找到"${kw}"的具体型号，已为您显示"${res.usedQuery}"品牌的所有机型`
       }
     }
   } catch (e) {
-    console.error("Frontend Search Error:", e);
-    error.value = t("common.error");
-    if (append) searchPage.value--;
+    console.error('Frontend Search Error:', e)
+    error.value = t('common.error')
+    if (append) searchPage.value--
   } finally {
-    searching.value = false;
+    searching.value = false
   }
-};
+}
 
 const selectBrand = (brand: string) => {
-  searchKeyword.value = brand;
-  handleSearch(false);
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
+  searchKeyword.value = brand
+  handleSearch(false)
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 
 const clearSearch = () => {
-  searchKeyword.value = "";
-  selectedDtype.value = "";
-  selectedVerName.value = "";
-  searchResults.value = [];
-  searchTotal.value = 0;
-  showSearchResults.value = false;
-  showSearchResults.value = false;
-  dtypes.value = []; // Clear filters
-  verNames.value = []; // Clear verNames
-  error.value = "";
+  searchKeyword.value = ''
+  selectedDtype.value = ''
+  selectedVerName.value = ''
+  searchResults.value = []
+  searchTotal.value = 0
+  showSearchResults.value = false
+  showSearchResults.value = false
+  dtypes.value = [] // Clear filters
+  verNames.value = [] // Clear verNames
+  error.value = ''
   // Clear URL params
-  router.replace({ query: {} });
+  router.replace({ query: {} })
   // Restore initial state (brands)
-  fetchBrands();
-};
+  fetchBrands()
+}
 
 const toggleDtype = (dtype: string) => {
   if (selectedDtype.value === dtype) {
-    selectedDtype.value = "";
+    selectedDtype.value = ''
   } else {
-    selectedDtype.value = dtype;
+    selectedDtype.value = dtype
   }
   // If we have a keyword or if we decide to allow search by just filter
   if (searchKeyword.value.trim() || selectedDtype.value) {
-    handleSearch(false);
+    handleSearch(false)
   }
-};
+}
 
 const toggleVerName = (ver: string) => {
   if (selectedVerName.value === ver) {
-    selectedVerName.value = "";
+    selectedVerName.value = ''
   } else {
-    selectedVerName.value = ver;
+    selectedVerName.value = ver
   }
-  if (
-    searchKeyword.value.trim() ||
-    selectedDtype.value ||
-    selectedVerName.value
-  ) {
-    handleSearch(false);
+  if (searchKeyword.value.trim() || selectedDtype.value || selectedVerName.value) {
+    handleSearch(false)
   }
-};
+}
 
 const selectModel = (model: MobileModel) => {
-  selectedModel.value = model;
-  saveToHistory(model);
-};
+  selectedModel.value = model
+  saveToHistory(model)
+}
 
 const shortBrand = (brand: string) => {
-  return brand.length > 10 ? brand.substring(0, 10) + "..." : brand;
-};
+  return brand.length > 10 ? brand.substring(0, 10) + '...' : brand
+}
 
 const copyToClipboard = (text: any) => {
-  if (!text) return;
+  if (!text) return
   navigator.clipboard
     .writeText(String(text))
     .then(() => {
-      showToast(t("common.copySuccess") || "复制成功", "success");
+      showToast(t('common.copySuccess') || '复制成功', 'success')
     })
     .catch(() => {
-      showToast(t("common.copyFailed") || "复制失败", "error");
-    });
-};
+      showToast(t('common.copyFailed') || '复制失败', 'error')
+    })
+}
 
 const highlightMatches = (text: string | null | undefined) => {
-  if (!text) return "";
-  if (!searchKeyword.value.trim()) return text;
+  if (!text) return ''
+  if (!searchKeyword.value.trim()) return text
 
   // Escape special regex characters
   const escapeRegExp = (string: string) => {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  };
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
 
   const keywords = searchKeyword.value
     .trim()
     .split(/\s+/)
     .filter((k) => k.length > 0)
-    .map(escapeRegExp);
+    .map(escapeRegExp)
 
-  if (keywords.length === 0) return text;
+  if (keywords.length === 0) return text
 
-  const pattern = new RegExp(`(${keywords.join("|")})`, "gi");
-  return String(text).replace(
-    pattern,
-    '<span class="text-blue-500 font-bold">$1</span>',
-  );
-};
+  const pattern = new RegExp(`(${keywords.join('|')})`, 'gi')
+  return String(text).replace(pattern, '<span class="text-blue-500 font-bold">$1</span>')
+}
 
 // Drawer state
-const isExpanded = ref(false);
-const startY = ref(0);
-const sheetHeight = ref(85);
+const isExpanded = ref(false)
+const startY = ref(0)
+const sheetHeight = ref(85)
 
 // Scroll Locking
 watch(selectedModel, (val) => {
   if (val) {
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden'
   } else {
-    document.body.style.overflow = "";
-    isExpanded.value = false;
-    sheetHeight.value = 85;
+    document.body.style.overflow = ''
+    isExpanded.value = false
+    sheetHeight.value = 85
   }
-});
+})
 
 // Touch handling for expandable sheet
 const onTouchStart = (e: TouchEvent) => {
   if (e.touches && e.touches[0]) {
-    startY.value = e.touches[0].clientY;
+    startY.value = e.touches[0].clientY
   }
-};
+}
 
 const onTouchMove = (e: TouchEvent) => {
-  if (!e.touches || !e.touches[0]) return;
-  const deltaY = startY.value - e.touches[0].clientY;
+  if (!e.touches || !e.touches[0]) return
+  const deltaY = startY.value - e.touches[0].clientY
   if (deltaY > 50 && !isExpanded.value) {
-    isExpanded.value = true;
-    sheetHeight.value = 100;
+    isExpanded.value = true
+    sheetHeight.value = 100
   } else if (deltaY < -100 && isExpanded.value) {
-    isExpanded.value = false;
-    sheetHeight.value = 85;
+    isExpanded.value = false
+    sheetHeight.value = 85
   }
-};
+}
 
 onMounted(() => {
   // Handle URL params
-  const q = route.query.keyword || route.query.q;
-  const t = route.query.dtype;
+  const q = route.query.keyword || route.query.q
+  const t = route.query.dtype
 
-  const v = route.query.ver_name;
+  const v = route.query.ver_name
 
-  if (q) searchKeyword.value = String(q);
-  if (t) selectedDtype.value = String(t);
-  if (v) selectedVerName.value = String(v);
+  if (q) searchKeyword.value = String(q)
+  if (t) selectedDtype.value = String(t)
+  if (v) selectedVerName.value = String(v)
 
   // Remove initial fetch, rely on search
   // getVerNames().then((res) => {
@@ -415,13 +407,13 @@ onMounted(() => {
   // });
 
   if (q || t || v) {
-    handleSearch();
+    handleSearch()
   } else {
-    fetchBrands();
+    fetchBrands()
   }
 
-  fetchDBUpdateTime();
-});
+  fetchDBUpdateTime()
+})
 </script>
 
 <template>
@@ -443,9 +435,7 @@ onMounted(() => {
           @click="clearSearch"
         >
           <RotateCcw class="h-4 w-4" />
-          <span class="hidden sm:inline">{{
-            $t("common.reset") || "重置"
-          }}</span>
+          <span class="hidden sm:inline">{{ $t('common.reset') || '重置' }}</span>
         </button>
       </div>
     </template>
@@ -476,25 +466,17 @@ onMounted(() => {
                 class="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"
               ></div>
               <Search v-else class="h-4 w-4" />
-              {{ $t("common.search") }}
+              {{ $t('common.search') }}
             </button>
           </div>
 
           <!-- Dtype Filter -->
-          <div
-            v-if="dtypes.length > 0 || verNames.length > 0"
-            class="mt-4 flex flex-col gap-3"
-          >
+          <div v-if="dtypes.length > 0 || verNames.length > 0" class="mt-4 flex flex-col gap-3">
             <!-- Dtype Filter -->
-            <div
-              v-if="dtypes.length > 0"
-              class="flex flex-wrap gap-2 items-center"
-            >
-              <div
-                class="flex items-center gap-2 text-xs text-muted-foreground mr-2 font-medium"
-              >
+            <div v-if="dtypes.length > 0" class="flex flex-wrap gap-2 items-center">
+              <div class="flex items-center gap-2 text-xs text-muted-foreground mr-2 font-medium">
                 <Filter class="h-3 w-3" />
-                {{ $t("tools.jichacha.filterType") }}:
+                {{ $t('tools.jichacha.filterType') }}:
               </div>
               <button
                 class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border"
@@ -505,7 +487,7 @@ onMounted(() => {
                 "
                 @click="toggleDtype('')"
               >
-                {{ $t("common.all") }}
+                {{ $t('common.all') }}
               </button>
               <button
                 v-for="d in dtypes"
@@ -528,13 +510,8 @@ onMounted(() => {
             </div>
 
             <!-- VerName Filter -->
-            <div
-              v-if="verNames.length > 0"
-              class="flex flex-wrap gap-2 items-center"
-            >
-              <div
-                class="flex items-center gap-2 text-xs text-muted-foreground mr-2 font-medium"
-              >
+            <div v-if="verNames.length > 0" class="flex flex-wrap gap-2 items-center">
+              <div class="flex items-center gap-2 text-xs text-muted-foreground mr-2 font-medium">
                 <Tag class="h-3 w-3" />
                 版本:
               </div>
@@ -547,7 +524,7 @@ onMounted(() => {
                 "
                 @click="toggleVerName('')"
               >
-                {{ $t("common.all") }}
+                {{ $t('common.all') }}
               </button>
               <button
                 v-for="v in showAllVerNames ? verNames : verNames.slice(0, 8)"
@@ -573,7 +550,7 @@ onMounted(() => {
                 class="px-3 py-1.5 rounded-full text-xs font-medium transition-all border bg-muted/30 text-muted-foreground border-transparent hover:bg-muted/60 flex items-center gap-1"
                 @click="showAllVerNames = !showAllVerNames"
               >
-                {{ showAllVerNames ? "收起" : "更多" }}
+                {{ showAllVerNames ? '收起' : '更多' }}
                 <ChevronDown
                   class="h-3 w-3 transition-transform"
                   :class="{ 'rotate-180': showAllVerNames }"
@@ -620,9 +597,7 @@ onMounted(() => {
         class="space-y-4"
       >
         <div class="flex items-center justify-between">
-          <h3
-            class="text-lg font-semibold flex items-center gap-2 text-foreground/80"
-          >
+          <h3 class="text-lg font-semibold flex items-center gap-2 text-foreground/80">
             <Clock class="h-5 w-5 text-blue-500" />
             <span>最近查看</span>
           </h3>
@@ -635,18 +610,14 @@ onMounted(() => {
           </button>
         </div>
 
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"
-        >
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           <button
             v-for="model in searchHistory"
             :key="model.id"
             class="text-left px-4 py-3 bg-card border border-muted/60 hover:border-blue-500/30 hover:bg-muted/30 rounded-xl transition-all group"
             @click="selectModel(model)"
           >
-            <div
-              class="font-medium text-sm truncate group-hover:text-blue-600 transition-colors"
-            >
+            <div class="font-medium text-sm truncate group-hover:text-blue-600 transition-colors">
               {{ model.model_name || model.market_name || model.model }}
             </div>
             <div class="flex items-center gap-2 mt-1.5">
@@ -664,13 +635,8 @@ onMounted(() => {
       </div>
 
       <!-- Search Results (Native Style) -->
-      <div
-        v-if="showSearchResults && searchResults.length > 0"
-        class="space-y-2"
-      >
-        <div
-          class="px-2 pb-2 flex items-center justify-between text-sm text-muted-foreground"
-        >
+      <div v-if="showSearchResults && searchResults.length > 0" class="space-y-2">
+        <div class="px-2 pb-2 flex items-center justify-between text-sm text-muted-foreground">
           <span>找到 {{ searchTotal }} 个相关结果</span>
 
           <div v-if="selectedDtype" class="flex items-center gap-2">
@@ -679,10 +645,7 @@ onMounted(() => {
             >
               已筛选: {{ $t(`tools.jichacha.dtypes.${selectedDtype}`) }}
             </span>
-            <button
-              class="hover:text-foreground transition-colors"
-              @click="toggleDtype('')"
-            >
+            <button class="hover:text-foreground transition-colors" @click="toggleDtype('')">
               <X class="h-3 w-3" />
             </button>
           </div>
@@ -698,16 +661,9 @@ onMounted(() => {
             <div class="flex-1 min-w-0">
               <h4 class="text-base font-medium text-foreground truncate mb-1.5">
                 <span
-                  v-html="
-                    highlightMatches(
-                      model.model_name || model.market_name || model.model,
-                    )
-                  "
+                  v-html="highlightMatches(model.model_name || model.market_name || model.model)"
                 ></span>
-                <span
-                  v-if="model.ver_name"
-                  class="text-muted-foreground text-sm ml-1 font-normal"
-                >
+                <span v-if="model.ver_name" class="text-muted-foreground text-sm ml-1 font-normal">
                   ({{ model.ver_name }})
                 </span>
               </h4>
@@ -744,10 +700,7 @@ onMounted(() => {
                 </span>
 
                 <!-- Model info -->
-                <span
-                  v-if="model.model !== model.model_name"
-                  class="flex items-center gap-1.5"
-                >
+                <span v-if="model.model !== model.model_name" class="flex items-center gap-1.5">
                   <QrCode class="h-3.5 w-3.5" />
                   <span v-html="highlightMatches(model.model)"></span>
                 </span>
@@ -757,10 +710,7 @@ onMounted(() => {
         </div>
 
         <!-- Load More Results Button -->
-        <div
-          v-if="searchResults.length < searchTotal"
-          class="pt-4 flex justify-center"
-        >
+        <div v-if="searchResults.length < searchTotal" class="pt-4 flex justify-center">
           <button
             :disabled="searching"
             class="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 text-sm font-medium text-blue-600 bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 rounded-xl transition-all"
@@ -774,11 +724,9 @@ onMounted(() => {
 
       <!-- Overview: Brands Cloud (Always visible at bottom) -->
       <div v-if="brands.length > 0" class="mt-8 pt-6 border-t border-muted/30">
-        <h3
-          class="text-lg font-semibold mb-4 flex items-center gap-2 text-foreground/80"
-        >
+        <h3 class="text-lg font-semibold mb-4 flex items-center gap-2 text-foreground/80">
           <Tag class="h-5 w-5 text-blue-500" />
-          {{ $t("tools.jichacha.brands") }}
+          {{ $t('tools.jichacha.brands') }}
         </h3>
         <div class="flex flex-wrap gap-2.5">
           <button
@@ -799,10 +747,7 @@ onMounted(() => {
         </div>
 
         <!-- Load More Brands -->
-        <div
-          v-if="brands.length < brandsTotal"
-          class="mt-6 flex justify-center"
-        >
+        <div v-if="brands.length < brandsTotal" class="mt-6 flex justify-center">
           <button
             :disabled="loadingBrands"
             class="flex items-center gap-2 px-4 py-2 text-sm text-muted-foreground hover:text-foreground bg-muted/30 hover:bg-muted/50 rounded-xl transition-all"
@@ -810,19 +755,14 @@ onMounted(() => {
           >
             <Loader2 v-if="loadingBrands" class="h-4 w-4 animate-spin" />
             <ChevronDown v-else class="h-4 w-4" />
-            {{ $t("common.viewMore") }}
+            {{ $t('common.viewMore') }}
           </button>
         </div>
       </div>
 
       <!-- Update Time Footer -->
-      <div
-        v-if="updateTime"
-        class="mt-8 pt-6 border-t border-muted/30 text-center"
-      >
-        <p
-          class="text-xs text-muted-foreground flex items-center justify-center gap-2"
-        >
+      <div v-if="updateTime" class="mt-8 pt-6 border-t border-muted/30 text-center">
+        <p class="text-xs text-muted-foreground flex items-center justify-center gap-2">
           <Clock class="h-3 w-3" />
           <span>数据库更新于 {{ updateTime }}, {{ relativeTime }}</span>
         </p>
@@ -844,8 +784,8 @@ onMounted(() => {
           <div
             class="flex justify-center pt-3 pb-1 cursor-grab active:cursor-grabbing shrink-0"
             @click="
-              isExpanded = !isExpanded;
-              sheetHeight = isExpanded ? 100 : 85;
+              isExpanded = !isExpanded
+              sheetHeight = isExpanded ? 100 : 85
             "
           >
             <div class="w-10 h-1 rounded-full bg-muted-foreground/20" />
@@ -863,9 +803,7 @@ onMounted(() => {
                 class="text-lg font-bold truncate text-important"
                 v-html="
                   highlightMatches(
-                    selectedModel?.model_name ||
-                      selectedModel?.market_name ||
-                      selectedModel?.model,
+                    selectedModel?.model_name || selectedModel?.market_name || selectedModel?.model,
                   )
                 "
               ></h3>
@@ -899,9 +837,7 @@ onMounted(() => {
                   基本信息
                 </h3>
                 <div class="grid grid-cols-[100px_1fr] gap-2 text-sm">
-                  <span class="text-muted-foreground self-center"
-                    >型号 (Model)</span
-                  >
+                  <span class="text-muted-foreground self-center">型号 (Model)</span>
                   <div class="flex items-center gap-2 group min-w-0">
                     <span
                       class="font-medium font-mono select-all truncate"
@@ -916,9 +852,7 @@ onMounted(() => {
                     </button>
                   </div>
 
-                  <span class="text-muted-foreground self-center"
-                    >代号 (Code)</span
-                  >
+                  <span class="text-muted-foreground self-center">代号 (Code)</span>
                   <div class="flex items-center gap-2 group min-w-0">
                     <span
                       class="font-medium font-mono select-all truncate"
@@ -933,9 +867,7 @@ onMounted(() => {
                     </button>
                   </div>
 
-                  <span
-                    v-if="selectedModel?.code_alias"
-                    class="text-muted-foreground self-center"
+                  <span v-if="selectedModel?.code_alias" class="text-muted-foreground self-center"
                     >别名 (Alias)</span
                   >
                   <div
@@ -980,10 +912,9 @@ onMounted(() => {
                         ].includes(String(key))
                       "
                     >
-                      <span
-                        class="text-muted-foreground capitalize self-center"
-                        >{{ String(key).replace(/_/g, " ") }}</span
-                      >
+                      <span class="text-muted-foreground capitalize self-center">{{
+                        String(key).replace(/_/g, ' ')
+                      }}</span>
                       <div class="flex items-center gap-2 group min-w-0">
                         <template v-if="val && String(val).trim()">
                           <span
@@ -998,10 +929,7 @@ onMounted(() => {
                             <Copy class="h-3 w-3" />
                           </button>
                         </template>
-                        <span
-                          v-else
-                          class="text-muted-foreground/40 italic text-xs"
-                        >
+                        <span v-else class="text-muted-foreground/40 italic text-xs">
                           此项数据为空
                         </span>
                       </div>

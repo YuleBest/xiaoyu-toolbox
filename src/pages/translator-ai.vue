@@ -1,7 +1,6 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
-import { useI18n } from "vue-i18n";
+import { ref, onMounted, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import {
   ArrowRightLeft,
   Loader2,
@@ -10,230 +9,223 @@ import {
   Trash2,
   AlertCircle,
   ChevronDown,
-} from "lucide-vue-next";
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
-import { inject } from "vue";
-import { Button } from "@/components/ui/button";
+} from 'lucide-vue-next'
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
+import { inject } from 'vue'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu'
 
-const { t } = useI18n();
-const showToast = inject("showToast") as (
-  msg: string,
-  type?: "warning" | "error",
-) => void;
+const { t } = useI18n()
+const showToast = inject('showToast') as (msg: string, type?: 'warning' | 'error') => void
 
-const tool = allTools.find((t) => t.id === "translator-ai")!;
+const tool = allTools.find((t) => t.id === 'translator-ai')!
 
-const sourceText = ref("");
-const targetText = ref("");
-const sourceLangDetected = ref("");
-const sourceLangSelected = ref("auto");
-const targetLang = ref("en");
-const detector = ref<any>(null);
-const translator = ref<any>(null);
-const isSupported = ref(true);
-const isDetecting = ref(false);
-const isTranslating = ref(false);
-const downloadProgress = ref(0);
-const isDownloading = ref(false);
-const copiedSource = ref(false);
-const copiedTarget = ref(false);
+const sourceText = ref('')
+const targetText = ref('')
+const sourceLangDetected = ref('')
+const sourceLangSelected = ref('auto')
+const targetLang = ref('en')
+const detector = ref<any>(null)
+const translator = ref<any>(null)
+const isSupported = ref(true)
+const isDetecting = ref(false)
+const isTranslating = ref(false)
+const downloadProgress = ref(0)
+const isDownloading = ref(false)
+const copiedSource = ref(false)
+const copiedTarget = ref(false)
 
 const languages = [
-  { code: "zh", name: t("translatorAi.languages.zh") },
-  { code: "zh-Hant", name: t("translatorAi.languages.zh-Hant") },
-  { code: "en", name: t("translatorAi.languages.en") },
-  { code: "ja", name: t("translatorAi.languages.ja") },
-  { code: "fr", name: t("translatorAi.languages.fr") },
-  { code: "es", name: t("translatorAi.languages.es") },
-  { code: "ru", name: t("translatorAi.languages.ru") },
-];
+  { code: 'zh', name: t('translatorAi.languages.zh') },
+  { code: 'zh-Hant', name: t('translatorAi.languages.zh-Hant') },
+  { code: 'en', name: t('translatorAi.languages.en') },
+  { code: 'ja', name: t('translatorAi.languages.ja') },
+  { code: 'fr', name: t('translatorAi.languages.fr') },
+  { code: 'es', name: t('translatorAi.languages.es') },
+  { code: 'ru', name: t('translatorAi.languages.ru') },
+]
 
 onMounted(async () => {
-  if (!("LanguageDetector" in self) || !("Translator" in self)) {
-    isSupported.value = false;
-    return;
+  if (!('LanguageDetector' in self) || !('Translator' in self)) {
+    isSupported.value = false
+    return
   }
 
   try {
-    detector.value = await (self as any).LanguageDetector.create();
+    detector.value = await (self as any).LanguageDetector.create()
   } catch (e) {
-    console.error("Failed to create detector", e);
+    console.error('Failed to create detector', e)
   }
-});
+})
 
 const languageTagToHumanReadable = (languageTag: string) => {
   const langMatch = languages.find(
-    (l) =>
-      l.code === languageTag || (languageTag === "zh-Hans" && l.code === "zh"),
-  );
-  if (langMatch) return langMatch.name;
+    (l) => l.code === languageTag || (languageTag === 'zh-Hans' && l.code === 'zh'),
+  )
+  if (langMatch) return langMatch.name
 
   try {
     const displayNames = new Intl.DisplayNames(
-      [t("lang.label") === t("lang.zhCN") ? "zh-CN" : "en-US"],
+      [t('lang.label') === t('lang.zhCN') ? 'zh-CN' : 'en-US'],
       {
-        type: "language",
+        type: 'language',
       },
-    );
-    return displayNames.of(languageTag);
-  } catch (_e) {
-    return languageTag;
+    )
+    return displayNames.of(languageTag)
+  } catch {
+    return languageTag
   }
-};
+}
 
 const detectLanguage = async (text: string) => {
   if (!detector.value || !text.trim()) {
-    sourceLangDetected.value = "";
-    return;
+    sourceLangDetected.value = ''
+    return
   }
 
-  isDetecting.value = true;
+  isDetecting.value = true
   try {
-    const results = await detector.value.detect(text.trim());
+    const results = await detector.value.detect(text.trim())
     if (results && results.length > 0) {
-      sourceLangDetected.value = results[0].detectedLanguage;
+      sourceLangDetected.value = results[0].detectedLanguage
     }
   } catch (e) {
-    console.error("Detection failed", e);
+    console.error('Detection failed', e)
   } finally {
-    isDetecting.value = false;
+    isDetecting.value = false
   }
-};
+}
 
 const translate = async () => {
-  if (!sourceText.value.trim()) return;
+  if (!sourceText.value.trim()) return
 
-  let sLang = sourceLangSelected.value;
-  if (sLang === "auto") {
-    if (!sourceLangDetected.value) return;
-    sLang = sourceLangDetected.value;
+  let sLang = sourceLangSelected.value
+  if (sLang === 'auto') {
+    if (!sourceLangDetected.value) return
+    sLang = sourceLangDetected.value
   }
 
-  sLang = sLang === "zh-Hans" ? "zh" : sLang;
-  const tLang = targetLang.value;
+  sLang = sLang === 'zh-Hans' ? 'zh' : sLang
+  const tLang = targetLang.value
 
   if (sLang === tLang) {
-    targetText.value = sourceText.value;
-    return;
+    targetText.value = sourceText.value
+    return
   }
 
-  isTranslating.value = true;
+  isTranslating.value = true
   try {
     const availability = await (self as any).Translator.availability({
       sourceLanguage: sLang,
       targetLanguage: tLang,
-    });
+    })
 
-    if (availability === "unavailable") {
-      showToast(t("translatorAi.notAvailable"), "error");
-      isTranslating.value = false;
-      return;
+    if (availability === 'unavailable') {
+      showToast(t('translatorAi.notAvailable'), 'error')
+      isTranslating.value = false
+      return
     }
 
-    if (availability === "downloadable") {
-      isDownloading.value = true;
-      downloadProgress.value = 0;
+    if (availability === 'downloadable') {
+      isDownloading.value = true
+      downloadProgress.value = 0
     }
 
     translator.value = await (self as any).Translator.create({
       sourceLanguage: sLang,
       targetLanguage: tLang,
       monitor(m: any) {
-        m.addEventListener("downloadprogress", (e: any) => {
-          downloadProgress.value = Math.round((e.loaded / e.total) * 100);
-        });
+        m.addEventListener('downloadprogress', (e: any) => {
+          downloadProgress.value = Math.round((e.loaded / e.total) * 100)
+        })
       },
-    });
+    })
 
-    targetText.value = await translator.value.translate(sourceText.value);
+    targetText.value = await translator.value.translate(sourceText.value)
   } catch (e) {
-    console.error("Translation failed", e);
-    showToast(t("translatorAi.apiError"), "error");
+    console.error('Translation failed', e)
+    showToast(t('translatorAi.apiError'), 'error')
   } finally {
-    isTranslating.value = false;
-    isDownloading.value = false;
+    isTranslating.value = false
+    isDownloading.value = false
   }
-};
+}
 
-let debounceTimer: any = null;
+let debounceTimer: any = null
 watch(sourceText, (newVal) => {
-  clearTimeout(debounceTimer);
+  clearTimeout(debounceTimer)
   if (!newVal.trim()) {
-    targetText.value = "";
-    sourceLangDetected.value = "";
-    return;
+    targetText.value = ''
+    sourceLangDetected.value = ''
+    return
   }
 
   debounceTimer = setTimeout(async () => {
-    if (sourceLangSelected.value === "auto") {
-      await detectLanguage(newVal);
+    if (sourceLangSelected.value === 'auto') {
+      await detectLanguage(newVal)
     }
-    await translate();
-  }, 500);
-});
+    await translate()
+  }, 500)
+})
 
 watch([targetLang, sourceLangSelected], async () => {
   if (sourceText.value.trim()) {
-    if (sourceLangSelected.value === "auto") {
-      await detectLanguage(sourceText.value);
+    if (sourceLangSelected.value === 'auto') {
+      await detectLanguage(sourceText.value)
     }
-    await translate();
+    await translate()
   }
-});
+})
 
-const copyToClipboard = async (text: string, type: "source" | "target") => {
-  if (!text) return;
-  await navigator.clipboard.writeText(text);
-  if (type === "source") {
-    copiedSource.value = true;
-    setTimeout(() => (copiedSource.value = false), 2000);
+const copyToClipboard = async (text: string, type: 'source' | 'target') => {
+  if (!text) return
+  await navigator.clipboard.writeText(text)
+  if (type === 'source') {
+    copiedSource.value = true
+    setTimeout(() => (copiedSource.value = false), 2000)
   } else {
-    copiedTarget.value = true;
-    setTimeout(() => (copiedTarget.value = false), 2000);
+    copiedTarget.value = true
+    setTimeout(() => (copiedTarget.value = false), 2000)
   }
-  showToast(t("common.copySuccess"));
-};
+  showToast(t('common.copySuccess'))
+}
 
 const clearAll = () => {
-  sourceText.value = "";
-  targetText.value = "";
-  sourceLangDetected.value = "";
-};
+  sourceText.value = ''
+  targetText.value = ''
+  sourceLangDetected.value = ''
+}
 
 const swapLanguages = () => {
-  let sLang = sourceLangSelected.value;
-  if (sLang === "auto") {
-    if (!sourceLangDetected.value) return;
-    sLang = sourceLangDetected.value;
+  let sLang = sourceLangSelected.value
+  if (sLang === 'auto') {
+    if (!sourceLangDetected.value) return
+    sLang = sourceLangDetected.value
   }
 
-  const currentSource = sLang === "zh-Hans" ? "zh" : sLang;
-  const currentTarget = targetLang.value;
+  const currentSource = sLang === 'zh-Hans' ? 'zh' : sLang
+  const currentTarget = targetLang.value
 
   if (languages.some((l) => l.code === currentSource)) {
-    sourceLangSelected.value = currentTarget;
-    targetLang.value = currentSource;
-    sourceText.value = targetText.value;
+    sourceLangSelected.value = currentTarget
+    targetLang.value = currentSource
+    sourceText.value = targetText.value
   }
-};
+}
 </script>
 
 <template>
   <ToolContainer :tool="tool">
     <template #actions>
-      <button
-        class="btn-destructive px-3 py-1.5 md:px-4 md:py-2"
-        @click="clearAll"
-      >
+      <button class="btn-destructive px-3 py-1.5 md:px-4 md:py-2" @click="clearAll">
         <Trash2 class="h-4 w-4" />
-        <span class="hidden sm:inline">{{ $t("common.clearAll") }}</span>
+        <span class="hidden sm:inline">{{ $t('common.clearAll') }}</span>
       </button>
     </template>
 
@@ -246,10 +238,10 @@ const swapLanguages = () => {
       </div>
       <div class="space-y-2">
         <h3 class="text-xl font-bold text-important">
-          {{ $t("translatorAi.notSupportedTitle") }}
+          {{ $t('translatorAi.notSupportedTitle') }}
         </h3>
         <p class="text-muted-foreground max-w-md mx-auto">
-          {{ $t("translatorAi.notSupportedDesc") }}
+          {{ $t('translatorAi.notSupportedDesc') }}
         </p>
       </div>
       <a
@@ -257,7 +249,7 @@ const swapLanguages = () => {
         target="_blank"
         class="inline-flex items-center gap-2 text-blue-500 hover:underline font-medium"
       >
-        {{ $t("translatorAi.howToEnable") }}
+        {{ $t('translatorAi.howToEnable') }}
         <ArrowRightLeft class="h-4 w-4 rotate-90" />
       </a>
     </div>
@@ -272,15 +264,13 @@ const swapLanguages = () => {
           <Loader2 class="h-5 w-5 text-blue-500 animate-spin" />
           <span class="text-blue-600 font-bold text-sm">
             {{
-              $t("translatorAi.modelDownloading", {
+              $t('translatorAi.modelDownloading', {
                 progress: downloadProgress,
               })
             }}
           </span>
         </div>
-        <div
-          class="w-24 md:w-48 bg-blue-500/10 h-2 rounded-full overflow-hidden"
-        >
+        <div class="w-24 md:w-48 bg-blue-500/10 h-2 rounded-full overflow-hidden">
           <div
             class="bg-blue-500 h-full transition-all duration-300"
             :style="{ width: `${downloadProgress}%` }"
@@ -293,9 +283,7 @@ const swapLanguages = () => {
         <div class="flex flex-col space-y-2 md:space-y-3">
           <div class="flex items-center justify-between px-2 shrink-0 h-10">
             <div class="flex items-center gap-2">
-              <span class="label-uppercase">{{
-                $t("translatorAi.source")
-              }}</span>
+              <span class="label-uppercase">{{ $t('translatorAi.source') }}</span>
 
               <DropdownMenu>
                 <DropdownMenuTrigger as-child>
@@ -305,10 +293,10 @@ const swapLanguages = () => {
                     class="h-7 px-2.5 rounded-lg border-none hover:bg-secondary/80 text-[11px] font-bold uppercase tracking-wider transition-all focus-visible:ring-0 active:scale-95 flex items-center gap-1.5"
                   >
                     {{
-                      sourceLangSelected === "auto"
-                        ? $t("translatorAi.languages.auto")
-                        : languages.find((l) => l.code === sourceLangSelected)
-                            ?.name || sourceLangSelected
+                      sourceLangSelected === 'auto'
+                        ? $t('translatorAi.languages.auto')
+                        : languages.find((l) => l.code === sourceLangSelected)?.name ||
+                          sourceLangSelected
                     }}
                     <ChevronDown class="h-3.5 w-3.5 opacity-50" />
                   </Button>
@@ -326,13 +314,8 @@ const swapLanguages = () => {
                     "
                     @click="sourceLangSelected = 'auto'"
                   >
-                    <span class="font-medium text-sm">{{
-                      $t("translatorAi.languages.auto")
-                    }}</span>
-                    <Check
-                      v-if="sourceLangSelected === 'auto'"
-                      class="h-3.5 w-3.5"
-                    />
+                    <span class="font-medium text-sm">{{ $t('translatorAi.languages.auto') }}</span>
+                    <Check v-if="sourceLangSelected === 'auto'" class="h-3.5 w-3.5" />
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     v-for="lang in languages"
@@ -346,10 +329,7 @@ const swapLanguages = () => {
                     @click="sourceLangSelected = lang.code"
                   >
                     <span class="font-medium text-sm">{{ lang.name }}</span>
-                    <Check
-                      v-if="sourceLangSelected === lang.code"
-                      class="h-3.5 w-3.5"
-                    />
+                    <Check v-if="sourceLangSelected === lang.code" class="h-3.5 w-3.5" />
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -359,14 +339,14 @@ const swapLanguages = () => {
                 class="text-[10px] bg-muted/50 px-1.5 py-0.5 rounded text-muted-foreground/70 font-medium flex items-center gap-1"
               >
                 <Loader2 class="h-3 w-3 animate-spin" />
-                {{ $t("translatorAi.detecting") }}
+                {{ $t('translatorAi.detecting') }}
               </span>
               <span
                 v-else-if="sourceLangDetected && sourceLangSelected === 'auto'"
                 class="text-[10px] bg-blue-500/10 px-1.5 py-0.5 rounded text-blue-600 font-medium animate-in fade-in zoom-in duration-300"
               >
                 {{
-                  $t("translatorAi.detected", {
+                  $t('translatorAi.detected', {
                     lang: languageTagToHumanReadable(sourceLangDetected),
                   })
                 }}
@@ -395,18 +375,14 @@ const swapLanguages = () => {
           title="Swap"
           @click="swapLanguages"
         >
-          <ArrowRightLeft
-            class="h-5 w-5 group-hover:scale-110 transition-transform"
-          />
+          <ArrowRightLeft class="h-5 w-5 group-hover:scale-110 transition-transform" />
         </div>
 
         <!-- Target Pane -->
         <div class="flex flex-col space-y-2 md:space-y-3">
           <div class="flex items-center justify-between px-2 shrink-0 h-10">
             <div class="flex items-center gap-2">
-              <span class="label-uppercase">{{
-                $t("translatorAi.target")
-              }}</span>
+              <span class="label-uppercase">{{ $t('translatorAi.target') }}</span>
 
               <DropdownMenu>
                 <DropdownMenuTrigger as-child>
@@ -415,10 +391,7 @@ const swapLanguages = () => {
                     size="sm"
                     class="h-7 px-2.5 rounded-lg border-none hover:bg-secondary/80 text-[11px] font-bold uppercase tracking-wider transition-all focus-visible:ring-0 active:scale-95 flex items-center gap-1.5"
                   >
-                    {{
-                      languages.find((l) => l.code === targetLang)?.name ||
-                      targetLang
-                    }}
+                    {{ languages.find((l) => l.code === targetLang)?.name || targetLang }}
                     <ChevronDown class="h-3.5 w-3.5 opacity-50" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -438,10 +411,7 @@ const swapLanguages = () => {
                     @click="targetLang = lang.code"
                   >
                     <span class="font-medium text-sm">{{ lang.name }}</span>
-                    <Check
-                      v-if="targetLang === lang.code"
-                      class="h-3.5 w-3.5"
-                    />
+                    <Check v-if="targetLang === lang.code" class="h-3.5 w-3.5" />
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -452,7 +422,7 @@ const swapLanguages = () => {
                 class="text-[10px] text-blue-500 flex items-center gap-1 mr-2 font-medium"
               >
                 <Loader2 class="h-3 w-3 animate-spin" />
-                {{ $t("translatorAi.translating") }}
+                {{ $t('translatorAi.translating') }}
               </span>
               <button
                 class="btn-icon h-8 w-8"

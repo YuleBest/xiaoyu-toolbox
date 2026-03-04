@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import path from "node:path";
 import { defineConfig } from "vite";
 // 1. 导入 ViteSSGOptions 类型

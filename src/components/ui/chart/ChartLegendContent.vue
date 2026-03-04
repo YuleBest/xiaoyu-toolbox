@@ -1,37 +1,38 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from "vue";
-import { computed, onMounted, ref } from "vue";
-import { cn } from "@/lib/utils";
-import { useChart } from ".";
+import type { HTMLAttributes } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { cn } from '@/lib/utils'
+import { useChart } from '.'
 
 const props = withDefaults(
   defineProps<{
-    hideIcon?: boolean;
-    nameKey?: string;
-    verticalAlign?: "bottom" | "top";
+    hideIcon?: boolean
+    nameKey?: string
+    verticalAlign?: 'bottom' | 'top'
     // payload?: any[]
-    class?: HTMLAttributes["class"];
+    class?: HTMLAttributes['class']
   }>(),
   {
-    verticalAlign: "bottom",
+    verticalAlign: 'bottom',
   },
-);
+)
 
-const { id, config } = useChart();
+const { id, config } = useChart()
 
 const payload = computed(() =>
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Object.entries(config.value).map(([key, _value]) => {
     return {
       key: props.nameKey || key,
       itemConfig: config.value[key],
-    };
+    }
   }),
-);
+)
 
-const containerSelector = ref("");
+const containerSelector = ref('')
 onMounted(() => {
-  containerSelector.value = `[data-chart="chart-${id}"]>[data-vis-xy-container]`;
-});
+  containerSelector.value = `[data-chart="chart-${id}"]>[data-vis-xy-container]`
+})
 </script>
 
 <template>
@@ -48,11 +49,7 @@ onMounted(() => {
     <div
       v-for="{ key, itemConfig } in payload"
       :key="key"
-      :class="
-        cn(
-          '[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3',
-        )
-      "
+      :class="cn('[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3')"
     >
       <component :is="itemConfig.icon" v-if="itemConfig?.icon" />
       <div

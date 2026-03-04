@@ -1,19 +1,18 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "@tailwindcss/typography";
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --font-sans:
-    "Google Sans Flex", -apple-system, BlinkMacSystemFont, "Apple Color Emoji",
-    "SF Pro", "Inter", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial,
-    sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    'Google Sans Flex', -apple-system, BlinkMacSystemFont, 'Apple Color Emoji', 'SF Pro', 'Inter',
+    'SF Pro Icons', 'Helvetica Neue', Helvetica, Arial, sans-serif, 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
   --font-mono:
-    "Google Sans Code", "Fira Code", ui-monospace, -apple-system,
-    BlinkMacSystemFont, "Apple Color Emoji", "SF Pro", "Inter", "SF Pro Icons",
-    "Helvetica Neue", Helvetica, Arial, sans-serif, "Segoe UI Emoji",
-    "Segoe UI Symbol", "Noto Color Emoji";
+    'Google Sans Code', 'Fira Code', ui-monospace, -apple-system, BlinkMacSystemFont,
+    'Apple Color Emoji', 'SF Pro', 'Inter', 'SF Pro Icons', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

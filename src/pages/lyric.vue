@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, inject, nextTick } from "vue";
-import { useI18n } from "vue-i18n";
+import { ref, inject, nextTick } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n();
+const { t } = useI18n()
 import {
   Search,
   Music,
@@ -15,216 +15,213 @@ import {
   Disc3,
   Pen,
   Info,
-} from "lucide-vue-next";
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
+} from 'lucide-vue-next'
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
 import {
   searchSongs as apiSearchSongs,
   getLyricJson,
   getLyricLrc,
   type Song,
   type LyricMetadata,
-} from "@/api/lyric";
+} from '@/api/lyric'
 
-const showToast = inject("showToast") as (
+const showToast = inject('showToast') as (
   msg: string,
-  type?: "success" | "warning" | "error",
-) => void;
+  type?: 'success' | 'warning' | 'error',
+) => void
 
-const tool = allTools.find((t) => t.id === "lyric")!;
+const tool = allTools.find((t) => t.id === 'lyric')!
 
 // --- Interfaces ---
 interface ParsedLyricLine {
-  time: string;
-  seconds: number;
-  text: string;
+  time: string
+  seconds: number
+  text: string
 }
 
 // --- State ---
-const searchKeyword = ref("");
-const searching = ref(false);
-const searchResults = ref<Song[]>([]);
-const showSearchResults = ref(true);
-const selectedSong = ref<Song | null>(null);
-const error = ref("");
+const searchKeyword = ref('')
+const searching = ref(false)
+const searchResults = ref<Song[]>([])
+const showSearchResults = ref(true)
+const selectedSong = ref<Song | null>(null)
+const error = ref('')
 
 // Lyric display
-const displayMode = ref<"timeline" | "plain">("timeline");
-const lyricMetadata = ref<LyricMetadata>({});
-const parsedLyrics = ref<ParsedLyricLine[]>([]);
-const currentTime = ref(0);
-const lyricContainer = ref<HTMLElement | null>(null);
-const lineRefs = ref<HTMLElement[]>([]);
-const loadingLyric = ref(false);
+const displayMode = ref<'timeline' | 'plain'>('timeline')
+const lyricMetadata = ref<LyricMetadata>({})
+const parsedLyrics = ref<ParsedLyricLine[]>([])
+const currentTime = ref(0)
+const lyricContainer = ref<HTMLElement | null>(null)
+const lineRefs = ref<HTMLElement[]>([])
+const loadingLyric = ref(false)
 
 // --- Methods ---
 const formatDuration = (seconds: number) => {
-  const s = Math.max(0, seconds);
-  const mins = Math.floor(s / 60);
-  const secs = Math.floor(s % 60);
-  return `${mins}:${secs.toString().padStart(2, "0")}`;
-};
+  const s = Math.max(0, seconds)
+  const mins = Math.floor(s / 60)
+  const secs = Math.floor(s % 60)
+  return `${mins}:${secs.toString().padStart(2, '0')}`
+}
 
 const handleSearch = async () => {
-  const kw = searchKeyword.value.trim();
-  if (!kw) return;
+  const kw = searchKeyword.value.trim()
+  if (!kw) return
 
-  error.value = "";
-  searchResults.value = [];
-  selectedSong.value = null;
-  parsedLyrics.value = [];
-  lyricMetadata.value = {};
-  showSearchResults.value = true;
-  searching.value = true;
+  error.value = ''
+  searchResults.value = []
+  selectedSong.value = null
+  parsedLyrics.value = []
+  lyricMetadata.value = {}
+  showSearchResults.value = true
+  searching.value = true
 
   try {
-    const data = await apiSearchSongs(kw);
+    const data = await apiSearchSongs(kw)
     if (Array.isArray(data) && data.length > 0) {
-      searchResults.value = data;
-      showToast(`找到 ${data.length} 首歌曲`);
+      searchResults.value = data
+      showToast(`找到 ${data.length} 首歌曲`)
     } else {
-      error.value = t("lyric.noResults");
+      error.value = t('lyric.noResults')
     }
   } catch {
-    error.value = t("lyric.searchFailed");
+    error.value = t('lyric.searchFailed')
   } finally {
-    searching.value = false;
+    searching.value = false
   }
-};
+}
 
 const handleGetLyric = async (song: Song) => {
-  selectedSong.value = song;
-  error.value = "";
-  parsedLyrics.value = [];
-  lyricMetadata.value = {};
-  showSearchResults.value = false;
-  loadingLyric.value = true;
+  selectedSong.value = song
+  error.value = ''
+  parsedLyrics.value = []
+  lyricMetadata.value = {}
+  showSearchResults.value = false
+  loadingLyric.value = true
 
   try {
-    const data = await getLyricJson(song.hash);
+    const data = await getLyricJson(song.hash)
 
     if (data && data.lyrics && data.lyrics.length > 0) {
-      lyricMetadata.value = data.info || {};
-      currentTime.value = 0;
-      lineRefs.value = [];
+      lyricMetadata.value = data.info || {}
+      currentTime.value = 0
+      lineRefs.value = []
 
       parsedLyrics.value = data.lyrics.map((item) => {
-        const parts = item.time.split(":");
-        const seconds =
-          parseFloat(parts[0] || "0") * 60 + parseFloat(parts[1] || "0");
+        const parts = item.time.split(':')
+        const seconds = parseFloat(parts[0] || '0') * 60 + parseFloat(parts[1] || '0')
         return {
           time: item.time,
           seconds,
-          text: item.text || "♪",
-        };
-      });
-      showToast(t("common.success"));
+          text: item.text || '♪',
+        }
+      })
+      showToast(t('common.success'))
     } else {
-      error.value = t("lyric.noLyric");
+      error.value = t('lyric.noLyric')
     }
   } catch {
-    error.value = t("lyric.loadFailed");
+    error.value = t('lyric.loadFailed')
   } finally {
-    loadingLyric.value = false;
+    loadingLyric.value = false
   }
-};
+}
 
 const downloadLyric = async () => {
-  if (!selectedSong.value) return;
+  if (!selectedSong.value) return
 
   try {
-    const text = await getLyricLrc(selectedSong.value.hash);
+    const text = await getLyricLrc(selectedSong.value.hash)
     if (!text || !text.trim()) {
-      showToast(t("lyric.noLyric"), "error");
-      return;
+      showToast(t('lyric.noLyric'), 'error')
+      return
     }
 
-    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${selectedSong.value.artist} - ${selectedSong.value.title}.lrc`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    showToast(t("common.downloadSuccess"));
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `${selectedSong.value.artist} - ${selectedSong.value.title}.lrc`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+    showToast(t('common.downloadSuccess'))
   } catch {
-    showToast(t("common.copyFailed"), "error");
+    showToast(t('common.copyFailed'), 'error')
   }
-};
+}
 
 const copyLyric = async () => {
-  if (!selectedSong.value) return;
+  if (!selectedSong.value) return
 
   try {
-    const text = await getLyricLrc(selectedSong.value.hash);
+    const text = await getLyricLrc(selectedSong.value.hash)
     if (!text || !text.trim()) {
-      showToast(t("lyric.noLyric"), "error");
-      return;
+      showToast(t('lyric.noLyric'), 'error')
+      return
     }
 
-    await navigator.clipboard.writeText(text);
-    showToast(t("common.copySuccess"));
+    await navigator.clipboard.writeText(text)
+    showToast(t('common.copySuccess'))
   } catch {
-    showToast(t("common.copyFailed"), "error");
+    showToast(t('common.copyFailed'), 'error')
   }
-};
+}
 
 const backToResults = () => {
-  showSearchResults.value = true;
-  selectedSong.value = null;
-  parsedLyrics.value = [];
-  lyricMetadata.value = {};
-};
+  showSearchResults.value = true
+  selectedSong.value = null
+  parsedLyrics.value = []
+  lyricMetadata.value = {}
+}
 
 const scrollToTime = () => {
-  if (!parsedLyrics.value.length || !lyricContainer.value) return;
+  if (!parsedLyrics.value.length || !lyricContainer.value) return
 
-  let activeIndex = 0;
+  let activeIndex = 0
   for (let i = 0; i < parsedLyrics.value.length; i++) {
-    const line = parsedLyrics.value[i];
+    const line = parsedLyrics.value[i]
     if (line && line.seconds <= currentTime.value) {
-      activeIndex = i;
+      activeIndex = i
     } else if (line && line.seconds > currentTime.value) {
-      break;
+      break
     }
   }
 
-  const activeElement = lineRefs.value[activeIndex];
+  const activeElement = lineRefs.value[activeIndex]
   if (activeElement && lyricContainer.value) {
-    const container = lyricContainer.value;
+    const container = lyricContainer.value
     const top =
       activeElement.offsetTop -
       container.offsetTop -
       container.clientHeight / 2 +
-      activeElement.clientHeight / 2;
+      activeElement.clientHeight / 2
     container.scrollTo({
       top: Math.max(0, top),
-      behavior: "smooth",
-    });
+      behavior: 'smooth',
+    })
   }
-};
+}
 
 const isCurrentLine = (index: number) => {
-  if (!parsedLyrics.value.length) return false;
-  const line = parsedLyrics.value[index];
-  const nextLine = parsedLyrics.value[index + 1];
-  if (!line) return false;
+  if (!parsedLyrics.value.length) return false
+  const line = parsedLyrics.value[index]
+  const nextLine = parsedLyrics.value[index + 1]
+  if (!line) return false
 
   if (nextLine) {
-    return (
-      currentTime.value >= line.seconds && currentTime.value < nextLine.seconds
-    );
+    return currentTime.value >= line.seconds && currentTime.value < nextLine.seconds
   }
-  return currentTime.value >= line.seconds;
-};
+  return currentTime.value >= line.seconds
+}
 
 const onSliderInput = (e: Event) => {
-  const target = e.target as HTMLInputElement;
-  currentTime.value = parseFloat(target.value);
-  nextTick(() => scrollToTime());
-};
+  const target = e.target as HTMLInputElement
+  currentTime.value = parseFloat(target.value)
+  nextTick(() => scrollToTime())
+}
 </script>
 
 <template>
@@ -237,7 +234,7 @@ const onSliderInput = (e: Event) => {
           @click="copyLyric"
         >
           <Copy class="h-4 w-4" />
-          <span class="hidden sm:inline">{{ $t("lyric.copyLyric") }}</span>
+          <span class="hidden sm:inline">{{ $t('lyric.copyLyric') }}</span>
         </button>
         <button
           v-if="parsedLyrics.length > 0"
@@ -245,7 +242,7 @@ const onSliderInput = (e: Event) => {
           @click="downloadLyric"
         >
           <Download class="h-4 w-4" />
-          <span class="hidden sm:inline">{{ $t("lyric.downloadLrc") }}</span>
+          <span class="hidden sm:inline">{{ $t('lyric.downloadLrc') }}</span>
         </button>
       </div>
     </template>
@@ -276,7 +273,7 @@ const onSliderInput = (e: Event) => {
               class="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"
             ></div>
             <Search v-else class="h-4 w-4" />
-            {{ $t("common.search") }}
+            {{ $t('common.search') }}
           </button>
         </div>
       </div>
@@ -298,7 +295,7 @@ const onSliderInput = (e: Event) => {
         >
           <div class="px-5 py-4 border-b border-muted/30">
             <h3 class="text-sm font-semibold text-foreground">
-              {{ $t("lyric.noResults") }}
+              {{ $t('lyric.noResults') }}
               <span class="text-muted-foreground font-normal ml-1"
                 >{{ searchResults.length }} 首</span
               >
@@ -329,16 +326,11 @@ const onSliderInput = (e: Event) => {
       </Transition>
 
       <!-- Loading Lyric -->
-      <div
-        v-if="loadingLyric"
-        class="flex items-center justify-center gap-3 py-12"
-      >
+      <div v-if="loadingLyric" class="flex items-center justify-center gap-3 py-12">
         <div
           class="h-5 w-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"
         ></div>
-        <span class="text-sm text-muted-foreground font-medium">{{
-          $t("lyric.loading")
-        }}</span>
+        <span class="text-sm text-muted-foreground font-medium">{{ $t('lyric.loading') }}</span>
       </div>
 
       <!-- Lyric Display -->
@@ -359,16 +351,13 @@ const onSliderInput = (e: Event) => {
                 class="text-xs text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-xl hover:bg-muted/30 transition-all shrink-0"
                 @click="backToResults"
               >
-                {{ $t("common.back") }}
+                {{ $t('common.back') }}
               </button>
             </div>
 
             <!-- Metadata Chips -->
             <div
-              v-if="
-                lyricMetadata &&
-                (lyricMetadata.ar || lyricMetadata.al || lyricMetadata.by)
-              "
+              v-if="lyricMetadata && (lyricMetadata.ar || lyricMetadata.al || lyricMetadata.by)"
               class="flex flex-wrap gap-2 mb-5"
             >
               <span
@@ -396,9 +385,7 @@ const onSliderInput = (e: Event) => {
 
             <!-- Progress Slider -->
             <div class="space-y-2">
-              <div
-                class="flex items-center justify-between text-xs text-muted-foreground"
-              >
+              <div class="flex items-center justify-between text-xs text-muted-foreground">
                 <span>{{ formatDuration(currentTime) }}</span>
                 <span>{{ formatDuration(selectedSong?.duration || 0) }}</span>
               </div>
@@ -416,7 +403,7 @@ const onSliderInput = (e: Event) => {
           <!-- Display Mode Toggle -->
           <div class="flex items-center justify-between px-2">
             <span class="text-sm text-muted-foreground"
-              >{{ parsedLyrics.length }} {{ $t("lyric.noResults") }}</span
+              >{{ parsedLyrics.length }} {{ $t('lyric.noResults') }}</span
             >
             <div class="flex items-center bg-muted/30 rounded-xl p-1 gap-0.5">
               <button
@@ -429,7 +416,7 @@ const onSliderInput = (e: Event) => {
                 @click="displayMode = 'timeline'"
               >
                 <Clock class="h-3.5 w-3.5" />
-                {{ $t("lyric.timeline") }}
+                {{ $t('lyric.timeline') }}
               </button>
               <button
                 class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
@@ -441,7 +428,7 @@ const onSliderInput = (e: Event) => {
                 @click="displayMode = 'plain'"
               >
                 <AlignLeft class="h-3.5 w-3.5" />
-                {{ $t("lyric.lyricMode") }}
+                {{ $t('lyric.lyricMode') }}
               </button>
             </div>
           </div>
@@ -452,16 +439,13 @@ const onSliderInput = (e: Event) => {
             class="bg-card/30 border border-muted/80 rounded-3xl overflow-hidden max-h-[500px] overflow-y-auto scroll-smooth"
           >
             <!-- Timeline Mode -->
-            <div
-              v-if="displayMode === 'timeline'"
-              class="p-4 md:p-5 space-y-0.5"
-            >
+            <div v-if="displayMode === 'timeline'" class="p-4 md:p-5 space-y-0.5">
               <div
                 v-for="(line, index) in parsedLyrics"
                 :key="index"
                 :ref="
                   (el) => {
-                    if (el) lineRefs[index] = el as HTMLElement;
+                    if (el) lineRefs[index] = el as HTMLElement
                   }
                 "
                 class="flex items-start gap-3 px-3 py-2.5 rounded-xl transition-all duration-300"
@@ -481,11 +465,7 @@ const onSliderInput = (e: Event) => {
                 </span>
                 <span
                   class="text-[14px] leading-relaxed transition-all duration-300"
-                  :class="
-                    isCurrentLine(index)
-                      ? 'text-blue-500 font-bold'
-                      : 'text-foreground/70'
-                  "
+                  :class="isCurrentLine(index) ? 'text-blue-500 font-bold' : 'text-foreground/70'"
                 >
                   {{ line.text }}
                 </span>
@@ -511,14 +491,14 @@ const onSliderInput = (e: Event) => {
               @click="downloadLyric"
             >
               <Download class="h-4 w-4" />
-              {{ $t("lyric.downloadLrc") }}
+              {{ $t('lyric.downloadLrc') }}
             </button>
             <button
               class="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-background border border-muted text-foreground rounded-2xl font-medium transition-all hover:bg-muted active:scale-[0.98]"
               @click="copyLyric"
             >
               <Copy class="h-4 w-4" />
-              {{ $t("lyric.copyLyric") }}
+              {{ $t('lyric.copyLyric') }}
             </button>
           </div>
         </div>
@@ -536,7 +516,7 @@ const onSliderInput = (e: Event) => {
         class="flex flex-col items-center gap-4 py-16 opacity-30"
       >
         <Music class="h-16 w-16" />
-        <p class="text-lg font-medium">{{ $t("lyric.searchPlaceholder") }}</p>
+        <p class="text-lg font-medium">{{ $t('lyric.searchPlaceholder') }}</p>
       </div>
     </div>
   </ToolContainer>

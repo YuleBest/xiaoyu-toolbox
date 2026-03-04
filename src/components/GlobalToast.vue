@@ -1,32 +1,29 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { TriangleAlert, OctagonX, X, Check } from "lucide-vue-next";
+import { ref } from 'vue'
+import { TriangleAlert, OctagonX, X, Check } from 'lucide-vue-next'
 
 export interface ToastItem {
-  id: number;
-  message: string;
-  type: "success" | "warning" | "error";
+  id: number
+  message: string
+  type: 'success' | 'warning' | 'error'
 }
 
-const toasts = ref<ToastItem[]>([]);
-let counter = 0;
+const toasts = ref<ToastItem[]>([])
+let counter = 0
 
-const addToast = (
-  message: string,
-  type: "success" | "warning" | "error" = "success",
-) => {
-  const id = ++counter;
-  toasts.value.push({ id, message, type });
+const addToast = (message: string, type: 'success' | 'warning' | 'error' = 'success') => {
+  const id = ++counter
+  toasts.value.push({ id, message, type })
   setTimeout(() => {
-    removeToast(id);
-  }, 5000);
-};
+    removeToast(id)
+  }, 5000)
+}
 
 const removeToast = (id: number) => {
-  toasts.value = toasts.value.filter((t) => t.id !== id);
-};
+  toasts.value = toasts.value.filter((t) => t.id !== id)
+}
 
-defineExpose({ addToast });
+defineExpose({ addToast })
 </script>
 
 <template>
@@ -49,10 +46,7 @@ defineExpose({ addToast });
         >
           <div class="mt-0.5 shrink-0">
             <OctagonX v-if="toast.type === 'error'" class="h-5 w-5" />
-            <TriangleAlert
-              v-else-if="toast.type === 'warning'"
-              class="h-5 w-5"
-            />
+            <TriangleAlert v-else-if="toast.type === 'warning'" class="h-5 w-5" />
             <Check v-else class="h-5 w-5" />
           </div>
           <p class="flex-1 text-[14px] font-medium leading-tight pt-0.5">

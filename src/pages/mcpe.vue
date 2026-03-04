@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, inject, watch } from "vue";
-import { useI18n } from "vue-i18n";
+import { ref, computed, onMounted, inject, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import {
   Search,
   Loader2,
@@ -11,209 +11,197 @@ import {
   ListTree,
   Clock,
   ChevronRight,
-} from "lucide-vue-next";
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
-import {
-  getVsList,
-  getDownloadLinks,
-  type McpeVersion,
-  type McpeDownloadLink,
-} from "@/api/mcpe";
+} from 'lucide-vue-next'
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
+import { getVsList, getDownloadLinks, type McpeVersion, type McpeDownloadLink } from '@/api/mcpe'
 
-const { t } = useI18n();
-const showToast = inject("showToast") as (
+const { t } = useI18n()
+const showToast = inject('showToast') as (
   msg: string,
-  type?: "success" | "warning" | "error" | "info",
-) => void;
+  type?: 'success' | 'warning' | 'error' | 'info',
+) => void
 
 // Tool config for the ToolContainer
-const tool = allTools.find((t) => t.id === "mcpe")!;
+const tool = allTools.find((t) => t.id === 'mcpe')!
 
 // State variables
-const versionsData = ref<McpeVersion[]>([]);
-const loading = ref(true);
-const searchQuery = ref("");
-const viewMode = ref<"group" | "timeline">("group");
-const hideBeta = ref(false);
-const expandedGroups = ref<Set<string>>(new Set());
+const versionsData = ref<McpeVersion[]>([])
+const loading = ref(true)
+const searchQuery = ref('')
+const viewMode = ref<'group' | 'timeline'>('group')
+const hideBeta = ref(false)
+const expandedGroups = ref<Set<string>>(new Set())
 
 // Selected version state for the dialog
-const selectedVersion = ref<McpeVersion | null>(null);
-const infoDialog = ref(false);
-const loadingLinks = ref(false);
-const downloadLinks = ref<McpeDownloadLink[]>([]);
-const selectedArch = ref<"v8a" | "v7a">("v8a");
+const selectedVersion = ref<McpeVersion | null>(null)
+const infoDialog = ref(false)
+const loadingLinks = ref(false)
+const downloadLinks = ref<McpeDownloadLink[]>([])
+const selectedArch = ref<'v8a' | 'v7a'>('v8a')
 
 // Scroll Locking for Dialog
 watch(infoDialog, (val) => {
   if (val) {
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden'
   } else {
-    document.body.style.overflow = "";
-    selectedVersion.value = null;
-    downloadLinks.value = [];
+    document.body.style.overflow = ''
+    selectedVersion.value = null
+    downloadLinks.value = []
   }
-});
+})
 
 const toggleGroup = (group: string) => {
   if (expandedGroups.value.has(group)) {
-    expandedGroups.value.delete(group);
+    expandedGroups.value.delete(group)
   } else {
-    expandedGroups.value.add(group);
+    expandedGroups.value.add(group)
   }
-};
+}
 
 // Computed properties
 const filteredVersions = computed(() => {
-  let sorted = [...versionsData.value];
+  let sorted = [...versionsData.value]
 
   if (hideBeta.value) {
-    sorted = sorted.filter((v) => !v.beta);
+    sorted = sorted.filter((v) => !v.beta)
   }
 
   // Sort by date descending
-  sorted.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
+  sorted.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
   if (searchQuery.value) {
-    const q = searchQuery.value.toLowerCase();
-    sorted = sorted.filter((v) => v.version.toLowerCase().includes(q));
+    const q = searchQuery.value.toLowerCase()
+    sorted = sorted.filter((v) => v.version.toLowerCase().includes(q))
   }
 
-  return sorted;
-});
+  return sorted
+})
 
 const groupedVersions = computed(() => {
-  const groups = new Map<string, McpeVersion[]>();
+  const groups = new Map<string, McpeVersion[]>()
   filteredVersions.value.forEach((v) => {
     // Extract major version: e.g. 1.21.0 -> 1.21
-    const parts = v.version.split(".");
-    let major = v.version;
+    const parts = v.version.split('.')
+    let major = v.version
     if (parts.length >= 2) {
-      major = `${parts[0]}.${parts[1]}`;
+      major = `${parts[0]}.${parts[1]}`
     }
     if (!groups.has(major)) {
-      groups.set(major, []);
+      groups.set(major, [])
     }
-    groups.get(major)!.push(v);
-  });
+    groups.get(major)!.push(v)
+  })
 
   // Sort groups descending by major version (basic numeric sort for major/minor)
   const sortedPairs = Array.from(groups.entries()).sort((a, b) => {
-    const pa = a[0].split(".").map(Number);
-    const pb = b[0].split(".").map(Number);
-    if (pa[0] !== pb[0]) return (pb[0] || 0) - (pa[0] || 0);
-    return (pb[1] || 0) - (pa[1] || 0);
-  });
+    const pa = a[0].split('.').map(Number)
+    const pb = b[0].split('.').map(Number)
+    if (pa[0] !== pb[0]) return (pb[0] || 0) - (pa[0] || 0)
+    return (pb[1] || 0) - (pa[1] || 0)
+  })
 
-  return sortedPairs.map(([major, versions]) => ({ major, versions }));
-});
+  return sortedPairs.map(([major, versions]) => ({ major, versions }))
+})
 
 const timelineMonths = computed(() => {
-  const months = new Map<string, McpeVersion[]>();
+  const months = new Map<string, McpeVersion[]>()
   filteredVersions.value.forEach((v) => {
-    const month = v.date.substring(0, 7); // "YYYY-MM"
+    const month = v.date.substring(0, 7) // "YYYY-MM"
     if (!months.has(month)) {
-      months.set(month, []);
+      months.set(month, [])
     }
-    months.get(month)!.push(v);
-  });
+    months.get(month)!.push(v)
+  })
   return Array.from(months.entries()).map(([month, versions]) => ({
     month,
     versions,
-  }));
-});
+  }))
+})
 
 // Auto-expand the first group when data changes
 watch(groupedVersions, (newVal) => {
   if (newVal.length > 0 && expandedGroups.value.size === 0) {
     if (newVal[0]?.major) {
-      expandedGroups.value.add(newVal[0].major);
+      expandedGroups.value.add(newVal[0].major)
     }
   }
-});
+})
 
 // Methods
 const openVersionInfo = async (version: McpeVersion) => {
-  selectedVersion.value = version;
-  infoDialog.value = true;
-  await fetchLinks();
-};
+  selectedVersion.value = version
+  infoDialog.value = true
+  await fetchLinks()
+}
 
 const fetchLinks = async () => {
-  if (!selectedVersion.value) return;
+  if (!selectedVersion.value) return
 
-  loadingLinks.value = true;
-  downloadLinks.value = [];
+  loadingLinks.value = true
+  downloadLinks.value = []
 
   try {
-    const res = await getDownloadLinks(
-      selectedVersion.value.version,
-      selectedArch.value,
-    );
+    const res = await getDownloadLinks(selectedVersion.value.version, selectedArch.value)
     if (res.success && res.data && res.data.downloads) {
-      downloadLinks.value = res.data.downloads;
+      downloadLinks.value = res.data.downloads
     } else {
-      showToast(res.message || t("mcpe.fetchFailed"), "error");
+      showToast(res.message || t('mcpe.fetchFailed'), 'error')
     }
   } catch (err) {
-    showToast(t("mcpe.fetchFailed"), "error");
-    console.error(err);
+    showToast(t('mcpe.fetchFailed'), 'error')
+    console.error(err)
   } finally {
-    loadingLinks.value = false;
+    loadingLinks.value = false
   }
-};
+}
 
 const copyPassword = async (pwd: string) => {
   try {
-    await navigator.clipboard.writeText(pwd);
-    showToast(t("common.copySuccess"), "success");
-  } catch (_e) {
-    showToast(t("common.copyFailed"), "error");
+    await navigator.clipboard.writeText(pwd)
+    showToast(t('common.copySuccess'), 'success')
+  } catch {
+    showToast(t('common.copyFailed'), 'error')
   }
-};
+}
 
 const handleCopyAndOpen = async (link: McpeDownloadLink) => {
   if (link.password) {
-    await copyPassword(link.password);
+    await copyPassword(link.password)
   }
-  window.open(link.url, "_blank");
-};
+  window.open(link.url, '_blank')
+}
 
 watch(selectedArch, () => {
   if (infoDialog.value && selectedVersion.value) {
-    fetchLinks();
+    fetchLinks()
   }
-});
+})
 
 // Lifecycle
 onMounted(async () => {
-  loading.value = true;
+  loading.value = true
   try {
-    const res = await getVsList();
+    const res = await getVsList()
     if (res.success && res.data && res.data.versions) {
-      versionsData.value = res.data.versions;
+      versionsData.value = res.data.versions
     } else {
-      showToast(res.message || t("mcpe.loadFailed"), "error");
+      showToast(res.message || t('mcpe.loadFailed'), 'error')
     }
   } catch (e) {
-    showToast(t("mcpe.loadFailed"), "error");
-    console.error(e);
+    showToast(t('mcpe.loadFailed'), 'error')
+    console.error(e)
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-});
+})
 </script>
 
 <template>
   <ToolContainer :tool="tool">
     <div class="space-y-6 max-w-5xl mx-auto">
       <!-- Search Panel -->
-      <div
-        class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6 space-y-4"
-      >
+      <div class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6 space-y-4">
         <div class="flex flex-col md:flex-row gap-4">
           <div class="relative flex-1">
             <Search
@@ -239,11 +227,7 @@ onMounted(async () => {
           >
             <div
               class="w-4 h-4 rounded border flex items-center justify-center transition-colors"
-              :class="
-                hideBeta
-                  ? 'bg-blue-500 border-blue-500'
-                  : 'border-muted-foreground/50'
-              "
+              :class="hideBeta ? 'bg-blue-500 border-blue-500' : 'border-muted-foreground/50'"
             >
               <svg
                 v-if="hideBeta"
@@ -259,15 +243,13 @@ onMounted(async () => {
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
             </div>
-            {{ $t("mcpe.hideBeta") }}
+            {{ $t('mcpe.hideBeta') }}
           </button>
         </div>
 
-        <div
-          class="flex flex-col sm:flex-row gap-3 sm:items-center justify-between mt-2"
-        >
+        <div class="flex flex-col sm:flex-row gap-3 sm:items-center justify-between mt-2">
           <p class="text-xs text-muted-foreground">
-            {{ $t("mcpe.resultCount", { count: filteredVersions.length }) }}
+            {{ $t('mcpe.resultCount', { count: filteredVersions.length }) }}
           </p>
           <div class="flex bg-muted/50 p-1 rounded-xl w-full sm:w-auto">
             <button
@@ -280,7 +262,7 @@ onMounted(async () => {
               @click="viewMode = 'group'"
             >
               <ListTree class="w-4 h-4" />
-              {{ $t("mcpe.groupView") }}
+              {{ $t('mcpe.groupView') }}
             </button>
             <button
               class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 sm:py-1.5 rounded-lg text-xs font-medium transition-all"
@@ -292,7 +274,7 @@ onMounted(async () => {
               @click="viewMode = 'timeline'"
             >
               <Clock class="w-4 h-4" />
-              {{ $t("mcpe.timelineView") }}
+              {{ $t('mcpe.timelineView') }}
             </button>
           </div>
         </div>
@@ -308,7 +290,7 @@ onMounted(async () => {
         v-else-if="filteredVersions.length === 0"
         class="py-16 text-center text-muted-foreground"
       >
-        {{ $t("mcpe.noResults") }}
+        {{ $t('mcpe.noResults') }}
       </div>
 
       <!-- Group View -->
@@ -351,9 +333,7 @@ onMounted(async () => {
             "
           >
             <div class="overflow-hidden min-h-0">
-              <div
-                class="p-4 sm:p-5 pt-0 border-t border-muted/50 bg-background/50"
-              >
+              <div class="p-4 sm:p-5 pt-0 border-t border-muted/50 bg-background/50">
                 <div
                   class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 mt-4 sm:mt-5"
                 >
@@ -364,10 +344,9 @@ onMounted(async () => {
                     @click="openVersionInfo(version)"
                   >
                     <div class="flex items-center justify-between mb-2">
-                      <span
-                        class="text-[10px] font-medium text-muted-foreground"
-                        >{{ version.date.slice(0, 10) }}</span
-                      >
+                      <span class="text-[10px] font-medium text-muted-foreground">{{
+                        version.date.slice(0, 10)
+                      }}</span>
                       <span
                         class="text-[10px] px-1.5 py-0.5 rounded-md font-medium shrink-0"
                         :class="
@@ -376,9 +355,7 @@ onMounted(async () => {
                             : 'bg-green-500/10 text-green-600'
                         "
                       >
-                        {{
-                          version.beta ? $t("mcpe.beta") : $t("mcpe.release")
-                        }}
+                        {{ version.beta ? $t('mcpe.beta') : $t('mcpe.release') }}
                       </span>
                     </div>
                     <h3
@@ -399,11 +376,7 @@ onMounted(async () => {
 
       <!-- Timeline View -->
       <div v-else-if="viewMode === 'timeline'" class="space-y-12 py-4">
-        <div
-          v-for="{ month, versions } in timelineMonths"
-          :key="month"
-          class="relative"
-        >
+        <div v-for="{ month, versions } in timelineMonths" :key="month" class="relative">
           <!-- Month Banner/Box Header -->
           <div
             class="sticky top-20 z-20 w-fit mx-auto px-5 py-2 rounded-2xl bg-card/80 backdrop-blur-md border border-muted text-sm font-bold text-important tracking-widest mb-8 flex items-center gap-2"
@@ -448,7 +421,7 @@ onMounted(async () => {
                         : 'bg-green-500/10 text-green-600 border border-green-500/20'
                     "
                   >
-                    {{ version.beta ? $t("mcpe.beta") : $t("mcpe.release") }}
+                    {{ version.beta ? $t('mcpe.beta') : $t('mcpe.release') }}
                   </span>
                 </div>
 
@@ -469,11 +442,7 @@ onMounted(async () => {
       <!-- Information Dialog -->
       <div
         class="fixed inset-0 z-100 flex items-end sm:items-center justify-center bg-black/40 backdrop-blur-sm transition-all duration-300"
-        :class="
-          infoDialog
-            ? 'opacity-100 pointer-events-auto'
-            : 'opacity-0 pointer-events-none'
-        "
+        :class="infoDialog ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'"
         @click.self="infoDialog = false"
       >
         <div
@@ -488,7 +457,7 @@ onMounted(async () => {
           <div class="flex flex-col border-b border-muted/50 p-6 pb-4">
             <div class="flex items-center justify-between mb-3">
               <h3 class="text-xl font-bold text-important">
-                {{ $t("mcpe.downloadTitle") }}
+                {{ $t('mcpe.downloadTitle') }}
               </h3>
               <button
                 class="btn-icon bg-muted/50 hover:bg-muted text-muted-foreground rounded-full p-1.5 transition-colors"
@@ -498,10 +467,9 @@ onMounted(async () => {
               </button>
             </div>
             <div class="flex items-center gap-3">
-              <span
-                class="text-2xl font-black text-blue-500 tracking-tighter"
-                >{{ selectedVersion?.version }}</span
-              >
+              <span class="text-2xl font-black text-blue-500 tracking-tighter">{{
+                selectedVersion?.version
+              }}</span>
               <span
                 v-if="selectedVersion"
                 class="text-xs px-2 py-0.5 rounded border font-medium uppercase tracking-wider"
@@ -511,9 +479,7 @@ onMounted(async () => {
                     : 'bg-green-500/5 text-green-600 border-green-500/20'
                 "
               >
-                {{
-                  selectedVersion.beta ? $t("mcpe.beta") : $t("mcpe.release")
-                }}
+                {{ selectedVersion.beta ? $t('mcpe.beta') : $t('mcpe.release') }}
               </span>
             </div>
           </div>
@@ -523,7 +489,7 @@ onMounted(async () => {
             <!-- Architecture Selector -->
             <div class="mb-6 space-y-2">
               <label class="text-sm font-bold text-muted-foreground">{{
-                $t("mcpe.archSelector")
+                $t('mcpe.archSelector')
               }}</label>
               <div class="flex gap-2">
                 <button
@@ -535,7 +501,7 @@ onMounted(async () => {
                   "
                   @click="selectedArch = 'v8a'"
                 >
-                  {{ $t("mcpe.v8a") }}
+                  {{ $t('mcpe.v8a') }}
                 </button>
                 <button
                   class="flex-1 py-2 rounded-xl text-sm font-medium border transition-all"
@@ -546,7 +512,7 @@ onMounted(async () => {
                   "
                   @click="selectedArch = 'v7a'"
                 >
-                  {{ $t("mcpe.v7a") }}
+                  {{ $t('mcpe.v7a') }}
                 </button>
               </div>
             </div>
@@ -557,9 +523,7 @@ onMounted(async () => {
                 class="flex flex-col items-center justify-center py-8 text-muted-foreground space-y-3"
               >
                 <Loader2 class="h-8 w-8 text-blue-500 animate-spin" />
-                <span class="text-sm font-medium">{{
-                  $t("mcpe.downloadingInfo")
-                }}</span>
+                <span class="text-sm font-medium">{{ $t('mcpe.downloadingInfo') }}</span>
               </div>
 
               <div
@@ -569,9 +533,7 @@ onMounted(async () => {
                 class="p-4 rounded-2xl border border-muted/80 bg-muted/10 group hover:border-blue-500/30 transition-colors"
               >
                 <div class="flex items-center justify-between mb-3">
-                  <span
-                    class="font-bold text-important flex items-center gap-2"
-                  >
+                  <span class="font-bold text-important flex items-center gap-2">
                     <Download class="w-4 h-4 text-blue-500" />
                     {{ link.name }}
                   </span>
@@ -584,12 +546,11 @@ onMounted(async () => {
                   <div class="flex flex-col">
                     <span
                       class="text-[10px] text-muted-foreground font-medium uppercase tracking-wider mb-0.5"
-                      >{{ $t("mcpe.password") }}</span
+                      >{{ $t('mcpe.password') }}</span
                     >
-                    <span
-                      class="text-sm tracking-widest text-important font-bold"
-                      >{{ link.password }}</span
-                    >
+                    <span class="text-sm tracking-widest text-important font-bold">{{
+                      link.password
+                    }}</span>
                   </div>
                   <button
                     class="btn-icon p-2 hover:bg-blue-500/10 hover:text-blue-500 rounded-lg transition-colors"
@@ -604,11 +565,7 @@ onMounted(async () => {
                   class="w-full flex items-center justify-center gap-2 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl transition-all active:scale-[0.98]"
                   @click="handleCopyAndOpen(link)"
                 >
-                  {{
-                    link.password
-                      ? $t("mcpe.copyPassword")
-                      : $t("mcpe.openLink")
-                  }}
+                  {{ link.password ? $t('mcpe.copyPassword') : $t('mcpe.openLink') }}
                   <ExternalLink class="w-4 h-4" />
                 </button>
               </div>

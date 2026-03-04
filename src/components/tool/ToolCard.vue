@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { Star } from "lucide-vue-next";
-import { type Tool } from "@/config/tools";
-import { isFavorite, toggleFavorite } from "@/stores/favorites";
-import { useRouter } from "vue-router";
+import { Star } from 'lucide-vue-next'
+import { type Tool } from '@/config/tools'
+import { isFavorite, toggleFavorite } from '@/stores/favorites'
+import { useRouter } from 'vue-router'
 
 defineProps<{
-  tool: Tool;
-}>();
+  tool: Tool
+}>()
 
-const router = useRouter();
+const router = useRouter()
 
 const handleToolClick = (path: string) => {
-  router.push(path);
-};
+  router.push(path)
+}
 </script>
 
 <template>
@@ -50,9 +50,7 @@ const handleToolClick = (path: string) => {
       >
         {{ $t(tool.title) }}
       </h3>
-      <p
-        class="line-clamp-2 mt-0.5 sm:mt-1 text-xs sm:text-sm text-muted-foreground"
-      >
+      <p class="line-clamp-2 mt-0.5 sm:mt-1 text-xs sm:text-sm text-muted-foreground">
         {{ $t(tool.subtitle) }}
       </p>
     </div>

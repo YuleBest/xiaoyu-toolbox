@@ -1,50 +1,50 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from "vue";
-import { useRouter } from "vue-router";
-import { Search, ArrowLeft, X, ChevronRight, Inbox } from "lucide-vue-next";
-import { allTools } from "@/config/tools";
-import { useI18n } from "vue-i18n";
+import { ref, computed, onMounted, nextTick } from 'vue'
+import { useRouter } from 'vue-router'
+import { Search, ArrowLeft, X, ChevronRight, Inbox } from 'lucide-vue-next'
+import { allTools } from '@/config/tools'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n();
-const router = useRouter();
-const searchQuery = ref("");
-const searchInput = ref<HTMLInputElement | null>(null);
+const { t } = useI18n()
+const router = useRouter()
+const searchQuery = ref('')
+const searchInput = ref<HTMLInputElement | null>(null)
 
 // Focus search input on mount
 onMounted(() => {
   nextTick(() => {
-    searchInput.value?.focus();
-  });
-});
+    searchInput.value?.focus()
+  })
+})
 
 const filteredTools = computed(() => {
-  const query = searchQuery.value.trim().toLowerCase();
-  if (!query) return [];
+  const query = searchQuery.value.trim().toLowerCase()
+  if (!query) return []
 
   return allTools.filter(
     (tool) =>
       t(tool.title).toLowerCase().includes(query) ||
       t(tool.subtitle).toLowerCase().includes(query) ||
       t(tool.description).toLowerCase().includes(query),
-  );
-});
+  )
+})
 
 const goBack = () => {
   if (window.history.length > 1) {
-    router.back();
+    router.back()
   } else {
-    router.push("/");
+    router.push('/')
   }
-};
+}
 
 const clearSearch = () => {
-  searchQuery.value = "";
-  searchInput.value?.focus();
-};
+  searchQuery.value = ''
+  searchInput.value?.focus()
+}
 
 const handleToolClick = (path: string) => {
-  router.push(path);
-};
+  router.push(path)
+}
 </script>
 
 <template>
@@ -90,10 +90,10 @@ const handleToolClick = (path: string) => {
         </div>
         <div class="space-y-2">
           <h2 class="text-2xl font-bold tracking-tight">
-            {{ $t("search.startTitle") }}
+            {{ $t('search.startTitle') }}
           </h2>
           <p class="text-muted-foreground font-normal max-w-sm mx-auto">
-            {{ $t("search.startDesc") }}
+            {{ $t('search.startDesc') }}
           </p>
         </div>
       </div>
@@ -116,14 +116,10 @@ const handleToolClick = (path: string) => {
             <component :is="tool.icon" class="h-7 w-7" />
           </div>
           <div class="flex-1 min-w-0">
-            <h3
-              class="text-lg font-bold truncate group-hover:text-blue-500 transition-colors"
-            >
+            <h3 class="text-lg font-bold truncate group-hover:text-blue-500 transition-colors">
               {{ $t(tool.title) }}
             </h3>
-            <p
-              class="text-sm text-muted-foreground font-normal line-clamp-2 mt-0.5"
-            >
+            <p class="text-sm text-muted-foreground font-normal line-clamp-2 mt-0.5">
               {{ $t(tool.subtitle) }}
             </p>
           </div>
@@ -134,21 +130,16 @@ const handleToolClick = (path: string) => {
       </div>
 
       <!-- Empty State -->
-      <div
-        v-else
-        class="text-center py-24 space-y-6 animate-in fade-in zoom-in duration-300"
-      >
-        <div
-          class="inline-flex p-8 rounded-4xl bg-secondary/30 text-muted-foreground/30"
-        >
+      <div v-else class="text-center py-24 space-y-6 animate-in fade-in zoom-in duration-300">
+        <div class="inline-flex p-8 rounded-4xl bg-secondary/30 text-muted-foreground/30">
           <Inbox class="h-14 w-14" />
         </div>
         <div class="space-y-2">
           <h2 class="text-2xl font-bold tracking-tight">
-            {{ $t("search.emptyTitle") }}
+            {{ $t('search.emptyTitle') }}
           </h2>
           <p class="text-muted-foreground font-normal max-w-sm mx-auto">
-            {{ $t("search.emptyDesc") }}
+            {{ $t('search.emptyDesc') }}
           </p>
         </div>
       </div>

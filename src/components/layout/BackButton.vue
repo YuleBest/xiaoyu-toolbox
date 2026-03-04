@@ -1,31 +1,30 @@
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { ArrowLeft } from "lucide-vue-next";
-import { navigationStore } from "@/stores/navigation";
+import { ref, computed, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { ArrowLeft } from 'lucide-vue-next'
+import { navigationStore } from '@/stores/navigation'
 
-const route = useRoute();
-const router = useRouter();
+const route = useRoute()
+const router = useRouter()
 
-const showBackButton = ref(false);
-const isCollapsed = computed(() => navigationStore.isCollapsed);
+const showBackButton = ref(false)
+const isCollapsed = computed(() => navigationStore.isCollapsed)
 
 watch(
   () => route.path,
   (newPath) => {
-    showBackButton.value =
-      newPath !== "/" && newPath.split("/").filter(Boolean).length >= 1;
+    showBackButton.value = newPath !== '/' && newPath.split('/').filter(Boolean).length >= 1
   },
   { immediate: true },
-);
+)
 
 const goBack = () => {
   if (window.history.length > 1) {
-    router.back();
+    router.back()
   } else {
-    router.push("/");
+    router.push('/')
   }
-};
+}
 </script>
 
 <template>
@@ -43,13 +42,11 @@ const goBack = () => {
       :class="isCollapsed ? 'md:left-[104px]' : 'md:left-[280px]'"
       @click="goBack"
     >
-      <ArrowLeft
-        class="h-4 w-4 text-blue-500 group-hover:-translate-x-0.5 transition-transform"
-      />
+      <ArrowLeft class="h-4 w-4 text-blue-500 group-hover:-translate-x-0.5 transition-transform" />
       <span
         class="text-xs font-medium text-foreground/80 group-hover:text-foreground transition-colors mr-1"
       >
-        {{ $t("common.back") }}
+        {{ $t('common.back') }}
       </span>
     </button>
   </Transition>

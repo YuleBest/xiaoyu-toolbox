@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, inject, watch, onMounted } from "vue";
-import { useI18n } from "vue-i18n";
+import { ref, inject, watch, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n();
+const { t } = useI18n()
 import {
   QrCode,
   Scan,
@@ -17,152 +17,152 @@ import {
   // Check,
   // RefreshCw,
   Image as ImageIcon,
-} from "lucide-vue-next";
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
-import QRCode from "qrcode";
-import jsQR from "jsqr";
+} from 'lucide-vue-next'
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
+import QRCode from 'qrcode'
+import jsQR from 'jsqr'
 
-const showToast = inject("showToast") as (
+const showToast = inject('showToast') as (
   msg: string,
-  type?: "success" | "warning" | "error",
-) => void;
+  type?: 'success' | 'warning' | 'error',
+) => void
 
-const tool = allTools.find((t) => t.id === "qrcode")!;
+const tool = allTools.find((t) => t.id === 'qrcode')!
 
 // Tab switching
-const activeTab = ref<"generate" | "scan">("generate");
+const activeTab = ref<'generate' | 'scan'>('generate')
 
 // --- Generate State ---
-const qrType = ref<"text" | "link" | "wifi" | "mail">("text");
-const qrContent = ref("");
+const qrType = ref<'text' | 'link' | 'wifi' | 'mail'>('text')
+const qrContent = ref('')
 const qrOptions = ref({
-  errorCorrectionLevel: "M" as "L" | "M" | "Q" | "H",
+  errorCorrectionLevel: 'M' as 'L' | 'M' | 'Q' | 'H',
   margin: 4,
   scale: 10,
   width: 300,
   color: {
-    dark: "#000000",
-    light: "#ffffff",
+    dark: '#000000',
+    light: '#ffffff',
   },
-});
+})
 
 // WiFi fields
-const wifiSsid = ref("");
-const wifiPassword = ref("");
-const wifiEncryption = ref<"WPA" | "WEP" | "nopass">("WPA");
-const wifiHidden = ref(false);
+const wifiSsid = ref('')
+const wifiPassword = ref('')
+const wifiEncryption = ref<'WPA' | 'WEP' | 'nopass'>('WPA')
+const wifiHidden = ref(false)
 
 // Mail fields
-const mailTo = ref("");
-const mailSubject = ref("");
-const mailBody = ref("");
+const mailTo = ref('')
+const mailSubject = ref('')
+const mailBody = ref('')
 
-const qrDataUrl = ref("");
+const qrDataUrl = ref('')
 
 // --- Scan State ---
-const scanResult = ref("");
-const isScanning = ref(false);
-const scanPreviewUrl = ref("");
-const scannerInput = ref<HTMLInputElement | null>(null);
+const scanResult = ref('')
+const isScanning = ref(false)
+const scanPreviewUrl = ref('')
+const scannerInput = ref<HTMLInputElement | null>(null)
 
 // --- Methods ---
 
 const generateQR = async () => {
-  let content = "";
-  if (qrType.value === "text" || qrType.value === "link") {
-    content = qrContent.value;
-  } else if (qrType.value === "wifi") {
-    content = `WIFI:S:${wifiSsid.value};T:${wifiEncryption.value};P:${wifiPassword.value};H:${wifiHidden.value ? "true" : "false"};;`;
-  } else if (qrType.value === "mail") {
-    content = `mailto:${mailTo.value}?subject=${encodeURIComponent(mailSubject.value)}&body=${encodeURIComponent(mailBody.value)}`;
+  let content = ''
+  if (qrType.value === 'text' || qrType.value === 'link') {
+    content = qrContent.value
+  } else if (qrType.value === 'wifi') {
+    content = `WIFI:S:${wifiSsid.value};T:${wifiEncryption.value};P:${wifiPassword.value};H:${wifiHidden.value ? 'true' : 'false'};;`
+  } else if (qrType.value === 'mail') {
+    content = `mailto:${mailTo.value}?subject=${encodeURIComponent(mailSubject.value)}&body=${encodeURIComponent(mailBody.value)}`
   }
 
   if (!content.trim()) {
-    qrDataUrl.value = "";
-    return;
+    qrDataUrl.value = ''
+    return
   }
 
   try {
     qrDataUrl.value = await QRCode.toDataURL(content, {
       ...qrOptions.value,
       errorCorrectionLevel: qrOptions.value.errorCorrectionLevel,
-    });
+    })
   } catch (err) {
-    console.error(err);
-    showToast(t("qrcode.generateFailed"), "error");
+    console.error(err)
+    showToast(t('qrcode.generateFailed'), 'error')
   }
-};
+}
 
 const downloadQR = () => {
-  if (!qrDataUrl.value) return;
-  const a = document.createElement("a");
-  a.href = qrDataUrl.value;
-  a.download = `qrcode_${Date.now()}.png`;
-  a.click();
-  showToast(t("common.downloadSuccess"));
-};
+  if (!qrDataUrl.value) return
+  const a = document.createElement('a')
+  a.href = qrDataUrl.value
+  a.download = `qrcode_${Date.now()}.png`
+  a.click()
+  showToast(t('common.downloadSuccess'))
+}
 
 const handleFileUpload = (e: Event) => {
-  const file = (e.target as HTMLInputElement).files?.[0];
-  if (!file) return;
+  const file = (e.target as HTMLInputElement).files?.[0]
+  if (!file) return
 
   if (file.size > 10 * 1024 * 1024) {
-    showToast(t("qrcode.imageSizeLimit"), "error");
-    return;
+    showToast(t('qrcode.imageSizeLimit'), 'error')
+    return
   }
 
-  const reader = new FileReader();
+  const reader = new FileReader()
   reader.onload = (event) => {
-    const url = event.target?.result as string;
-    scanPreviewUrl.value = url;
-    recognizeQR(url);
-  };
-  reader.readAsDataURL(file);
-};
+    const url = event.target?.result as string
+    scanPreviewUrl.value = url
+    recognizeQR(url)
+  }
+  reader.readAsDataURL(file)
+}
 
 const recognizeQR = (dataUrl: string) => {
-  isScanning.value = true;
-  const img = new Image();
+  isScanning.value = true
+  const img = new Image()
   img.onload = () => {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
 
-    canvas.width = img.width;
-    canvas.height = img.height;
-    ctx.drawImage(img, 0, 0);
+    canvas.width = img.width
+    canvas.height = img.height
+    ctx.drawImage(img, 0, 0)
 
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const code = jsQR(imageData.data, imageData.width, imageData.height);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+    const code = jsQR(imageData.data, imageData.width, imageData.height)
 
     if (code) {
-      scanResult.value = code.data;
-      showToast(t("qrcode.scanSuccess"));
+      scanResult.value = code.data
+      showToast(t('qrcode.scanSuccess'))
     } else {
-      scanResult.value = "";
-      showToast(t("qrcode.noQrFound"), "warning");
+      scanResult.value = ''
+      showToast(t('qrcode.noQrFound'), 'warning')
     }
-    isScanning.value = false;
-  };
-  img.src = dataUrl;
-};
+    isScanning.value = false
+  }
+  img.src = dataUrl
+}
 
 const copyResult = async () => {
-  if (!scanResult.value) return;
+  if (!scanResult.value) return
   try {
-    await navigator.clipboard.writeText(scanResult.value);
-    showToast(t("common.copySuccess"));
-  } catch (_err) {
-    showToast(t("common.copyFailed"), "error");
+    await navigator.clipboard.writeText(scanResult.value)
+    showToast(t('common.copySuccess'))
+  } catch {
+    showToast(t('common.copyFailed'), 'error')
   }
-};
+}
 
 const clearScan = () => {
-  scanResult.value = "";
-  scanPreviewUrl.value = "";
-  if (scannerInput.value) scannerInput.value.value = "";
-};
+  scanResult.value = ''
+  scanPreviewUrl.value = ''
+  if (scannerInput.value) scannerInput.value.value = ''
+}
 
 // --- Watchers ---
 watch(
@@ -179,16 +179,16 @@ watch(
     mailBody,
   ],
   () => {
-    if (activeTab.value === "generate") {
-      generateQR();
+    if (activeTab.value === 'generate') {
+      generateQR()
     }
   },
   { deep: true },
-);
+)
 
 onMounted(() => {
-  generateQR();
-});
+  generateQR()
+})
 </script>
 
 <template>
@@ -198,25 +198,19 @@ onMounted(() => {
       <div class="flex p-1 bg-muted/30 rounded-2xl w-fit">
         <button
           class="flex items-center gap-2 px-6 py-2.5 rounded-xl transition-all font-medium text-sm"
-          :class="
-            activeTab === 'generate'
-              ? 'bg-background text-foreground'
-              : 'btn-ghost'
-          "
+          :class="activeTab === 'generate' ? 'bg-background text-foreground' : 'btn-ghost'"
           @click="activeTab = 'generate'"
         >
           <QrCode class="h-4 w-4" />
-          {{ $t("qrcode.generateTab") }}
+          {{ $t('qrcode.generateTab') }}
         </button>
         <button
           class="flex items-center gap-2 px-6 py-2.5 rounded-xl transition-all font-medium text-sm"
-          :class="
-            activeTab === 'scan' ? 'bg-background text-foreground' : 'btn-ghost'
-          "
+          :class="activeTab === 'scan' ? 'bg-background text-foreground' : 'btn-ghost'"
           @click="activeTab = 'scan'"
         >
           <Scan class="h-4 w-4" />
-          {{ $t("qrcode.scanTab") }}
+          {{ $t('qrcode.scanTab') }}
         </button>
       </div>
 
@@ -227,14 +221,10 @@ onMounted(() => {
       >
         <!-- Configuration Area -->
         <div class="lg:col-span-8 space-y-6">
-          <div
-            class="bg-card/30 border border-muted/80 rounded-3xl p-6 space-y-6"
-          >
+          <div class="bg-card/30 border border-muted/80 rounded-3xl p-6 space-y-6">
             <!-- Content Type -->
             <div class="space-y-4">
-              <label class="label-uppercase px-1">{{
-                $t("qrcode.contentType")
-              }}</label>
+              <label class="label-uppercase px-1">{{ $t('qrcode.contentType') }}</label>
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <button
                   v-for="type in [
@@ -260,34 +250,24 @@ onMounted(() => {
 
             <!-- Dynamic Input -->
             <div class="space-y-4">
-              <label class="label-uppercase px-1">{{
-                $t("qrcode.inputContent")
-              }}</label>
+              <label class="label-uppercase px-1">{{ $t('qrcode.inputContent') }}</label>
 
               <!-- Text/Link -->
-              <div
-                v-if="qrType === 'text' || qrType === 'link'"
-                class="space-y-2"
-              >
+              <div v-if="qrType === 'text' || qrType === 'link'" class="space-y-2">
                 <textarea
                   v-model="qrContent"
                   :placeholder="
-                    qrType === 'text'
-                      ? $t('qrcode.textPlaceholder')
-                      : $t('qrcode.linkPlaceholder')
+                    qrType === 'text' ? $t('qrcode.textPlaceholder') : $t('qrcode.linkPlaceholder')
                   "
                   class="min-h-[120px] bg-background/50"
                 ></textarea>
               </div>
 
               <!-- WiFi -->
-              <div
-                v-if="qrType === 'wifi'"
-                class="grid grid-cols-1 sm:grid-cols-2 gap-4"
-              >
+              <div v-if="qrType === 'wifi'" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="space-y-2">
                   <span class="text-xs text-muted-foreground px-1">{{
-                    $t("qrcode.wifiSsid")
+                    $t('qrcode.wifiSsid')
                   }}</span>
                   <input
                     v-model="wifiSsid"
@@ -298,7 +278,7 @@ onMounted(() => {
                 </div>
                 <div class="space-y-2">
                   <span class="text-xs text-muted-foreground px-1">{{
-                    $t("qrcode.securityType")
+                    $t('qrcode.securityType')
                   }}</span>
                   <select
                     v-model="wifiEncryption"
@@ -307,13 +287,13 @@ onMounted(() => {
                     <option value="WPA">WPA/WPA2</option>
                     <option value="WEP">WEP</option>
                     <option value="nopass">
-                      {{ $t("qrcode.noPassword") }}
+                      {{ $t('qrcode.noPassword') }}
                     </option>
                   </select>
                 </div>
                 <div v-if="wifiEncryption !== 'nopass'" class="space-y-2">
                   <span class="text-xs text-muted-foreground px-1">{{
-                    $t("qrcode.password")
+                    $t('qrcode.password')
                   }}</span>
                   <input
                     v-model="wifiPassword"
@@ -324,11 +304,7 @@ onMounted(() => {
                 </div>
                 <div class="flex items-end pb-2 px-1">
                   <label class="flex items-center gap-2 cursor-pointer group">
-                    <input
-                      v-model="wifiHidden"
-                      type="checkbox"
-                      class="sr-only"
-                    />
+                    <input v-model="wifiHidden" type="checkbox" class="sr-only" />
                     <div
                       class="w-10 h-5 bg-muted rounded-full relative transition-colors group-has-checked:bg-blue-500"
                     >
@@ -337,7 +313,7 @@ onMounted(() => {
                       ></div>
                     </div>
                     <span class="text-sm text-muted-foreground">{{
-                      $t("qrcode.hiddenNetwork")
+                      $t('qrcode.hiddenNetwork')
                     }}</span>
                   </label>
                 </div>
@@ -347,7 +323,7 @@ onMounted(() => {
               <div v-if="qrType === 'mail'" class="space-y-4">
                 <div class="space-y-2">
                   <span class="text-xs text-muted-foreground px-1">{{
-                    $t("qrcode.recipient")
+                    $t('qrcode.recipient')
                   }}</span>
                   <input
                     v-model="mailTo"
@@ -358,7 +334,7 @@ onMounted(() => {
                 </div>
                 <div class="space-y-2">
                   <span class="text-xs text-muted-foreground px-1">{{
-                    $t("qrcode.subjectOptional")
+                    $t('qrcode.subjectOptional')
                   }}</span>
                   <input
                     v-model="mailSubject"
@@ -369,7 +345,7 @@ onMounted(() => {
                 </div>
                 <div class="space-y-2">
                   <span class="text-xs text-muted-foreground px-1">{{
-                    $t("qrcode.bodyLabel")
+                    $t('qrcode.bodyLabel')
                   }}</span>
                   <textarea
                     v-model="mailBody"
@@ -382,15 +358,11 @@ onMounted(() => {
 
             <!-- Appearance Options -->
             <div class="space-y-4 pt-2">
-              <label class="label-uppercase px-1">{{
-                $t("qrcode.appearance")
-              }}</label>
+              <label class="label-uppercase px-1">{{ $t('qrcode.appearance') }}</label>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div class="space-y-3">
                   <div class="flex justify-between items-center px-1">
-                    <span class="text-xs text-muted-foreground">{{
-                      $t("qrcode.errorLevel")
-                    }}</span>
+                    <span class="text-xs text-muted-foreground">{{ $t('qrcode.errorLevel') }}</span>
                     <span
                       class="text-[10px] font-mono bg-muted px-1.5 py-0.5 rounded text-muted-foreground"
                       >{{ qrOptions.errorCorrectionLevel }}</span
@@ -411,23 +383,17 @@ onMounted(() => {
                       {{ level }}
                     </button>
                   </div>
-                  <p
-                    class="text-[10px] text-muted-foreground/60 px-1 leading-normal"
-                  >
-                    {{ $t("qrcode.errorLevelDesc") }}
+                  <p class="text-[10px] text-muted-foreground/60 px-1 leading-normal">
+                    {{ $t('qrcode.errorLevelDesc') }}
                   </p>
                 </div>
 
                 <div class="space-y-3">
                   <div class="flex justify-between items-center px-1">
-                    <span class="text-xs text-muted-foreground">{{
-                      $t("qrcode.qrColor")
-                    }}</span>
+                    <span class="text-xs text-muted-foreground">{{ $t('qrcode.qrColor') }}</span>
                   </div>
                   <div class="flex items-center gap-4">
-                    <div
-                      class="flex-1 flex items-center gap-2 bg-muted/50 p-2 rounded-xl"
-                    >
+                    <div class="flex-1 flex items-center gap-2 bg-muted/50 p-2 rounded-xl">
                       <div
                         class="w-6 h-6 rounded-md border border-muted/80"
                         :style="{ backgroundColor: qrOptions.color.dark }"
@@ -442,9 +408,7 @@ onMounted(() => {
                         qrOptions.color.dark
                       }}</span>
                     </div>
-                    <div
-                      class="flex-1 flex items-center gap-2 bg-muted/50 p-2 rounded-xl"
-                    >
+                    <div class="flex-1 flex items-center gap-2 bg-muted/50 p-2 rounded-xl">
                       <div
                         class="w-6 h-6 rounded-md border border-muted/80"
                         :style="{ backgroundColor: qrOptions.color.light }"
@@ -466,12 +430,8 @@ onMounted(() => {
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div class="space-y-3">
                   <div class="flex justify-between items-center px-1">
-                    <span class="text-xs text-muted-foreground">{{
-                      $t("qrcode.margin")
-                    }}</span>
-                    <span class="text-xs font-mono text-blue-600">{{
-                      qrOptions.margin
-                    }}</span>
+                    <span class="text-xs text-muted-foreground">{{ $t('qrcode.margin') }}</span>
+                    <span class="text-xs font-mono text-blue-600">{{ qrOptions.margin }}</span>
                   </div>
                   <input
                     v-model.number="qrOptions.margin"
@@ -484,12 +444,8 @@ onMounted(() => {
                 </div>
                 <div class="space-y-3">
                   <div class="flex justify-between items-center px-1">
-                    <span class="text-xs text-muted-foreground">{{
-                      $t("qrcode.size")
-                    }}</span>
-                    <span class="text-xs font-mono text-blue-600"
-                      >{{ qrOptions.width }}px</span
-                    >
+                    <span class="text-xs text-muted-foreground">{{ $t('qrcode.size') }}</span>
+                    <span class="text-xs font-mono text-blue-600">{{ qrOptions.width }}px</span>
                   </div>
                   <input
                     v-model.number="qrOptions.width"
@@ -511,9 +467,7 @@ onMounted(() => {
             <div
               class="bg-card/40 border border-muted/80 rounded-3xl p-6 flex flex-col items-center gap-6"
             >
-              <label class="label-uppercase w-full text-center">{{
-                $t("qrcode.preview")
-              }}</label>
+              <label class="label-uppercase w-full text-center">{{ $t('qrcode.preview') }}</label>
 
               <div
                 class="relative group bg-white p-4 rounded-2xl overflow-hidden min-w-[200px] min-h-[200px] flex items-center justify-center"
@@ -524,12 +478,9 @@ onMounted(() => {
                   alt="QR Preview"
                   class="w-full h-auto max-w-[280px] image-render-pixel"
                 />
-                <div
-                  v-else
-                  class="text-muted-foreground/30 flex flex-col items-center gap-3"
-                >
+                <div v-else class="text-muted-foreground/30 flex flex-col items-center gap-3">
                   <QrCode class="h-16 w-16 opacity-10" />
-                  <span class="text-xs">{{ $t("qrcode.waitInput") }}</span>
+                  <span class="text-xs">{{ $t('qrcode.waitInput') }}</span>
                 </div>
 
                 <div
@@ -545,21 +496,17 @@ onMounted(() => {
                   @click="downloadQR"
                 >
                   <Download class="h-5 w-5 group-hover:bounce-y" />
-                  {{ $t("qrcode.saveQr") }}
+                  {{ $t('qrcode.saveQr') }}
                 </button>
                 <p class="text-[10px] text-muted-foreground text-center">
-                  {{ $t("qrcode.transparentWarning") }}
+                  {{ $t('qrcode.transparentWarning') }}
                 </p>
               </div>
             </div>
 
-            <div
-              class="bg-amber-500/5 border border-amber-500/10 rounded-2xl p-4"
-            >
-              <p
-                class="text-[11px] text-amber-600/80 leading-relaxed text-center"
-              >
-                {{ $t("qrcode.wifiWarning") }}
+            <div class="bg-amber-500/5 border border-amber-500/10 rounded-2xl p-4">
+              <p class="text-[11px] text-amber-600/80 leading-relaxed text-center">
+                {{ $t('qrcode.wifiWarning') }}
               </p>
             </div>
           </div>
@@ -591,13 +538,8 @@ onMounted(() => {
                 v-if="isScanning"
                 class="absolute inset-0 bg-blue-500/10 rounded-full animate-ping opacity-20"
               ></div>
-              <div
-                class="absolute inset-0 bg-blue-500/5 rounded-full scale-125"
-              ></div>
-              <Scan
-                v-if="!scanPreviewUrl"
-                class="h-12 w-12 text-blue-500 relative z-10"
-              />
+              <div class="absolute inset-0 bg-blue-500/5 rounded-full scale-125"></div>
+              <Scan v-if="!scanPreviewUrl" class="h-12 w-12 text-blue-500 relative z-10" />
               <img
                 v-else
                 :src="scanPreviewUrl"
@@ -607,20 +549,17 @@ onMounted(() => {
 
             <div class="space-y-2">
               <h3 class="text-lg text-important">
-                {{ $t("qrcode.scanOrUpload") }}
+                {{ $t('qrcode.scanOrUpload') }}
               </h3>
               <p class="text-sm">
-                {{ $t("qrcode.dragOrClick") }}
+                {{ $t('qrcode.dragOrClick') }}
               </p>
             </div>
 
             <div class="flex gap-3 mt-4">
-              <button
-                class="btn-secondary px-6 py-2.5 rounded-2xl"
-                @click="scannerInput?.click()"
-              >
+              <button class="btn-secondary px-6 py-2.5 rounded-2xl" @click="scannerInput?.click()">
                 <ImageIcon class="h-4 w-4" />
-                {{ $t("qrcode.selectImage") }}
+                {{ $t('qrcode.selectImage') }}
               </button>
               <button
                 v-if="scanPreviewUrl"
@@ -628,7 +567,7 @@ onMounted(() => {
                 @click="clearScan"
               >
                 <Trash2 class="h-4 w-4" />
-                {{ $t("common.clear") }}
+                {{ $t('common.clear') }}
               </button>
             </div>
           </div>
@@ -638,36 +577,25 @@ onMounted(() => {
         <Transition name="fade">
           <div v-if="scanResult" class="space-y-4">
             <div class="flex items-center justify-between px-2">
-              <label class="label-uppercase">{{
-                $t("qrcode.scanResult")
-              }}</label>
+              <label class="label-uppercase">{{ $t('qrcode.scanResult') }}</label>
               <button
                 class="btn-ghost p-1 bg-transparent text-xs text-blue-600 font-medium hover:underline"
                 @click="copyResult"
               >
                 <Copy class="h-3 w-3" />
-                {{ $t("qrcode.copyContent") }}
+                {{ $t('qrcode.copyContent') }}
               </button>
             </div>
-            <div
-              class="bg-card border border-blue-500/20 rounded-3xl p-6 overflow-hidden"
-            >
+            <div class="bg-card border border-blue-500/20 rounded-3xl p-6 overflow-hidden">
               <pre
                 class="text-[14px] leading-relaxed whitespace-pre-wrap break-all font-mono text-foreground"
                 >{{ scanResult }}</pre
               >
             </div>
-            <div
-              v-if="scanResult.startsWith('http')"
-              class="flex justify-center pt-2"
-            >
-              <a
-                :href="scanResult"
-                target="_blank"
-                class="btn-primary px-8 py-3 rounded-2xl"
-              >
+            <div v-if="scanResult.startsWith('http')" class="flex justify-center pt-2">
+              <a :href="scanResult" target="_blank" class="btn-primary px-8 py-3 rounded-2xl">
                 <Link class="h-4 w-4" />
-                {{ $t("qrcode.visitLink") }}
+                {{ $t('qrcode.visitLink') }}
               </a>
             </div>
           </div>

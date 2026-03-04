@@ -1,30 +1,30 @@
-import request from "./request";
+import request from './request'
 
-const API_PREFIX = "/api/frankfurter";
+const API_PREFIX = '/api/frankfurter'
 
 export interface FrankfurterRates {
-  [currency: string]: number;
+  [currency: string]: number
 }
 
 export interface FrankfurterResponse {
-  amount: number;
-  base: string;
-  date: string;
-  rates: FrankfurterRates;
+  amount: number
+  base: string
+  date: string
+  rates: FrankfurterRates
 }
 
 export interface FrankfurterTimeSeriesResponse {
-  amount: number;
-  base: string;
-  start_date: string;
-  end_date: string;
+  amount: number
+  base: string
+  start_date: string
+  end_date: string
   rates: {
-    [date: string]: FrankfurterRates;
-  };
+    [date: string]: FrankfurterRates
+  }
 }
 
 export interface CurrenciesResponse {
-  [code: string]: string;
+  [code: string]: string
 }
 
 /**
@@ -36,13 +36,10 @@ export async function getLatestRates(
   base?: string,
   symbols?: string,
 ): Promise<FrankfurterResponse> {
-  const { data } = await request.get<FrankfurterResponse>(
-    `${API_PREFIX}/latest`,
-    {
-      params: { base, symbols },
-    },
-  );
-  return data;
+  const { data } = await request.get<FrankfurterResponse>(`${API_PREFIX}/latest`, {
+    params: { base, symbols },
+  })
+  return data
 }
 
 /**
@@ -56,13 +53,10 @@ export async function getHistoricalRates(
   base?: string,
   symbols?: string,
 ): Promise<FrankfurterResponse> {
-  const { data } = await request.get<FrankfurterResponse>(
-    `${API_PREFIX}/${date}`,
-    {
-      params: { base, symbols },
-    },
-  );
-  return data;
+  const { data } = await request.get<FrankfurterResponse>(`${API_PREFIX}/${date}`, {
+    params: { base, symbols },
+  })
+  return data
 }
 
 /**
@@ -83,16 +77,14 @@ export async function getTimeSeries(
     {
       params: { base, symbols },
     },
-  );
-  return data;
+  )
+  return data
 }
 
 /**
  * 获取支持的货币列表
  */
 export async function getCurrencies(): Promise<CurrenciesResponse> {
-  const { data } = await request.get<CurrenciesResponse>(
-    `${API_PREFIX}/currencies`,
-  );
-  return data;
+  const { data } = await request.get<CurrenciesResponse>(`${API_PREFIX}/currencies`)
+  return data
 }

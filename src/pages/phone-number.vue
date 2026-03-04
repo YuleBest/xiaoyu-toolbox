@@ -1,131 +1,116 @@
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
-import { useI18n } from "vue-i18n";
-import {
-  Search,
-  MapPin,
-  Building2,
-  Wifi,
-  Phone,
-  X,
-  Loader2,
-} from "lucide-vue-next";
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
-import {
-  lookupPhoneNumber,
-  loadConfig,
-  type PhoneNumberResult,
-} from "@/api/phoneNumber";
+import { ref, computed, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { Search, MapPin, Building2, Wifi, Phone, X, Loader2 } from 'lucide-vue-next'
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
+import { lookupPhoneNumber, loadConfig, type PhoneNumberResult } from '@/api/phoneNumber'
 
-const { t } = useI18n();
-const tool = allTools.find((t) => t.id === "phone-number")!;
+const { t } = useI18n()
+const tool = allTools.find((t) => t.id === 'phone-number')!
 
-const phoneInput = ref("");
-const loading = ref(false);
-const result = ref<PhoneNumberResult | null>(null);
-const hasQueried = ref(false);
-const errorMsg = ref("");
+const phoneInput = ref('')
+const loading = ref(false)
+const result = ref<PhoneNumberResult | null>(null)
+const hasQueried = ref(false)
+const errorMsg = ref('')
 
 // 异步加载号码数据库配置
-const dbReady = ref(false);
-const dbError = ref(false);
+const dbReady = ref(false)
+const dbError = ref(false)
 loadConfig()
   .then(() => {
-    dbReady.value = true;
+    dbReady.value = true
   })
   .catch(() => {
-    dbError.value = true;
-  });
+    dbError.value = true
+  })
 
-const history = ref<{ phone: string; result: PhoneNumberResult }[]>([]);
+const history = ref<{ phone: string; result: PhoneNumberResult }[]>([])
 
 // 从 sessionStorage 恢复历史
 try {
-  const saved = sessionStorage.getItem("phone-number-history");
-  if (saved) history.value = JSON.parse(saved);
+  const saved = sessionStorage.getItem('phone-number-history')
+  if (saved) history.value = JSON.parse(saved)
 } catch {
   /* ignore */
 }
 
 const saveHistory = () => {
   try {
-    sessionStorage.setItem(
-      "phone-number-history",
-      JSON.stringify(history.value),
-    );
+    sessionStorage.setItem('phone-number-history', JSON.stringify(history.value))
   } catch {
     /* ignore */
   }
-};
+}
 
 const formattedPhone = computed(() => {
-  const cleaned = phoneInput.value.replace(/[\s\-+]/g, "").replace(/^86/, "");
+  const cleaned = phoneInput.value.replace(/[\s\-+]/g, '').replace(/^86/, '')
   if (cleaned.length > 7) {
-    return `${cleaned.slice(0, 3)} ${cleaned.slice(3, 7)} ${cleaned.slice(7)}`;
+    return `${cleaned.slice(0, 3)} ${cleaned.slice(3, 7)} ${cleaned.slice(7)}`
   } else if (cleaned.length > 3) {
-    return `${cleaned.slice(0, 3)} ${cleaned.slice(3)}`;
+    return `${cleaned.slice(0, 3)} ${cleaned.slice(3)}`
   }
-  return cleaned;
-});
+  return cleaned
+})
 
-let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+let debounceTimer: ReturnType<typeof setTimeout> | null = null
 watch(phoneInput, (newVal) => {
-  const cleaned = newVal.replace(/[\s\-+]/g, "").replace(/^86/, "");
+  const cleaned = newVal.replace(/[\s\-+]/g, '').replace(/^86/, '')
   if (cleaned.length >= 7) {
-    if (debounceTimer) clearTimeout(debounceTimer);
+    if (debounceTimer) clearTimeout(debounceTimer)
     debounceTimer = setTimeout(() => {
-      doQuery();
-    }, 400);
+      doQuery()
+    }, 400)
   } else {
-    if (debounceTimer) clearTimeout(debounceTimer);
-    result.value = null;
-    errorMsg.value = "";
-    hasQueried.value = false;
+    if (debounceTimer) clearTimeout(debounceTimer)
+    result.value = null
+    errorMsg.value = ''
+    hasQueried.value = false
   }
-});
+})
 
 const doQuery = async () => {
-  const cleaned = phoneInput.value.replace(/[\s\-+]/g, "").replace(/^86/, "");
-  if (cleaned.length < 7) return;
+  const cleaned = phoneInput.value.replace(/[\s\-+]/g, '').replace(/^86/, '')
+  if (cleaned.length < 7) return
 
-  loading.value = true;
-  errorMsg.value = "";
-  result.value = null;
-  hasQueried.value = true;
+  loading.value = true
+  errorMsg.value = ''
+  result.value = null
+  hasQueried.value = true
 
   try {
-    const res = await lookupPhoneNumber(cleaned);
-    result.value = res;
+    const res = await lookupPhoneNumber(cleaned)
+    result.value = res
 
     if (!res) {
-      errorMsg.value = t("phoneNumber.notFound");
+      errorMsg.value = t('phoneNumber.notFound')
     } else {
       if (cleaned.length === 11) {
         // 去重添加到历史
         history.value = [
           { phone: cleaned, result: res },
           ...history.value.filter((h) => h.phone !== cleaned),
-        ].slice(0, 20);
-        saveHistory();
+        ].slice(0, 20)
+        saveHistory()
       }
     }
   } catch {
-    errorMsg.value = t("phoneNumber.queryFailed");
+    errorMsg.value = t('phoneNumber.queryFailed')
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
+}
 
 const queryFromHistory = (phone: string) => {
-  phoneInput.value = phone;
-  doQuery();
-};
+  phoneInput.value = phone
+  doQuery()
+}
 
 const clearHistory = () => {
-  history.value = [];
-  sessionStorage.removeItem("phone-number-history");
-};
+  history.value = []
+  sessionStorage.removeItem('phone-number-history')
+}
 </script>
 
 <template>
@@ -137,7 +122,7 @@ const clearHistory = () => {
       >
         <Loader2 class="h-8 w-8 text-blue-500 animate-spin" />
         <p class="text-sm text-muted-foreground font-medium">
-          {{ t("phoneNumber.loadingDb") }}
+          {{ t('phoneNumber.loadingDb') }}
         </p>
       </div>
     </div>
@@ -147,13 +132,11 @@ const clearHistory = () => {
       <div
         class="bg-card/30 border border-red-500/30 rounded-3xl p-12 flex flex-col items-center justify-center space-y-3"
       >
-        <div
-          class="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mb-2"
-        >
+        <div class="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mb-2">
           <X class="h-8 w-8 text-red-500" />
         </div>
         <p class="text-lg font-medium text-foreground">
-          {{ t("phoneNumber.dbLoadFailed") }}
+          {{ t('phoneNumber.dbLoadFailed') }}
         </p>
       </div>
     </div>
@@ -164,9 +147,7 @@ const clearHistory = () => {
       <div class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-8">
         <div class="flex gap-3">
           <div class="relative flex-1 min-w-0">
-            <Phone
-              class="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
-            />
+            <Phone class="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
               v-model="phoneInput"
               type="tel"
@@ -182,7 +163,7 @@ const clearHistory = () => {
             @click="doQuery"
           >
             <Search class="h-4 w-4" />
-            {{ t("phoneNumber.query") }}
+            {{ t('phoneNumber.query') }}
           </button>
         </div>
       </div>
@@ -199,9 +180,7 @@ const clearHistory = () => {
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div
-            class="bg-card border border-muted/60 rounded-xl p-4 flex items-center gap-3"
-          >
+          <div class="bg-card border border-muted/60 rounded-xl p-4 flex items-center gap-3">
             <div
               class="h-9 w-9 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0"
             >
@@ -209,7 +188,7 @@ const clearHistory = () => {
             </div>
             <div class="min-w-0">
               <div class="text-xs text-muted-foreground font-medium">
-                {{ t("phoneNumber.province") }}
+                {{ t('phoneNumber.province') }}
               </div>
               <div class="text-sm font-bold truncate">
                 {{ result.province }}
@@ -217,9 +196,7 @@ const clearHistory = () => {
             </div>
           </div>
 
-          <div
-            class="bg-card border border-muted/60 rounded-xl p-4 flex items-center gap-3"
-          >
+          <div class="bg-card border border-muted/60 rounded-xl p-4 flex items-center gap-3">
             <div
               class="h-9 w-9 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0"
             >
@@ -227,7 +204,7 @@ const clearHistory = () => {
             </div>
             <div class="min-w-0">
               <div class="text-xs text-muted-foreground font-medium">
-                {{ t("phoneNumber.city") }}
+                {{ t('phoneNumber.city') }}
               </div>
               <div class="text-sm font-bold truncate">
                 {{ result.city }}
@@ -235,9 +212,7 @@ const clearHistory = () => {
             </div>
           </div>
 
-          <div
-            class="bg-card border border-muted/60 rounded-xl p-4 flex items-center gap-3"
-          >
+          <div class="bg-card border border-muted/60 rounded-xl p-4 flex items-center gap-3">
             <div
               class="h-9 w-9 rounded-lg bg-amber-500/10 flex items-center justify-center shrink-0"
             >
@@ -245,7 +220,7 @@ const clearHistory = () => {
             </div>
             <div class="min-w-0">
               <div class="text-xs text-muted-foreground font-medium">
-                {{ t("phoneNumber.isp") }}
+                {{ t('phoneNumber.isp') }}
               </div>
               <div class="text-sm font-bold truncate">
                 {{ result.isp }}
@@ -268,14 +243,12 @@ const clearHistory = () => {
         v-if="hasQueried && !loading && errorMsg"
         class="bg-card/30 border border-muted/80 rounded-3xl p-12 flex flex-col items-center justify-center text-center space-y-3"
       >
-        <div
-          class="w-16 h-16 bg-muted/50 rounded-full flex items-center justify-center mb-2"
-        >
+        <div class="w-16 h-16 bg-muted/50 rounded-full flex items-center justify-center mb-2">
           <Search class="h-8 w-8 text-muted-foreground opacity-50" />
         </div>
         <p class="text-lg font-medium text-foreground">{{ errorMsg }}</p>
         <p class="text-sm text-muted-foreground">
-          {{ t("phoneNumber.checkInput") }}
+          {{ t('phoneNumber.checkInput') }}
         </p>
       </div>
 
@@ -286,14 +259,14 @@ const clearHistory = () => {
       >
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-sm font-semibold text-muted-foreground">
-            {{ t("phoneNumber.history") }}
+            {{ t('phoneNumber.history') }}
           </h3>
           <button
             class="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
             @click="clearHistory"
           >
             <X class="h-3 w-3" />
-            {{ t("common.clearAll") }}
+            {{ t('common.clearAll') }}
           </button>
         </div>
         <div class="space-y-2">

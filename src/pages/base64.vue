@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
-import { useI18n } from "vue-i18n";
+import { ref, watch, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n();
+const { t } = useI18n()
 import {
   Copy,
   Check,
@@ -14,196 +14,188 @@ import {
   EyeOff,
   File,
   X,
-} from "lucide-vue-next";
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
-import { inject } from "vue";
+} from 'lucide-vue-next'
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
+import { inject } from 'vue'
 
-const showToast = inject("showToast") as (
-  msg: string,
-  type?: "warning" | "error",
-) => void;
+const showToast = inject('showToast') as (msg: string, type?: 'warning' | 'error') => void
 
-const tool = allTools.find((t) => t.id === "base64")!;
+const tool = allTools.find((t) => t.id === 'base64')!
 
-const sourceText = ref("");
-const base64Text = ref("");
-const copiedSource = ref(false);
-const copiedBase64 = ref(false);
-const currentFileName = ref("");
+const sourceText = ref('')
+const base64Text = ref('')
+const copiedSource = ref(false)
+const copiedBase64 = ref(false)
+const currentFileName = ref('')
 
 // Encode: Text -> Base64
 const encode = (text: string) => {
   try {
     // Encodes UTF-8 properly to avoid issues with Chinese characters
-    return btoa(unescape(encodeURIComponent(text)));
-  } catch (_e) {
-    return t("base64.encodeError");
+    return btoa(unescape(encodeURIComponent(text)))
+  } catch {
+    return t('base64.encodeError')
   }
-};
+}
 
 // Decode: Base64 -> Text
 const decode = (b64: string) => {
   try {
-    return decodeURIComponent(escape(atob(b64)));
-  } catch (_e) {
-    return t("base64.decodeError");
+    return decodeURIComponent(escape(atob(b64)))
+  } catch {
+    return t('base64.decodeError')
   }
-};
+}
 
 watch(sourceText, (newVal) => {
-  if (newVal === "") {
-    base64Text.value = "";
-    return;
+  if (newVal === '') {
+    base64Text.value = ''
+    return
   }
-  base64Text.value = encode(newVal);
-});
+  base64Text.value = encode(newVal)
+})
 
 const handleBase64Input = (e: Event) => {
-  const target = e.target as HTMLTextAreaElement;
-  const val = target.value;
-  base64Text.value = val;
-  if (val === "") {
-    sourceText.value = "";
-    return;
+  const target = e.target as HTMLTextAreaElement
+  const val = target.value
+  base64Text.value = val
+  if (val === '') {
+    sourceText.value = ''
+    return
   }
-  sourceText.value = decode(val);
-};
+  sourceText.value = decode(val)
+}
 
-const copyToClipboard = async (text: string, type: "source" | "base64") => {
-  if (!text) return;
-  await navigator.clipboard.writeText(text);
-  if (type === "source") {
-    copiedSource.value = true;
-    setTimeout(() => (copiedSource.value = false), 2000);
+const copyToClipboard = async (text: string, type: 'source' | 'base64') => {
+  if (!text) return
+  await navigator.clipboard.writeText(text)
+  if (type === 'source') {
+    copiedSource.value = true
+    setTimeout(() => (copiedSource.value = false), 2000)
   } else {
-    copiedBase64.value = true;
-    setTimeout(() => (copiedBase64.value = false), 2000);
+    copiedBase64.value = true
+    setTimeout(() => (copiedBase64.value = false), 2000)
   }
-};
+}
 
 const clearAll = () => {
-  sourceText.value = "";
-  base64Text.value = "";
-  currentFileName.value = "";
-};
+  sourceText.value = ''
+  base64Text.value = ''
+  currentFileName.value = ''
+}
 
-const fileInput = ref<HTMLInputElement | null>(null);
-const isUploading = ref(false);
+const fileInput = ref<HTMLInputElement | null>(null)
+const isUploading = ref(false)
 
 const handleFileUpload = (event: Event) => {
-  const input = event.target as HTMLInputElement;
-  const file = input.files?.[0];
-  if (!file) return;
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+  if (!file) return
 
-  const maxSize = 20 * 1024 * 1024; // 20MB
+  const maxSize = 20 * 1024 * 1024 // 20MB
 
   if (file.size > maxSize) {
-    showToast(t("base64.fileSizeLimit"), "error");
-    input.value = "";
-    return;
+    showToast(t('base64.fileSizeLimit'), 'error')
+    input.value = ''
+    return
   }
 
-  isUploading.value = true;
-  const reader = new FileReader();
+  isUploading.value = true
+  const reader = new FileReader()
 
   reader.onload = (e) => {
-    const result = e.target?.result;
-    if (typeof result !== "string") {
-      isUploading.value = false;
-      return;
+    const result = e.target?.result
+    if (typeof result !== 'string') {
+      isUploading.value = false
+      return
     }
 
     // Extract raw base64 by removing the data URL prefix
-    const base64 = result.split(",")[1];
+    const base64 = result.split(',')[1]
     if (base64) {
-      base64Text.value = base64;
-      currentFileName.value = file.name;
-      sourceText.value = ""; // Clear source text in file mode
+      base64Text.value = base64
+      currentFileName.value = file.name
+      sourceText.value = '' // Clear source text in file mode
     }
-    isUploading.value = false;
-    input.value = "";
-  };
-
-  reader.onerror = () => {
-    showToast(t("base64.fileReadError"), "error");
-    isUploading.value = false;
-    input.value = "";
-  };
-
-  reader.readAsDataURL(file);
-};
-
-const triggerFileUpload = () => {
-  fileInput.value?.click();
-};
-
-const downloadBase64 = () => {
-  if (!base64Text.value) return;
-
-  let fileName;
-  if (currentFileName.value) {
-    fileName = `${currentFileName.value}.base64.txt`;
-  } else {
-    const timestamp = new Date().getTime();
-    fileName = `xiaoyu-toolbox_${timestamp}.base64.txt`;
+    isUploading.value = false
+    input.value = ''
   }
 
-  const blob = new Blob([base64Text.value], { type: "text/plain" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = fileName;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-};
+  reader.onerror = () => {
+    showToast(t('base64.fileReadError'), 'error')
+    isUploading.value = false
+    input.value = ''
+  }
+
+  reader.readAsDataURL(file)
+}
+
+const triggerFileUpload = () => {
+  fileInput.value?.click()
+}
+
+const downloadBase64 = () => {
+  if (!base64Text.value) return
+
+  let fileName
+  if (currentFileName.value) {
+    fileName = `${currentFileName.value}.base64.txt`
+  } else {
+    const timestamp = new Date().getTime()
+    fileName = `xiaoyu-toolbox_${timestamp}.base64.txt`
+  }
+
+  const blob = new Blob([base64Text.value], { type: 'text/plain' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = fileName
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  URL.revokeObjectURL(url)
+}
 
 const formatSize = (bytes: number) => {
-  if (bytes === 0) return "0 B";
-  const k = 1024;
-  const sizes = ["B", "KB", "MB", "GB"];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
-};
+  if (bytes === 0) return '0 B'
+  const k = 1024
+  const sizes = ['B', 'KB', 'MB', 'GB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+}
 
 const sourceStats = computed(() => {
   if (currentFileName.value) {
-    return { label: t("base64.fileMode"), value: t("base64.fileLoaded") };
+    return { label: t('base64.fileMode'), value: t('base64.fileLoaded') }
   }
   return {
-    label: t("base64.sourceLength"),
-    value: `${sourceText.value.length.toLocaleString()} ${t("common.chars")}`,
-  };
-});
+    label: t('base64.sourceLength'),
+    value: `${sourceText.value.length.toLocaleString()} ${t('common.chars')}`,
+  }
+})
 
 const base64Stats = computed(() => {
-  const b64 = base64Text.value.trim();
-  if (!b64) return { chars: 0, size: "0 B" };
+  const b64 = base64Text.value.trim()
+  if (!b64) return { chars: 0, size: '0 B' }
 
   // Use the raw length to represent the size of the Base64 string itself (1 char ≈ 1 byte)
-  const totalSize = b64.length;
+  const totalSize = b64.length
 
   return {
     chars: b64.length,
-    size: `${t("common.approx")} ${formatSize(totalSize)}`,
-  };
-});
+    size: `${t('common.approx')} ${formatSize(totalSize)}`,
+  }
+})
 
-const isCollapsed = ref(true);
+const isCollapsed = ref(true)
 </script>
 
 <template>
   <ToolContainer :tool="tool">
     <template #actions>
       <div class="flex items-center gap-2">
-        <input
-          ref="fileInput"
-          type="file"
-          class="hidden"
-          @change="handleFileUpload"
-        />
+        <input ref="fileInput" type="file" class="hidden" @change="handleFileUpload" />
         <button
           :disabled="isUploading"
           class="btn-primary px-3 py-1.5 md:px-4 md:py-2"
@@ -215,16 +207,13 @@ const isCollapsed = ref(true);
             :class="{ 'animate-spin': isUploading }"
           />
           <span class="hidden sm:inline">{{
-            isUploading ? $t("base64.uploading") : $t("base64.uploadFile")
+            isUploading ? $t('base64.uploading') : $t('base64.uploadFile')
           }}</span>
         </button>
 
-        <button
-          class="btn-destructive px-3 py-1.5 md:px-4 md:py-2"
-          @click="clearAll"
-        >
+        <button class="btn-destructive px-3 py-1.5 md:px-4 md:py-2" @click="clearAll">
           <Trash2 class="h-4 w-4" />
-          <span class="hidden sm:inline">{{ $t("common.clearAll") }}</span>
+          <span class="hidden sm:inline">{{ $t('common.clearAll') }}</span>
         </button>
       </div>
     </template>
@@ -235,7 +224,7 @@ const isCollapsed = ref(true);
         <div class="flex flex-col space-y-2 md:space-y-3">
           <div class="flex items-center justify-between px-2 shrink-0">
             <div class="flex items-center gap-2">
-              <span class="label-uppercase">{{ $t("base64.source") }}</span>
+              <span class="label-uppercase">{{ $t('base64.source') }}</span>
               <span
                 v-if="sourceText || currentFileName"
                 class="text-[10px] bg-muted/50 px-1.5 py-0.5 rounded text-muted-foreground/70 font-medium whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]"
@@ -275,15 +264,12 @@ const isCollapsed = ref(true);
                   {{ currentFileName }}
                 </p>
                 <p class="text-xs">
-                  {{ $t("base64.loadedAsBase64") }}
+                  {{ $t('base64.loadedAsBase64') }}
                 </p>
               </div>
-              <button
-                class="btn-destructive px-4 py-2 text-xs"
-                @click="clearAll"
-              >
+              <button class="btn-destructive px-4 py-2 text-xs" @click="clearAll">
                 <X class="h-3.5 w-3.5" />
-                {{ $t("base64.removeFile") }}
+                {{ $t('base64.removeFile') }}
               </button>
             </div>
           </div>
@@ -306,7 +292,7 @@ const isCollapsed = ref(true);
                 class="text-[10px] bg-muted/50 px-1.5 py-0.5 rounded text-muted-foreground/70 font-medium"
               >
                 {{ base64Stats.chars.toLocaleString() }}
-                {{ $t("common.chars") }} |
+                {{ $t('common.chars') }} |
                 {{ base64Stats.size }}
               </span>
             </div>
@@ -341,10 +327,10 @@ const isCollapsed = ref(true);
                 </div>
                 <div class="space-y-1">
                   <p class="text-sm text-important">
-                    {{ $t("base64.contentHidden") }}
+                    {{ $t('base64.contentHidden') }}
                   </p>
                   <p class="text-xs">
-                    {{ $t("base64.contentHiddenDesc") }}
+                    {{ $t('base64.contentHiddenDesc') }}
                   </p>
                 </div>
               </div>
@@ -353,11 +339,8 @@ const isCollapsed = ref(true);
               <div
                 class="absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-background/90 to-transparent z-10 rounded-b-3xl flex items-center justify-center pt-10"
               >
-                <button
-                  class="btn-primary px-5 py-2.5 rounded-full"
-                  @click="isCollapsed = false"
-                >
-                  {{ $t("base64.showAll", { count: base64Stats.chars }) }}
+                <button class="btn-primary px-5 py-2.5 rounded-full" @click="isCollapsed = false">
+                  {{ $t('base64.showAll', { count: base64Stats.chars }) }}
                 </button>
               </div>
               <textarea
@@ -379,11 +362,9 @@ const isCollapsed = ref(true);
       </div>
 
       <!-- Quick Tips -->
-      <div
-        class="bg-blue-500/5 border border-blue-500/10 rounded-2xl p-4 md:p-5 mt-4"
-      >
+      <div class="bg-blue-500/5 border border-blue-500/10 rounded-2xl p-4 md:p-5 mt-4">
         <p class="text-blue-600/80 font-medium leading-relaxed">
-          {{ $t("base64.tip") }}
+          {{ $t('base64.tip') }}
         </p>
       </div>
     </div>

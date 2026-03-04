@@ -1,29 +1,29 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from "vue";
-import type { ChartConfig } from ".";
-import { computed } from "vue";
-import { cn } from "@/lib/utils";
+import type { HTMLAttributes } from 'vue'
+import type { ChartConfig } from '.'
+import { computed } from 'vue'
+import { cn } from '@/lib/utils'
 
 const props = withDefaults(
   defineProps<{
-    hideLabel?: boolean;
-    hideIndicator?: boolean;
-    indicator?: "line" | "dot" | "dashed";
-    nameKey?: string;
-    labelKey?: string;
-    labelFormatter?: (d: number | Date) => string;
-    payload?: Record<string, any>;
-    config?: ChartConfig;
-    class?: HTMLAttributes["class"];
-    color?: string;
-    x?: number | Date;
+    hideLabel?: boolean
+    hideIndicator?: boolean
+    indicator?: 'line' | 'dot' | 'dashed'
+    nameKey?: string
+    labelKey?: string
+    labelFormatter?: (d: number | Date) => string
+    payload?: Record<string, any>
+    config?: ChartConfig
+    class?: HTMLAttributes['class']
+    color?: string
+    x?: number | Date
   }>(),
   {
     payload: () => ({}),
     config: () => ({}),
-    indicator: "dot",
+    indicator: 'dot',
   },
-);
+)
 
 // TODO: currently we use `createElement` and `render` to render the
 // const chartContext = useChart(null)
@@ -32,26 +32,26 @@ const payload = computed(() => {
   return Object.entries(props.payload)
     .map(([key, value]) => {
       // const key = `${props.nameKey || item.name || item.dataKey || "value"}`
-      const itemConfig = props.config[key];
-      const indicatorColor = props.config[key]?.color ?? props.payload.fill;
+      const itemConfig = props.config[key]
+      const indicatorColor = props.config[key]?.color ?? props.payload.fill
 
-      return { key, value, itemConfig, indicatorColor };
+      return { key, value, itemConfig, indicatorColor }
     })
-    .filter((i) => i.itemConfig);
-});
+    .filter((i) => i.itemConfig)
+})
 
 const nestLabel = computed(
-  () => Object.keys(props.payload).length === 1 && props.indicator !== "dot",
-);
+  () => Object.keys(props.payload).length === 1 && props.indicator !== 'dot',
+)
 const tooltipLabel = computed(() => {
-  if (props.hideLabel) return null;
+  if (props.hideLabel) return null
   if (props.labelFormatter && props.x !== undefined) {
-    return props.labelFormatter(props.x);
+    return props.labelFormatter(props.x)
   }
   return props.labelKey
     ? props.config[props.labelKey]?.label || props.payload[props.labelKey]
-    : props.x;
-});
+    : props.x
+})
 </script>
 
 <template>
@@ -82,16 +82,12 @@ const tooltipLabel = computed(() => {
           <template v-else-if="!hideIndicator">
             <div
               :class="
-                cn(
-                  'shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)',
-                  {
-                    'h-2.5 w-2.5': indicator === 'dot',
-                    'w-1': indicator === 'line',
-                    'w-0 border-[1.5px] border-dashed bg-transparent':
-                      indicator === 'dashed',
-                    'my-0.5': nestLabel && indicator === 'dashed',
-                  },
-                )
+                cn('shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)', {
+                  'h-2.5 w-2.5': indicator === 'dot',
+                  'w-1': indicator === 'line',
+                  'w-0 border-[1.5px] border-dashed bg-transparent': indicator === 'dashed',
+                  'my-0.5': nestLabel && indicator === 'dashed',
+                })
               "
               :style="{
                 '--color-bg': indicatorColor,
@@ -116,10 +112,7 @@ const tooltipLabel = computed(() => {
                 {{ itemConfig?.label || value }}
               </span>
             </div>
-            <span
-              v-if="value"
-              class="text-foreground font-mono font-medium tabular-nums"
-            >
+            <span v-if="value" class="text-foreground font-mono font-medium tabular-nums">
               {{ value.toLocaleString() }}
             </span>
           </div>

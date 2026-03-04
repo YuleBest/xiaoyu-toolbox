@@ -1,27 +1,27 @@
-import request from "./request";
+import request from './request'
 
 export interface NcmSongAr {
-  id: number;
-  name: string;
+  id: number
+  name: string
 }
 
 export interface NcmSongAl {
-  id: number;
-  name: string;
-  picUrl: string;
+  id: number
+  name: string
+  picUrl: string
 }
 
 export interface NcmSong {
-  id: number;
-  name: string;
-  ar: NcmSongAr[];
-  al: NcmSongAl;
-  publishTime: number;
+  id: number
+  name: string
+  ar: NcmSongAr[]
+  al: NcmSongAl
+  publishTime: number
 }
 
 export interface NcmPlaylistResponse {
-  songs: NcmSong[];
-  code?: number;
+  songs: NcmSong[]
+  code?: number
 }
 
 export const getPlaylistTracks = async (
@@ -32,13 +32,13 @@ export const getPlaylistTracks = async (
   try {
     const res = await request.get<NcmPlaylistResponse>(
       `https://ncm.api.yule.ink/playlist/track/all?id=${id}&limit=${limit}&offset=${offset}`,
-    );
+    )
     if (res.data?.songs) {
-      return res.data.songs;
+      return res.data.songs
     }
-    return [];
+    return []
   } catch (error) {
-    console.error("Failed to fetch NCM playlist tracks", error);
-    throw error;
+    console.error('Failed to fetch NCM playlist tracks', error)
+    throw error
   }
-};
+}

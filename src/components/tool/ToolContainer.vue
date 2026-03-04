@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue'
 import {
   ChevronDown,
   Info,
@@ -9,19 +9,19 @@ import {
   Scale,
   Copyright,
   Star,
-} from "lucide-vue-next";
-import { type Tool, default_license, default_copyright } from "@/config/tools";
-import { toggleFavorite, isFavorite } from "@/stores/favorites";
+} from 'lucide-vue-next'
+import { type Tool, default_license, default_copyright } from '@/config/tools'
+import { toggleFavorite, isFavorite } from '@/stores/favorites'
 
 defineProps<{
-  tool: Tool;
-}>();
+  tool: Tool
+}>()
 
-const isInfoOpen = ref(false);
+const isInfoOpen = ref(false)
 
 const toggleInfo = () => {
-  isInfoOpen.value = !isInfoOpen.value;
-};
+  isInfoOpen.value = !isInfoOpen.value
+}
 </script>
 
 <template>
@@ -30,13 +30,9 @@ const toggleInfo = () => {
     <header
       class="bg-background/80 backdrop-blur-xl border-b -mx-6 md:-mx-14 lg:-mx-20 px-6 md:px-14 lg:px-20 py-3 md:py-4 transition-all"
     >
-      <div
-        class="flex flex-wrap items-center justify-between max-w-7xl mx-auto gap-4"
-      >
+      <div class="flex flex-wrap items-center justify-between max-w-7xl mx-auto gap-4">
         <!-- Left: Tool Info -->
-        <div
-          class="flex items-center gap-3 md:gap-4 shrink-0 whitespace-nowrap"
-        >
+        <div class="flex items-center gap-3 md:gap-4 shrink-0 whitespace-nowrap">
           <div
             class="h-10 w-10 md:h-12 md:w-12 rounded-xl bg-card flex items-center justify-center shrink-0 border"
             :class="tool.color"
@@ -61,15 +57,11 @@ const toggleInfo = () => {
           <button
             class="flex items-center gap-2 p-2 md:px-4 md:py-2 rounded-xl hover:bg-muted transition-all active:scale-95 group border border-transparent"
             :class="{
-              'bg-amber-500/10 text-amber-500 border-amber-500/20': isFavorite(
-                tool.id,
-              ),
+              'bg-amber-500/10 text-amber-500 border-amber-500/20': isFavorite(tool.id),
               'text-muted-foreground': !isFavorite(tool.id),
             }"
             :title="
-              isFavorite(tool.id)
-                ? $t('toolContainer.unfavorite')
-                : $t('toolContainer.favorite')
+              isFavorite(tool.id) ? $t('toolContainer.unfavorite') : $t('toolContainer.favorite')
             "
             @click="toggleFavorite(tool.id)"
           >
@@ -89,7 +81,7 @@ const toggleInfo = () => {
           >
             <Info class="h-5 w-5 md:h-4 md:w-4" />
             <span class="text-sm font-medium hidden sm:inline">{{
-              $t("toolContainer.details")
+              $t('toolContainer.details')
             }}</span>
             <ChevronDown
               class="h-4 w-4 transition-transform duration-300 hidden sm:inline"
@@ -110,13 +102,11 @@ const toggleInfo = () => {
       ]"
     >
       <div class="overflow-hidden">
-        <div
-          class="bg-card/50 border rounded-3xl p-5 md:p-8 space-y-5 md:space-y-8 mb-6"
-        >
+        <div class="bg-card/50 border rounded-3xl p-5 md:p-8 space-y-5 md:space-y-8 mb-6">
           <!-- Description -->
           <div class="space-y-2">
             <h3 class="flex items-center gap-2 label-uppercase">
-              <Info class="h-3.5 w-3.5" /> {{ $t("toolContainer.description") }}
+              <Info class="h-3.5 w-3.5" /> {{ $t('toolContainer.description') }}
             </h3>
             <p
               class="text-[14px] leading-relaxed font-normal opacity-90 text-foreground whitespace-pre-wrap"
@@ -128,19 +118,15 @@ const toggleInfo = () => {
           <!-- Usage -->
           <div class="space-y-2">
             <h3 class="flex items-center gap-2 label-uppercase">
-              <BookOpen class="h-3.5 w-3.5" /> {{ $t("toolContainer.usage") }}
+              <BookOpen class="h-3.5 w-3.5" /> {{ $t('toolContainer.usage') }}
             </h3>
-            <div
-              class="text-[14px] leading-relaxed font-normal opacity-90 whitespace-pre-wrap"
-            >
+            <div class="text-[14px] leading-relaxed font-normal opacity-90 whitespace-pre-wrap">
               {{ $t(tool.usage) }}
             </div>
           </div>
 
           <!-- Meta Info -->
-          <div
-            class="flex flex-wrap gap-4 md:gap-8 pt-4 border-t border-dashed"
-          >
+          <div class="flex flex-wrap gap-4 md:gap-8 pt-4 border-t border-dashed">
             <div class="flex items-center gap-2 text-xs">
               <User class="h-3.5 w-3.5 text-muted-foreground" />
               <span class="font-medium">{{ tool.author }}</span>
@@ -153,9 +139,7 @@ const toggleInfo = () => {
             <!-- License -->
             <div class="flex items-center gap-2 text-xs">
               <Scale class="h-3.5 w-3.5 text-muted-foreground" />
-              <span class="font-medium font-mono">{{
-                tool.license || default_license
-              }}</span>
+              <span class="font-medium font-mono">{{ tool.license || default_license }}</span>
             </div>
 
             <!-- Copyright -->

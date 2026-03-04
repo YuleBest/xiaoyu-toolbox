@@ -1,61 +1,55 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from "vue";
-import { useRoute } from "vue-router";
-import {
-  Search,
-  Settings,
-  PanelLeftClose,
-  PanelLeftOpen,
-  ChevronDown,
-} from "lucide-vue-next";
-import { mainNav, categories } from "@/config/nav";
-import { toolsData } from "@/config/tools";
-import { navigationStore, toggleSidebar } from "@/stores/navigation";
+import { ref, computed, watch, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { Search, Settings, PanelLeftClose, PanelLeftOpen, ChevronDown } from 'lucide-vue-next'
+import { mainNav, categories } from '@/config/nav'
+import { toolsData } from '@/config/tools'
+import { navigationStore, toggleSidebar } from '@/stores/navigation'
 
-import ModeToggle from "@/components/ModeToggle.vue";
-import LanguageToggle from "@/components/LanguageToggle.vue";
-import ConnectionToggle from "@/components/ConnectionToggle.vue";
+import ModeToggle from '@/components/ModeToggle.vue'
+import LanguageToggle from '@/components/LanguageToggle.vue'
+import ConnectionToggle from '@/components/ConnectionToggle.vue'
 
-const route = useRoute();
-const settingsOpen = ref(false);
+const route = useRoute()
+const settingsOpen = ref(false)
 
-const isCollapsed = computed(() => navigationStore.isCollapsed);
+const isCollapsed = computed(() => navigationStore.isCollapsed)
 
-const expandedCategories = ref<Set<string>>(new Set());
+const expandedCategories = ref<Set<string>>(new Set())
 
 // Open the category that contains the current tool
 const openActiveCategory = () => {
   for (const [catId, tools] of Object.entries(toolsData)) {
     if (tools.some((tool) => tool.path === route.path)) {
-      expandedCategories.value.add(catId);
+      expandedCategories.value.add(catId)
     }
   }
-};
+}
 
 onMounted(() => {
-  openActiveCategory();
-});
+  openActiveCategory()
+})
 
 watch(
   () => route.path,
   () => {
-    openActiveCategory();
+    openActiveCategory()
   },
-);
+)
 
 const toggleCategory = (catId: string) => {
   if (isCollapsed.value) {
-    toggleSidebar();
-    expandedCategories.value.add(catId);
-    return;
+    toggleSidebar()
+    expandedCategories.value.add(catId)
+    return
   }
 
   if (expandedCategories.value.has(catId)) {
-    expandedCategories.value.delete(catId);
+    expandedCategories.value.delete(catId)
   } else {
-    expandedCategories.value.add(catId);
+    expandedCategories.value.add(catId)
   }
-};
+}
 </script>
 
 <template>
@@ -77,13 +71,9 @@ const toggleCategory = (catId: string) => {
         />
         <span
           class="text-[17px] font-bold tracking-tight leading-tight transition-all duration-300 whitespace-nowrap overflow-hidden text-foreground flex-1"
-          :class="
-            isCollapsed
-              ? 'max-w-0 opacity-0 ml-0'
-              : 'max-w-[150px] opacity-100 ml-2.5'
-          "
+          :class="isCollapsed ? 'max-w-0 opacity-0 ml-0' : 'max-w-[150px] opacity-100 ml-2.5'"
         >
-          {{ $t("common.appName") }}
+          {{ $t('common.appName') }}
         </span>
       </div>
     </div>
@@ -104,13 +94,9 @@ const toggleCategory = (catId: string) => {
         />
         <span
           class="text-[12.5px] text-muted-foreground/60 transition-all duration-300 whitespace-nowrap overflow-hidden flex-1"
-          :class="[
-            isCollapsed
-              ? 'max-w-0 opacity-0 ml-0'
-              : 'max-w-[110px] opacity-100 ml-2',
-          ]"
+          :class="[isCollapsed ? 'max-w-0 opacity-0 ml-0' : 'max-w-[110px] opacity-100 ml-2']"
         >
-          {{ $t("common.searchTools") }}...
+          {{ $t('common.searchTools') }}...
         </span>
       </div>
     </div>
@@ -142,11 +128,7 @@ const toggleCategory = (catId: string) => {
           />
           <span
             class="transition-all duration-300 whitespace-nowrap overflow-hidden flex-1"
-            :class="[
-              isCollapsed
-                ? 'max-w-0 opacity-0 ml-0'
-                : 'max-w-[150px] opacity-100 ml-3',
-            ]"
+            :class="[isCollapsed ? 'max-w-0 opacity-0 ml-0' : 'max-w-[150px] opacity-100 ml-3']"
           >
             {{ $t(item.name) }}
           </span>
@@ -174,22 +156,16 @@ const toggleCategory = (catId: string) => {
             />
             <span
               class="transition-all duration-300 text-left whitespace-nowrap overflow-hidden flex-1"
-              :class="[
-                isCollapsed
-                  ? 'max-w-0 opacity-0 ml-0'
-                  : 'max-w-[150px] opacity-100 ml-3',
-              ]"
+              :class="[isCollapsed ? 'max-w-0 opacity-0 ml-0' : 'max-w-[150px] opacity-100 ml-3']"
             >
-              {{ $t("common.settings") }}
+              {{ $t('common.settings') }}
             </span>
             <!-- Chevron -->
             <ChevronDown
               class="h-3.5 w-3.5 transition-all duration-300 shrink-0 opacity-40 overflow-hidden"
               :class="[
                 settingsOpen ? 'rotate-180' : '-rotate-90',
-                isCollapsed
-                  ? 'max-w-0 opacity-0 ml-0'
-                  : 'max-w-[14px] opacity-100 ml-auto',
+                isCollapsed ? 'max-w-0 opacity-0 ml-0' : 'max-w-[14px] opacity-100 ml-auto',
               ]"
             />
           </button>
@@ -206,28 +182,25 @@ const toggleCategory = (catId: string) => {
             <div
               class="flex items-center justify-between px-2 py-1.5 rounded-lg border border-transparent"
             >
-              <span
-                class="text-[11.5px] font-medium text-muted-foreground/80"
-                >{{ $t("connection.label") }}</span
-              >
+              <span class="text-[11.5px] font-medium text-muted-foreground/80">{{
+                $t('connection.label')
+              }}</span>
               <ConnectionToggle />
             </div>
             <div
               class="flex items-center justify-between px-2 py-1.5 rounded-lg border border-transparent"
             >
-              <span
-                class="text-[11.5px] font-medium text-muted-foreground/80"
-                >{{ $t("theme.label") }}</span
-              >
+              <span class="text-[11.5px] font-medium text-muted-foreground/80">{{
+                $t('theme.label')
+              }}</span>
               <ModeToggle />
             </div>
             <div
               class="flex items-center justify-between px-2 py-1.5 rounded-lg border border-transparent"
             >
-              <span
-                class="text-[11.5px] font-medium text-muted-foreground/80"
-                >{{ $t("lang.label") }}</span
-              >
+              <span class="text-[11.5px] font-medium text-muted-foreground/80">{{
+                $t('lang.label')
+              }}</span>
               <LanguageToggle />
             </div>
           </div>
@@ -244,14 +217,10 @@ const toggleCategory = (catId: string) => {
               : 'max-h-[20px] opacity-100 mb-2 px-3 text-[11px]',
           ]"
         >
-          {{ $t("nav.categoriesLabel") }}
+          {{ $t('nav.categoriesLabel') }}
         </h3>
 
-        <div
-          v-for="cat in categories"
-          :key="cat.id"
-          class="flex flex-col mb-1 relative"
-        >
+        <div v-for="cat in categories" :key="cat.id" class="flex flex-col mb-1 relative">
           <!-- Category Header -->
           <button
             class="flex items-center rounded-lg text-[13px] transition-all duration-300 group overflow-hidden h-9 w-full px-0 py-0 gap-0"
@@ -268,19 +237,14 @@ const toggleCategory = (catId: string) => {
               class="h-[18px] w-[18px] shrink-0 transition-all duration-300"
               :class="[
                 expandedCategories.has(cat.id) ||
-                (!isCollapsed &&
-                  toolsData[cat.id]?.some((t) => t.path === route.path))
+                (!isCollapsed && toolsData[cat.id]?.some((t) => t.path === route.path))
                   ? 'opacity-100'
                   : 'opacity-50 group-hover:opacity-100 group-hover:scale-110',
               ]"
             />
             <span
               class="transition-all duration-300 text-left whitespace-nowrap overflow-hidden flex-1"
-              :class="[
-                isCollapsed
-                  ? 'max-w-0 opacity-0 ml-0'
-                  : 'max-w-[140px] opacity-100 ml-2',
-              ]"
+              :class="[isCollapsed ? 'max-w-0 opacity-0 ml-0' : 'max-w-[140px] opacity-100 ml-2']"
             >
               {{ $t(cat.name) }}
             </span>
@@ -289,9 +253,7 @@ const toggleCategory = (catId: string) => {
               class="h-3.5 w-3.5 transition-all duration-300 shrink-0 opacity-40 overflow-hidden"
               :class="[
                 expandedCategories.has(cat.id) ? 'rotate-180' : '-rotate-90',
-                isCollapsed
-                  ? 'max-w-0 opacity-0 mr-0'
-                  : 'max-w-[14px] opacity-100 mr-2 ml-auto',
+                isCollapsed ? 'max-w-0 opacity-0 mr-0' : 'max-w-[14px] opacity-100 mr-2 ml-auto',
               ]"
             />
           </button>
@@ -308,9 +270,7 @@ const toggleCategory = (catId: string) => {
             <!-- Vertical Tree Line -->
             <div
               class="absolute left-[21px] top-1 bottom-3 w-px bg-border/60 transition-opacity duration-300"
-              :class="
-                expandedCategories.has(cat.id) ? 'opacity-100' : 'opacity-0'
-              "
+              :class="expandedCategories.has(cat.id) ? 'opacity-100' : 'opacity-0'"
             ></div>
 
             <div class="pl-[34px] pr-1 space-y-0.5 w-full">
@@ -343,19 +303,11 @@ const toggleCategory = (catId: string) => {
       >
         <PanelLeftClose
           class="h-[18px] w-[18px] transition-all duration-300"
-          :class="
-            isCollapsed
-              ? 'opacity-0 absolute scale-50'
-              : 'opacity-100 scale-100'
-          "
+          :class="isCollapsed ? 'opacity-0 absolute scale-50' : 'opacity-100 scale-100'"
         />
         <PanelLeftOpen
           class="h-[18px] w-[18px] transition-all duration-300"
-          :class="
-            isCollapsed
-              ? 'opacity-100 scale-100'
-              : 'opacity-0 absolute scale-50'
-          "
+          :class="isCollapsed ? 'opacity-100 scale-100' : 'opacity-0 absolute scale-50'"
         />
         <span class="sr-only">Toggle Sidebar</span>
       </button>

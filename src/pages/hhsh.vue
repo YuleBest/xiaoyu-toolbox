@@ -1,123 +1,122 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
-import { ref, inject } from "vue";
-import { useI18n } from "vue-i18n";
-import { Search, Plus, Send } from "lucide-vue-next";
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
-import { guessHhsh, submitTranslation, type GuessResult } from "@/api/hhsh";
+import { ref, inject } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { Search, Plus, Send } from 'lucide-vue-next'
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
+import { guessHhsh, submitTranslation, type GuessResult } from '@/api/hhsh'
 
-const { t } = useI18n();
+const { t } = useI18n()
 
-const showToast = inject("showToast") as (
+const showToast = inject('showToast') as (
   msg: string,
-  type?: "success" | "warning" | "error",
-) => void;
+  type?: 'success' | 'warning' | 'error',
+) => void
 
-const tool = allTools.find((t) => t.id === "hhsh")!;
+const tool = allTools.find((t) => t.id === 'hhsh')!
 
-const inputText = ref("");
-const results = ref<GuessResult[]>([]);
-const loading = ref(false);
-const searched = ref(false);
+const inputText = ref('')
+const results = ref<GuessResult[]>([])
+const loading = ref(false)
+const searched = ref(false)
 
-const submitForm = ref({ name: "", text: "" });
-const submitting = ref(false);
-const showSubmit = ref<string | null>(null);
+const submitForm = ref({ name: '', text: '' })
+const submitting = ref(false)
+const showSubmit = ref<string | null>(null)
 
 const handleQuery = async () => {
-  const originalText = inputText.value.trim();
+  const originalText = inputText.value.trim()
   if (!originalText) {
-    results.value = [];
-    searched.value = false;
-    return;
+    results.value = []
+    searched.value = false
+    return
   }
 
   // Match English letter sequences of length 2 to 14
-  const matches = originalText.match(/[a-zA-Z]{2,14}/g);
+  const matches = originalText.match(/[a-zA-Z]{2,14}/g)
   if (!matches || matches.length === 0) {
-    showToast(t("hhsh.noResults"), "warning");
-    results.value = [];
-    searched.value = true;
-    return;
+    showToast(t('hhsh.noResults'), 'warning')
+    results.value = []
+    searched.value = true
+    return
   }
 
   // Deduplicate and join with comma
-  const uniqueMatches = Array.from(new Set(matches));
-  const text = uniqueMatches.join(",");
+  const uniqueMatches = Array.from(new Set(matches))
+  const text = uniqueMatches.join(',')
 
-  loading.value = true;
-  searched.value = true;
-  showSubmit.value = null; // Close any open submit forms
+  loading.value = true
+  searched.value = true
+  showSubmit.value = null // Close any open submit forms
 
   try {
-    const data = await guessHhsh(text);
-    results.value = data || [];
+    const data = await guessHhsh(text)
+    results.value = data || []
     if (results.value.length === 0) {
       // API might return empty array if format matches nothing at all
-      showToast(t("hhsh.noResults"), "warning");
+      showToast(t('hhsh.noResults'), 'warning')
     }
   } catch (e: any) {
-    console.error(e);
-    showToast(t("hhsh.noResults"), "error");
-    results.value = [];
+    console.error(e)
+    showToast(t('hhsh.noResults'), 'error')
+    results.value = []
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
+}
 
 const openSubmit = (name: string) => {
   if (showSubmit.value === name) {
-    showSubmit.value = null; // Toggle
-    return;
+    showSubmit.value = null // Toggle
+    return
   }
-  showSubmit.value = name;
-  submitForm.value = { name, text: "" };
-};
+  showSubmit.value = name
+  submitForm.value = { name, text: '' }
+}
 
 const handleSubmit = async () => {
-  const { name, text } = submitForm.value;
-  if (!text.trim()) return;
+  const { name, text } = submitForm.value
+  if (!text.trim()) return
 
-  submitting.value = true;
+  submitting.value = true
   try {
-    await submitTranslation(name, text.trim());
-    showToast(t("hhsh.submitSuccess"), "success");
-    showSubmit.value = null;
+    await submitTranslation(name, text.trim())
+    showToast(t('hhsh.submitSuccess'), 'success')
+    showSubmit.value = null
   } catch (e: any) {
-    console.error(e);
-    showToast(t("hhsh.submitError"), "error");
+    console.error(e)
+    showToast(t('hhsh.submitError'), 'error')
   } finally {
-    submitting.value = false;
+    submitting.value = false
   }
-};
+}
 
-const expandedCards = ref(new Set<string>());
+const expandedCards = ref(new Set<string>())
 
 const toggleExpand = (name: string) => {
   if (expandedCards.value.has(name)) {
-    expandedCards.value.delete(name);
+    expandedCards.value.delete(name)
   } else {
-    expandedCards.value.add(name);
+    expandedCards.value.add(name)
   }
-};
+}
 
 const getContextSnippet = (word: string, fullText: string) => {
-  if (!fullText) return "";
-  const index = fullText.indexOf(word);
-  if (index === -1) return "";
+  if (!fullText) return ''
+  const index = fullText.indexOf(word)
+  if (index === -1) return ''
 
-  const start = Math.max(0, index - 5);
-  const end = Math.min(fullText.length, index + word.length + 5);
+  const start = Math.max(0, index - 5)
+  const end = Math.min(fullText.length, index + word.length + 5)
 
-  let prefix = start > 0 ? "..." : "";
-  let suffix = end < fullText.length ? "..." : "";
+  const prefix = start > 0 ? '...' : ''
+  const suffix = end < fullText.length ? '...' : ''
 
-  const before = fullText.substring(start, index);
-  const after = fullText.substring(index + word.length, end);
+  const before = fullText.substring(start, index)
+  const after = fullText.substring(index + word.length, end)
 
-  return `(${prefix}${before}<span class="text-red-500 font-bold">${word}</span>${after}${suffix})`;
-};
+  return `(${prefix}${before}<span class="text-red-500 font-bold">${word}</span>${after}${suffix})`
+}
 </script>
 
 <template>
@@ -126,13 +125,9 @@ const getContextSnippet = (word: string, fullText: string) => {
       class="max-w-3xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500 pt-4"
     >
       <!-- Search Input Section -->
-      <div
-        class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
-      >
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
         <div class="relative flex-1 group">
-          <div
-            class="absolute inset-y-0 left-4 flex items-center pointer-events-none"
-          >
+          <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
             <Search
               class="h-5 w-5 text-muted-foreground group-focus-within:text-blue-500 transition-colors"
             />
@@ -155,7 +150,7 @@ const getContextSnippet = (word: string, fullText: string) => {
             v-if="loading"
             class="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin"
           ></div>
-          <span v-else>{{ t("hhsh.query") }}</span>
+          <span v-else>{{ t('hhsh.query') }}</span>
         </button>
       </div>
 
@@ -164,21 +159,16 @@ const getContextSnippet = (word: string, fullText: string) => {
         v-if="searched && !loading && results.length === 0"
         class="bg-card/30 border border-muted/80 rounded-3xl p-12 flex flex-col items-center justify-center text-center space-y-3"
       >
-        <div
-          class="w-16 h-16 bg-muted/50 rounded-full flex items-center justify-center mb-2"
-        >
+        <div class="w-16 h-16 bg-muted/50 rounded-full flex items-center justify-center mb-2">
           <Search class="h-8 w-8 text-muted-foreground opacity-50" />
         </div>
         <p class="text-lg font-medium text-foreground">
-          {{ t("hhsh.noResults") }}
+          {{ t('hhsh.noResults') }}
         </p>
       </div>
 
       <!-- Results Grid -->
-      <div
-        v-if="results.length > 0"
-        class="grid grid-cols-1 md:grid-cols-2 gap-4"
-      >
+      <div v-if="results.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div
           v-for="item in results"
           :key="item.name"
@@ -200,20 +190,15 @@ const getContextSnippet = (word: string, fullText: string) => {
               @click="openSubmit(item.name)"
             >
               <Plus class="w-4 h-4" />
-              <span class="hidden sm:inline">{{ t("hhsh.submitNew") }}</span>
+              <span class="hidden sm:inline">{{ t('hhsh.submitNew') }}</span>
             </button>
           </div>
 
           <!-- Main Translation Labels -->
           <div class="space-y-2">
-            <div
-              v-if="item.trans && item.trans.length > 0"
-              class="flex flex-wrap gap-2"
-            >
+            <div v-if="item.trans && item.trans.length > 0" class="flex flex-wrap gap-2">
               <span
-                v-for="tr in expandedCards.has(item.name)
-                  ? item.trans
-                  : item.trans.slice(0, 10)"
+                v-for="tr in expandedCards.has(item.name) ? item.trans : item.trans.slice(0, 10)"
                 :key="tr"
                 class="px-3 py-1.5 border border-muted/80 rounded-xl text-[15px] font-medium text-foreground"
               >
@@ -225,30 +210,21 @@ const getContextSnippet = (word: string, fullText: string) => {
                 class="px-3 py-1.5 border border-transparent hover:bg-muted/50 rounded-xl text-[13px] font-medium text-blue-500 flex items-center gap-1 transition-colors"
                 @click="toggleExpand(item.name)"
               >
-                {{
-                  expandedCards.has(item.name)
-                    ? "收起"
-                    : `展开更多 (${item.trans.length - 10})`
-                }}
+                {{ expandedCards.has(item.name) ? '收起' : `展开更多 (${item.trans.length - 10})` }}
               </button>
             </div>
             <div
               v-else
               class="text-sm text-muted-foreground italic bg-muted/30 px-3 py-2 rounded-xl inline-block"
             >
-              {{ t("hhsh.noResults") }}
+              {{ t('hhsh.noResults') }}
             </div>
           </div>
 
           <!-- Inputting / Candidates -->
-          <div
-            v-if="item.inputting && item.inputting.length > 0"
-            class="space-y-2"
-          >
-            <p
-              class="text-[11px] font-semibold text-muted-foreground uppercase opacity-70"
-            >
-              {{ t("hhsh.inputtingLabel") }}
+          <div v-if="item.inputting && item.inputting.length > 0" class="space-y-2">
+            <p class="text-[11px] font-semibold text-muted-foreground uppercase opacity-70">
+              {{ t('hhsh.inputtingLabel') }}
             </p>
             <div class="flex flex-wrap gap-1.5">
               <span
@@ -266,15 +242,11 @@ const getContextSnippet = (word: string, fullText: string) => {
             v-if="showSubmit === item.name"
             class="mt-4 pt-4 border-t border-muted/50 animate-in slide-in-from-top-2 fade-in duration-200"
           >
-            <div
-              class="space-y-3 p-4 bg-muted/20 border border-muted/50 rounded-2xl"
-            >
+            <div class="space-y-3 p-4 bg-muted/20 border border-muted/50 rounded-2xl">
               <p class="text-sm">
-                {{ t("hhsh.submitPrefix") }}
-                <span class="font-bold text-blue-500 mx-1">{{
-                  item.name
-                }}</span>
-                {{ t("hhsh.submitNew") }}
+                {{ t('hhsh.submitPrefix') }}
+                <span class="font-bold text-blue-500 mx-1">{{ item.name }}</span>
+                {{ t('hhsh.submitNew') }}
               </p>
               <div class="flex flex-col sm:flex-row gap-2">
                 <input
@@ -295,7 +267,7 @@ const getContextSnippet = (word: string, fullText: string) => {
                     v-else
                     class="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin"
                   ></div>
-                  {{ submitting ? t("hhsh.submitting") : t("hhsh.submit") }}
+                  {{ submitting ? t('hhsh.submitting') : t('hhsh.submit') }}
                 </button>
               </div>
             </div>

@@ -1,45 +1,33 @@
 <script setup lang="ts">
-import { ref, computed, inject, onMounted, onUnmounted } from "vue";
-import { useI18n } from "vue-i18n";
+import { ref, computed, inject, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n();
-import {
-  Play,
-  Copy,
-  Check,
-  Download,
-  Trash2,
-  Terminal,
-  Code2,
-  RotateCcw,
-} from "lucide-vue-next";
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
+const { t } = useI18n()
+import { Play, Copy, Check, Download, Trash2, Terminal, Code2, RotateCcw } from 'lucide-vue-next'
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
 
-const showToast = inject("showToast") as (
-  msg: string,
-  type?: "warning" | "error",
-) => void;
+const showToast = inject('showToast') as (msg: string, type?: 'warning' | 'error') => void
 
-const tool = allTools.find((t) => t.id === "playground")!;
+const tool = allTools.find((t) => t.id === 'playground')!
 
 const code = ref(
   `// 在这里编写 JavaScript 代码\nconsole.log("Hello, World! 🚀");\n\n// 支持所有 ES2020+ 语法\nconst greet = (name) => {\n  console.log(\`你好，\${name}！\`);\n};\n\ngreet("小于工具箱");\n`,
-);
+)
 
-const logs = ref<{ type: string; content: string }[]>([]);
-const currentView = ref<"editor" | "logs">("editor");
-const isRunning = ref(false);
-const copiedCode = ref(false);
-const iframeRef = ref<HTMLIFrameElement | null>(null);
+const logs = ref<{ type: string; content: string }[]>([])
+const currentView = ref<'editor' | 'logs'>('editor')
+const isRunning = ref(false)
+const copiedCode = ref(false)
+const iframeRef = ref<HTMLIFrameElement | null>(null)
 
 // 行号
-const lineCount = computed(() => (code.value.match(/\n/g) || []).length + 1);
+const lineCount = computed(() => (code.value.match(/\n/g) || []).length + 1)
 
 const runCode = () => {
-  isRunning.value = true;
-  logs.value = [];
-  currentView.value = "logs";
+  isRunning.value = true
+  logs.value = []
+  currentView.value = 'logs'
 
   // 构建沙箱 HTML
   const sandboxHtml = `
@@ -90,123 +78,122 @@ const runCode = () => {
       }
 
       window.parent.postMessage({ type: 'done' }, '*');
-    <${""}script>
+    <${''}script>
     </body>
     </html>
-  `;
+  `
 
   // 移除旧 iframe
   if (iframeRef.value) {
-    iframeRef.value.remove();
+    iframeRef.value.remove()
   }
 
-  const iframe = document.createElement("iframe");
-  iframe.style.display = "none";
-  iframe.sandbox = "allow-scripts";
-  document.body.appendChild(iframe);
-  iframeRef.value = iframe;
+  const iframe = document.createElement('iframe')
+  iframe.style.display = 'none'
+  iframe.sandbox = 'allow-scripts'
+  document.body.appendChild(iframe)
+  iframeRef.value = iframe
 
-  iframe.srcdoc = sandboxHtml;
+  iframe.srcdoc = sandboxHtml
 
   // 超时保护
   setTimeout(() => {
     if (isRunning.value) {
-      isRunning.value = false;
+      isRunning.value = false
       logs.value.push({
-        type: "error",
-        content: "⏰ 执行超时（5秒限制）",
-      });
-      iframe.remove();
+        type: 'error',
+        content: '⏰ 执行超时（5秒限制）',
+      })
+      iframe.remove()
     }
-  }, 5000);
-};
+  }, 5000)
+}
 
 const handleMessage = (e: MessageEvent) => {
-  if (e.data?.type === "console") {
+  if (e.data?.type === 'console') {
     logs.value.push({
       type: e.data.method,
       content: e.data.content,
-    });
+    })
   }
-  if (e.data?.type === "done") {
-    isRunning.value = false;
+  if (e.data?.type === 'done') {
+    isRunning.value = false
     if (logs.value.length === 0) {
-      logs.value.push({ type: "info", content: "（无输出）" });
+      logs.value.push({ type: 'info', content: '（无输出）' })
     }
   }
-};
+}
 
 onMounted(() => {
-  window.addEventListener("message", handleMessage);
-});
+  window.addEventListener('message', handleMessage)
+})
 
 onUnmounted(() => {
-  window.removeEventListener("message", handleMessage);
-  if (iframeRef.value) iframeRef.value.remove();
-});
+  window.removeEventListener('message', handleMessage)
+  if (iframeRef.value) iframeRef.value.remove()
+})
 
 const copyCode = async () => {
   try {
-    await navigator.clipboard.writeText(code.value);
-    copiedCode.value = true;
-    showToast(t("common.copySuccess"));
-    setTimeout(() => (copiedCode.value = false), 2000);
+    await navigator.clipboard.writeText(code.value)
+    copiedCode.value = true
+    showToast(t('common.copySuccess'))
+    setTimeout(() => (copiedCode.value = false), 2000)
   } catch {
-    showToast(t("common.copyFailed"), "error");
+    showToast(t('common.copyFailed'), 'error')
   }
-};
+}
 
 const downloadCode = () => {
   const blob = new Blob([code.value], {
-    type: "text/javascript;charset=utf-8",
-  });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "code.js";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast(t("common.downloadSuccess"));
-};
+    type: 'text/javascript;charset=utf-8',
+  })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = 'code.js'
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  URL.revokeObjectURL(url)
+  showToast(t('common.downloadSuccess'))
+}
 
 const clearCode = () => {
-  code.value = "";
-  logs.value = [];
-};
+  code.value = ''
+  logs.value = []
+}
 
 const clearLogs = () => {
-  logs.value = [];
-};
+  logs.value = []
+}
 
 const handleTab = (e: KeyboardEvent) => {
-  if (e.key === "Tab") {
-    e.preventDefault();
-    const textarea = e.target as HTMLTextAreaElement;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    code.value =
-      code.value.substring(0, start) + "  " + code.value.substring(end);
+  if (e.key === 'Tab') {
+    e.preventDefault()
+    const textarea = e.target as HTMLTextAreaElement
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+    code.value = code.value.substring(0, start) + '  ' + code.value.substring(end)
     // 恢复光标位置
     requestAnimationFrame(() => {
-      textarea.selectionStart = textarea.selectionEnd = start + 2;
-    });
+      textarea.selectionStart = textarea.selectionEnd = start + 2
+    })
   }
-};
+}
 
 const logTypeClass = (type: string) => {
   switch (type) {
-    case "error":
-      return "text-red-500 bg-red-500/5 border-red-500/10";
-    case "warn":
-      return "text-amber-500 bg-amber-500/5 border-amber-500/10";
-    case "info":
-      return "text-blue-500 bg-blue-500/5 border-blue-500/10";
+    case 'error':
+      return 'text-red-500 bg-red-500/5 border-red-500/10'
+    case 'warn':
+      return 'text-amber-500 bg-amber-500/5 border-amber-500/10'
+    case 'info':
+      return 'text-blue-500 bg-blue-500/5 border-blue-500/10'
     default:
-      return "text-foreground bg-transparent border-transparent";
+      return 'text-foreground bg-transparent border-transparent'
   }
-};
+}
 </script>
 
 <template>
@@ -223,7 +210,7 @@ const logTypeClass = (type: string) => {
             class="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"
           />
           <Play v-else class="h-4 w-4" />
-          <span class="hidden sm:inline">{{ $t("playground.run") }}</span>
+          <span class="hidden sm:inline">{{ $t('playground.run') }}</span>
         </button>
       </div>
     </template>
@@ -243,7 +230,7 @@ const logTypeClass = (type: string) => {
             @click="currentView = 'editor'"
           >
             <Code2 class="h-3.5 w-3.5" />
-            {{ $t("playground.console") }}
+            {{ $t('playground.console') }}
           </button>
           <button
             class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
@@ -255,7 +242,7 @@ const logTypeClass = (type: string) => {
             @click="currentView = 'logs'"
           >
             <Terminal class="h-3.5 w-3.5" />
-            {{ $t("playground.console") }}
+            {{ $t('playground.console') }}
             <span
               v-if="logs.length > 0"
               class="bg-blue-500 text-white text-[10px] px-1.5 py-0.5 rounded-full min-w-[18px] text-center"
@@ -330,11 +317,9 @@ const logTypeClass = (type: string) => {
         v-show="currentView === 'logs'"
         class="bg-card/30 border border-muted/80 rounded-3xl overflow-hidden"
       >
-        <div
-          class="flex items-center justify-between px-5 py-3 border-b border-muted/30"
-        >
+        <div class="flex items-center justify-between px-5 py-3 border-b border-muted/30">
           <span class="text-xs font-medium text-muted-foreground">
-            {{ $t("playground.console") }}
+            {{ $t('playground.console') }}
           </span>
           <button
             v-if="logs.length > 0"
@@ -342,37 +327,30 @@ const logTypeClass = (type: string) => {
             @click="clearLogs"
           >
             <RotateCcw class="h-3 w-3" />
-            {{ $t("common.clear") }}
+            {{ $t('common.clear') }}
           </button>
         </div>
-        <div
-          class="min-h-[300px] md:min-h-[400px] max-h-[500px] overflow-y-auto p-4 space-y-1"
-        >
+        <div class="min-h-[300px] md:min-h-[400px] max-h-[500px] overflow-y-auto p-4 space-y-1">
           <div
             v-for="(log, i) in logs"
             :key="i"
             class="font-mono text-[13px] leading-relaxed px-3 py-1.5 rounded-lg border"
             :class="logTypeClass(log.type)"
           >
-            <pre class="whitespace-pre-wrap wrap-break-word m-0">{{
-              log.content
-            }}</pre>
+            <pre class="whitespace-pre-wrap wrap-break-word m-0">{{ log.content }}</pre>
           </div>
           <div
             v-if="logs.length === 0 && !isRunning"
             class="flex flex-col items-center justify-center py-16 opacity-30"
           >
             <Terminal class="h-12 w-12 mb-3" />
-            <p class="text-sm">{{ $t("playground.run") }}</p>
+            <p class="text-sm">{{ $t('playground.run') }}</p>
           </div>
-          <div
-            v-if="isRunning"
-            class="flex items-center gap-2 text-sm text-muted-foreground"
-          >
+          <div v-if="isRunning" class="flex items-center gap-2 text-sm text-muted-foreground">
             <div
               class="h-4 w-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"
             />
-            {{ $t("common.loading") }}
+            {{ $t('common.loading') }}
           </div>
         </div>
       </div>

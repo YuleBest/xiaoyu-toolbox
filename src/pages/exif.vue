@@ -1,305 +1,304 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
-import { ref, computed, watch, onBeforeUnmount, inject } from "vue";
-import { useI18n } from "vue-i18n";
+import { ref, computed, watch, onBeforeUnmount, inject } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n();
-import { Camera, Upload, Copy, Download, Trash2, Info } from "lucide-vue-next";
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
+const { t } = useI18n()
+import { Camera, Upload, Copy, Download, Trash2, Info } from 'lucide-vue-next'
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
 // Imports moved to dynamic imports inside functions
 
-const showToast = inject("showToast") as (
+const showToast = inject('showToast') as (
   msg: string,
-  type?: "success" | "warning" | "error",
-) => void;
+  type?: 'success' | 'warning' | 'error',
+) => void
 
-const tool = allTools.find((t) => t.id === "exif")!;
+const tool = allTools.find((t) => t.id === 'exif')!
 
 // --- Translation Map ---
 const exifFieldKeys = [
-  "ImageWidth",
-  "ImageHeight",
-  "Make",
-  "Model",
-  "Orientation",
-  "XResolution",
-  "YResolution",
-  "ResolutionUnit",
-  "ModifyDate",
-  "YCbCrPositioning",
-  "ExposureTime",
-  "FNumber",
-  "ExposureProgram",
-  "ISO",
-  "ExifVersion",
-  "DateTimeOriginal",
-  "CreateDate",
-  "OffsetTimeOriginal",
-  "ComponentsConfiguration",
-  "ShutterSpeedValue",
-  "ApertureValue",
-  "BrightnessValue",
-  "ExposureCompensation",
-  "MaxApertureValue",
-  "MeteringMode",
-  "LightSource",
-  "Flash",
-  "FocalLength",
-  "SubSecTime",
-  "SubSecTimeOriginal",
-  "SubSecTimeDigitized",
-  "FlashpixVersion",
-  "ColorSpace",
-  "ExifImageWidth",
-  "ExifImageHeight",
-  "SensingMethod",
-  "SceneType",
-  "ExposureMode",
-  "WhiteBalance",
-  "DigitalZoomRatio",
-  "FocalLengthIn35mmFormat",
-  "SceneCaptureType",
-  "LensModel",
-  "GPSLatitude",
-  "GPSLongitude",
-  "GPSAltitudeRef",
-  "GPSAltitude",
-  "GPSTimeStamp",
-  "GPSProcessingMethod",
-  "latitude",
-  "longitude",
-  "InteropIndex",
-  "InteropVersion",
-  "Software",
-  "ColorType",
-  "BitDepth",
-  "ImageDescription",
-  "Compression",
-  "Filter",
-  "Interlace",
-  "ImageUniqueID",
-] as const;
+  'ImageWidth',
+  'ImageHeight',
+  'Make',
+  'Model',
+  'Orientation',
+  'XResolution',
+  'YResolution',
+  'ResolutionUnit',
+  'ModifyDate',
+  'YCbCrPositioning',
+  'ExposureTime',
+  'FNumber',
+  'ExposureProgram',
+  'ISO',
+  'ExifVersion',
+  'DateTimeOriginal',
+  'CreateDate',
+  'OffsetTimeOriginal',
+  'ComponentsConfiguration',
+  'ShutterSpeedValue',
+  'ApertureValue',
+  'BrightnessValue',
+  'ExposureCompensation',
+  'MaxApertureValue',
+  'MeteringMode',
+  'LightSource',
+  'Flash',
+  'FocalLength',
+  'SubSecTime',
+  'SubSecTimeOriginal',
+  'SubSecTimeDigitized',
+  'FlashpixVersion',
+  'ColorSpace',
+  'ExifImageWidth',
+  'ExifImageHeight',
+  'SensingMethod',
+  'SceneType',
+  'ExposureMode',
+  'WhiteBalance',
+  'DigitalZoomRatio',
+  'FocalLengthIn35mmFormat',
+  'SceneCaptureType',
+  'LensModel',
+  'GPSLatitude',
+  'GPSLongitude',
+  'GPSAltitudeRef',
+  'GPSAltitude',
+  'GPSTimeStamp',
+  'GPSProcessingMethod',
+  'latitude',
+  'longitude',
+  'InteropIndex',
+  'InteropVersion',
+  'Software',
+  'ColorType',
+  'BitDepth',
+  'ImageDescription',
+  'Compression',
+  'Filter',
+  'Interlace',
+  'ImageUniqueID',
+] as const
 
 const translationMap = computed(() => {
-  const map: Record<string, string> = {};
+  const map: Record<string, string> = {}
   for (const key of exifFieldKeys) {
-    map[key] = t(`exif.fields.${key}`);
+    map[key] = t(`exif.fields.${key}`)
   }
-  return map;
-});
+  return map
+})
 
 // --- State ---
-const file = ref<File | null>(null);
-const exif = ref<any>(null);
-const hideInvalid = ref(true);
-const loading = ref(false);
-const error = ref("");
-const previewUrl = ref("");
-const fileInput = ref<HTMLInputElement | null>(null);
+const file = ref<File | null>(null)
+const exif = ref<any>(null)
+const hideInvalid = ref(true)
+const loading = ref(false)
+const error = ref('')
+const previewUrl = ref('')
+const fileInput = ref<HTMLInputElement | null>(null)
 
 // --- Watchers ---
 watch(
   () => file.value,
   async (newFile) => {
     if (previewUrl.value) {
-      URL.revokeObjectURL(previewUrl.value);
-      previewUrl.value = "";
+      URL.revokeObjectURL(previewUrl.value)
+      previewUrl.value = ''
     }
 
-    exif.value = null;
-    error.value = "";
+    exif.value = null
+    error.value = ''
 
     if (newFile) {
       const isHeic =
-        newFile.type === "image/heic" ||
-        newFile.type === "image/heif" ||
-        newFile.name.toLowerCase().endsWith(".heic") ||
-        newFile.name.toLowerCase().endsWith(".heif");
+        newFile.type === 'image/heic' ||
+        newFile.type === 'image/heif' ||
+        newFile.name.toLowerCase().endsWith('.heic') ||
+        newFile.name.toLowerCase().endsWith('.heif')
 
       if (isHeic) {
-        error.value = t("exif.heicNotSupported");
-        return;
+        error.value = t('exif.heicNotSupported')
+        return
       }
 
-      previewUrl.value = URL.createObjectURL(newFile);
+      previewUrl.value = URL.createObjectURL(newFile)
 
       // Auto-parse on upload
-      await parseExif();
+      await parseExif()
     }
   },
-);
+)
 
 onBeforeUnmount(() => {
   if (previewUrl.value) {
-    URL.revokeObjectURL(previewUrl.value);
+    URL.revokeObjectURL(previewUrl.value)
   }
-});
+})
 
 // --- Computed ---
 const exifSummary = computed(() => {
-  if (!exif.value) return "";
-  const make = exif.value.Make || "";
-  const model = exif.value.Model || "";
-  return `${make} ${model}`.trim() || t("exif.unknownDevice");
-});
+  if (!exif.value) return ''
+  const make = exif.value.Make || ''
+  const model = exif.value.Model || ''
+  return `${make} ${model}`.trim() || t('exif.unknownDevice')
+})
 
 const filteredExif = computed(() => {
-  if (!exif.value) return {};
-  if (!hideInvalid.value) return exif.value;
+  if (!exif.value) return {}
+  if (!hideInvalid.value) return exif.value
 
-  const result: any = {};
+  const result: any = {}
   Object.entries(exif.value).forEach(([key, value]) => {
     if (isValid(value)) {
-      result[key] = value;
+      result[key] = value
     }
-  });
-  return result;
-});
+  })
+  return result
+})
 
 const exifEntryCount = computed(() => {
-  return Object.keys(filteredExif.value).length;
-});
+  return Object.keys(filteredExif.value).length
+})
 
 // --- Methods ---
 const isValid = (val: any): boolean => {
-  if (val === null || val === undefined || val === "") return false;
-  if (typeof val === "number" && isNaN(val)) return false;
+  if (val === null || val === undefined || val === '') return false
+  if (typeof val === 'number' && isNaN(val)) return false
 
-  const strVal = String(val).trim();
-  if (strVal === "Not defined") return false;
-  if (/^(NaN)(:NaN)*$/.test(strVal)) return false;
-  if (strVal === "Unknown") return false;
+  const strVal = String(val).trim()
+  if (strVal === 'Not defined') return false
+  if (/^(NaN)(:NaN)*$/.test(strVal)) return false
+  if (strVal === 'Unknown') return false
 
   if (Array.isArray(val)) {
-    if (val.length === 0) return false;
-    return val.some((item) => isValid(item));
+    if (val.length === 0) return false
+    return val.some((item) => isValid(item))
   }
 
-  if (typeof val === "object" && !(val instanceof Date)) {
-    const keys = Object.keys(val);
+  if (typeof val === 'object' && !(val instanceof Date)) {
+    const keys = Object.keys(val)
     if (keys.length > 0) {
-      const allZeros = keys.every((k) => val[k] === 0 || val[k] === "0");
-      if (allZeros) return false;
+      const allZeros = keys.every((k) => val[k] === 0 || val[k] === '0')
+      if (allZeros) return false
     }
   }
 
-  return true;
-};
+  return true
+}
 
 const parseExif = async () => {
-  error.value = "";
-  exif.value = null;
+  error.value = ''
+  exif.value = null
 
   if (!file.value) {
-    error.value = t("exif.selectFirst");
-    return;
+    error.value = t('exif.selectFirst')
+    return
   }
 
-  loading.value = true;
+  loading.value = true
   try {
-    const { parse } = await import("exifr");
+    const { parse } = await import('exifr')
     const data = await parse(file.value, {
       tiff: true,
       exif: true,
       gps: true,
       ifd0: {} as any,
-    });
+    })
     if (!data) {
-      error.value = t("exif.noExif");
+      error.value = t('exif.noExif')
     } else {
-      exif.value = data;
-      showToast(t("exif.parseSuccess"));
+      exif.value = data
+      showToast(t('exif.parseSuccess'))
     }
   } catch (e) {
-    console.error(e);
-    error.value = t("exif.parseFailed");
+    console.error(e)
+    error.value = t('exif.parseFailed')
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
+}
 
 const translateKey = (key: string): string => {
-  return translationMap.value[key] || key;
-};
+  return translationMap.value[key] || key
+}
 
 const formatValue = (v: any): string => {
-  if (v instanceof Date) return v.toLocaleString();
-  if (typeof v === "object") return JSON.stringify(v);
-  return String(v);
-};
+  if (v instanceof Date) return v.toLocaleString()
+  if (typeof v === 'object') return JSON.stringify(v)
+  return String(v)
+}
 
 const handleFileUpload = (e: Event) => {
-  const f = (e.target as HTMLInputElement).files?.[0];
-  if (!f) return;
+  const f = (e.target as HTMLInputElement).files?.[0]
+  if (!f) return
   if (f.size > 50 * 1024 * 1024) {
-    showToast(t("exif.fileSizeLimit"), "error");
-    return;
+    showToast(t('exif.fileSizeLimit'), 'error')
+    return
   }
-  file.value = f;
-};
+  file.value = f
+}
 
 const handleDrop = (e: DragEvent) => {
-  const f = e.dataTransfer?.files?.[0];
-  if (!f) return;
-  if (!f.type.startsWith("image/")) {
-    showToast(t("exif.dragImageOnly"), "warning");
-    return;
+  const f = e.dataTransfer?.files?.[0]
+  if (!f) return
+  if (!f.type.startsWith('image/')) {
+    showToast(t('exif.dragImageOnly'), 'warning')
+    return
   }
   if (f.size > 50 * 1024 * 1024) {
-    showToast(t("exif.fileSizeLimit"), "error");
-    return;
+    showToast(t('exif.fileSizeLimit'), 'error')
+    return
   }
-  file.value = f;
-};
+  file.value = f
+}
 
 const clearAll = () => {
-  file.value = null;
-  exif.value = null;
-  error.value = "";
+  file.value = null
+  exif.value = null
+  error.value = ''
   if (previewUrl.value) {
-    URL.revokeObjectURL(previewUrl.value);
-    previewUrl.value = "";
+    URL.revokeObjectURL(previewUrl.value)
+    previewUrl.value = ''
   }
-  if (fileInput.value) fileInput.value.value = "";
-};
+  if (fileInput.value) fileInput.value.value = ''
+}
 
 const copyAll = async () => {
-  if (!exif.value) return;
+  if (!exif.value) return
   try {
-    const text = JSON.stringify(exif.value, null, 2);
-    await navigator.clipboard.writeText(text);
-    showToast(t("exif.copiedJson"));
+    const text = JSON.stringify(exif.value, null, 2)
+    await navigator.clipboard.writeText(text)
+    showToast(t('exif.copiedJson'))
   } catch {
-    showToast(t("common.copyFailed"), "error");
+    showToast(t('common.copyFailed'), 'error')
   }
-};
+}
 
 const exportJson = () => {
-  if (!exif.value) return;
-  const text = JSON.stringify(exif.value, null, 2);
-  const blob = new Blob([text], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = `${file.value?.name || "exif"}_metadata.json`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-  showToast(t("exif.exportJson"));
-};
+  if (!exif.value) return
+  const text = JSON.stringify(exif.value, null, 2)
+  const blob = new Blob([text], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `${file.value?.name || 'exif'}_metadata.json`
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
+  showToast(t('exif.exportJson'))
+}
 
 const copySingle = async (key: string, value: any) => {
-  const label = translateKey(key);
-  const text = `${label}: ${formatValue(value)}`;
+  const label = translateKey(key)
+  const text = `${label}: ${formatValue(value)}`
   try {
-    await navigator.clipboard.writeText(text);
-    showToast(t("exif.copied", { label }));
+    await navigator.clipboard.writeText(text)
+    showToast(t('exif.copied', { label }))
   } catch {
-    showToast(t("common.copyFailed"), "error");
+    showToast(t('common.copyFailed'), 'error')
   }
-};
+}
 </script>
 
 <template>
@@ -312,7 +311,7 @@ const copySingle = async (key: string, value: any) => {
           @click="copyAll"
         >
           <Copy class="h-4 w-4" />
-          <span class="hidden sm:inline">{{ $t("exif.copyJson") }}</span>
+          <span class="hidden sm:inline">{{ $t('exif.copyJson') }}</span>
         </button>
         <button
           v-if="exif"
@@ -320,7 +319,7 @@ const copySingle = async (key: string, value: any) => {
           @click="exportJson"
         >
           <Download class="h-4 w-4" />
-          <span class="hidden sm:inline">{{ $t("common.export") }}</span>
+          <span class="hidden sm:inline">{{ $t('common.export') }}</span>
         </button>
         <button
           v-if="file"
@@ -328,7 +327,7 @@ const copySingle = async (key: string, value: any) => {
           @click="clearAll"
         >
           <Trash2 class="h-4 w-4" />
-          <span class="hidden sm:inline">{{ $t("common.clear") }}</span>
+          <span class="hidden sm:inline">{{ $t('common.clear') }}</span>
         </button>
       </div>
     </template>
@@ -352,18 +351,16 @@ const copySingle = async (key: string, value: any) => {
       >
         <div class="flex flex-col items-center gap-4 py-8">
           <div class="relative w-24 h-24 flex items-center justify-center">
-            <div
-              class="absolute inset-0 bg-blue-500/5 rounded-full scale-125"
-            ></div>
+            <div class="absolute inset-0 bg-blue-500/5 rounded-full scale-125"></div>
             <Camera class="h-12 w-12 text-blue-500 relative z-10" />
           </div>
 
           <div class="space-y-2">
             <h3 class="text-lg font-semibold text-foreground">
-              {{ $t("exif.selectOrDrag") }}
+              {{ $t('exif.selectOrDrag') }}
             </h3>
             <p class="text-sm text-muted-foreground">
-              {{ $t("exif.supportedFormats") }}
+              {{ $t('exif.supportedFormats') }}
             </p>
           </div>
 
@@ -372,7 +369,7 @@ const copySingle = async (key: string, value: any) => {
             @click="fileInput?.click()"
           >
             <Upload class="h-4 w-4" />
-            {{ $t("exif.selectImage") }}
+            {{ $t('exif.selectImage') }}
           </button>
         </div>
       </div>
@@ -380,16 +377,11 @@ const copySingle = async (key: string, value: any) => {
       <!-- Content after file selected -->
       <template v-if="file">
         <!-- Loading -->
-        <div
-          v-if="loading"
-          class="flex items-center justify-center gap-3 py-12"
-        >
+        <div v-if="loading" class="flex items-center justify-center gap-3 py-12">
           <div
             class="h-5 w-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"
           ></div>
-          <span class="text-sm text-muted-foreground font-medium">{{
-            $t("exif.parsing")
-          }}</span>
+          <span class="text-sm text-muted-foreground font-medium">{{ $t('exif.parsing') }}</span>
         </div>
 
         <!-- Error -->
@@ -423,7 +415,7 @@ const copySingle = async (key: string, value: any) => {
               @click="fileInput?.click()"
             >
               <Upload class="h-4 w-4" />
-              {{ $t("exif.changeImage") }}
+              {{ $t('exif.changeImage') }}
             </button>
           </div>
         </div>
@@ -437,9 +429,7 @@ const copySingle = async (key: string, value: any) => {
           <div class="lg:col-span-4 flex flex-col items-center">
             <div class="sticky top-6 w-full space-y-4">
               <!-- Image Preview Card -->
-              <div
-                class="bg-card/30 border border-muted/80 rounded-3xl p-4 overflow-hidden"
-              >
+              <div class="bg-card/30 border border-muted/80 rounded-3xl p-4 overflow-hidden">
                 <div
                   class="bg-black/60 rounded-2xl overflow-hidden flex items-center justify-center"
                 >
@@ -453,13 +443,8 @@ const copySingle = async (key: string, value: any) => {
               </div>
 
               <!-- File Info -->
-              <div
-                class="bg-card/30 border border-muted/80 rounded-2xl px-5 py-4 space-y-2"
-              >
-                <p
-                  class="text-sm font-medium text-foreground truncate"
-                  :title="file.name"
-                >
+              <div class="bg-card/30 border border-muted/80 rounded-2xl px-5 py-4 space-y-2">
+                <p class="text-sm font-medium text-foreground truncate" :title="file.name">
                   {{ file.name }}
                 </p>
                 <p class="text-xs text-muted-foreground">
@@ -471,7 +456,7 @@ const copySingle = async (key: string, value: any) => {
                   @click="fileInput?.click()"
                 >
                   <Upload class="h-3.5 w-3.5" />
-                  {{ $t("exif.replaceImage") }}
+                  {{ $t('exif.replaceImage') }}
                 </button>
               </div>
             </div>
@@ -480,20 +465,16 @@ const copySingle = async (key: string, value: any) => {
           <!-- Right: EXIF Table -->
           <div class="lg:col-span-8 space-y-4">
             <!-- Table Header -->
-            <div
-              class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-2"
-            >
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-2">
               <div class="space-y-0.5">
                 <h3 class="text-base font-semibold text-foreground">
-                  {{ $t("exif.exifDetails") }}
+                  {{ $t('exif.exifDetails') }}
                 </h3>
                 <p class="text-xs text-muted-foreground">
-                  {{ $t("exif.totalItems", { count: exifEntryCount }) }}
+                  {{ $t('exif.totalItems', { count: exifEntryCount }) }}
                 </p>
               </div>
-              <label
-                class="flex items-center gap-2 cursor-pointer group select-none"
-              >
+              <label class="flex items-center gap-2 cursor-pointer group select-none">
                 <input v-model="hideInvalid" type="checkbox" class="sr-only" />
                 <div
                   class="w-10 h-5 bg-muted rounded-full relative transition-colors group-has-checked:bg-blue-500"
@@ -502,16 +483,12 @@ const copySingle = async (key: string, value: any) => {
                     class="absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-all group-has-checked:left-6"
                   ></div>
                 </div>
-                <span class="text-sm text-muted-foreground">{{
-                  $t("exif.hideInvalid")
-                }}</span>
+                <span class="text-sm text-muted-foreground">{{ $t('exif.hideInvalid') }}</span>
               </label>
             </div>
 
             <!-- Table -->
-            <div
-              class="bg-card/30 border border-muted/80 rounded-3xl overflow-hidden"
-            >
+            <div class="bg-card/30 border border-muted/80 rounded-3xl overflow-hidden">
               <div class="overflow-x-auto">
                 <table class="w-full text-sm">
                   <thead>
@@ -519,17 +496,17 @@ const copySingle = async (key: string, value: any) => {
                       <th
                         class="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider"
                       >
-                        {{ $t("exif.field") }}
+                        {{ $t('exif.field') }}
                       </th>
                       <th
                         class="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider"
                       >
-                        {{ $t("exif.value") }}
+                        {{ $t('exif.value') }}
                       </th>
                       <th
                         class="text-right px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider w-16"
                       >
-                        {{ $t("exif.action") }}
+                        {{ $t('exif.action') }}
                       </th>
                     </tr>
                   </thead>
@@ -562,9 +539,7 @@ const copySingle = async (key: string, value: any) => {
                           :title="$t('exif.copyItem')"
                           @click="copySingle(String(key), value)"
                         >
-                          <Copy
-                            class="h-3.5 w-3.5 opacity-40 hover:opacity-100"
-                          />
+                          <Copy class="h-3.5 w-3.5 opacity-40 hover:opacity-100" />
                         </button>
                       </td>
                     </tr>

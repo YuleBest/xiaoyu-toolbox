@@ -1,212 +1,203 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
-import { ref, inject, computed } from "vue";
-import { useI18n } from "vue-i18n";
+import { ref, inject, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n();
-import {
-  Copy,
-  Check,
-  Trash2,
-  ArrowRightLeft,
-  FileJson,
-  Upload,
-  Download,
-} from "lucide-vue-next";
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
-import yaml from "js-yaml";
-import Prism from "prismjs";
-import "prismjs/components/prism-json";
-import "prismjs/components/prism-yaml";
-import "prismjs/themes/prism-tomorrow.css";
+const { t } = useI18n()
+import { Copy, Check, Trash2, ArrowRightLeft, FileJson, Upload, Download } from 'lucide-vue-next'
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
+import yaml from 'js-yaml'
+import Prism from 'prismjs'
+import 'prismjs/components/prism-json'
+import 'prismjs/components/prism-yaml'
+import 'prismjs/themes/prism-tomorrow.css'
 
-const showToast = inject("showToast") as (
+const showToast = inject('showToast') as (
   msg: string,
-  type?: "success" | "warning" | "error",
-) => void;
+  type?: 'success' | 'warning' | 'error',
+) => void
 
-const tool = allTools.find((t) => t.id === "json-yaml")!;
+const tool = allTools.find((t) => t.id === 'json-yaml')!
 
-const jsonText = ref("");
-const yamlText = ref("");
-const jsonError = ref("");
-const yamlError = ref("");
+const jsonText = ref('')
+const yamlText = ref('')
+const jsonError = ref('')
+const yamlError = ref('')
 
-const jsonScrollRef = ref<HTMLTextAreaElement | null>(null);
-const jsonPreRef = ref<HTMLPreElement | null>(null);
-const yamlScrollRef = ref<HTMLTextAreaElement | null>(null);
-const yamlPreRef = ref<HTMLPreElement | null>(null);
-const fileInput = ref<HTMLInputElement | null>(null);
+const jsonScrollRef = ref<HTMLTextAreaElement | null>(null)
+const jsonPreRef = ref<HTMLPreElement | null>(null)
+const yamlScrollRef = ref<HTMLTextAreaElement | null>(null)
+const yamlPreRef = ref<HTMLPreElement | null>(null)
+const fileInput = ref<HTMLInputElement | null>(null)
 
-const copiedJson = ref(false);
-const copiedYaml = ref(false);
-const isUpdating = ref(false);
+const copiedJson = ref(false)
+const copiedYaml = ref(false)
+const isUpdating = ref(false)
 
 const highlightedJson = computed(() => {
-  if (!jsonText.value || !Prism.languages.json) return jsonText.value;
-  return Prism.highlight(jsonText.value, Prism.languages.json, "json");
-});
+  if (!jsonText.value || !Prism.languages.json) return jsonText.value
+  return Prism.highlight(jsonText.value, Prism.languages.json, 'json')
+})
 
 const highlightedYaml = computed(() => {
-  if (!yamlText.value || !Prism.languages.yaml) return yamlText.value;
-  return Prism.highlight(yamlText.value, Prism.languages.yaml, "yaml");
-});
+  if (!yamlText.value || !Prism.languages.yaml) return yamlText.value
+  return Prism.highlight(yamlText.value, Prism.languages.yaml, 'yaml')
+})
 
-const syncScroll = (type: "json" | "yaml") => {
-  if (type === "json" && jsonScrollRef.value && jsonPreRef.value) {
-    jsonPreRef.value.scrollTop = jsonScrollRef.value.scrollTop;
-    jsonPreRef.value.scrollLeft = jsonScrollRef.value.scrollLeft;
-  } else if (type === "yaml" && yamlScrollRef.value && yamlPreRef.value) {
-    yamlPreRef.value.scrollTop = yamlScrollRef.value.scrollTop;
-    yamlPreRef.value.scrollLeft = yamlScrollRef.value.scrollLeft;
+const syncScroll = (type: 'json' | 'yaml') => {
+  if (type === 'json' && jsonScrollRef.value && jsonPreRef.value) {
+    jsonPreRef.value.scrollTop = jsonScrollRef.value.scrollTop
+    jsonPreRef.value.scrollLeft = jsonScrollRef.value.scrollLeft
+  } else if (type === 'yaml' && yamlScrollRef.value && yamlPreRef.value) {
+    yamlPreRef.value.scrollTop = yamlScrollRef.value.scrollTop
+    yamlPreRef.value.scrollLeft = yamlScrollRef.value.scrollLeft
   }
-};
+}
 
 // JSON -> YAML
 const convertJsonToYaml = (json: string) => {
-  jsonError.value = "";
+  jsonError.value = ''
   if (!json.trim()) {
-    yamlText.value = "";
-    yamlError.value = "";
-    return;
+    yamlText.value = ''
+    yamlError.value = ''
+    return
   }
   try {
-    const obj = JSON.parse(json);
-    yamlText.value = yaml.dump(obj, { indent: 2 });
-    yamlError.value = "";
+    const obj = JSON.parse(json)
+    yamlText.value = yaml.dump(obj, { indent: 2 })
+    yamlError.value = ''
   } catch (e: any) {
-    jsonError.value = e.message;
+    jsonError.value = e.message
   }
-};
+}
 
 // YAML -> JSON
 const convertYamlToJson = (yml: string) => {
-  yamlError.value = "";
+  yamlError.value = ''
   if (!yml.trim()) {
-    jsonText.value = "";
-    jsonError.value = "";
-    return;
+    jsonText.value = ''
+    jsonError.value = ''
+    return
   }
   try {
-    const obj = yaml.load(yml);
-    jsonText.value = JSON.stringify(obj, null, 2);
-    jsonError.value = "";
+    const obj = yaml.load(yml)
+    jsonText.value = JSON.stringify(obj, null, 2)
+    jsonError.value = ''
   } catch (e: any) {
-    yamlError.value = e.message;
+    yamlError.value = e.message
   }
-};
+}
 
 const handleJsonInput = (e: Event) => {
-  if (isUpdating.value) return;
-  const val = (e.target as HTMLTextAreaElement).value;
-  jsonText.value = val;
-  isUpdating.value = true;
-  convertJsonToYaml(val);
-  isUpdating.value = false;
-  syncScroll("json");
-};
+  if (isUpdating.value) return
+  const val = (e.target as HTMLTextAreaElement).value
+  jsonText.value = val
+  isUpdating.value = true
+  convertJsonToYaml(val)
+  isUpdating.value = false
+  syncScroll('json')
+}
 
 const handleYamlInput = (e: Event) => {
-  if (isUpdating.value) return;
-  const val = (e.target as HTMLTextAreaElement).value;
-  yamlText.value = val;
-  isUpdating.value = true;
-  convertYamlToJson(val);
-  isUpdating.value = false;
-  syncScroll("yaml");
-};
+  if (isUpdating.value) return
+  const val = (e.target as HTMLTextAreaElement).value
+  yamlText.value = val
+  isUpdating.value = true
+  convertYamlToJson(val)
+  isUpdating.value = false
+  syncScroll('yaml')
+}
 
 const handleFileUpload = (e: Event) => {
-  const file = (e.target as HTMLInputElement).files?.[0];
-  if (!file) return;
+  const file = (e.target as HTMLInputElement).files?.[0]
+  if (!file) return
 
   if (file.size > 5 * 1024 * 1024) {
-    showToast(t("jsonYaml.fileSizeLimit"), "error");
-    return;
+    showToast(t('jsonYaml.fileSizeLimit'), 'error')
+    return
   }
 
-  const reader = new FileReader();
+  const reader = new FileReader()
   reader.onload = (event) => {
-    const content = event.target?.result as string;
-    const extension = file.name.split(".").pop()?.toLowerCase();
+    const content = event.target?.result as string
+    const extension = file.name.split('.').pop()?.toLowerCase()
 
-    if (extension === "json") {
-      jsonText.value = content;
-      convertJsonToYaml(content);
-    } else if (extension === "yaml" || extension === "yml") {
-      yamlText.value = content;
-      convertYamlToJson(content);
+    if (extension === 'json') {
+      jsonText.value = content
+      convertJsonToYaml(content)
+    } else if (extension === 'yaml' || extension === 'yml') {
+      yamlText.value = content
+      convertYamlToJson(content)
     } else {
       // 尝试自动判断
       try {
-        JSON.parse(content);
-        jsonText.value = content;
-        convertJsonToYaml(content);
+        JSON.parse(content)
+        jsonText.value = content
+        convertJsonToYaml(content)
       } catch {
-        yamlText.value = content;
-        convertYamlToJson(content);
+        yamlText.value = content
+        convertYamlToJson(content)
       }
     }
-    showToast(t("jsonYaml.importSuccess"));
-  };
-  reader.readAsText(file);
-  if (fileInput.value) fileInput.value.value = "";
-};
-
-const downloadFile = (type: "json" | "yaml") => {
-  const content = type === "json" ? jsonText.value : yamlText.value;
-  if (!content.trim()) return;
-
-  const blob = new Blob([content], { type: "text/plain" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  const timestamp = new Date().getTime();
-  a.href = url;
-  a.download = `tool_${type}_${timestamp}.${type === "json" ? "json" : "yaml"}`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast(t("jsonYaml.exporting"));
-};
-
-const copyToClipboard = async (text: string, type: "json" | "yaml") => {
-  if (!text) return;
-  try {
-    await navigator.clipboard.writeText(text);
-    showToast(t("common.copySuccess"));
-    if (type === "json") {
-      copiedJson.value = true;
-      setTimeout(() => (copiedJson.value = false), 2000);
-    } else {
-      copiedYaml.value = true;
-      setTimeout(() => (copiedYaml.value = false), 2000);
-    }
-  } catch (_err) {
-    showToast(t("common.copyFailed"), "error");
+    showToast(t('jsonYaml.importSuccess'))
   }
-};
+  reader.readAsText(file)
+  if (fileInput.value) fileInput.value.value = ''
+}
+
+const downloadFile = (type: 'json' | 'yaml') => {
+  const content = type === 'json' ? jsonText.value : yamlText.value
+  if (!content.trim()) return
+
+  const blob = new Blob([content], { type: 'text/plain' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  const timestamp = new Date().getTime()
+  a.href = url
+  a.download = `tool_${type}_${timestamp}.${type === 'json' ? 'json' : 'yaml'}`
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  URL.revokeObjectURL(url)
+  showToast(t('jsonYaml.exporting'))
+}
+
+const copyToClipboard = async (text: string, type: 'json' | 'yaml') => {
+  if (!text) return
+  try {
+    await navigator.clipboard.writeText(text)
+    showToast(t('common.copySuccess'))
+    if (type === 'json') {
+      copiedJson.value = true
+      setTimeout(() => (copiedJson.value = false), 2000)
+    } else {
+      copiedYaml.value = true
+      setTimeout(() => (copiedYaml.value = false), 2000)
+    }
+  } catch {
+    showToast(t('common.copyFailed'), 'error')
+  }
+}
 
 const clearAll = () => {
-  jsonText.value = "";
-  yamlText.value = "";
-  jsonError.value = "";
-  yamlError.value = "";
-};
+  jsonText.value = ''
+  yamlText.value = ''
+  jsonError.value = ''
+  yamlError.value = ''
+}
 
 const formatJson = () => {
-  if (!jsonText.value.trim()) return;
+  if (!jsonText.value.trim()) return
   try {
-    const obj = JSON.parse(jsonText.value);
-    jsonText.value = JSON.stringify(obj, null, 2);
-    jsonError.value = "";
-    showToast(t("jsonYaml.formatSuccess"));
+    const obj = JSON.parse(jsonText.value)
+    jsonText.value = JSON.stringify(obj, null, 2)
+    jsonError.value = ''
+    showToast(t('jsonYaml.formatSuccess'))
   } catch (e: any) {
-    jsonError.value = e.message;
-    showToast(t("jsonYaml.formatError"), "error");
+    jsonError.value = e.message
+    showToast(t('jsonYaml.formatError'), 'error')
   }
-};
+}
 </script>
 
 <template>
@@ -225,7 +216,7 @@ const formatJson = () => {
           @click="fileInput?.click()"
         >
           <Upload class="h-4 w-4" />
-          <span class="hidden sm:inline">{{ $t("jsonYaml.importFile") }}</span>
+          <span class="hidden sm:inline">{{ $t('jsonYaml.importFile') }}</span>
         </button>
 
         <button
@@ -234,7 +225,7 @@ const formatJson = () => {
           @click="formatJson"
         >
           <FileJson class="h-4 w-4" />
-          <span class="hidden sm:inline">{{ $t("jsonYaml.formatJson") }}</span>
+          <span class="hidden sm:inline">{{ $t('jsonYaml.formatJson') }}</span>
         </button>
 
         <button
@@ -242,7 +233,7 @@ const formatJson = () => {
           @click="clearAll"
         >
           <Trash2 class="h-4 w-4" />
-          <span class="hidden sm:inline">{{ $t("common.clear") }}</span>
+          <span class="hidden sm:inline">{{ $t('common.clear') }}</span>
         </button>
       </div>
     </template>
@@ -281,8 +272,7 @@ const formatJson = () => {
           <div
             class="flex flex-col flex-1 bg-card/30 border border-muted/80 rounded-3xl overflow-hidden transition-all focus-within:border-blue-500/50 focus-within:bg-card/50"
             :class="{
-              'border-destructive/50 focus-within:border-destructive':
-                jsonError,
+              'border-destructive/50 focus-within:border-destructive': jsonError,
             }"
           >
             <div class="relative flex-1 min-h-[300px] h-[45vh] md:h-[600px]">
@@ -304,9 +294,7 @@ const formatJson = () => {
               v-if="jsonError"
               class="px-5 py-2.5 bg-destructive/5 border-t border-destructive/10 shrink-0"
             >
-              <p
-                class="text-[11px] text-destructive font-medium leading-relaxed break-all"
-              >
+              <p class="text-[11px] text-destructive font-medium leading-relaxed break-all">
                 {{ jsonError }}
               </p>
             </div>
@@ -352,8 +340,7 @@ const formatJson = () => {
           <div
             class="flex flex-col flex-1 bg-card/30 border border-muted/80 rounded-3xl overflow-hidden transition-all focus-within:border-blue-500/50 focus-within:bg-card/50"
             :class="{
-              'border-destructive/50 focus-within:border-destructive':
-                yamlError,
+              'border-destructive/50 focus-within:border-destructive': yamlError,
             }"
           >
             <div class="relative flex-1 min-h-[300px] h-[45vh] md:h-[600px]">
@@ -375,9 +362,7 @@ const formatJson = () => {
               v-if="yamlError"
               class="px-5 py-2.5 bg-destructive/5 border-t border-destructive/10 shrink-0"
             >
-              <p
-                class="text-[11px] text-destructive font-medium leading-relaxed break-all"
-              >
+              <p class="text-[11px] text-destructive font-medium leading-relaxed break-all">
                 {{ yamlError }}
               </p>
             </div>
@@ -386,13 +371,9 @@ const formatJson = () => {
       </div>
 
       <!-- Tips -->
-      <div
-        class="bg-blue-500/5 border border-blue-500/10 rounded-2xl p-4 md:p-5"
-      >
-        <p
-          class="text-[12px] md:text-[13px] text-blue-600/80 leading-relaxed font-medium"
-        >
-          {{ $t("jsonYaml.tip") }}
+      <div class="bg-blue-500/5 border border-blue-500/10 rounded-2xl p-4 md:p-5">
+        <p class="text-[12px] md:text-[13px] text-blue-600/80 leading-relaxed font-medium">
+          {{ $t('jsonYaml.tip') }}
         </p>
       </div>
     </div>
@@ -405,8 +386,8 @@ const formatJson = () => {
   font-family: inherit !important;
 }
 
-code[class*="language-"],
-pre[class*="language-"] {
+code[class*='language-'],
+pre[class*='language-'] {
   text-shadow: none !important;
 }
 

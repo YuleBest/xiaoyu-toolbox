@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { navigationStore } from "@/stores/navigation";
-import Sidebar from "@/components/layout/Sidebar.vue";
-import MobileNav from "@/components/layout/MobileNav.vue";
-import Footer from "@/components/layout/Footer.vue";
-import BackButton from "@/components/layout/BackButton.vue";
-import UpdateLog from "@/components/UpdateLog.vue";
+import { computed } from 'vue'
+import { navigationStore } from '@/stores/navigation'
+import Sidebar from '@/components/layout/Sidebar.vue'
+import MobileNav from '@/components/layout/MobileNav.vue'
+import Footer from '@/components/layout/Footer.vue'
+import BackButton from '@/components/layout/BackButton.vue'
+import UpdateLog from '@/components/UpdateLog.vue'
 
-const isCollapsed = computed(() => navigationStore.isCollapsed);
+const isCollapsed = computed(() => navigationStore.isCollapsed)
 </script>
 
 <template>

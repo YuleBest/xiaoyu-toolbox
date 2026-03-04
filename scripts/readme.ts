@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
 
 const categories = zhCN.categories as Record<string, string>;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 const toolsI18n = zhCN.tools as Record<string, any>;
 
 let markdownList = "";

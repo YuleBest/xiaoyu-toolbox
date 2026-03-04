@@ -1,9 +1,8 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
-import { ref, inject } from "vue";
-import { useI18n } from "vue-i18n";
+import { ref, inject } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-const { t, locale } = useI18n();
+const { t, locale } = useI18n()
 import {
   Search,
   MapPin,
@@ -20,9 +19,9 @@ import {
   CloudLightning,
   Snowflake,
   Loader2,
-} from "lucide-vue-next";
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
+} from 'lucide-vue-next'
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
 import {
   searchCity,
   fetchWeather,
@@ -31,102 +30,99 @@ import {
   type CurrentWeather,
   type HourlyData,
   type DailyData,
-} from "@/api/weather";
+} from '@/api/weather'
 
-const showToast = inject("showToast") as (
-  msg: string,
-  type?: "warning" | "error",
-) => void;
+const showToast = inject('showToast') as (msg: string, type?: 'warning' | 'error') => void
 
-const tool = allTools.find((t) => t.id === "weather")!;
+const tool = allTools.find((t) => t.id === 'weather')!
 
-const searchQuery = ref("");
-const searchResults = ref<CityResult[]>([]);
-const selectedLocation = ref<CityResult | null>(null);
-const searching = ref(false);
-const loading = ref(false);
-const currentWeather = ref<CurrentWeather | null>(null);
-const hourlyForecast = ref<HourlyData[]>([]);
-const dailyForecast = ref<DailyData[]>([]);
-const error = ref("");
+const searchQuery = ref('')
+const searchResults = ref<CityResult[]>([])
+const selectedLocation = ref<CityResult | null>(null)
+const searching = ref(false)
+const loading = ref(false)
+const currentWeather = ref<CurrentWeather | null>(null)
+const hourlyForecast = ref<HourlyData[]>([])
+const dailyForecast = ref<DailyData[]>([])
+const error = ref('')
 
 const iconComponents: Record<string, any> = {
   sun: Sun,
   cloud: Cloud,
-  "cloud-sun": CloudSun,
-  "cloud-fog": CloudFog,
-  "cloud-drizzle": CloudDrizzle,
-  "cloud-rain": CloudRain,
+  'cloud-sun': CloudSun,
+  'cloud-fog': CloudFog,
+  'cloud-drizzle': CloudDrizzle,
+  'cloud-rain': CloudRain,
   snowflake: Snowflake,
-  "cloud-rain-wind": CloudRainWind,
-  "cloud-lightning": CloudLightning,
-};
+  'cloud-rain-wind': CloudRainWind,
+  'cloud-lightning': CloudLightning,
+}
 
 const getWeatherIconName = (code: number): string => {
-  if (code === 0) return "sun";
-  if (code >= 1 && code <= 3) return "cloud-sun";
-  if (code >= 45 && code <= 48) return "cloud-fog";
-  if (code >= 51 && code <= 55) return "cloud-drizzle";
-  if (code >= 61 && code <= 65) return "cloud-rain";
-  if (code >= 71 && code <= 77) return "snowflake";
-  if (code >= 80 && code <= 82) return "cloud-rain-wind";
-  if (code >= 95 && code <= 99) return "cloud-lightning";
-  return "cloud";
-};
+  if (code === 0) return 'sun'
+  if (code >= 1 && code <= 3) return 'cloud-sun'
+  if (code >= 45 && code <= 48) return 'cloud-fog'
+  if (code >= 51 && code <= 55) return 'cloud-drizzle'
+  if (code >= 61 && code <= 65) return 'cloud-rain'
+  if (code >= 71 && code <= 77) return 'snowflake'
+  if (code >= 80 && code <= 82) return 'cloud-rain-wind'
+  if (code >= 95 && code <= 99) return 'cloud-lightning'
+  return 'cloud'
+}
 
 const handleSearch = async () => {
-  if (!searchQuery.value.trim()) return;
-  searching.value = true;
-  searchResults.value = [];
-  selectedLocation.value = null;
-  error.value = "";
+  if (!searchQuery.value.trim()) return
+  searching.value = true
+  searchResults.value = []
+  selectedLocation.value = null
+  error.value = ''
 
   try {
-    const results = await searchCity(searchQuery.value.trim());
+    const results = await searchCity(searchQuery.value.trim())
     if (results.length > 0) {
-      searchResults.value = results;
+      searchResults.value = results
     } else {
-      showToast(t("weather.noResults"), "warning");
+      showToast(t('weather.noResults'), 'warning')
     }
   } catch {
-    showToast(t("weather.searchFailed"), "error");
+    showToast(t('weather.searchFailed'), 'error')
   } finally {
-    searching.value = false;
+    searching.value = false
   }
-};
+}
 
 const selectCity = async (city: CityResult) => {
-  selectedLocation.value = city;
-  loading.value = true;
-  error.value = "";
+  selectedLocation.value = city
+  loading.value = true
+  error.value = ''
 
   try {
-    const data = await fetchWeather(city.latitude, city.longitude);
-    currentWeather.value = data.current;
-    hourlyForecast.value = data.hourly;
-    dailyForecast.value = data.daily;
+    const data = await fetchWeather(city.latitude, city.longitude)
+    currentWeather.value = data.current
+    hourlyForecast.value = data.hourly
+    dailyForecast.value = data.daily
   } catch {
-    error.value = t("weather.searchFailed");
-    showToast(t("weather.searchFailed"), "error");
+    error.value = t('weather.searchFailed')
+    showToast(t('weather.searchFailed'), 'error')
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
+}
 
 const formatDate = (date: Date) => {
-  return new Intl.DateTimeFormat(locale.value === "zh-CN" ? "zh-CN" : "en-US", {
-    weekday: "long",
-    month: "short",
-    day: "numeric",
-  }).format(date);
-};
+  return new Intl.DateTimeFormat(locale.value === 'zh-CN' ? 'zh-CN' : 'en-US', {
+    weekday: 'long',
+    month: 'short',
+    day: 'numeric',
+  }).format(date)
+}
 
 const formatHour = (date: Date) => {
-  return new Intl.DateTimeFormat(locale.value === "zh-CN" ? "zh-CN" : "en-US", {
-    hour: "numeric",
-    minute: "numeric",
-  }).format(date);
-};
+  return new Intl.DateTimeFormat(locale.value === 'zh-CN' ? 'zh-CN' : 'en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+  }).format(date)
+}
 </script>
 
 <template>
@@ -154,7 +150,7 @@ const formatHour = (date: Date) => {
           >
             <Loader2 v-if="searching" class="h-4 w-4 animate-spin" />
             <Search v-else class="h-4 w-4" />
-            {{ $t("common.search") }}
+            {{ $t('common.search') }}
           </button>
         </div>
       </div>
@@ -167,7 +163,7 @@ const formatHour = (date: Date) => {
         >
           <div class="px-5 py-4 border-b border-muted/30">
             <h3>
-              {{ $t("weather.noResults") }}
+              {{ $t('weather.noResults') }}
               <span class="text-muted-foreground font-normal ml-1"
                 >{{ searchResults.length }} 个</span
               >
@@ -183,11 +179,9 @@ const formatHour = (date: Date) => {
               <div
                 class="h-10 w-10 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0"
               >
-                <span
-                  v-if="result.country_code"
-                  class="text-xs font-bold text-blue-500"
-                  >{{ result.country_code }}</span
-                >
+                <span v-if="result.country_code" class="text-xs font-bold text-blue-500">{{
+                  result.country_code
+                }}</span>
                 <MapPin v-else class="h-4 w-4 text-blue-500" />
               </div>
               <div class="flex-1 min-w-0">
@@ -198,8 +192,7 @@ const formatHour = (date: Date) => {
                   <span v-if="result.admin1">{{ result.admin1 }}, </span>
                   {{ result.country }}
                   <span class="ml-1"
-                    >({{ result.latitude.toFixed(2) }},
-                    {{ result.longitude.toFixed(2) }})</span
+                    >({{ result.latitude.toFixed(2) }}, {{ result.longitude.toFixed(2) }})</span
                   >
                 </p>
               </div>
@@ -215,16 +208,11 @@ const formatHour = (date: Date) => {
 
       <!-- Weather Display -->
       <Transition name="slide">
-        <div
-          v-if="currentWeather && selectedLocation && !loading"
-          class="space-y-6"
-        >
+        <div v-if="currentWeather && selectedLocation && !loading" class="space-y-6">
           <!-- Main Weather Card -->
           <div
             class="rounded-3xl p-6 md:p-8 text-white overflow-hidden relative"
-            style="
-              background: linear-gradient(135deg, #3b82f6 0%, #93c5fd 100%);
-            "
+            style="background: linear-gradient(135deg, #3b82f6 0%, #93c5fd 100%)"
           >
             <div
               class="flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-4"
@@ -251,9 +239,7 @@ const formatHour = (date: Date) => {
                 </div>
               </div>
               <component
-                :is="
-                  iconComponents[getWeatherIconName(currentWeather.weatherCode)]
-                "
+                :is="iconComponents[getWeatherIconName(currentWeather.weatherCode)]"
                 class="h-20 w-20 text-white/90"
                 style="filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2))"
               />
@@ -263,22 +249,16 @@ const formatHour = (date: Date) => {
           <!-- Details Grid -->
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
             <div class="bg-card/30 border border-muted/80 rounded-2xl p-4">
-              <div
-                class="flex items-center gap-1 text-xs text-muted-foreground mb-2"
-              >
+              <div class="flex items-center gap-1 text-xs text-muted-foreground mb-2">
                 <Droplets class="h-3.5 w-3.5 text-blue-500" />
-                {{ $t("weather.humidity") }}
+                {{ $t('weather.humidity') }}
               </div>
-              <p class="text-xl md:text-2xl font-bold">
-                {{ currentWeather.humidity }}%
-              </p>
+              <p class="text-xl md:text-2xl font-bold">{{ currentWeather.humidity }}%</p>
             </div>
             <div class="bg-card/30 border border-muted/80 rounded-2xl p-4">
-              <div
-                class="flex items-center gap-1 text-xs text-muted-foreground mb-2"
-              >
+              <div class="flex items-center gap-1 text-xs text-muted-foreground mb-2">
                 <Wind class="h-3.5 w-3.5 text-slate-500" />
-                {{ $t("weather.windSpeed") }}
+                {{ $t('weather.windSpeed') }}
               </div>
               <p class="text-xl md:text-2xl font-bold">
                 {{ currentWeather.windSpeed.toFixed(1) }}
@@ -286,22 +266,18 @@ const formatHour = (date: Date) => {
               </p>
             </div>
             <div class="bg-card/30 border border-muted/80 rounded-2xl p-4">
-              <div
-                class="flex items-center gap-1 text-xs text-muted-foreground mb-2"
-              >
+              <div class="flex items-center gap-1 text-xs text-muted-foreground mb-2">
                 <Thermometer class="h-3.5 w-3.5 text-red-500" />
-                {{ $t("weather.feelsLike") }}
+                {{ $t('weather.feelsLike') }}
               </div>
               <p class="text-xl md:text-2xl font-bold">
                 {{ Math.round(currentWeather.feelsLike) }}°
               </p>
             </div>
             <div class="bg-card/30 border border-muted/80 rounded-2xl p-4">
-              <div
-                class="flex items-center gap-1 text-xs text-muted-foreground mb-2"
-              >
+              <div class="flex items-center gap-1 text-xs text-muted-foreground mb-2">
                 <CloudRain class="h-3.5 w-3.5 text-cyan-500" />
-                {{ $t("weather.precipitation") }}
+                {{ $t('weather.precipitation') }}
               </div>
               <p class="text-xl md:text-2xl font-bold">
                 {{ hourlyForecast[0]?.precipitationProbability || 0 }}%
@@ -312,15 +288,10 @@ const formatHour = (date: Date) => {
           <!-- Hourly Forecast -->
           <div>
             <h3 class="mb-4 px-1">
-              {{ $t("weather.hourlyForecast") }}
+              {{ $t('weather.hourlyForecast') }}
             </h3>
-            <div
-              class="bg-card/30 border border-muted/80 rounded-3xl overflow-hidden"
-            >
-              <div
-                class="flex overflow-x-auto p-4 gap-4"
-                style="-webkit-overflow-scrolling: touch"
-              >
+            <div class="bg-card/30 border border-muted/80 rounded-3xl overflow-hidden">
+              <div class="flex overflow-x-auto p-4 gap-4" style="-webkit-overflow-scrolling: touch">
                 <div
                   v-for="(hour, i) in hourlyForecast.slice(0, 24)"
                   :key="i"
@@ -345,16 +316,11 @@ const formatHour = (date: Date) => {
 
       <!-- Empty State -->
       <div
-        v-if="
-          !currentWeather &&
-          !loading &&
-          !searching &&
-          searchResults.length === 0
-        "
+        v-if="!currentWeather && !loading && !searching && searchResults.length === 0"
         class="flex flex-col items-center gap-4 py-16 opacity-30"
       >
         <MapPin class="h-16 w-16" />
-        <p class="text-lg font-medium">{{ $t("weather.searchPlaceholder") }}</p>
+        <p class="text-lg font-medium">{{ $t('weather.searchPlaceholder') }}</p>
       </div>
     </div>
   </ToolContainer>

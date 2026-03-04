@@ -1,9 +1,8 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
-import { ref, computed, inject } from "vue";
-import { useI18n } from "vue-i18n";
+import { ref, computed, inject } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n();
+const { t } = useI18n()
 import {
   Video,
   Search,
@@ -17,125 +16,117 @@ import {
   Info,
   AlertTriangle,
   Loader2,
-} from "lucide-vue-next";
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
-import {
-  parseDyVideo,
-  getDownloadUrl,
-  getPreviewUrl,
-  type DyVideoResult,
-} from "@/api/dydown";
+} from 'lucide-vue-next'
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
+import { parseDyVideo, getDownloadUrl, getPreviewUrl, type DyVideoResult } from '@/api/dydown'
 
-const showToast = inject("showToast") as (
-  msg: string,
-  type?: "warning" | "error",
-) => void;
+const showToast = inject('showToast') as (msg: string, type?: 'warning' | 'error') => void
 
-const tool = allTools.find((t) => t.id === "dydown")!;
+const tool = allTools.find((t) => t.id === 'dydown')!
 
-const inputText = ref("");
-const loading = ref(false);
-const result = ref<DyVideoResult | null>(null);
-const error = ref("");
-const cooldown = ref(0);
-let cooldownTimer: ReturnType<typeof setInterval> | null = null;
-const disclaimerVisible = ref(false);
-const pendingParse = ref(false);
-const copiedUrl = ref(false);
+const inputText = ref('')
+const loading = ref(false)
+const result = ref<DyVideoResult | null>(null)
+const error = ref('')
+const cooldown = ref(0)
+let cooldownTimer: ReturnType<typeof setInterval> | null = null
+const disclaimerVisible = ref(false)
+const pendingParse = ref(false)
+const copiedUrl = ref(false)
 
 // 24h 免责声明
-const DISCLAIMER_KEY = "dydown_disclaimer_accepted";
+const DISCLAIMER_KEY = 'dydown_disclaimer_accepted'
 const isDisclaimerAccepted = () => {
-  const ts = localStorage.getItem(DISCLAIMER_KEY);
-  if (!ts) return false;
-  return Date.now() - parseInt(ts) < 24 * 60 * 60 * 1000;
-};
+  const ts = localStorage.getItem(DISCLAIMER_KEY)
+  if (!ts) return false
+  return Date.now() - parseInt(ts) < 24 * 60 * 60 * 1000
+}
 
 const fullDownloadUrl = computed(() => {
-  if (!result.value?.downloadApi) return "";
-  return getDownloadUrl(result.value.downloadApi);
-});
+  if (!result.value?.downloadApi) return ''
+  return getDownloadUrl(result.value.downloadApi)
+})
 
 const previewUrl = computed(() => {
-  if (!result.value?.videoId) return "";
-  return getPreviewUrl(result.value.videoId);
-});
+  if (!result.value?.videoId) return ''
+  return getPreviewUrl(result.value.videoId)
+})
 
 const startCooldown = () => {
-  cooldown.value = 5;
-  if (cooldownTimer) clearInterval(cooldownTimer);
+  cooldown.value = 5
+  if (cooldownTimer) clearInterval(cooldownTimer)
   cooldownTimer = setInterval(() => {
-    cooldown.value--;
+    cooldown.value--
     if (cooldown.value <= 0 && cooldownTimer) {
-      clearInterval(cooldownTimer);
-      cooldownTimer = null;
+      clearInterval(cooldownTimer)
+      cooldownTimer = null
     }
-  }, 1000);
-};
+  }, 1000)
+}
 
 const handleParse = async () => {
   if (!inputText.value.trim()) {
-    showToast(t("dydown.inputPlaceholder"), "warning");
-    return;
+    showToast(t('dydown.inputPlaceholder'), 'warning')
+    return
   }
 
   // 检查免责声明
   if (!isDisclaimerAccepted()) {
-    disclaimerVisible.value = true;
-    pendingParse.value = true;
-    return;
+    disclaimerVisible.value = true
+    pendingParse.value = true
+    return
   }
 
-  doParse();
-};
+  doParse()
+}
 
 const acceptDisclaimer = () => {
-  localStorage.setItem(DISCLAIMER_KEY, Date.now().toString());
-  disclaimerVisible.value = false;
+  localStorage.setItem(DISCLAIMER_KEY, Date.now().toString())
+  disclaimerVisible.value = false
   if (pendingParse.value) {
-    pendingParse.value = false;
-    doParse();
+    pendingParse.value = false
+    doParse()
   }
-};
+}
 
 const doParse = async () => {
-  error.value = "";
-  loading.value = true;
-  result.value = null;
+  error.value = ''
+  loading.value = true
+  result.value = null
 
   try {
-    const resp = await parseDyVideo(inputText.value.trim());
+    const resp = await parseDyVideo(inputText.value.trim())
     if (resp.ok && resp.data) {
-      result.value = resp.data;
-      showToast(t("common.success"));
+      result.value = resp.data
+      showToast(t('common.success'))
     } else {
-      error.value = resp.message || t("dydown.parseFailed");
+      error.value = resp.message || t('dydown.parseFailed')
     }
   } catch (e: any) {
-    error.value = "请求出错: " + (e.message || "网络错误");
+    error.value = '请求出错: ' + (e.message || '网络错误')
   } finally {
-    loading.value = false;
-    startCooldown();
+    loading.value = false
+    startCooldown()
   }
-};
+}
 
 const copyUrl = async () => {
-  if (!fullDownloadUrl.value) return;
+  if (!fullDownloadUrl.value) return
   try {
-    await navigator.clipboard.writeText(fullDownloadUrl.value);
-    copiedUrl.value = true;
-    showToast(t("common.copySuccess"));
-    setTimeout(() => (copiedUrl.value = false), 2000);
+    await navigator.clipboard.writeText(fullDownloadUrl.value)
+    copiedUrl.value = true
+    showToast(t('common.copySuccess'))
+    setTimeout(() => (copiedUrl.value = false), 2000)
   } catch {
-    showToast(t("common.copyFailed"), "error");
+    showToast(t('common.copyFailed'), 'error')
   }
-};
+}
 
 const formatCount = (n: number) => {
-  if (n >= 10000) return (n / 10000).toFixed(1) + "万";
-  return n.toString();
-};
+  if (n >= 10000) return (n / 10000).toFixed(1) + '万'
+  return n.toString()
+}
 </script>
 
 <template>
@@ -163,7 +154,7 @@ const formatCount = (n: number) => {
           >
             <Loader2 v-if="loading" class="h-4 w-4 animate-spin" />
             <Video v-else class="h-4 w-4" />
-            {{ cooldown > 0 ? `${cooldown}s` : $t("dydown.parse") }}
+            {{ cooldown > 0 ? `${cooldown}s` : $t('dydown.parse') }}
           </button>
         </div>
       </div>
@@ -181,9 +172,7 @@ const formatCount = (n: number) => {
       <Transition name="slide">
         <div v-if="result" class="space-y-5">
           <!-- Video Info -->
-          <div
-            class="bg-card/30 border border-muted/80 rounded-3xl overflow-hidden"
-          >
+          <div class="bg-card/30 border border-muted/80 rounded-3xl overflow-hidden">
             <!-- Preview -->
             <div v-if="previewUrl" class="relative">
               <video
@@ -198,19 +187,14 @@ const formatCount = (n: number) => {
             <div class="p-5 md:p-6 space-y-4">
               <!-- Author -->
               <div class="flex items-center gap-3">
-                <div
-                  class="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center"
-                >
+                <div class="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center">
                   <User class="h-5 w-5 text-blue-500" />
                 </div>
                 <div>
                   <p class="text-sm font-bold text-foreground">
                     {{ result.safeNickname }}
                   </p>
-                  <p
-                    v-if="result.createTime"
-                    class="text-xs text-muted-foreground"
-                  >
+                  <p v-if="result.createTime" class="text-xs text-muted-foreground">
                     {{ result.createTime }}
                   </p>
                 </div>
@@ -246,7 +230,7 @@ const formatCount = (n: number) => {
               class="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-blue-500 text-white rounded-2xl font-medium hover:bg-blue-600 transition-all active:scale-[0.98]"
             >
               <Download class="h-4 w-4" />
-              {{ $t("dydown.downloadVideo") }}
+              {{ $t('dydown.downloadVideo') }}
             </a>
             <button
               v-if="fullDownloadUrl"
@@ -255,7 +239,7 @@ const formatCount = (n: number) => {
             >
               <Check v-if="copiedUrl" class="h-4 w-4 text-green-500" />
               <Copy v-else class="h-4 w-4" />
-              {{ copiedUrl ? $t("common.copySuccess") : $t("common.copy") }}
+              {{ copiedUrl ? $t('common.copySuccess') : $t('common.copy') }}
             </button>
           </div>
         </div>
@@ -267,7 +251,7 @@ const formatCount = (n: number) => {
         class="flex flex-col items-center gap-4 py-16 opacity-30"
       >
         <Video class="h-16 w-16" />
-        <p class="text-lg font-medium">{{ $t("dydown.inputPlaceholder") }}</p>
+        <p class="text-lg font-medium">{{ $t('dydown.inputPlaceholder') }}</p>
       </div>
 
       <!-- Disclaimer Dialog (Overlay) -->
@@ -281,25 +265,21 @@ const formatCount = (n: number) => {
             class="bg-card border rounded-3xl p-6 md:p-8 max-w-md w-full mx-4 space-y-5 animate-in fade-in zoom-in-95 duration-200"
           >
             <div class="flex items-center gap-3">
-              <div
-                class="h-11 w-11 rounded-xl bg-amber-500/10 flex items-center justify-center"
-              >
+              <div class="h-11 w-11 rounded-xl bg-amber-500/10 flex items-center justify-center">
                 <AlertTriangle class="h-5 w-5 text-amber-500" />
               </div>
               <h3 class="text-lg font-bold">
-                {{ $t("dydown.firstUseTitle") }}
+                {{ $t('dydown.firstUseTitle') }}
               </h3>
             </div>
 
-            <div
-              class="text-sm text-muted-foreground space-y-3 leading-relaxed"
-            >
-              <p>{{ $t("dydown.disclaimerText") }}</p>
+            <div class="text-sm text-muted-foreground space-y-3 leading-relaxed">
+              <p>{{ $t('dydown.disclaimerText') }}</p>
               <ul class="list-disc pl-5 space-y-1.5">
-                <li>{{ $t("dydown.disclaimerItem1") }}</li>
-                <li>{{ $t("dydown.disclaimerItem2") }}</li>
-                <li>{{ $t("dydown.disclaimerItem3") }}</li>
-                <li>{{ $t("dydown.disclaimerItem4") }}</li>
+                <li>{{ $t('dydown.disclaimerItem1') }}</li>
+                <li>{{ $t('dydown.disclaimerItem2') }}</li>
+                <li>{{ $t('dydown.disclaimerItem3') }}</li>
+                <li>{{ $t('dydown.disclaimerItem4') }}</li>
               </ul>
             </div>
 
@@ -308,13 +288,13 @@ const formatCount = (n: number) => {
                 class="flex-1 px-5 py-2.5 bg-muted text-foreground rounded-xl font-medium hover:bg-muted/80 transition-all active:scale-95"
                 @click="disclaimerVisible = false"
               >
-                {{ $t("common.cancel") }}
+                {{ $t('common.cancel') }}
               </button>
               <button
                 class="flex-1 px-5 py-2.5 bg-blue-500 text-white rounded-xl font-medium hover:bg-blue-600 transition-all active:scale-95"
                 @click="acceptDisclaimer"
               >
-                {{ $t("dydown.agree") }}
+                {{ $t('dydown.agree') }}
               </button>
             </div>
           </div>

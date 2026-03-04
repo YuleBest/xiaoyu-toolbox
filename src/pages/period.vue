@@ -1,142 +1,137 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from "vue";
-import { useI18n } from "vue-i18n";
-import { Info } from "lucide-vue-next";
-import ToolContainer from "@/components/tool/ToolContainer.vue";
-import { allTools } from "@/config/tools";
+import { ref, computed, watch, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { Info } from 'lucide-vue-next'
+import ToolContainer from '@/components/tool/ToolContainer.vue'
+import { allTools } from '@/config/tools'
 
-const { t } = useI18n();
-const tool = allTools.find((t) => t.id === "period")!;
+const { t } = useI18n()
+const tool = allTools.find((t) => t.id === 'period')!
 
 // --- Date Handling ---
-const selectedDateStr = ref("");
-const lastPeriodDate = ref(new Date());
+const selectedDateStr = ref('')
+const lastPeriodDate = ref(new Date())
 
 const formatDateToString = (d: Date) => {
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
+  const year = d.getFullYear()
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
 
 const formatDateShort = (d: Date) => {
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${month}-${day}`;
-};
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${month}-${day}`
+}
 
 const setToday = () => {
-  const now = new Date();
-  selectedDateStr.value = formatDateToString(now);
-};
+  const now = new Date()
+  selectedDateStr.value = formatDateToString(now)
+}
 
 onMounted(() => {
-  const now = new Date();
+  const now = new Date()
   // Default to 1st of current month
-  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-  selectedDateStr.value = formatDateToString(firstDay);
-});
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1)
+  selectedDateStr.value = formatDateToString(firstDay)
+})
 
 watch(selectedDateStr, (newVal) => {
   if (newVal) {
-    const d = new Date(newVal);
+    const d = new Date(newVal)
     // Ensure valid date
     if (!isNaN(d.getTime())) {
-      lastPeriodDate.value = d;
+      lastPeriodDate.value = d
     }
   }
-});
+})
 
 // --- Calculations ---
 const addDays = (date: Date, days: number) => {
-  const r = new Date(date);
-  r.setDate(r.getDate() + days - 1);
-  return r;
-};
+  const r = new Date(date)
+  r.setDate(r.getDate() + days - 1)
+  return r
+}
 
 // Data structure for today's active phases
 const activePhases = computed(() => {
-  const d = lastPeriodDate.value;
-  const today = new Date();
+  const d = lastPeriodDate.value
+  const today = new Date()
 
-  const startTime = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
-  const curTime = Date.UTC(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate(),
-  );
+  const startTime = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())
+  const curTime = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())
 
-  const diffDays = Math.floor((curTime - startTime) / (1000 * 60 * 60 * 24));
-  const cycles = Math.floor(diffDays / 28);
+  const diffDays = Math.floor((curTime - startTime) / (1000 * 60 * 60 * 24))
+  const cycles = Math.floor(diffDays / 28)
 
-  const currentCycleStart = new Date(d);
-  currentCycleStart.setDate(currentCycleStart.getDate() + cycles * 28);
+  const currentCycleStart = new Date(d)
+  currentCycleStart.setDate(currentCycleStart.getDate() + cycles * 28)
 
-  const todayIndex = (((diffDays % 28) + 28) % 28) + 1;
+  const todayIndex = (((diffDays % 28) + 28) % 28) + 1
 
   const allDefinitions = [
     {
-      id: "menstrual",
-      name: t("tools.period.phases.menstrual"),
+      id: 'menstrual',
+      name: t('tools.period.phases.menstrual'),
       startDay: 1,
       endDay: 5,
-      color: "bg-rose-500",
-      textColor: "text-rose-500",
-      lightBg: "bg-rose-500/10",
-      desc: t("tools.period.phaseDesc.menstrual"),
+      color: 'bg-rose-500',
+      textColor: 'text-rose-500',
+      lightBg: 'bg-rose-500/10',
+      desc: t('tools.period.phaseDesc.menstrual'),
     },
     {
-      id: "follicular",
-      name: t("tools.period.phases.follicular"),
+      id: 'follicular',
+      name: t('tools.period.phases.follicular'),
       startDay: 6,
       endDay: 13,
-      color: "bg-blue-400",
-      textColor: "text-blue-500",
-      lightBg: "bg-blue-500/10",
-      desc: t("tools.period.phaseDesc.follicular"),
+      color: 'bg-blue-400',
+      textColor: 'text-blue-500',
+      lightBg: 'bg-blue-500/10',
+      desc: t('tools.period.phaseDesc.follicular'),
     },
     {
-      id: "ovulationDay",
-      name: t("tools.period.phases.ovulationDay"),
+      id: 'ovulationDay',
+      name: t('tools.period.phases.ovulationDay'),
       startDay: 14,
       endDay: 14,
-      color: "bg-amber-500",
-      textColor: "text-amber-500",
-      lightBg: "bg-amber-500/10",
-      desc: t("tools.period.phaseDesc.ovulationDay"),
+      color: 'bg-amber-500',
+      textColor: 'text-amber-500',
+      lightBg: 'bg-amber-500/10',
+      desc: t('tools.period.phaseDesc.ovulationDay'),
     },
     {
-      id: "luteal",
-      name: t("tools.period.phases.luteal"),
+      id: 'luteal',
+      name: t('tools.period.phases.luteal'),
       startDay: 15,
       endDay: 28,
-      color: "bg-teal-500",
-      textColor: "text-teal-500",
-      lightBg: "bg-teal-500/10",
-      desc: t("tools.period.phaseDesc.luteal"),
+      color: 'bg-teal-500',
+      textColor: 'text-teal-500',
+      lightBg: 'bg-teal-500/10',
+      desc: t('tools.period.phaseDesc.luteal'),
     },
     {
-      id: "fertileWindow",
-      name: t("tools.period.phases.fertileWindow"),
+      id: 'fertileWindow',
+      name: t('tools.period.phases.fertileWindow'),
       startDay: 9,
       endDay: 15,
-      color: "bg-green-500",
-      textColor: "text-green-600",
-      lightBg: "bg-green-500/10",
-      desc: t("tools.period.phaseDesc.fertileWindow"),
+      color: 'bg-green-500',
+      textColor: 'text-green-600',
+      lightBg: 'bg-green-500/10',
+      desc: t('tools.period.phaseDesc.fertileWindow'),
     },
     {
-      id: "ovulation",
-      name: t("tools.period.phases.ovulation"),
+      id: 'ovulation',
+      name: t('tools.period.phases.ovulation'),
       startDay: 9,
       endDay: 18,
-      color: "bg-purple-500",
-      textColor: "text-purple-600",
-      lightBg: "bg-purple-500/10",
-      desc: t("tools.period.phaseDesc.ovulation"),
+      color: 'bg-purple-500',
+      textColor: 'text-purple-600',
+      lightBg: 'bg-purple-500/10',
+      desc: t('tools.period.phaseDesc.ovulation'),
     },
-  ];
+  ]
 
   return allDefinitions
     .filter((p) => todayIndex >= p.startDay && todayIndex <= p.endDay)
@@ -144,48 +139,46 @@ const activePhases = computed(() => {
       ...p,
       start: addDays(currentCycleStart, p.startDay),
       end: addDays(currentCycleStart, p.endDay),
-    }));
-});
+    }))
+})
 
 // Calendar Generation
-const weekdays = ["日", "一", "二", "三", "四", "五", "六"];
+const weekdays = ['日', '一', '二', '三', '四', '五', '六']
 
 const calendarMonths = computed(() => {
-  const d = lastPeriodDate.value;
-  const currentMonth = new Date(d.getFullYear(), d.getMonth(), 1);
-  const nextMonth = new Date(d.getFullYear(), d.getMonth() + 1, 1);
+  const d = lastPeriodDate.value
+  const currentMonth = new Date(d.getFullYear(), d.getMonth(), 1)
+  const nextMonth = new Date(d.getFullYear(), d.getMonth() + 1, 1)
 
   const getMonthDays = (baseDate: Date) => {
-    const year = baseDate.getFullYear();
-    const month = baseDate.getMonth();
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
+    const year = baseDate.getFullYear()
+    const month = baseDate.getMonth()
+    const firstDay = new Date(year, month, 1)
+    const lastDay = new Date(year, month + 1, 0)
 
-    const days = [];
-    const startPadding = firstDay.getDay();
+    const days = []
+    const startPadding = firstDay.getDay()
 
     for (let i = 0; i < startPadding; i++) {
-      days.push(null);
+      days.push(null)
     }
 
-    const startTime = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
+    const startTime = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())
 
     for (let i = 1; i <= lastDay.getDate(); i++) {
-      const curDate = new Date(year, month, i);
-      const curTime = Date.UTC(year, month, i);
-      const diffDays = Math.floor(
-        (curTime - startTime) / (1000 * 60 * 60 * 24),
-      );
+      const curDate = new Date(year, month, i)
+      const curTime = Date.UTC(year, month, i)
+      const diffDays = Math.floor((curTime - startTime) / (1000 * 60 * 60 * 24))
 
-      const dayIndex = (((diffDays % 28) + 28) % 28) + 1;
+      const dayIndex = (((diffDays % 28) + 28) % 28) + 1
 
-      const isMenstrual = dayIndex >= 1 && dayIndex <= 5;
-      const isFollicular = dayIndex >= 6 && dayIndex <= 13;
-      const isOvulationDay = dayIndex === 14;
-      const isLuteal = dayIndex >= 15 && dayIndex <= 28;
+      const isMenstrual = dayIndex >= 1 && dayIndex <= 5
+      const isFollicular = dayIndex >= 6 && dayIndex <= 13
+      const isOvulationDay = dayIndex === 14
+      const isLuteal = dayIndex >= 15 && dayIndex <= 28
 
-      const isFertile = dayIndex >= 9 && dayIndex <= 15;
-      const isOvulationPhase = dayIndex >= 9 && dayIndex <= 18;
+      const isFertile = dayIndex >= 9 && dayIndex <= 15
+      const isOvulationPhase = dayIndex >= 9 && dayIndex <= 18
 
       days.push({
         date: curDate,
@@ -198,10 +191,10 @@ const calendarMonths = computed(() => {
         isFertile,
         isOvulationPhase,
         isToday: formatDateToString(curDate) === formatDateToString(new Date()),
-      });
+      })
     }
-    return days;
-  };
+    return days
+  }
 
   return [
     {
@@ -212,85 +205,85 @@ const calendarMonths = computed(() => {
       title: `${nextMonth.getFullYear()}年${nextMonth.getMonth() + 1}月`,
       days: getMonthDays(nextMonth),
     },
-  ];
-});
+  ]
+})
 
 // --- Filters ---
-const selectedFilter = ref<string | null>(null);
+const selectedFilter = ref<string | null>(null)
 
 const toggleFilter = (filterId: string) => {
   if (selectedFilter.value === filterId) {
-    selectedFilter.value = null;
+    selectedFilter.value = null
   } else {
-    selectedFilter.value = filterId;
+    selectedFilter.value = filterId
   }
-};
+}
 
 const legendItems = computed(() => [
   {
-    id: "menstrual",
-    name: t("tools.period.phases.menstrual"),
-    dotClass: "w-3 h-3 rounded bg-rose-500/20 border border-rose-500/50",
+    id: 'menstrual',
+    name: t('tools.period.phases.menstrual'),
+    dotClass: 'w-3 h-3 rounded bg-rose-500/20 border border-rose-500/50',
     activeClass:
-      "bg-rose-500/10 border-rose-500/50 text-rose-600 dark:text-rose-400 ring-1 ring-rose-500/50",
+      'bg-rose-500/10 border-rose-500/50 text-rose-600 dark:text-rose-400 ring-1 ring-rose-500/50',
   },
   {
-    id: "follicular",
-    name: t("tools.period.phases.follicular"),
-    dotClass: "w-3 h-3 rounded bg-blue-500/20 border border-blue-500/50",
+    id: 'follicular',
+    name: t('tools.period.phases.follicular'),
+    dotClass: 'w-3 h-3 rounded bg-blue-500/20 border border-blue-500/50',
     activeClass:
-      "bg-blue-500/10 border-blue-500/50 text-blue-600 dark:text-blue-400 ring-1 ring-blue-500/50",
+      'bg-blue-500/10 border-blue-500/50 text-blue-600 dark:text-blue-400 ring-1 ring-blue-500/50',
   },
   {
-    id: "ovulationDay",
-    name: t("tools.period.phases.ovulationDay"),
-    dotClass: "w-3 h-3 rounded bg-amber-500/20 border border-amber-500/50",
+    id: 'ovulationDay',
+    name: t('tools.period.phases.ovulationDay'),
+    dotClass: 'w-3 h-3 rounded bg-amber-500/20 border border-amber-500/50',
     activeClass:
-      "bg-amber-500/10 border-amber-500/50 text-amber-600 dark:text-amber-400 ring-1 ring-amber-500/50",
+      'bg-amber-500/10 border-amber-500/50 text-amber-600 dark:text-amber-400 ring-1 ring-amber-500/50',
   },
   {
-    id: "luteal",
-    name: t("tools.period.phases.luteal"),
-    dotClass: "w-3 h-3 rounded bg-teal-500/20 border border-teal-500/50",
+    id: 'luteal',
+    name: t('tools.period.phases.luteal'),
+    dotClass: 'w-3 h-3 rounded bg-teal-500/20 border border-teal-500/50',
     activeClass:
-      "bg-teal-500/10 border-teal-500/50 text-teal-600 dark:text-teal-400 ring-1 ring-teal-500/50",
+      'bg-teal-500/10 border-teal-500/50 text-teal-600 dark:text-teal-400 ring-1 ring-teal-500/50',
   },
   {
-    id: "fertileWindow",
-    name: t("tools.period.phases.fertileWindow"),
-    dotClass: "w-3 h-1 rounded-full bg-green-500",
+    id: 'fertileWindow',
+    name: t('tools.period.phases.fertileWindow'),
+    dotClass: 'w-3 h-1 rounded-full bg-green-500',
     activeClass:
-      "bg-green-500/10 border-green-500/50 text-green-600 dark:text-green-400 ring-1 ring-green-500/50",
+      'bg-green-500/10 border-green-500/50 text-green-600 dark:text-green-400 ring-1 ring-green-500/50',
   },
   {
-    id: "ovulation",
-    name: t("tools.period.phases.ovulation"),
-    dotClass: "w-3 h-1 rounded-full bg-purple-500",
+    id: 'ovulation',
+    name: t('tools.period.phases.ovulation'),
+    dotClass: 'w-3 h-1 rounded-full bg-purple-500',
     activeClass:
-      "bg-purple-500/10 border-purple-500/50 text-purple-600 dark:text-purple-400 ring-1 ring-purple-500/50",
+      'bg-purple-500/10 border-purple-500/50 text-purple-600 dark:text-purple-400 ring-1 ring-purple-500/50',
   },
-]);
+])
 
 const isDayMatched = (day: Record<string, any>, filter: string | null) => {
-  if (!filter) return true;
-  if (!day) return false;
+  if (!filter) return true
+  if (!day) return false
   switch (filter) {
-    case "menstrual":
-      return day.isMenstrual;
-    case "follicular":
-      return day.isFollicular;
-    case "ovulationDay":
-      return day.isOvulationDay;
-    case "luteal":
-      return day.isLuteal;
-    case "fertileWindow":
-      return day.isFertile;
-    case "ovulation":
-      return day.isOvulationPhase;
+    case 'menstrual':
+      return day.isMenstrual
+    case 'follicular':
+      return day.isFollicular
+    case 'ovulationDay':
+      return day.isOvulationDay
+    case 'luteal':
+      return day.isLuteal
+    case 'fertileWindow':
+      return day.isFertile
+    case 'ovulation':
+      return day.isOvulationPhase
     default:
-      return true;
+      return true
   }
-};
+}
 </script>
 
 <template>
@@ -303,7 +296,7 @@ const isDayMatched = (day: Record<string, any>, filter: string | null) => {
         <div class="flex items-center gap-3">
           <div>
             <p class="text-sm text-muted-foreground">
-              {{ t("tools.period.lastPeriod") }}
+              {{ t('tools.period.lastPeriod') }}
             </p>
           </div>
         </div>
@@ -317,7 +310,7 @@ const isDayMatched = (day: Record<string, any>, filter: string | null) => {
             class="px-4 py-2.5 bg-secondary text-foreground hover:bg-secondary/80 rounded-xl text-sm font-medium transition-all active:scale-95 whitespace-nowrap"
             @click="setToday"
           >
-            {{ t("tools.period.today") }}
+            {{ t('tools.period.today') }}
           </button>
         </div>
       </div>
@@ -340,10 +333,7 @@ const isDayMatched = (day: Record<string, any>, filter: string | null) => {
 
           <div>
             <div class="flex items-center justify-between mb-2">
-              <span
-                class="font-bold font-mono tracking-tight"
-                :class="phase.textColor"
-              >
+              <span class="font-bold font-mono tracking-tight" :class="phase.textColor">
                 {{ phase.name }}
               </span>
               <span
@@ -365,12 +355,8 @@ const isDayMatched = (day: Record<string, any>, filter: string | null) => {
       </div>
 
       <!-- Calendar View -->
-      <div
-        class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6 space-y-8"
-      >
-        <div
-          class="flex flex-col xl:flex-row xl:items-center justify-between gap-4"
-        >
+      <div class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6 space-y-8">
+        <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
           <h3 class="font-bold flex items-center gap-2 whitespace-nowrap">
             <Activity class="w-5 h-5 text-rose-500" />
             周期日历视图
@@ -396,11 +382,7 @@ const isDayMatched = (day: Record<string, any>, filter: string | null) => {
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-6">
-          <div
-            v-for="(month, mIndex) in calendarMonths"
-            :key="mIndex"
-            class="space-y-4"
-          >
+          <div v-for="(month, mIndex) in calendarMonths" :key="mIndex" class="space-y-4">
             <h4 class="font-bold text-center text-lg text-foreground/80">
               {{ month.title }}
             </h4>
@@ -431,9 +413,7 @@ const isDayMatched = (day: Record<string, any>, filter: string | null) => {
                           : day.isFollicular
                             ? 'bg-blue-500/10 border-blue-500/30'
                             : 'bg-teal-500/10 border-teal-500/30',
-                  day?.isToday
-                    ? 'ring-2 ring-primary ring-offset-2 ring-offset-background'
-                    : '',
+                  day?.isToday ? 'ring-2 ring-primary ring-offset-2 ring-offset-background' : '',
                 ]"
               >
                 <template v-if="day">
@@ -483,7 +463,7 @@ const isDayMatched = (day: Record<string, any>, filter: string | null) => {
       >
         <Info class="w-5 h-5 shrink-0 mt-0.5" />
         <p class="text-sm leading-relaxed">
-          {{ t("tools.period.notice") }}
+          {{ t('tools.period.notice') }}
         </p>
       </div>
     </div>

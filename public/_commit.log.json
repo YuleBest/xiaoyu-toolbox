@@ -63,6 +63,17 @@
     ]
   },
   {
+    "filePath": "time-distance.vue",
+    "commits": [
+      {
+        "hash": "b36e1bf",
+        "date": "2026-03-01T21:06:34+08:00",
+        "message": "feat: 新工具「时间距离计算」",
+        "author_name": "Yule"
+      }
+    ]
+  },
+  {
     "filePath": "search.vue",
     "commits": [
       {
