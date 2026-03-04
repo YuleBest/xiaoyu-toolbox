@@ -24,6 +24,11 @@ watch(
 function toggleSettings() {
   isSettingsOpen.value = !isSettingsOpen.value
 }
+
+const toggleMobileMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value
+  isSettingsOpen.value = false
+}
 </script>
 
 <template>
@@ -42,10 +47,7 @@ function toggleSettings() {
       <div class="flex items-center gap-1">
         <button
           class="w-10 h-10 flex items-center justify-start active:scale-95 transition-all outline-none"
-          @click="
-            isMobileMenuOpen = !isMobileMenuOpen
-            isSettingsOpen = false
-          "
+          @click="toggleMobileMenu"
         >
           <div class="relative w-6 h-6">
             <div
