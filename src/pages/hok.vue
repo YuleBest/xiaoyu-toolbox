@@ -309,10 +309,7 @@ onMounted(async () => {
             :key="cat.id"
             class="px-4 py-2"
             :class="selectedCategory === cat.id ? 'btn-primary' : 'btn-secondary'"
-            @click="
-              selectedCategory = cat.id as any
-              searchQuery = ''
-            "
+            @click="((selectedCategory = cat.id as any), (searchQuery = ''))"
           >
             <component :is="cat.icon" class="h-4 w-4" />
             {{ cat.label }}
@@ -508,10 +505,7 @@ onMounted(async () => {
           <!-- Handle -->
           <div
             class="flex justify-center pt-3 pb-1 cursor-grab active:cursor-grabbing shrink-0"
-            @click="
-              isExpanded = !isExpanded
-              sheetHeight = isExpanded ? 100 : 85
-            "
+            @click="((isExpanded = !isExpanded), (sheetHeight = isExpanded ? 100 : 85))"
           >
             <div class="w-10 h-1 rounded-full bg-muted-foreground/20" />
           </div>

@@ -3,7 +3,7 @@ import { Github, Mail, Globe } from 'lucide-vue-next'
 </script>
 
 <template>
-  <footer class="mt-20 pb-12 pt-8 border-t border-muted/30">
+  <footer class="mt-5 pb-12 pt-8 border-t border-muted/30">
     <div
       class="flex flex-col md:flex-row items-center justify-between gap-6 px-1 text-muted-foreground"
     >

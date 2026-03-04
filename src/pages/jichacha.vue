@@ -783,10 +783,7 @@ onMounted(() => {
           <!-- Handle -->
           <div
             class="flex justify-center pt-3 pb-1 cursor-grab active:cursor-grabbing shrink-0"
-            @click="
-              isExpanded = !isExpanded
-              sheetHeight = isExpanded ? 100 : 85
-            "
+            @click="((isExpanded = !isExpanded), (sheetHeight = isExpanded ? 100 : 85))"
           >
             <div class="w-10 h-1 rounded-full bg-muted-foreground/20" />
           </div>

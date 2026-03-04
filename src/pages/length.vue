@@ -241,10 +241,7 @@ watch(baseUnit, (newBase) => {
                         :key="code"
                         class="rounded-lg cursor-pointer flex items-center justify-between py-2 px-3 transition-colors"
                         :class="baseUnit === code ? 'bg-blue-500/10 text-blue-500 font-bold' : ''"
-                        @click="
-                          baseUnit = code
-                          baseUnitSearch = ''
-                        "
+                        @click="((baseUnit = code), (baseUnitSearch = ''))"
                       >
                         <span class="font-medium text-sm truncate">{{ getUnitName(code) }}</span>
                         <span class="font-mono text-xs text-muted-foreground w-8 text-right">{{
@@ -310,10 +307,7 @@ watch(baseUnit, (newBase) => {
                         :disabled="code === baseUnit"
                         class="rounded-lg cursor-pointer flex items-center justify-between py-2 px-3 transition-colors"
                         :class="targetUnit === code ? 'bg-blue-500/10 text-blue-500 font-bold' : ''"
-                        @click="
-                          targetUnit = code
-                          targetUnitSearch = ''
-                        "
+                        @click="((targetUnit = code), (targetUnitSearch = ''))"
                       >
                         <span class="font-medium text-sm truncate">{{ getUnitName(code) }}</span>
                         <span class="font-mono text-xs text-muted-foreground w-8 text-right">{{

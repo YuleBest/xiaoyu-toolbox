@@ -27,12 +27,12 @@ const { locale } = useI18n()
     </DropdownMenuTrigger>
     <DropdownMenuContent
       align="end"
-      class="w-36 p-1.5 rounded-xl shadow-xl border-muted/50 backdrop-blur-lg"
+      class="w-40 p-2 rounded-2xl shadow-2xl border-muted/50 backdrop-blur-2xl bg-background/95 z-70"
     >
       <DropdownMenuItem
         v-for="l in supportedLocales"
         :key="l.code"
-        class="rounded-lg cursor-pointer flex items-center justify-between py-2 px-3 transition-colors"
+        class="rounded-xl cursor-pointer flex items-center justify-between py-2.5 px-3 transition-colors mb-0.5 last:mb-0"
         :class="
           locale === l.code
             ? 'bg-blue-500/10 text-blue-500'
@@ -40,7 +40,7 @@ const { locale } = useI18n()
         "
         @click="setLanguage(l.code as SupportedLocale)"
       >
-        <span class="font-medium text-sm">{{ l.label }}</span>
+        <span class="font-semibold text-sm">{{ l.label }}</span>
         <Check v-if="locale === l.code" class="h-3.5 w-3.5" />
       </DropdownMenuItem>
     </DropdownMenuContent>

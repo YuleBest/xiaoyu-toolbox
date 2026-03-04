@@ -311,10 +311,7 @@ watch(baseCurrency, (newBase) => {
                     :key="code"
                     class="rounded-lg cursor-pointer flex items-center gap-2.5 py-2 px-3 transition-colors"
                     :class="baseCurrency === code ? 'bg-blue-500/10 text-blue-500 font-bold' : ''"
-                    @click="
-                      baseCurrency = code
-                      baseCurrencySearch = ''
-                    "
+                    @click="((baseCurrency = code), (baseCurrencySearch = ''))"
                   >
                     <span class="font-mono text-xs font-bold w-8">{{ code }}</span>
                     <span class="font-medium text-sm truncate">{{ name }}</span>
@@ -369,10 +366,7 @@ watch(baseCurrency, (newBase) => {
                     :disabled="code === baseCurrency"
                     class="rounded-lg cursor-pointer flex items-center gap-2.5 py-2 px-3 transition-colors"
                     :class="targetCurrency === code ? 'bg-blue-500/10 text-blue-500 font-bold' : ''"
-                    @click="
-                      targetCurrency = code
-                      targetCurrencySearch = ''
-                    "
+                    @click="((targetCurrency = code), (targetCurrencySearch = ''))"
                   >
                     <span class="font-mono text-xs font-bold w-8">{{ code }}</span>
                     <span class="font-medium text-sm truncate">{{ name }}</span>

@@ -133,8 +133,7 @@ const toggleMobileMenu = () => {
             readonly
             @click="
               () => {
-                isMobileMenuOpen = false
-                $router.push('/search')
+                ;((isMobileMenuOpen = false), $router.push('/search'))
               }
             "
           />
@@ -175,8 +174,7 @@ const toggleMobileMenu = () => {
               ]"
               @click="
                 () => {
-                  isMobileMenuOpen = false
-                  $router.push(`/categories#${cat.id}`)
+                  ;((isMobileMenuOpen = false), $router.push(`/categories#${cat.id}`))
                 }
               "
             >
