@@ -19,6 +19,7 @@ import {
   Ruler,
   Activity,
   Clock,
+  Volume2,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -338,6 +339,18 @@ export const toolsData: Record<string, Tool[]> = {
       path: '/hok',
       backEnd: 'https://github.com/YuleBest/GetHOK',
       date: '2026-01-28',
+    },
+    {
+      id: 'hok-voices',
+      title: 'tools.hok-voices.title',
+      subtitle: 'tools.hok-voices.subtitle',
+      description: 'tools.hok-voices.description',
+      author: 'Yule',
+      usage: 'tools.hok-voices.usage',
+      icon: Volume2,
+      color: 'text-amber-500',
+      path: '/hok-voices',
+      date: '2026-03-04',
     },
     {
       id: 'reaction',

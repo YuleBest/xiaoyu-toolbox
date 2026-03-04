@@ -357,6 +357,14 @@ export default {
       usage:
         '1. 複製網易雲音樂歌單分享連結或提取數字 ID。\n2. 貼上至輸入框並點擊獲取按鈕。\n3. 查看完整的歌單歌曲和歌手列表，支援一鍵複製所有文本結果。',
     },
+    'hok-voices': {
+      title: '王者语音鉴赏',
+      subtitle: '英雄台词在线试听',
+      description:
+        '收錄王者榮耀各英雄造型的大廳、移動、技能、互動等全部語音台詞，支援線上播放，按英雄和造型篩選。',
+      usage:
+        '1. 點擊英雄名稱選擇英雄。\n2. 若英雄有多個造型，可進一步選擇造型。\n3. 點擊任意台詞卡片即可播放對應語音。\n4. 再次點擊或點擊其他台詞可暫停/切換。\n5. 在搜尋框中輸入關鍵詞可按台詞文字過濾。',
+    },
   },
 
   // === 時間距離計算 ===
@@ -754,6 +762,21 @@ export default {
     unknown: '未知',
     loadFailed: '數據載入失敗',
     resultCount: '共 {count} 個結果',
+  },
+
+  // === 王者语音鉴赏 ===
+  hokVoices: {
+    selectHero: '選擇英雄',
+    selectSkin: '選擇造型',
+    searchPlaceholder: '搜尋台詞內容...',
+    clearFilters: '清除篩選',
+    resultCount: '共 {count} 條語音',
+    lines: '條',
+    noResults: '未找到相關語音',
+    loadFailed: '語音數據載入失敗',
+    playFailed: '播放失敗，請檢查網路',
+    selectHeroHint: '請先選擇一位英雄來瀏覽語音',
+    downloadFailed: '下載失敗，請檢查網路',
   },
 
   // === Playground ===

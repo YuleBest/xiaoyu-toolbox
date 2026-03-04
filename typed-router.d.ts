@@ -107,6 +107,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/hok-voices': RouteRecordInfo<
+      '/hok-voices',
+      '/hok-voices',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/jichacha': RouteRecordInfo<
       '/jichacha',
       '/jichacha',
@@ -301,6 +308,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/hok.vue': {
       routes:
         | '/hok'
+      views:
+        | never
+    }
+    'src/pages/hok-voices.vue': {
+      routes:
+        | '/hok-voices'
       views:
         | never
     }

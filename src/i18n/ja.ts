@@ -254,6 +254,14 @@ export default {
       description:
         '網易雲音楽 (NetEase Cloud Music) のプレイリストから楽曲一覧をエクスポートします。',
     },
+    'hok-voices': {
+      title: '王者ボイス',
+      subtitle: 'ヒーローボイス鑑賞',
+      description:
+        '王者栄耀（Honor of Kings）の全ヒーローのスキンボイスをお楽しみいただけます。ヒーロー・スキンで絞り込み可能。',
+      usage:
+        '1. ヒーローを選択。\n2. 必要に応じてスキンを選択。\n3. ボイスラインをクリックして再生。\n4. 再クリックで一時停止わり与。\n5. 検索ボックスでテキスト検索可能。',
+    },
   },
 
   // === Time Distance Page ===
@@ -590,6 +598,21 @@ export default {
     unknown: '不明',
     loadFailed: '読み込みに失敗しました',
     resultCount: '{count} 件の結果',
+  },
+
+  // === 王者ボイス ===
+  hokVoices: {
+    selectHero: 'ヒーローを選択',
+    selectSkin: 'スキンを選択',
+    searchPlaceholder: 'テキストで絞り込み...',
+    clearFilters: 'リセット',
+    resultCount: '{count} 件のボイス',
+    lines: '件',
+    noResults: '該当するボイスがありません',
+    loadFailed: 'データの読み込みに失敗しました',
+    playFailed: '再生に失敗しました',
+    selectHeroHint: 'ヒーローを選択してボイスを表示',
+    downloadFailed: 'ダウンロードに失敗しました',
   },
 
   // === Playground ===

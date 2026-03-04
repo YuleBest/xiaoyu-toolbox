@@ -357,6 +357,14 @@ export default {
       usage:
         '1. 复制网易云音乐歌单分享链接或提取数字 ID。\n2. 粘贴至输入框并点击获取按钮。\n3. 查看完整的歌单歌曲和歌手列表，支持一键复制所有文本结果。',
     },
+    'hok-voices': {
+      title: '王者语音鉴赏',
+      subtitle: '英雄台词在线试听',
+      description:
+        '收录王者荣耀各英雄皮肤的大厅、移动、技能、互动等全部语音台词，支持在线播放，按英雄和皮肤筛选。',
+      usage:
+        '1. 点击英雄名称选择英雄。\n2. 若英雄有多个皮肤，可进一步选择皮肤。\n3. 点击任意台词卡片即可播放对应语音。\n4. 再次点击或点击其他台词可暂停/切换。\n5. 在搜索框中输入关键词可按台词文字过滤。',
+    },
   },
 
   // === 时间距离计算 ===
@@ -754,6 +762,21 @@ export default {
     unknown: '未知',
     loadFailed: '数据加载失败',
     resultCount: '共 {count} 个结果',
+  },
+
+  // === 王者语音鉴赏 ===
+  hokVoices: {
+    selectHero: '选择英雄',
+    selectSkin: '选择皮肤',
+    searchPlaceholder: '搜索台词内容...',
+    clearFilters: '清除筛选',
+    resultCount: '共 {count} 条语音',
+    lines: '条',
+    noResults: '未找到相关语音',
+    loadFailed: '语音数据加载失败',
+    playFailed: '播放失败，请检查网络',
+    selectHeroHint: '请先选择一个英雄来浏览语音',
+    downloadFailed: '下载失败，请检查网络',
   },
 
   // === Playground ===

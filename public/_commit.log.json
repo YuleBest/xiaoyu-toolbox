@@ -3,6 +3,12 @@
     "filePath": "weibo-hot.vue",
     "commits": [
       {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
+      {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
         "message": "feat: 新增“微博热搜”工具，并修复一堆 lint 错误",
@@ -13,6 +19,12 @@
   {
     "filePath": "weather.vue",
     "commits": [
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
       {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
@@ -43,6 +55,12 @@
     "filePath": "translator-ai.vue",
     "commits": [
       {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
+      {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
         "message": "feat: 新增“微博热搜”工具，并修复一堆 lint 错误",
@@ -66,6 +84,12 @@
     "filePath": "time-distance.vue",
     "commits": [
       {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
+      {
         "hash": "b36e1bf",
         "date": "2026-03-01T21:06:34+08:00",
         "message": "feat: 新工具「时间距离计算」",
@@ -76,6 +100,12 @@
   {
     "filePath": "search.vue",
     "commits": [
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
       {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
@@ -106,6 +136,12 @@
     "filePath": "reaction.vue",
     "commits": [
       {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
+      {
         "hash": "4fdc927",
         "date": "2026-02-22T16:16:18+08:00",
         "message": "style: Remove shadow classes from various UI components and pages.",
@@ -128,6 +164,12 @@
   {
     "filePath": "qrcode.vue",
     "commits": [
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
       {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
@@ -164,6 +206,12 @@
     "filePath": "playground.vue",
     "commits": [
       {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
+      {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
         "message": "feat: 新增“微博热搜”工具，并修复一堆 lint 错误",
@@ -193,6 +241,12 @@
     "filePath": "phone-number.vue",
     "commits": [
       {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
+      {
         "hash": "d5169f8",
         "date": "2026-02-26T20:07:09+08:00",
         "message": "chore: 把数据库移到 public",
@@ -216,6 +270,12 @@
     "filePath": "period.vue",
     "commits": [
       {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
+      {
         "hash": "326789b",
         "date": "2026-02-28T17:37:04+08:00",
         "message": "feat: 新工具「月经周期」",
@@ -226,6 +286,12 @@
   {
     "filePath": "ncm-get-playlist.vue",
     "commits": [
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
       {
         "hash": "ade6a27",
         "date": "2026-02-28T23:36:51+08:00",
@@ -250,6 +316,12 @@
     "filePath": "mcpe.vue",
     "commits": [
       {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
+      {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
         "message": "feat: 新增“微博热搜”工具，并修复一堆 lint 错误",
@@ -272,6 +344,12 @@
   {
     "filePath": "lyric.vue",
     "commits": [
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
       {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
@@ -302,6 +380,18 @@
     "filePath": "length.vue",
     "commits": [
       {
+        "hash": "6009148",
+        "date": "2026-03-04T22:11:58+08:00",
+        "message": "fix: 修复构建错误",
+        "author_name": "Yule"
+      },
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
+      {
         "hash": "0f5e6b0",
         "date": "2026-02-28T14:04:34+08:00",
         "message": "feat: 新工具「长度单位换算」",
@@ -312,6 +402,12 @@
   {
     "filePath": "json-yaml.vue",
     "commits": [
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
       {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
@@ -335,6 +431,18 @@
   {
     "filePath": "jichacha.vue",
     "commits": [
+      {
+        "hash": "6009148",
+        "date": "2026-03-04T22:11:58+08:00",
+        "message": "fix: 修复构建错误",
+        "author_name": "Yule"
+      },
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
       {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
@@ -479,6 +587,12 @@
     "filePath": "index.vue",
     "commits": [
       {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
+      {
         "hash": "e2e7d7f",
         "date": "2026-02-28T15:50:49+08:00",
         "message": "chore: 工具配置文件优化",
@@ -556,6 +670,18 @@
     "filePath": "hok.vue",
     "commits": [
       {
+        "hash": "6009148",
+        "date": "2026-03-04T22:11:58+08:00",
+        "message": "fix: 修复构建错误",
+        "author_name": "Yule"
+      },
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
+      {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
         "message": "feat: 新增“微博热搜”工具，并修复一堆 lint 错误",
@@ -600,8 +726,18 @@
     ]
   },
   {
+    "filePath": "hok-voices.vue",
+    "commits": []
+  },
+  {
     "filePath": "hhsh.vue",
     "commits": [
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
       {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
@@ -631,6 +767,12 @@
   {
     "filePath": "exif.vue",
     "commits": [
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
       {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
@@ -673,6 +815,18 @@
     "filePath": "exchange.vue",
     "commits": [
       {
+        "hash": "6009148",
+        "date": "2026-03-04T22:11:58+08:00",
+        "message": "fix: 修复构建错误",
+        "author_name": "Yule"
+      },
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
+      {
         "hash": "0f5e6b0",
         "date": "2026-02-28T14:04:34+08:00",
         "message": "feat: 新工具「长度单位换算」",
@@ -702,6 +856,12 @@
     "filePath": "dydown.vue",
     "commits": [
       {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
+      {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
         "message": "feat: 新增“微博热搜”工具，并修复一堆 lint 错误",
@@ -730,6 +890,12 @@
   {
     "filePath": "codeimg.vue",
     "commits": [
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
       {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
@@ -765,6 +931,12 @@
   {
     "filePath": "categories.vue",
     "commits": [
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
       {
         "hash": "90a180b",
         "date": "2026-02-28T15:45:36+08:00",
@@ -813,6 +985,12 @@
     "filePath": "bvav.vue",
     "commits": [
       {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
+      {
         "hash": "13affb4",
         "date": "2026-02-27T02:08:00+08:00",
         "message": "feat: 新工具「BV/AV 号互转」",
@@ -823,6 +1001,12 @@
   {
     "filePath": "bilidown.vue",
     "commits": [
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
       {
         "hash": "ed7364b",
         "date": "2026-03-01T10:16:26+08:00",
@@ -859,6 +1043,12 @@
     "filePath": "base64.vue",
     "commits": [
       {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
+      {
         "hash": "e16f63f",
         "date": "2026-02-26T18:56:28+08:00",
         "message": "feat: 新增“微博热搜”工具，并修复一堆 lint 错误",
@@ -893,6 +1083,12 @@
   {
     "filePath": "about.vue",
     "commits": [
+      {
+        "hash": "52b1c6d",
+        "date": "2026-03-04T21:33:22+08:00",
+        "message": "style: 代码格式化",
+        "author_name": "Yule"
+      },
       {
         "hash": "ecad052",
         "date": "2026-02-19T08:37:50+08:00",

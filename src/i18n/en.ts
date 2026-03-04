@@ -251,6 +251,14 @@ export default {
       subtitle: 'Link to List',
       description: 'Export all songs and artists from Netease playlists.',
     },
+    'hok-voices': {
+      title: 'HOK Voices',
+      subtitle: 'Hero Voice Lines',
+      description:
+        'Listen to all hero voice lines from Honor of Kings, organized by hero and skin.',
+      usage:
+        '1. Click a hero to select it.\n2. Optionally pick a skin.\n3. Click any voice line to play it.\n4. Click again to pause or switch lines.\n5. Use the search box to filter by text.',
+    },
   },
 
   // === Time Distance Page ===
@@ -584,6 +592,21 @@ export default {
     unknown: 'Unknown',
     loadFailed: 'Error',
     resultCount: '{count} results',
+  },
+
+  // === HOK Voices ===
+  hokVoices: {
+    selectHero: 'Select Hero',
+    selectSkin: 'Select Skin',
+    searchPlaceholder: 'Search voice lines...',
+    clearFilters: 'Clear',
+    resultCount: '{count} lines',
+    lines: 'lines',
+    noResults: 'No results',
+    loadFailed: 'Failed to load voices',
+    playFailed: 'Playback failed',
+    selectHeroHint: 'Select a hero to browse voice lines',
+    downloadFailed: 'Download failed, check your network',
   },
 
   // === Playground ===
