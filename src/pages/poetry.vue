@@ -101,7 +101,9 @@ const deduplicatePoems = (poems: Poem[]): Poem[] => {
       return bTags - aTags
     })
     // 选出该组（内容一模一样）中的最优解
-    chosenPoems.add(group[0])
+    if (group[0]) {
+      chosenPoems.add(group[0])
+    }
   }
 
   return poems.filter((poem) => chosenPoems.has(poem))
