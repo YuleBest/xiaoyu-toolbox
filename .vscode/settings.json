@@ -3,6 +3,9 @@
     "*.css": "tailwindcss",
     "dist/**/**": "plaintext"
   },
+  "css.validate": false,
+  "scss.validate": false,
+  "less.validate": false,
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
     "tsconfig.json": "tsconfig.*.json, env.d.ts, typed-router.d.ts",

@@ -727,7 +727,20 @@
   },
   {
     "filePath": "hok-voices.vue",
-    "commits": []
+    "commits": [
+      {
+        "hash": "e0ed1a1",
+        "date": "2026-03-05T00:14:01+08:00",
+        "message": "perf: 优化王者语音鉴赏外观",
+        "author_name": "Yule"
+      },
+      {
+        "hash": "d8c9973",
+        "date": "2026-03-04T23:22:20+08:00",
+        "message": "feat: 新工具王者荣耀语言鉴赏",
+        "author_name": "Yule"
+      }
+    ]
   },
   {
     "filePath": "hhsh.vue",
