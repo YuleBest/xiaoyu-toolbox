@@ -198,6 +198,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/statutory-holidays': RouteRecordInfo<
+      '/statutory-holidays',
+      '/statutory-holidays',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/time-distance': RouteRecordInfo<
       '/time-distance',
       '/time-distance',
@@ -386,6 +393,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/search.vue': {
       routes:
         | '/search'
+      views:
+        | never
+    }
+    'src/pages/statutory-holidays.vue': {
+      routes:
+        | '/statutory-holidays'
       views:
         | never
     }

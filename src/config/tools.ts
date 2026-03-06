@@ -20,6 +20,7 @@ import {
   Activity,
   Clock,
   Volume2,
+  CalendarDays,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -324,6 +325,18 @@ export const toolsData: Record<string, Tool[]> = {
       color: 'text-sky-500',
       path: '/time-distance',
       date: '2026-03-01',
+    },
+    {
+      id: 'statutory-holidays',
+      title: 'tools.statutory-holidays.title',
+      subtitle: 'tools.statutory-holidays.subtitle',
+      description: 'tools.statutory-holidays.description',
+      author: 'Yule',
+      usage: 'tools.statutory-holidays.usage',
+      icon: CalendarDays,
+      color: 'text-blue-500',
+      path: '/statutory-holidays',
+      date: '2026-03-06',
     },
   ],
   game: [

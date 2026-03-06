@@ -259,6 +259,12 @@ export default {
       usage:
         '1. Click a hero to select it.\n2. Optionally pick a skin.\n3. Click any voice line to play it.\n4. Click again to pause or switch lines.\n5. Use the search box to filter by text.',
     },
+    'statutory-holidays': {
+      title: 'Statutory Holidays',
+      subtitle: '2026 China Holidays',
+      description: 'View 2026 China statutory holidays and make-up workdays.',
+      usage: 'View holiday dates and make-up schedules directly.',
+    },
   },
 
   // === Time Distance Page ===
