@@ -466,6 +466,9 @@ export default {
     scanResult: '識別結果',
     copyContent: '複製內容',
     visitLink: '訪問連結',
+    useCamera: '使用攝像頭',
+    stopCamera: '停止攝像頭',
+    cameraError: '無法訪問攝像頭，請檢查權限',
   },
 
   // === EXIF 頁面 ===

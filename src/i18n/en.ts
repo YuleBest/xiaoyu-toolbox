@@ -358,6 +358,9 @@ export default {
     scanResult: 'Result',
     copyContent: 'Copy',
     visitLink: 'Visit',
+    useCamera: 'Use Camera',
+    stopCamera: 'Stop Camera',
+    cameraError: 'Camera access failed, please check permissions',
   },
 
   // === EXIF Page ===

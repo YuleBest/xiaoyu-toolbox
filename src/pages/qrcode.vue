@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, inject, watch, onMounted } from 'vue'
+import { ref, inject, watch, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -17,6 +17,8 @@ import {
   // Check,
   // RefreshCw,
   Image as ImageIcon,
+  Camera,
+  CameraOff,
 } from 'lucide-vue-next'
 import ToolContainer from '@/components/tool/ToolContainer.vue'
 import { allTools } from '@/config/tools'
@@ -65,6 +67,12 @@ const scanResult = ref('')
 const isScanning = ref(false)
 const scanPreviewUrl = ref('')
 const scannerInput = ref<HTMLInputElement | null>(null)
+
+// --- Camera Scan State ---
+const videoRef = ref<HTMLVideoElement | null>(null)
+const canvasRef = ref<HTMLCanvasElement | null>(null)
+const isCameraActive = ref(false)
+const stream = ref<MediaStream | null>(null)
 
 // --- Methods ---
 
@@ -162,6 +170,59 @@ const clearScan = () => {
   scanResult.value = ''
   scanPreviewUrl.value = ''
   if (scannerInput.value) scannerInput.value.value = ''
+  stopCamera()
+}
+
+const startCamera = async () => {
+  try {
+    const mediaStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'environment' },
+    })
+    stream.value = mediaStream
+    if (videoRef.value) {
+      videoRef.value.srcObject = mediaStream
+      isCameraActive.value = true
+      requestAnimationFrame(scanCameraFrame)
+    }
+  } catch (err) {
+    console.error(err)
+    showToast(t('qrcode.cameraError'), 'error')
+  }
+}
+
+const stopCamera = () => {
+  if (stream.value) {
+    stream.value.getTracks().forEach((track) => track.stop())
+    stream.value = null
+  }
+  isCameraActive.value = false
+}
+
+const scanCameraFrame = () => {
+  if (!isCameraActive.value || !videoRef.value || !canvasRef.value) return
+
+  const video = videoRef.value
+  const canvas = canvasRef.value
+  const ctx = canvas.getContext('2d', { willReadFrequently: true })
+
+  if (ctx && video.readyState === video.HAVE_ENOUGH_DATA) {
+    canvas.width = video.videoWidth
+    canvas.height = video.videoHeight
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+    const code = jsQR(imageData.data, imageData.width, imageData.height)
+
+    if (code) {
+      scanResult.value = code.data
+      showToast(t('qrcode.scanSuccess'))
+      stopCamera()
+      return
+    }
+  }
+
+  if (isCameraActive.value) {
+    requestAnimationFrame(scanCameraFrame)
+  }
 }
 
 // --- Watchers ---
@@ -186,8 +247,18 @@ watch(
   { deep: true },
 )
 
+watch(activeTab, (newTab) => {
+  if (newTab !== 'scan') {
+    stopCamera()
+  }
+})
+
 onMounted(() => {
   generateQR()
+})
+
+onUnmounted(() => {
+  stopCamera()
 })
 </script>
 
@@ -533,18 +604,45 @@ onMounted(() => {
           />
 
           <div class="flex flex-col items-center gap-4 py-8">
-            <div class="relative w-24 h-24 flex items-center justify-center">
+            <div
+              class="relative w-full max-w-[400px] aspect-square flex items-center justify-center overflow-hidden rounded-3xl bg-black/5 border-2 border-muted/50"
+            >
               <div
-                v-if="isScanning"
-                class="absolute inset-0 bg-blue-500/10 rounded-full animate-ping opacity-20"
+                v-if="isScanning || isCameraActive"
+                class="absolute inset-0 bg-blue-500/5 animate-pulse"
               ></div>
-              <div class="absolute inset-0 bg-blue-500/5 rounded-full scale-125"></div>
-              <Scan v-if="!scanPreviewUrl" class="h-12 w-12 text-blue-500 relative z-10" />
+
+              <Scan v-if="!scanPreviewUrl && !isCameraActive" class="h-16 w-16 text-blue-500/20" />
+
               <img
-                v-else
+                v-if="scanPreviewUrl && !isCameraActive"
                 :src="scanPreviewUrl"
-                class="w-full h-full object-cover rounded-3xl relative z-10 border-2 border-white"
+                class="w-full h-full object-contain relative z-10"
               />
+
+              <video
+                v-show="isCameraActive"
+                ref="videoRef"
+                autoplay
+                playsinline
+                class="w-full h-full object-cover"
+              ></video>
+
+              <canvas ref="canvasRef" class="hidden"></canvas>
+
+              <!-- Camera Scan Overlay -->
+              <div
+                v-if="isCameraActive"
+                class="absolute inset-0 z-20 pointer-events-none flex items-center justify-center"
+              >
+                <div
+                  class="w-64 h-64 border-2 border-blue-500 rounded-3xl relative overflow-hidden"
+                >
+                  <div
+                    class="absolute inset-x-0 h-0.5 bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.8)] animate-scan-line"
+                  ></div>
+                </div>
+              </div>
             </div>
 
             <div class="space-y-2">
@@ -556,13 +654,28 @@ onMounted(() => {
               </p>
             </div>
 
-            <div class="flex gap-3 mt-4">
+            <div class="flex flex-wrap justify-center gap-3 mt-4">
               <button class="btn-secondary px-6 py-2.5 rounded-2xl" @click="scannerInput?.click()">
                 <ImageIcon class="h-4 w-4" />
                 {{ $t('qrcode.selectImage') }}
               </button>
+
               <button
-                v-if="scanPreviewUrl"
+                v-if="!isCameraActive"
+                class="btn-secondary px-6 py-2.5 rounded-2xl"
+                @click="startCamera"
+              >
+                <Camera class="h-4 w-4" />
+                {{ $t('qrcode.useCamera') }}
+              </button>
+
+              <button v-else class="btn-destructive px-6 py-2.5 rounded-2xl" @click="stopCamera">
+                <CameraOff class="h-4 w-4" />
+                {{ $t('qrcode.stopCamera') }}
+              </button>
+
+              <button
+                v-if="scanPreviewUrl || scanResult"
                 class="btn-destructive px-6 py-2.5 rounded-2xl"
                 @click="clearScan"
               >
@@ -647,5 +760,18 @@ select {
   background-position: right 1rem center;
   background-repeat: no-repeat;
   background-size: 1rem;
+}
+
+@keyframes scan-line {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+.animate-scan-line {
+  animation: scan-line 2s linear infinite;
 }
 </style>

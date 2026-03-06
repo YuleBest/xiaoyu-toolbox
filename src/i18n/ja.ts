@@ -362,6 +362,9 @@ export default {
     scanResult: '読み取り結果',
     copyContent: '内容をコピー',
     visitLink: 'リンクを開く',
+    useCamera: 'カメラを使用',
+    stopCamera: 'カメラを停止',
+    cameraError: 'カメラにアクセスできません。権限を確認してください',
   },
 
   // === EXIF Page ===

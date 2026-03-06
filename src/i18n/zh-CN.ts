@@ -466,6 +466,9 @@ export default {
     scanResult: '识别结果',
     copyContent: '复制内容',
     visitLink: '访问链接',
+    useCamera: '使用摄像头',
+    stopCamera: '停止摄像头',
+    cameraError: '无法访问摄像头，请检查权限',
   },
 
   // === EXIF 页面 ===
