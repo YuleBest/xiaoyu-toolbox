@@ -74,14 +74,15 @@ pnpm run dev    # 开发模式
 
 以下项目为本项目提供了数据源或灵感支持：
 
-| 项目                                                                                | 作者                                         | 开源许可证      |
-| ----------------------------------------------------------------------------------- | -------------------------------------------- | --------------- |
-| [MobileModels](https://github.com/KHwang9883/MobileModels)                          | [@KHwang9883](https://github.com/KHwang9883) | CC BY-NC-SA 4.0 |
-| [mcapks.net](https://mcapks.net)                                                    |                                              |                 |
-| [能不能好好说话](https://github.com/itorr/nbnhhsh)                                  | [@itorr](https://github.com/itorr)           | Apache 2.0      |
-| [php-mobile-locator](https://github.com/zxc7563598/php-mobile-locator)              | [@zxc7563598](https://github.com/zxc7563598) | MIT             |
-| [weibo-trending-hot-search](https://github.com/justjavac/weibo-trending-hot-search) | [@justjavac](https://github.com/justjavac)   | MIT             |
-| [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)           | [@Binaryify](https://github.com/Binaryify)   |                 |
+| 项目                                                                                | 作者                                                 | 开源许可证      |
+| ----------------------------------------------------------------------------------- | ---------------------------------------------------- | --------------- |
+| [MobileModels](https://github.com/KHwang9883/MobileModels)                          | [@KHwang9883](https://github.com/KHwang9883)         | CC BY-NC-SA 4.0 |
+| [mcapks.net](https://mcapks.net)                                                    |                                                      |                 |
+| [能不能好好说话](https://github.com/itorr/nbnhhsh)                                  | [@itorr](https://github.com/itorr)                   | Apache 2.0      |
+| [php-mobile-locator](https://github.com/zxc7563598/php-mobile-locator)              | [@zxc7563598](https://github.com/zxc7563598)         | MIT             |
+| [weibo-trending-hot-search](https://github.com/justjavac/weibo-trending-hot-search) | [@justjavac](https://github.com/justjavac)           | MIT             |
+| [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)           | [@Binaryify](https://github.com/Binaryify)           |                 |
+| [chinese-poetry](https://github.com/chinese-poetry/chinese-poetry)                  | [@chinese-poetry](https://github.com/chinese-poetry) | MIT             |
 
 ## 关联仓库
 
@@ -90,6 +91,8 @@ pnpm run dev    # 开发模式
 - [GetHOK](https://github.com/YuleBest/GetHOK): 自动化爬取王者荣耀英雄、装备、召唤师技能
 
 - [MobileModels-JSON](https://github.com/YuleBest/MobileModels-JSON): 将 [MobileModels](https://github.com/KHwang9883/MobileModels) 中的数据转为 JSON
+
+- [chinese-poetry-pinyin](https://github.com/YuleBest/chinese-poetry-pinyin): 对 [chinese-poetry](https://github.com/chinese-poetry/chinese-poetry) 项目进行拼音首字母分割，并删除了注释、备注等信息
 
 ## 相关技术分享
 

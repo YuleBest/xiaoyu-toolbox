@@ -21,6 +21,7 @@ import {
   Clock,
   Volume2,
   CalendarDays,
+  BookOpen,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -337,6 +338,18 @@ export const toolsData: Record<string, Tool[]> = {
       color: 'text-blue-500',
       path: '/statutory-holidays',
       date: '2026-03-06',
+    },
+    {
+      id: 'poetry',
+      title: 'tools.poetry.title',
+      subtitle: 'tools.poetry.subtitle',
+      description: 'tools.poetry.description',
+      author: 'Yule',
+      usage: 'tools.poetry.usage',
+      icon: BookOpen,
+      color: 'text-emerald-600',
+      path: '/poetry',
+      date: '2026-03-07',
     },
   ],
   game: [

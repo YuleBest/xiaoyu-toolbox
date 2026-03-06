@@ -265,8 +265,15 @@ export default {
     'statutory-holidays': {
       title: '法定休日',
       subtitle: '2026年 中国法定休日検索',
-      description: '2026年の中国の法定休日および振替出勤日を確認できます。',
+      description: '2026年の中国の法定休日と振替出勤日を確認します。',
       usage: '各休日の日程と振替出勤日を直接確認できます。',
+    },
+    poetry: {
+      title: '中国古典詩',
+      subtitle: '膨大な古典詩の検索',
+      description: '膨大な中国古典詩をすばやく検索します。',
+      usage:
+        '1. 検索ボックスに古典詩のタイトルを入力します。\n2. ピンインの頭文字を使用して、データベースから迅速に検索します。\n3. 簡体字と繁体字の相互変換をサポートしています。',
     },
   },
 
@@ -620,8 +627,18 @@ export default {
     noResults: '該当するボイスがありません',
     loadFailed: 'データの読み込みに失敗しました',
     playFailed: '再生に失敗しました',
-    selectHeroHint: 'ヒーローを選択してボイスを表示',
-    downloadFailed: 'ダウンロードに失敗しました',
+    selectHeroHint: 'ボイスを見るには、まずヒーローを選択してください',
+    downloadFailed: 'ダウンロードに失敗しました。ネットワークを確認してください',
+  },
+
+  // === 古典詩 ===
+  poetry: {
+    searchPlaceholder: '詩のタイトルを検索 (例: 静夜思)...',
+    resultCount: '{count} 件の結果が見つかりました',
+    noResults: '関連する詩は見つかりませんでした',
+    langOriginal: '原文',
+    langSimp: '簡体字',
+    langTrad: '繁体字',
   },
 
   // === Playground ===

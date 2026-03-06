@@ -371,6 +371,13 @@ export default {
       description: '查看 2026 年中国法定节假日及调休安排。',
       usage: '直接查看各节假日的放假时间和调休方案。',
     },
+    poetry: {
+      title: '中国古诗词',
+      subtitle: '海量古诗词查询',
+      description: '快速搜索海量中国古诗词。',
+      usage:
+        '1. 在搜索框中输入古诗词的名称。\n2. 拼音首字母将用于快速从数据库中检索。\n3. 支持简繁体互相转换。',
+    },
   },
 
   // === 时间距离计算 ===
@@ -786,6 +793,16 @@ export default {
     playFailed: '播放失败，请检查网络',
     selectHeroHint: '请先选择一个英雄来浏览语音',
     downloadFailed: '下载失败，请检查网络',
+  },
+
+  // === 古诗词 ===
+  poetry: {
+    searchPlaceholder: '搜索诗词标题 (例如: 静夜思)...',
+    resultCount: '共找到 {count} 个结果',
+    noResults: '未找到相关诗词作品',
+    langOriginal: '原文',
+    langSimp: '简体',
+    langTrad: '繁体',
   },
 
   // === Playground ===

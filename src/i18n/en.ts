@@ -262,8 +262,15 @@ export default {
     'statutory-holidays': {
       title: 'Statutory Holidays',
       subtitle: '2026 China Holidays',
-      description: 'View 2026 China statutory holidays and make-up workdays.',
-      usage: 'View holiday dates and make-up schedules directly.',
+      description: 'Check the 2026 Chinese statutory holidays and alternative working days.',
+      usage: 'Directly view the holiday schedules and alternative working days for each holiday.',
+    },
+    poetry: {
+      title: 'Chinese Poetry',
+      subtitle: 'Massive Ancient Poetry Search',
+      description: 'Quickly search massive Chinese ancient poetry.',
+      usage:
+        '1. Enter the title of the ancient poem in the search box.\n2. Pinyin initials will be used for quick retrieval from the database.\n3. Supports conversion between Simplified and Traditional Chinese.',
     },
   },
 
@@ -614,8 +621,18 @@ export default {
     noResults: 'No results',
     loadFailed: 'Failed to load voices',
     playFailed: 'Playback failed',
-    selectHeroHint: 'Select a hero to browse voice lines',
-    downloadFailed: 'Download failed, check your network',
+    selectHeroHint: 'Please select a hero first to view the voice lines.',
+    downloadFailed: 'Download failed, please check your network connection.',
+  },
+
+  // === Poetry ===
+  poetry: {
+    searchPlaceholder: 'Search for poetry titles (e.g. Jing Ye Si)...',
+    resultCount: 'Found {count} results',
+    noResults: 'No relevant poetry works found',
+    langOriginal: 'Original',
+    langSimp: 'Simplified',
+    langTrad: 'Traditional',
   },
 
   // === Playground ===

@@ -177,6 +177,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/poetry': RouteRecordInfo<
+      '/poetry',
+      '/poetry',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/qrcode': RouteRecordInfo<
       '/qrcode',
       '/qrcode',
@@ -375,6 +382,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/playground.vue': {
       routes:
         | '/playground'
+      views:
+        | never
+    }
+    'src/pages/poetry.vue': {
+      routes:
+        | '/poetry'
       views:
         | never
     }

@@ -371,6 +371,13 @@ export default {
       description: '查看 2026 年中國法定節假日及調休安排。',
       usage: '直接查看各節假日的放假時間和調休方案。',
     },
+    poetry: {
+      title: '中國古詩詞',
+      subtitle: '海量古詩詞查詢',
+      description: '快速搜尋海量中國古詩詞。',
+      usage:
+        '1. 在搜尋框中輸入古詩詞的名稱。\n2. 拼音首字母將用於快速從資料庫中檢索。\n3. 支持簡繁體互相轉換。',
+    },
   },
 
   // === 時間距離計算 ===
@@ -671,6 +678,16 @@ export default {
     noResults: '未找到相關機型',
   },
 
+  // === 古詩詞 ===
+  poetry: {
+    searchPlaceholder: '搜尋詩詞標題 (例如: 靜夜思)...',
+    resultCount: '共找到 {count} 個結果',
+    noResults: '未找到相關詩詞作品',
+    langOriginal: '原文',
+    langSimp: '簡體',
+    langTrad: '繁體',
+  },
+
   // === 歌詞 ===
   lyric: {
     searchPlaceholder: '搜尋歌名或歌手...',
@@ -779,20 +796,6 @@ export default {
     selectSkin: '選擇造型',
     searchPlaceholder: '搜尋台詞內容...',
     clearFilters: '清除篩選',
-    resultCount: '共 {count} 條語音',
-    lines: '條',
-    noResults: '未找到相關語音',
-    loadFailed: '語音數據載入失敗',
-    playFailed: '播放失敗，請檢查網路',
-    selectHeroHint: '請先選擇一位英雄來瀏覽語音',
-    downloadFailed: '下載失敗，請檢查網路',
-  },
-
-  // === Playground ===
-  playground: {
-    run: '執行',
-    clear: '清空',
-    console: '控制台',
     template: '範本',
     javascript: 'JavaScript',
     typescript: 'TypeScript',
