@@ -30,11 +30,9 @@
   - [翻译 (Builtin AI)](https://tool.yule.ink/translator-ai)
   - [代码图片生成](https://tool.yule.ink/codeimg)
 
-- 图像工具
+- 多媒体工具
   - [二维码工具](https://tool.yule.ink/qrcode)
   - [图片 EXIF 查看](https://tool.yule.ink/exif)
-
-- 多媒体工具
   - [抖音视频解析](https://tool.yule.ink/dydown)
   - [B站视频解析](https://tool.yule.ink/bilidown)
   - [BV/AV 号互转](https://tool.yule.ink/bvav)
@@ -50,9 +48,13 @@
   - [归属地查询](https://tool.yule.ink/phone-number)
   - [微博热搜](https://tool.yule.ink/weibo-hot)
   - [月经周期](https://tool.yule.ink/period)
+  - [时间距离](https://tool.yule.ink/time-distance)
+  - [法定节假日](https://tool.yule.ink/statutory-holidays)
+  - [中国古诗词](https://tool.yule.ink/poetry)
 
 - 游戏工具
   - [王者荣耀查询](https://tool.yule.ink/hok)
+  - [王者语音鉴赏](https://tool.yule.ink/hok-voices)
   - [反应力测试](https://tool.yule.ink/reaction)
   - [MC PE 下载](https://tool.yule.ink/mcpe)
 
