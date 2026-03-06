@@ -1,0 +1,2 @@
+echo "开始执行 pre-commit 钩子"
+pnpm exec lint-staged

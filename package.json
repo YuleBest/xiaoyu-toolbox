@@ -20,7 +20,15 @@
     "type-check": "vue-tsc --build",
     "format": "prettier --write --experimental-cli src/",
     "readme": "tsx scripts/readme.ts",
-    "commitlog": "tsx scripts/commitLog.ts"
+    "commitlog": "tsx scripts/commitLog.ts",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts,vue,css,scss,sass}": [
+      "node scripts/readme.ts",
+      "node scripts/commitLog.ts",
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
