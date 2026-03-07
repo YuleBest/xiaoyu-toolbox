@@ -1,51 +1,51 @@
- 
-import path from "node:path";
-import { defineConfig } from "vite";
+import path from 'node:path'
+import { defineConfig } from 'vite'
 // 1. 导入 ViteSSGOptions 类型
-import vueRouter from "unplugin-vue-router/vite";
-import tailwindcss from "@tailwindcss/vite";
-import vue from "@vitejs/plugin-vue";
-import AutoImport from "unplugin-auto-import/vite";
-import Components from "unplugin-vue-components/vite";
-import sitemapPlugin from "./src/plugins/vite-plugin-sitemap";
-import { prismjsPlugin } from "vite-plugin-prismjs";
+import vueRouter from 'vue-router/vite'
+import tailwindcss from '@tailwindcss/vite'
+import vue from '@vitejs/plugin-vue'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import sitemapPlugin from './src/plugins/vite-plugin-sitemap'
+import { prismjsPlugin } from 'vite-plugin-prismjs'
 
 // 2. 这里的配置合并了 Vite 的原生配置和 SSG 的配置类型
 export default defineConfig({
   plugins: [
     vueRouter({
-      routesFolder: "src/pages",
-      extensions: [".vue"],
+      routesFolder: 'src/pages',
+      extensions: ['.vue'],
+      dts: 'src/route-map.d.ts',
     }),
     prismjsPlugin({
       languages: [
-        "javascript",
-        "typescript",
-        "css",
-        "html",
-        "json",
-        "yaml",
-        "python",
-        "bash",
-        "java",
-        "c",
-        "cpp",
-        "csharp",
-        "go",
-        "rust",
+        'javascript',
+        'typescript',
+        'css',
+        'html',
+        'json',
+        'yaml',
+        'python',
+        'bash',
+        'java',
+        'c',
+        'cpp',
+        'csharp',
+        'go',
+        'rust',
       ],
-      theme: "tomorrow",
+      theme: 'tomorrow',
       css: true,
     }),
     sitemapPlugin(),
     AutoImport({
-      imports: ["vue", "vue-router"],
-      dts: "src/auto-imports.d.ts",
+      imports: ['vue', 'vue-router'],
+      dts: 'src/auto-imports.d.ts',
     }),
     Components({
-      dirs: ["src/components"],
-      extensions: ["vue"],
-      dts: "src/components.d.ts",
+      dirs: ['src/components'],
+      extensions: ['vue'],
+      dts: 'src/components.d.ts',
       deep: true,
       include: [/\.vue$/, /\.vue\?vue/],
     }),
@@ -57,25 +57,25 @@ export default defineConfig({
 
   // 3. 现在的 ssgOptions 就不会报“未知属性”了
   ssgOptions: {
-    script: "async",
-    formatting: "minify",
+    script: 'async',
+    formatting: 'minify',
     onFinished() {
-      console.log("SSG 构建完成");
+      console.log('SSG 构建完成')
     },
   },
 
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      '@': path.resolve(__dirname, './src'),
     },
   },
   server: {
     port: 5678,
-    host: "0.0.0.0",
+    host: '0.0.0.0',
   },
   build: {
     sourcemap: false,
     cssCodeSplit: true,
-    outDir: "dist",
+    outDir: 'dist',
   },
-} as any);
+} as any)

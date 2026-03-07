@@ -98,6 +98,17 @@
     ]
   },
   {
+    "filePath": "statutory-holidays.vue",
+    "commits": [
+      {
+        "hash": "bcefd50",
+        "date": "2026-03-07T02:42:38+08:00",
+        "message": "feat: 新工具【法定节假日】",
+        "author_name": "Yule"
+      }
+    ]
+  },
+  {
     "filePath": "search.vue",
     "commits": [
       {
@@ -165,6 +176,12 @@
     "filePath": "qrcode.vue",
     "commits": [
       {
+        "hash": "8724795",
+        "date": "2026-03-06T23:08:53+08:00",
+        "message": "feat(qrcode): 支持调用摄像头扫描二维码",
+        "author_name": "Yule"
+      },
+      {
         "hash": "52b1c6d",
         "date": "2026-03-04T21:33:22+08:00",
         "message": "style: 代码格式化",
@@ -199,6 +216,23 @@
         "date": "2026-02-16T10:43:24+08:00",
         "message": "feat: 升级 NEXT 版本，UI 全面重构，更改为 Shadcn-vue 框架，性能优化",
         "author_name": "YuleBest"
+      }
+    ]
+  },
+  {
+    "filePath": "poetry.vue",
+    "commits": [
+      {
+        "hash": "5e31c91",
+        "date": "2026-03-07T03:42:01+08:00",
+        "message": "fix: group[0] possible undefined warning",
+        "author_name": "Yule"
+      },
+      {
+        "hash": "7918c52",
+        "date": "2026-03-07T03:36:00+08:00",
+        "message": "feat: 新工具【中国古诗词】",
+        "author_name": "Yule"
       }
     ]
   },
