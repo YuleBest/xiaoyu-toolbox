@@ -48,5 +48,13 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
     "editor.insertSpaces": true
-  }
+  },
+  "[vue]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "never",
+      "source.fixAll.oxc": "explicit"
+    }
+  },
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "typescript.experimental.useTsgo": false
 }
