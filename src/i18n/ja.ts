@@ -171,9 +171,9 @@ export default {
       description: '曲名から標準 LRC 形式の歌詞を検索・ダウンロードできます。',
     },
     weather: {
-      title: '天気予報',
-      subtitle: 'リアルタイムの天気',
-      description: 'Open-Meteo ベースの世界中の天気予報ツールです。',
+      title: '天気',
+      subtitle: '世界中の天気予報',
+      description: 'QWeather を利用した、世界中のリアルタイムの天気と予報を検索するツール。',
     },
     hok: {
       title: '王者栄耀 (Honor of Kings)',
@@ -575,8 +575,9 @@ export default {
     precipitation: '降水量',
     uvIndex: 'UV指数',
     sunrise: '日の出',
-    sunset: '日の入り',
-    searchTip: 'ヒント: 日本語で見つからない場合は、ローマ字で試してみてください。',
+    sunset: '日没',
+    searchTip:
+      'Tip: ローカライズされていないインターフェースを使用しているため、中国の都市が検索できない場合は、ピンイン（例：北京の場合は beijing）を試してください。',
   },
 
   // === Honor of Kings ===

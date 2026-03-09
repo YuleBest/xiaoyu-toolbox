@@ -25,7 +25,6 @@ import { allTools } from '@/config/tools'
 import {
   searchCity,
   fetchWeather,
-  getWeatherDescription,
   type CityResult,
   type CurrentWeather,
   type HourlyData,
@@ -58,15 +57,17 @@ const iconComponents: Record<string, any> = {
   'cloud-lightning': CloudLightning,
 }
 
-const getWeatherIconName = (code: number): string => {
-  if (code === 0) return 'sun'
-  if (code >= 1 && code <= 3) return 'cloud-sun'
-  if (code >= 45 && code <= 48) return 'cloud-fog'
-  if (code >= 51 && code <= 55) return 'cloud-drizzle'
-  if (code >= 61 && code <= 65) return 'cloud-rain'
-  if (code >= 71 && code <= 77) return 'snowflake'
-  if (code >= 80 && code <= 82) return 'cloud-rain-wind'
-  if (code >= 95 && code <= 99) return 'cloud-lightning'
+const getWeatherIconName = (code: string | number): string => {
+  const codeNum = Number(code)
+  if (codeNum === 100 || codeNum === 150) return 'sun'
+  if (codeNum >= 101 && codeNum <= 103) return 'cloud-sun'
+  if (codeNum >= 151 && codeNum <= 153) return 'cloud-sun'
+  if (codeNum === 104 || codeNum === 154) return 'cloud'
+  if (codeNum >= 300 && codeNum <= 304) return 'cloud-lightning'
+  if (codeNum === 313 || codeNum === 406 || codeNum === 426) return 'cloud-drizzle'
+  if (codeNum >= 305 && codeNum <= 399) return 'cloud-rain'
+  if (codeNum >= 400 && codeNum <= 499) return 'snowflake'
+  if (codeNum >= 500 && codeNum <= 515) return 'cloud-fog'
   return 'cloud'
 }
 
@@ -228,7 +229,7 @@ const formatHour = (date: Date) => {
                   >
                   <div class="ml-4 text-left">
                     <p class="text-lg font-medium">
-                      {{ getWeatherDescription(currentWeather.weatherCode) }}
+                      {{ currentWeather.weatherText }}
                     </p>
                     <p class="text-sm text-white/70">
                       H:{{ Math.round(dailyForecast[0]?.maxTemp ?? 0) }}° L:{{

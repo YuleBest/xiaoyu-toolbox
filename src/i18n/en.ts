@@ -172,7 +172,7 @@ export default {
     weather: {
       title: 'Weather',
       subtitle: 'Global Forecast',
-      description: 'Real-time weather and forecasts worldwide via Open-Meteo.',
+      description: 'Real-time weather and forecasts worldwide via QWeather.',
     },
     hok: {
       title: 'Honor of Kings',

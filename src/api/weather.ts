@@ -1,7 +1,5 @@
-import { fetchWeatherApi } from 'openmeteo'
-
 export interface CityResult {
-  id: number
+  id: string
   name: string
   latitude: number
   longitude: number
@@ -12,7 +10,8 @@ export interface CityResult {
 
 export interface CurrentWeather {
   temperature: number
-  weatherCode: number
+  weatherCode: string
+  weatherText: string
   humidity: number
   windSpeed: number
   feelsLike: number
@@ -22,7 +21,7 @@ export interface CurrentWeather {
 export interface HourlyData {
   time: Date
   temp: number
-  weatherCode: number
+  weatherCode: string
   precipitationProbability: number
 }
 
@@ -35,10 +34,22 @@ export interface DailyData {
  * 搜索城市
  */
 export async function searchCity(name: string): Promise<CityResult[]> {
-  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(name)}&count=5&language=zh&format=json`
+  const url = `/api/weather/geo/v2/city/lookup?location=${encodeURIComponent(name)}`
   const res = await fetch(url)
   const data = await res.json()
-  return data.results || []
+
+  if (data.code !== '200' || !data.location) {
+    return []
+  }
+
+  return data.location.map((item: any) => ({
+    id: item.id,
+    name: item.name,
+    latitude: parseFloat(item.lat),
+    longitude: parseFloat(item.lon),
+    country: item.country,
+    admin1: item.adm1,
+  }))
 }
 
 /**
@@ -52,96 +63,48 @@ export async function fetchWeather(
   hourly: HourlyData[]
   daily: DailyData[]
 }> {
-  const params = {
-    latitude: lat,
-    longitude: lon,
-    current: [
-      'temperature_2m',
-      'relative_humidity_2m',
-      'apparent_temperature',
-      'is_day',
-      'precipitation',
-      'weather_code',
-      'wind_speed_10m',
-    ],
-    hourly: ['temperature_2m', 'weather_code', 'precipitation_probability'],
-    daily: ['weather_code', 'temperature_2m_max', 'temperature_2m_min'],
-    timezone: 'auto',
+  const location = `${lon.toFixed(2)},${lat.toFixed(2)}`
+
+  const [nowRes, hourlyRes, dailyRes] = await Promise.all([
+    fetch(`/api/weather/v7/weather/now?location=${location}`),
+    fetch(`/api/weather/v7/weather/24h?location=${location}`),
+    fetch(`/api/weather/v7/weather/3d?location=${location}`),
+  ])
+
+  const [nowData, hourlyData, dailyData] = await Promise.all([
+    nowRes.json(),
+    hourlyRes.json(),
+    dailyRes.json(),
+  ])
+
+  if (nowData.code !== '200' || hourlyData.code !== '200' || dailyData.code !== '200') {
+    throw new Error('Failed to fetch weather data')
   }
 
-  const responses = await fetchWeatherApi('https://api.open-meteo.com/v1/forecast', params)
-  const response = responses[0]
-  if (!response) throw new Error('No response data')
-
-  const utcOffsetSeconds = response.utcOffsetSeconds()
-  const current = response.current()!
-  const hourly = response.hourly()!
-  const daily = response.daily()!
-
-  const range = (start: number, stop: number, step: number) =>
-    Array.from({ length: (stop - start) / step }, (_, i) => start + i * step)
-
-  // Process hourly
-  const hourlyTime = range(Number(hourly.time()), Number(hourly.timeEnd()), hourly.interval()).map(
-    (t) => new Date((t + utcOffsetSeconds) * 1000),
-  )
-
-  const hourlyTemp = hourly.variables(0)!.valuesArray()!
-  const hourlyCode = hourly.variables(1)!.valuesArray()!
-  const hourlyPrecipProb = hourly.variables(2)!.valuesArray()!
-
-  // Process daily
-  const dailyMax = daily.variables(1)!.valuesArray()!
-  const dailyMin = daily.variables(2)!.valuesArray()!
+  const isNightIcon = (icon: string) => {
+    const code = parseInt(icon)
+    return code >= 150 && code <= 154
+  }
 
   return {
     current: {
-      temperature: current.variables(0)!.value(),
-      humidity: current.variables(1)!.value(),
-      feelsLike: current.variables(2)!.value(),
-      isDay: !!current.variables(3)!.value(),
-      weatherCode: current.variables(5)!.value(),
-      windSpeed: current.variables(6)!.value(),
+      temperature: parseFloat(nowData.now.temp),
+      humidity: parseFloat(nowData.now.humidity),
+      feelsLike: parseFloat(nowData.now.feelsLike),
+      isDay: !isNightIcon(nowData.now.icon),
+      weatherCode: nowData.now.icon,
+      weatherText: nowData.now.text,
+      windSpeed: parseFloat(nowData.now.windSpeed),
     },
-    hourly: hourlyTime.map((t, i) => ({
-      time: t,
-      temp: hourlyTemp[i] ?? 0,
-      weatherCode: hourlyCode[i] ?? 0,
-      precipitationProbability: hourlyPrecipProb[i] ?? 0,
+    hourly: (hourlyData.hourly || []).map((item: any) => ({
+      time: new Date(item.fxTime),
+      temp: parseFloat(item.temp),
+      weatherCode: item.icon,
+      precipitationProbability: parseFloat(item.pop || '0'),
     })),
-    daily: Array.from({ length: dailyMax.length }, (_, i) => ({
-      maxTemp: dailyMax[i] ?? 0,
-      minTemp: dailyMin[i] ?? 0,
+    daily: (dailyData.daily || []).map((item: any) => ({
+      maxTemp: parseFloat(item.tempMax),
+      minTemp: parseFloat(item.tempMin),
     })),
   }
-}
-
-/**
- * 天气图标映射 (WMO codes)
- */
-export function getWeatherIcon(code: number): string {
-  if (code === 0) return 'sun'
-  if (code >= 1 && code <= 3) return 'cloud-sun'
-  if (code >= 45 && code <= 48) return 'cloud-fog'
-  if (code >= 51 && code <= 55) return 'cloud-drizzle'
-  if (code >= 61 && code <= 65) return 'cloud-rain'
-  if (code >= 71 && code <= 77) return 'snowflake'
-  if (code >= 80 && code <= 82) return 'cloud-rain-wind'
-  if (code >= 95 && code <= 99) return 'cloud-lightning'
-  return 'cloud'
-}
-
-/**
- * 天气描述映射
- */
-export function getWeatherDescription(code: number): string {
-  if (code === 0) return '晴朗'
-  if (code >= 1 && code <= 3) return '多云'
-  if (code >= 45 && code <= 48) return '雾'
-  if (code >= 51 && code <= 55) return '毛毛雨'
-  if (code >= 61 && code <= 65) return '降雨'
-  if (code >= 71 && code <= 77) return '降雪'
-  if (code >= 80 && code <= 82) return '阵雨'
-  if (code >= 95 && code <= 99) return '雷雨'
-  return '未知'
 }

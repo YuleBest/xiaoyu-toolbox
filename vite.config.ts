@@ -8,11 +8,10 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import sitemapPlugin from './src/plugins/vite-plugin-sitemap'
 import { prismjsPlugin } from 'vite-plugin-prismjs'
-import vize from '@vizejs/vite-plugin'
+import { cloudflare } from '@cloudflare/vite-plugin'
 
 export default defineConfig({
   plugins: [
-    vize(),
     vueRouter({
       routesFolder: 'src/pages',
       extensions: ['.vue'],
@@ -54,6 +53,7 @@ export default defineConfig({
     vue({
       include: [/\.vue$/],
     }),
+    cloudflare(),
   ],
 
   ssgOptions: {

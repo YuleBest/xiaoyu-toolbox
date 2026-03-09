@@ -231,6 +231,319 @@ curl 'https://[YOUR_API_HOST]/[API_PATH]?[PARAM_1]&[PARAM_2]&...&key=[YOUR_API_K
 
 获取中国 3000+ 市县区和海外 20 万个城市**实时**天气数据，包括实时温度、体感温度、风力风向、相对湿度、大气压强、降水量、能见度、露点温度、云量等。
 
+#### 请求路径
+
+`GET /v7/weather/now`
+
+#### 查询参数
+
+- `location`_(必选)_: 需要查询地区的 LocationID 或以英文逗号分隔的经度,纬度坐标（十进制，最多支持小数点后两位），LocationID可通过 GeoAPI 获取。例如 `location=101010100` 或 `location=116.41,39.92`
+
+- `lang`: 多语言设置，请阅读多语言文档，了解我们的多语言是如何工作、如何设置以及数据是否支持多语言。
+
+- `unit`: 数据单位设置，可选值包括 `unit=m`（公制单位，默认）和 `unit=i`（英制单位）。更多选项和说明参考度量衡单位。
+
+#### 请求示例
+
+```bash
+curl 'https://[YOUR_API_HOST]/v7/weather/now?location=101010100&key=[YOUR_API_KEY]'
 ```
 
+#### 返回数据
+
+返回数据是 JSON 格式并进行了 Gzip 压缩。
+
+```json
+{
+  "code": "200",
+  "updateTime": "2020-06-30T22:00+08:00",
+  "fxLink": "http://hfx.link/2ax1",
+  "now": {
+    "obsTime": "2020-06-30T21:40+08:00",
+    "temp": "24",
+    "feelsLike": "26",
+    "icon": "101",
+    "text": "多云",
+    "wind360": "123",
+    "windDir": "东南风",
+    "windScale": "1",
+    "windSpeed": "3",
+    "humidity": "72",
+    "precip": "0.0",
+    "pressure": "1003",
+    "vis": "16",
+    "cloud": "10",
+    "dew": "21"
+  },
+  "refer": {
+    "sources": ["QWeather", "NMC", "ECMWF"],
+    "license": ["QWeather Developers License"]
+  }
+}
 ```
+
+#### 字段说明
+
+- `code`: 请参考状态码
+- `updateTime`: 当前 API 的最近更新时间
+- `fxLink`: 当前数据的响应式页面，便于嵌入网站或应用
+- `now.obsTime`: 数据观测时间
+- `now.temp`: 温度，默认单位：摄氏度
+- `now.feelsLike`: 体感温度，默认单位：摄氏度
+- `now.icon`: 天气状况的图标代码，另请参考天气图标项目
+- `now.text`: 天气状况的文字描述，包括阴晴雨雪等天气状态的描述
+- `now.wind360`: 风向 360 角度
+- `now.windDir`: 风向
+- `now.windScale`: 风力等级
+- `now.windSpeed`: 风速，公里/小时
+- `now.humidity`: 相对湿度，百分比数值
+- `now.precip`: 过去 1 小时降水量，默认单位：毫米
+- `now.pressure`: 大气压强，默认单位：百帕
+- `now.vis`: 能见度，默认单位：公里
+- `now.cloud`: 云量，百分比数值。**可能为空**
+- `now.dew`: 露点温度。**可能为空**
+- `refer.sources`: 原始数据来源，或数据源说明，**可能为空**
+- `refer.license`: 数据许可或版权声明，**可能为空**
+
+### 每日天气预报
+
+每日天气预报 API，提供全球城市未来 3-30 天天气预报，包括：日出日落、月升月落、最高最低温度、天气白天和夜间状况、风力、风速、风向、相对湿度、大气压强、降水量、露点温度、紫外线强度、能见度等。
+
+#### 请求路径
+
+`GET /v7/weather/{days}`
+
+#### 路径参数
+
+- `days`_(必选)_: 预报天数，支持最多 30 天预报，可选值：
+  - `3d`: 3 天预报
+  - `7d`: 7 天预报
+  - `10d`: 10 天预报
+  - `15d`: 15 天预报
+  - `30d`: 30 天预报
+
+#### 查询参数
+
+- `location`_(必选)_: 需要查询地区的 LocationID 或以英文逗号分隔的经度,纬度坐标（十进制，最多支持小数点后两位），LocationID可通过 GeoAPI 获取。例如 `location=101010100` 或 `location=116.41,39.92`
+
+- `lang`: 多语言设置，请阅读多语言文档，了解我们的多语言是如何工作、如何设置以及数据是否支持多语言。
+
+- `unit`: 数据单位设置，可选值包括 `unit=m`（公制单位，默认）和 `unit=i`（英制单位）。更多选项和说明参考度量衡单位。
+
+#### 请求示例
+
+```bash
+curl 'https://[YOUR_API_HOST]/v7/weather/3d?location=101010100&key=[YOUR_API_KEY]'
+```
+
+#### 返回数据
+
+返回数据是 JSON 格式并进行了 Gzip 压缩。
+
+```json
+{
+  "code": "200",
+  "updateTime": "2021-11-15T16:35+08:00",
+  "fxLink": "http://hfx.link/2ax1",
+  "daily": [
+    {
+      "fxDate": "2021-11-15",
+      "sunrise": "06:58",
+      "sunset": "16:59",
+      "moonrise": "15:16",
+      "moonset": "03:40",
+      "moonPhase": "盈凸月",
+      "moonPhaseIcon": "803",
+      "tempMax": "12",
+      "tempMin": "-1",
+      "iconDay": "101",
+      "textDay": "多云",
+      "iconNight": "150",
+      "textNight": "晴",
+      "wind360Day": "45",
+      "windDirDay": "东北风",
+      "windScaleDay": "1-2",
+      "windSpeedDay": "3",
+      "wind360Night": "0",
+      "windDirNight": "北风",
+      "windScaleNight": "1-2",
+      "windSpeedNight": "3",
+      "humidity": "65",
+      "precip": "0.0",
+      "pressure": "1020",
+      "vis": "25",
+      "cloud": "4",
+      "uvIndex": "3"
+    },
+    {
+      "fxDate": "2021-11-16",
+      "sunrise": "07:00",
+      "sunset": "16:58",
+      "moonrise": "15:38",
+      "moonset": "04:40",
+      "moonPhase": "盈凸月",
+      "moonPhaseIcon": "803",
+      "tempMax": "13",
+      "tempMin": "0",
+      "iconDay": "100",
+      "textDay": "晴",
+      "iconNight": "101",
+      "textNight": "多云",
+      "wind360Day": "225",
+      "windDirDay": "西南风",
+      "windScaleDay": "1-2",
+      "windSpeedDay": "3",
+      "wind360Night": "225",
+      "windDirNight": "西南风",
+      "windScaleNight": "1-2",
+      "windSpeedNight": "3",
+      "humidity": "74",
+      "precip": "0.0",
+      "pressure": "1016",
+      "vis": "25",
+      "cloud": "1",
+      "uvIndex": "3"
+    }
+  ],
+  "refer": {
+    "sources": ["QWeather", "NMC", "ECMWF"],
+    "license": ["QWeather Developers License"]
+  }
+}
+```
+
+#### 字段说明
+
+- `code`: 请参考状态码
+- `updateTime`: 当前 API 的最近更新时间
+- `fxLink`: 当前数据的响应式页面，便于嵌入网站或应用
+- `daily.fxDate`: 预报日期
+- `daily.sunrise`: 日出时间，**在高纬度地区可能为空**
+- `daily.sunset`: 日落时间，**在高纬度地区可能为空**
+- `daily.moonrise`: 当天月升时间，**可能为空**
+- `daily.moonset`: 当天月落时间，**可能为空**
+- `daily.moonPhase`: 月相名称
+- `daily.moonPhaseIcon`: 月相图标代码，另请参考天气图标项目
+- `daily.tempMax`: 预报当天最高温度
+- `daily.tempMin`: 预报当天最低温度
+- `daily.iconDay`: 预报白天天气状况的图标代码，另请参考天气图标项目
+- `daily.textDay`: 预报白天天气状况文字描述，包括阴晴雨雪等天气状态的描述
+- `daily.iconNight`: 预报夜间天气状况的图标代码，另请参考天气图标项目
+- `daily.textNight`: 预报晚间天气状况文字描述，包括阴晴雨雪等天气状态的描述
+- `daily.wind360Day`: 预报白天风向 360 角度
+- `daily.windDirDay`: 预报白天风向
+- `daily.windScaleDay`: 预报白天风力等级
+- `daily.windSpeedDay`: 预报白天风速，公里/小时
+- `daily.wind360Night`: 预报夜间风向 360 角度
+- `daily.windDirNight`: 预报夜间当天风向
+- `daily.windScaleNight`: 预报夜间风力等级
+- `daily.windSpeedNight`: 预报夜间风速，公里/小时
+- `daily.precip`: 预报当天总降水量，默认单位：毫米
+- `daily.uvIndex`: 紫外线强度指数
+- `daily.humidity`: 相对湿度，百分比数值
+- `daily.pressure`: 大气压强，默认单位：百帕
+- `daily.vis`: 能见度，默认单位：公里
+- `daily.cloud`: 云量，百分比数值。**可能为空**
+- `refer.sources`: 原始数据来源，或数据源说明，**可能为空**
+- `refer.license`: 数据许可或版权声明，**可能为空**
+
+### 逐小时天气预报
+
+逐小时天气预报 API，提供全球城市未来 24-168 小时逐小时天气预报，包括：温度、天气状况、风力、风速、风向、相对湿度、大气压强、降水概率、露点温度、云量。
+
+#### 请求路径
+
+`GET /v7/weather/{hours}`
+
+#### 路径参数
+
+- `hours`_(必选)_: 预报小时数，支持最多 168 小时预报，可选值：
+  - `24h`: 24 小时预报
+  - `72h`: 72 小时预报
+  - `168h`: 168 小时预报
+
+#### 查询参数
+
+- `location`_(必选)_: 需要查询地区的 LocationID 或以英文逗号分隔的经度,纬度坐标（十进制，最多支持小数点后两位），LocationID可通过 GeoAPI 获取。例如 `location=101010100` 或 `location=116.41,39.92`
+
+- `lang`: 多语言设置，请阅读多语言文档，了解我们的多语言是如何工作、如何设置以及数据是否支持多语言。
+
+- `unit`: 数据单位设置，可选值包括 `unit=m`（公制单位，默认）和 `unit=i`（英制单位）。更多选项和说明参考度量衡单位。
+
+#### 请求示例
+
+```bash
+curl 'https://[YOUR_API_HOST]/v7/weather/24h?location=101010100&key=[YOUR_API_KEY]'
+```
+
+#### 返回数据
+
+返回数据是 JSON 格式并进行了 Gzip 压缩。
+
+```json
+{
+  "code": "200",
+  "updateTime": "2021-02-16T13:35+08:00",
+  "fxLink": "http://hfx.link/2ax1",
+  "hourly": [
+    {
+      "fxTime": "2021-02-16T15:00+08:00",
+      "temp": "2",
+      "icon": "100",
+      "text": "晴",
+      "wind360": "335",
+      "windDir": "西北风",
+      "windScale": "3-4",
+      "windSpeed": "20",
+      "humidity": "11",
+      "pop": "0",
+      "precip": "0.0",
+      "pressure": "1025",
+      "cloud": "0",
+      "dew": "-25"
+    },
+    {
+      "fxTime": "2021-02-16T16:00+08:00",
+      "temp": "1",
+      "icon": "100",
+      "text": "晴",
+      "wind360": "339",
+      "windDir": "西北风",
+      "windScale": "3-4",
+      "windSpeed": "24",
+      "humidity": "11",
+      "pop": "0",
+      "precip": "0.0",
+      "pressure": "1025",
+      "cloud": "0",
+      "dew": "-26"
+    }
+  ],
+  "refer": {
+    "sources": ["QWeather", "NMC", "ECMWF"],
+    "license": ["QWeather Developers License"]
+  }
+}
+```
+
+#### 字段说明
+
+- `code`: 请参考状态码
+- `updateTime`: 当前 API 的最近更新时间
+- `fxLink`: 当前数据的响应式页面，便于嵌入网站或应用
+- `hourly.fxTime`: 预报时间
+- `hourly.temp`: 温度，默认单位：摄氏度
+- `hourly.icon`: 天气状况的图标代码，另请参考天气图标项目
+- `hourly.text`: 天气状况的文字描述，包括阴晴雨雪等天气状态的描述
+- `hourly.wind360`: 风向 360 角度
+- `hourly.windDir`: 风向
+- `hourly.windScale`: 风力等级
+- `hourly.windSpeed`: 风速，公里/小时
+- `hourly.humidity`: 相对湿度，百分比数值
+- `hourly.precip`: 当前小时累计降水量，默认单位：毫米
+- `hourly.pop`: 逐小时预报降水概率，百分比数值，**可能为空**
+- `hourly.pressure`: 大气压强，默认单位：百帕
+- `hourly.cloud`: 云量，百分比数值。**可能为空**
+- `hourly.dew`: 露点温度。**可能为空**
+- `refer.sources`: 原始数据来源，或数据源说明，**可能为空**
+- `refer.license`: 数据许可或版权声明，**可能为空**

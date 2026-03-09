@@ -1,6 +1,10 @@
 name = "xiaoyu-toolbox"
-compatibility_date = "2026-02-18"
-pages_build_output_dir = "./dist"
+compatibility_date = "2026-03-10"
+'$schema' = "node_modules/wrangler/config-schema.json"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+not_found_handling = "single-page-application"
 
 [[kv_namespaces]]
 id = "7d9e399b548e4a5691d34feb6030dbc7"
@@ -13,3 +17,8 @@ database_id = "9b27749f-5199-40cb-b5cb-28df0b35abfd"
 
 [vars]
 GIT_CHECKOUT_DEPTH = 0
+
+[observability]
+enabled = true
+
+
