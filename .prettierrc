@@ -1,16 +1,7 @@
 {
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["eslint", "typescript", "unicorn", "oxc", "vue", "vitest"],
-  "env": {
-    "browser": true
-  },
-  "categories": {
-    "correctness": "error",
-    "perf": "warn",
-    "suspicious": "warn"
-  },
-  "rules": {
-    "vue/multi-word-component-names": "off",
-    "typescript/no-explicit-any": "off"
-  }
+  "endOfLine": "lf",
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "semi": false,
+  "singleQuote": true,
+  "printWidth": 100
 }
