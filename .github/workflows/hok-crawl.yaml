@@ -20,6 +20,11 @@ jobs:
         with:
           node-version: '20'
 
+      - name: 安装依赖
+        run: |
+          npm install -g pnpm
+          pnpm install
+
       - name: 运行爬虫
         run: npx tsx .github/workflows/scripts/hok-update.ts
 
