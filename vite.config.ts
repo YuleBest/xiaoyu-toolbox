@@ -12,6 +12,10 @@ import { cloudflare } from '@cloudflare/vite-plugin'
 
 export default defineConfig({
   plugins: [
+    vue({
+      include: [/\.vue$/],
+    }),
+    tailwindcss(),
     vueRouter({
       routesFolder: 'src/pages',
       extensions: ['.vue'],
@@ -48,10 +52,6 @@ export default defineConfig({
       dts: 'src/components.d.ts',
       deep: true,
       include: [/\.vue$/, /\.vue\?vue/],
-    }),
-    tailwindcss(),
-    vue({
-      include: [/\.vue$/],
     }),
     cloudflare(),
   ],
