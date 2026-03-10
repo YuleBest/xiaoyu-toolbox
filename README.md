@@ -102,10 +102,6 @@ pnpm run dev    # 开发模式
 
 以下仓库与本项目有部分关联，但由于规模、方便管理等原因需分仓库：
 
-- [GetHOK](https://github.com/YuleBest/GetHOK): 自动化爬取王者荣耀英雄、装备、召唤师技能
-
-- [MobileModels-JSON](https://github.com/YuleBest/MobileModels-JSON): 将 [MobileModels](https://github.com/KHwang9883/MobileModels) 中的数据转为 JSON
-
 - [chinese-poetry-pinyin](https://github.com/YuleBest/chinese-poetry-pinyin): 对 [chinese-poetry](https://github.com/chinese-poetry/chinese-poetry) 项目进行拼音首字母分割，并删除了注释、备注等信息
 
 ## 相关技术分享
