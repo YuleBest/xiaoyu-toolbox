@@ -1,0 +1,32 @@
+name: 爬取王者荣耀数据
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 运行爬虫
+        run: npx tsx .github/workflows/scripts/hok-update.ts
+
+      - name: 提交并推送
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/database/hok
+          git commit -m "chore(hok/database): 更新王者荣耀数据" || echo "本次未更新王者荣耀数据"
+          git push
