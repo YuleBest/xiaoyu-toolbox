@@ -68,7 +68,11 @@ async function processHeroes() {
     return
   }
 
+  const totalHeroes = heroesToProcess.length
+  let currentHero = 0
+
   for (const hero of heroesToProcess) {
+    currentHero++
     const ename = hero.ename
     const cname = hero.cname
     const id_name = hero.id_name
@@ -86,7 +90,7 @@ async function processHeroes() {
       continue
     }
 
-    console.log(`处理英雄: ${cname} (${ename})`)
+    console.log(`[${currentHero}/${totalHeroes}] 处理英雄: ${cname} (${ename})`)
 
     // 1. 下载头像
     if (!(await fs.pathExists(heroImgPath)) || isTargeted) {
@@ -195,7 +199,11 @@ async function processItems() {
     spaces: 2,
   })
 
+  const totalItems = itemList.length
+  let currentItem = 0
+
   for (const item of itemList) {
+    currentItem++
     const itemId = item.item_id
     const pngPath = path.join(DATA_DIR, `item/${itemId}.png`)
     const jpgPath = path.join(DATA_DIR, `item/${itemId}.jpg`)
@@ -206,12 +214,13 @@ async function processItems() {
     }
 
     // Try png, then jpg
+    console.log(`[${currentItem}/${totalItems}] 处理道具: ${item.item_name} (${itemId})`)
     const pngUrl = `https://game.gtimg.cn/images/yxzj/img201606/itemimgo/${itemId}.png`
     const jpgUrl = `https://game.gtimg.cn/images/yxzj/img201606/itemimgo/${itemId}.jpg`
 
     let success = await downloadFile(pngUrl, pngPath)
     if (!success) {
-      console.log(`Retrying with JPG for item ${itemId}`)
+      console.log(`    尝试使用 JPG 下载道具 ${itemId}`)
       success = await downloadFile(jpgUrl, jpgPath)
     }
   }
@@ -224,7 +233,11 @@ async function processSummoners() {
     spaces: 2,
   })
 
+  const totalSummoners = summonerList.length
+  let currentSummoner = 0
+
   for (const sum of summonerList) {
+    currentSummoner++
     const sumId = sum.summoner_id
     const pngPath = path.join(DATA_DIR, `summoner/${sumId}.png`)
     const jpgPath = path.join(DATA_DIR, `summoner/${sumId}.jpg`)
@@ -234,12 +247,15 @@ async function processSummoners() {
       continue
     }
 
+    console.log(
+      `[${currentSummoner}/${totalSummoners}] 处理召唤师: ${sum.summoner_name} (${sumId})`,
+    )
     const pngUrl = `https://game.gtimg.cn/images/yxzj/img201606/summonero/${sumId}.png`
     const jpgUrl = `https://game.gtimg.cn/images/yxzj/img201606/summonero/${sumId}.jpg`
 
     let success = await downloadFile(pngUrl, pngPath)
     if (!success) {
-      console.log(`Retrying with JPG for summoner ${sumId}`)
+      console.log(`    尝试使用 JPG 下载召唤师 ${sumId}`)
       success = await downloadFile(jpgUrl, jpgPath)
     }
   }
