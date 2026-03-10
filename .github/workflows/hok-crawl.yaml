@@ -23,7 +23,7 @@ jobs:
       - name: 安装依赖
         run: |
           npm install -g pnpm
-          pnpm install
+          pnpm add -D cheerio iconv-lite fs-extra path axios
 
       - name: 运行爬虫
         run: npx tsx .github/workflows/scripts/hok-update.ts
