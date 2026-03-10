@@ -24,3 +24,6 @@
 
 /favicon.svg
   Cache-Control: public, max-age=86400
+
+/database/*
+  Cache-Control: no-cache, no-store, must-revalidate

@@ -1,0 +1,38 @@
+name: 获取 Mobile Models CSV 并转换为 JSON
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '27 * * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 安装依赖
+        run: |
+          npm install -g pnpm
+          pnpm install
+          pnpm add -D papaparse @types/papaparse fs-extra axios
+
+      - name: 运行同步
+        run: npx tsx .github/workflows/scripts/jichacha-update.ts
+
+      - name: 提交并推送
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/database/jichacha
+          git commit -m "chore(jichacha/database): 同步机查查数据" || echo "本次未更新数据"
+          git push

@@ -906,6 +906,8 @@ onMounted(() => {
                           'code_alias',
                           'market_name',
                           'device_type',
+                          'dtype',
+                          'brand_title',
                         ].includes(String(key))
                       "
                     >

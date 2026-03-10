@@ -1,7 +1,7 @@
 import Fuse from 'fuse.js'
 import { BRAND_MAP } from './brand_map'
 
-const DATA_URL = 'https://file.yule.ink/models.json'
+const DATA_URL = '/database/jichacha/models.json'
 const CACHE_NAME = 'jichacha-cache-v1'
 const CACHE_KEY_TIMESTAMP = 'jichacha_cache_timestamp'
 const CACHE_TTL = 3600 * 1000 // 1 hour
@@ -21,6 +21,7 @@ export interface MobileModel {
   code_alias?: string
   market_name?: string
   dtype?: string
+  device_type?: string
   ver_name?: string
   brand_title?: string
   [key: string]: unknown
@@ -139,7 +140,12 @@ async function loadData(forceRefresh = false) {
         throw new Error('Invalid data format')
       }
 
-      allModels = data
+      allModels = data.map((m, index) => ({
+        ...m,
+        id: index + 1,
+        device_type: m.dtype,
+        brand_title: BRAND_MAP[m.brand] || m.brand,
+      })) as MobileModel[]
       // Get Last-Modified from headers if possible
       if (headers) {
         lastModifiedTime = headers.get('Last-Modified')
@@ -412,9 +418,7 @@ export async function getDTypes(): Promise<{ dtype: string; count: number }[]> {
  */
 export async function getUpdateTime(): Promise<string> {
   try {
-    const response = await fetch(
-      `https://raw.githubusercontent.com/YuleBest/MobileModels-JSON/refs/heads/master/update_time.txt?t=${Date.now()}`,
-    )
+    const response = await fetch(`/database/jichacha/update_time.txt?t=${Date.now()}`)
     if (!response.ok) throw new Error('Failed to fetch update time')
     return await response.text()
   } catch (e) {
