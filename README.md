@@ -4,7 +4,7 @@
 
 一个纯净、开源、无广告的在线工具集
 
-<img src="https://img.shields.io/github/stars/YuleBest/xiaoyu-toolbox?style=for-the-badge&color=4183c4" alt="Stars" /> <img src="https://img.shields.io/github/commit-activity/m/YuleBest/xiaoyu-toolbox?style=for-the-badge&color=f05032" alt="Commits" /> <img src="https://img.shields.io/github/languages/top/YuleBest/xiaoyu-toolbox?style=for-the-badge&color=yellow" alt="Top Language" />
+<img src="https://img.shields.io/github/stars/YuleBest/xiaoyu-toolbox?style=for-the-badge&color=4183c4" alt="Stars" /> <img src="https://img.shields.io/github/commit-activity/m/YuleBest/xiaoyu-toolbox?style=for-the-badge&color=f05032" alt="Commits" /> <img src="https://img.shields.io/github/languages/top/YuleBest/xiaoyu-toolbox?style=for-the-badge&color=yellow" alt="Top Language" /> <img src="https://img.shields.io/github/repo-size/YuleBest/xiaoyu-toolbox?style=for-the-badge" alt="Repo Size" />
 
 [![在线使用](https://img.shields.io/badge/在线使用-tool.yule.ink-blue?style=for-the-badge)](https://tool.yule.ink)
 
