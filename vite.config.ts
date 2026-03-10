@@ -77,7 +77,6 @@ export default defineConfig({
     sourcemap: false,
     cssCodeSplit: true,
     outDir: 'dist',
-    ssrMinify: true,
     ssrManifest: true,
   },
 })
