@@ -3,6 +3,10 @@ import * as cheerio from 'cheerio'
 import fs from 'fs-extra'
 import path from 'path'
 import iconv from 'iconv-lite'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const DATA_DIR = path.resolve(__dirname, '../../../public/database/hok')
 
