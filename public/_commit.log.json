@@ -20,6 +20,12 @@
     "filePath": "weather.vue",
     "commits": [
       {
+        "hash": "88e56df",
+        "date": "2026-03-10T07:55:12+08:00",
+        "message": "feat(weather): 天气改用和风天气API",
+        "author_name": "Yule"
+      },
+      {
         "hash": "52b1c6d",
         "date": "2026-03-04T21:33:22+08:00",
         "message": "style: 代码格式化",
