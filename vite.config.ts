@@ -53,7 +53,7 @@ export default defineConfig({
       deep: true,
       include: [/\.vue$/, /\.vue\?vue/],
     }),
-    cloudflare(),
+    process.env.npm_lifecycle_event !== 'build-only' && cloudflare(),
   ],
 
   ssgOptions: {
