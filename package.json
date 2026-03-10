@@ -23,11 +23,6 @@
     "commitlog": "tsx scripts/commitLog.ts",
     "prepare": "husky"
   },
-  "lint-staged": {
-    "src/**/*.{js,ts,vue,css,scss,sass}": [
-      "prettier --write"
-    ]
-  },
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",

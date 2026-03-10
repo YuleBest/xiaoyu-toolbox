@@ -1,2 +1,0 @@
-echo "开始执行 pre-commit 钩子"
-npx lint-staged
