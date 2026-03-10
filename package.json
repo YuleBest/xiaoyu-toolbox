@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "worker:dev": "wrangler dev",
     "build": "run-s lint commitlog type-check build-only",
-    "debug:ls": "echo '--- Checking dist directory structure ---' && ls -R dist || echo 'dist directory not found'",
+    "debug:ls": "echo '--- Checking dist directory structure ---' && ls -laR dist || echo 'dist directory not found'",
     "build-only": "vite-ssg build || (npm run debug:ls && exit 1)",
     "lint": "run-s lint:oxlint lint:eslint",
     "lint-check": "run-s lint:*-check",
