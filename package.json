@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "worker:dev": "wrangler dev",
     "build": "run-s lint commitlog type-check build-only",
-    "build-only": "vite-ssg build",
+    "build-only": "vite-ssg build || (npm run debug:ls && exit 1)",
     "lint": "run-s lint:oxlint lint:eslint",
     "lint-check": "run-s lint:*-check",
     "lint-full": "run-s lint type-check format",
