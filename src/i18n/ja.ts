@@ -72,14 +72,6 @@ export default {
     ja: '日本語',
   },
 
-  // === Connection Settings ===
-  connection: {
-    label: '接続ノード',
-    cn: 'Tencent Cloud',
-    intl: 'Cloudflare',
-    switchWarning: 'ドメインが異なるため、データは共有されません。',
-  },
-
   home: {
     favorites: 'お気に入り',
     featured: 'おすすめ',

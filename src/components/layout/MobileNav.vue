@@ -6,7 +6,6 @@ import { mainNav, categories } from '@/config/nav'
 import { navigationStore } from '@/stores/navigation'
 import ModeToggle from '@/components/ModeToggle.vue'
 import LanguageToggle from '@/components/LanguageToggle.vue'
-import ConnectionToggle from '@/components/ConnectionToggle.vue'
 
 const isMobileMenuOpen = ref(false)
 const isSettingsOpen = ref(false)
@@ -93,13 +92,6 @@ const toggleMobileMenu = () => {
       ]"
     >
       <div class="px-6 py-5 space-y-3">
-        <!-- Connection -->
-        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-muted/30">
-          <span class="text-[13px] font-medium text-muted-foreground">{{
-            $t('connection.label')
-          }}</span>
-          <ConnectionToggle />
-        </div>
         <!-- Theme -->
         <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-muted/30">
           <span class="text-[13px] font-medium text-muted-foreground">{{ $t('theme.label') }}</span>

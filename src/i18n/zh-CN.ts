@@ -72,14 +72,6 @@ export default {
     ja: '日本語',
   },
 
-  // === 连接设置 ===
-  connection: {
-    label: '连接节点',
-    cn: '腾讯云',
-    intl: 'Cloudflare',
-    switchWarning: '域名不一样，数据不互通',
-  },
-
   home: {
     favorites: '收藏的工具',
     featured: '精选推荐',

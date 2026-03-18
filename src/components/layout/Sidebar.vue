@@ -8,7 +8,6 @@ import { navigationStore, toggleSidebar } from '@/stores/navigation'
 
 import ModeToggle from '@/components/ModeToggle.vue'
 import LanguageToggle from '@/components/LanguageToggle.vue'
-import ConnectionToggle from '@/components/ConnectionToggle.vue'
 
 const route = useRoute()
 const settingsOpen = ref(false)
@@ -179,14 +178,6 @@ const toggleCategory = (catId: string) => {
                 : 'max-h-0 opacity-0',
             ]"
           >
-            <div
-              class="flex items-center justify-between px-2 py-1.5 rounded-lg border border-transparent"
-            >
-              <span class="text-[11.5px] font-medium text-muted-foreground/80">{{
-                $t('connection.label')
-              }}</span>
-              <ConnectionToggle />
-            </div>
             <div
               class="flex items-center justify-between px-2 py-1.5 rounded-lg border border-transparent"
             >
