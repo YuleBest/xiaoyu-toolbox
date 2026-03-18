@@ -348,6 +348,13 @@ export default {
       usage:
         '1. 复制网易云音乐歌单分享链接或提取数字 ID。\n2. 粘贴至输入框并点击获取按钮。\n3. 查看完整的歌单歌曲和歌手列表，支持一键复制所有文本结果。',
     },
+    'anime-search': {
+      title: '以图搜番',
+      subtitle: '基于图片搜索动画出处',
+      description: '上传动画截图，通过 trace.moe API 快速寻找对应动画名称、集数及精确时间点。',
+      usage:
+        '1. 上传或拖入一张动画截图。\n2. 自动开始搜索（或手动点击搜索）。\n3. 查看搜索结果，包括置信度、集数、时间点以及视频预览。',
+    },
     'hok-voices': {
       title: '王者语音鉴赏',
       subtitle: '英雄台词在线试听',
@@ -369,6 +376,36 @@ export default {
       usage:
         '1. 在搜索框中输入古诗词的名称。\n2. 拼音首字母将用于快速从数据库中检索。\n3. 支持简繁体互相转换。',
     },
+  },
+
+  // === 以图搜番 ===
+  animeSearch: {
+    title: '以图搜番',
+    placeholder: '上传或拖入动画截图...',
+    uploading: '正在上传并搜索...',
+    searchFailed: '搜索失败，请重试',
+    noResults: '未找到匹配结果',
+    confidence: '置信度',
+    episode: '集数',
+    time: '时间点',
+    videoPreview: '视频预览',
+    nativeTitle: '原名',
+    romajiTitle: '罗马音',
+    englishTitle: '英文名',
+    chineseTitle: '中文名',
+    openInAnilist: '在 AniList 中打开',
+    searchQuota: '剩余额度',
+    quotaUsed: '今日已用',
+    cutBorders: '自动裁剪黑边',
+    format: '媒介',
+    status: '播出状态',
+    genres: '题材',
+    studio: '动画制作',
+    season: '播出日期',
+    searchingSource: '搜索源图',
+    analysing: '正在使用 trace.moe 解析画面...',
+    anilistInfo: 'AniList 详情',
+    eps: '集',
   },
 
   // === 时间距离计算 ===

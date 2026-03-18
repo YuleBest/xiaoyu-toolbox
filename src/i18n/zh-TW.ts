@@ -369,6 +369,43 @@ export default {
       usage:
         '1. 在搜尋框中輸入古詩詞的名稱。\n2. 拼音首字母將用於快速從資料庫中檢索。\n3. 支持簡繁體互相轉換。',
     },
+    'anime-search': {
+      title: '以圖搜番',
+      subtitle: '基於圖片搜尋動畫出處',
+      description: '上傳動畫截圖，透過 trace.moe API 快速尋找對應動畫名稱、集數及精確時間點。',
+      usage:
+        '1. 上傳或拖入一張動畫截圖。\n2. 自動開始搜尋（或手動點擊搜尋）。\n3. 查看搜尋結果，包括置信度、集數、時間點以及影片預覽。',
+    },
+  },
+
+  // === 以圖搜番 ===
+  animeSearch: {
+    title: '以圖搜番',
+    placeholder: '上傳或拖入動畫截圖...',
+    uploading: '正在上傳並搜尋...',
+    searchFailed: '搜尋失敗，請重試',
+    noResults: '未找到匹配結果',
+    confidence: '置信度',
+    episode: '集數',
+    time: '時間點',
+    videoPreview: '影片預覽',
+    nativeTitle: '原名',
+    romajiTitle: '羅馬音',
+    englishTitle: '英文名',
+    chineseTitle: '中文名',
+    openInAnilist: '在 AniList 中打開',
+    searchQuota: '剩餘額度',
+    quotaUsed: '今日已用',
+    cutBorders: '自動裁剪黑邊',
+    format: '媒介',
+    status: '播出狀態',
+    genres: '題材',
+    studio: '動畫製作',
+    season: '播出日期',
+    searchingSource: '搜尋源圖',
+    analysing: '正在使用 trace.moe 解析畫面...',
+    anilistInfo: 'AniList 詳情',
+    eps: '集',
   },
 
   // === 時間距離計算 ===

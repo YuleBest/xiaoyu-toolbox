@@ -40,6 +40,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/anime-search': RouteRecordInfo<
+      '/anime-search',
+      '/anime-search',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/base64': RouteRecordInfo<
       '/base64',
       '/base64',
@@ -265,6 +272,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/about.vue': {
       routes:
         | '/about'
+      views:
+        | never
+    }
+    'src/pages/anime-search.vue': {
+      routes:
+        | '/anime-search'
       views:
         | never
     }
