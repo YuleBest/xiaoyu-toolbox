@@ -922,6 +922,25 @@ export default {
     rank: 'W',
   },
 
+  lyric: {
+    searchPlaceholder: 'Search song or artist...',
+    searching: 'Searching...',
+    searchFailed: 'Search failed',
+    noResults: 'No results',
+    results: 'Results',
+    loading: 'Loading...',
+    loadFailed: 'Load failed',
+    noLyric: 'No lyrics',
+    downloadLrc: 'Download LRC',
+    copyLyric: 'Copy Lyric',
+    timeline: 'Timeline',
+    lyricMode: 'Plain Text',
+    singer: 'Artist',
+    album: 'Album',
+    duration: 'Time',
+    lyricLine: 'lines',
+  },
+
   // === Netease Cloud Music Playlist ===
   'ncm-get-playlist': {
     inputPlaceholder: 'Link or ID...',
