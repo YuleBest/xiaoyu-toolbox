@@ -1,0 +1,1828 @@
+{
+  "frameCount": 1666699077,
+  "error": "",
+  "result": [
+    {
+      "anilist": {
+        "id": 162896,
+        "type": "ANIME",
+        "idMal": 54724,
+        "title": {
+          "native": "逃げ上手の若君",
+          "romaji": "Nige Jouzu no Wakagimi",
+          "chinese": "擅長逃跑的殿下",
+          "english": "The Elusive Samurai"
+        },
+        "format": "TV",
+        "genres": ["Action", "Adventure", "Supernatural"],
+        "season": "SUMMER",
+        "source": "MANGA",
+        "status": "FINISHED",
+        "endDate": {
+          "day": 28,
+          "year": 2024,
+          "month": 9
+        },
+        "isAdult": false,
+        "siteUrl": "https://anilist.co/anime/162896",
+        "studios": {
+          "edges": [
+            {
+              "node": {
+                "id": 6222,
+                "name": "CloverWorks",
+                "siteUrl": "https://anilist.co/studio/6222"
+              },
+              "isMain": true
+            },
+            {
+              "node": {
+                "id": 17,
+                "name": "Aniplex",
+                "siteUrl": "https://anilist.co/studio/17"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6570,
+                "name": "Shueisha",
+                "siteUrl": "https://anilist.co/studio/6570"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6259,
+                "name": "TOKYO MX",
+                "siteUrl": "https://anilist.co/studio/6259"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6616,
+                "name": "BS11",
+                "siteUrl": "https://anilist.co/studio/6616"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6222,
+                "name": "CloverWorks",
+                "siteUrl": "https://anilist.co/studio/6222"
+              },
+              "isMain": false
+            }
+          ]
+        },
+        "duration": 24,
+        "episodes": 12,
+        "synonyms": [
+          "Nigewaka",
+          "นายน้อยจอมโกยก้าวสู่เส้นทางแห่งวีรบุรุษ",
+          "Héroe fugitivo",
+          "Беглый самурай"
+        ],
+        "relations": {
+          "edges": [
+            {
+              "node": {
+                "id": 128666,
+                "title": {
+                  "native": "逃げ上手の若君"
+                }
+              },
+              "relationType": "ADAPTATION"
+            },
+            {
+              "node": {
+                "id": 179719,
+                "title": {
+                  "native": "鎌倉STYLE"
+                }
+              },
+              "relationType": "OTHER"
+            },
+            {
+              "node": {
+                "id": 182616,
+                "title": {
+                  "native": "逃げ上手の若君 第二期"
+                }
+              },
+              "relationType": "SEQUEL"
+            }
+          ]
+        },
+        "seasonInt": 243,
+        "startDate": {
+          "day": 6,
+          "year": 2024,
+          "month": 7
+        },
+        "coverImage": {
+          "color": "#f1860d",
+          "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx162896-hSMTVceb50GY.jpg",
+          "medium": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx162896-hSMTVceb50GY.jpg",
+          "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx162896-hSMTVceb50GY.jpg"
+        },
+        "popularity": 76991,
+        "seasonYear": 2024,
+        "bannerImage": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/162896-kcJr1VCSTrQ0.jpg",
+        "externalLinks": [
+          {
+            "id": 68445,
+            "url": "https://nigewaka.run/",
+            "site": "Official Site"
+          },
+          {
+            "id": 68446,
+            "url": "https://twitter.com/nigewaka_anime",
+            "site": "Twitter"
+          },
+          {
+            "id": 94660,
+            "url": "https://www.crunchyroll.com/series/GQWH0M19X/the-elusive-samurai",
+            "site": "Crunchyroll"
+          },
+          {
+            "id": 94790,
+            "url": "https://www.youtube.com/@MuseAsia/",
+            "site": "YouTube"
+          },
+          {
+            "id": 95269,
+            "url": "https://www.iq.com/album/the-elusive-samurai-2024-w0skb3wzb1?lang=en_us&sh_pltf=4",
+            "site": "iQIYI"
+          },
+          {
+            "id": 95601,
+            "url": "https://www.netflix.com/title/81907835",
+            "site": "Netflix"
+          },
+          {
+            "id": 97129,
+            "url": "https://x.com/_elusivesamurai",
+            "site": "Twitter"
+          }
+        ],
+        "countryOfOrigin": "JP",
+        "synonyms_chinese": []
+      },
+      "filename": "Nige Jouzu no Wakagimi - 01 「5月22日」 (BS11 1920x1080 x264 AAC).mp4",
+      "episode": 1,
+      "from": 116.5331,
+      "at": 116.9085,
+      "to": 118.3265,
+      "duration": 1440.02,
+      "similarity": 0.7047478769339767,
+      "video": "https://api.trace.moe/video/zJzZIw9uaW5EEm1BZXmHJj5",
+      "image": "https://api.trace.moe/image/zJzZIw9uaW5EEm1BZXmHJj5"
+    },
+    {
+      "anilist": {
+        "id": 162896,
+        "type": "ANIME",
+        "idMal": 54724,
+        "title": {
+          "native": "逃げ上手の若君",
+          "romaji": "Nige Jouzu no Wakagimi",
+          "chinese": "擅長逃跑的殿下",
+          "english": "The Elusive Samurai"
+        },
+        "format": "TV",
+        "genres": ["Action", "Adventure", "Supernatural"],
+        "season": "SUMMER",
+        "source": "MANGA",
+        "status": "FINISHED",
+        "endDate": {
+          "day": 28,
+          "year": 2024,
+          "month": 9
+        },
+        "isAdult": false,
+        "siteUrl": "https://anilist.co/anime/162896",
+        "studios": {
+          "edges": [
+            {
+              "node": {
+                "id": 6222,
+                "name": "CloverWorks",
+                "siteUrl": "https://anilist.co/studio/6222"
+              },
+              "isMain": true
+            },
+            {
+              "node": {
+                "id": 17,
+                "name": "Aniplex",
+                "siteUrl": "https://anilist.co/studio/17"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6570,
+                "name": "Shueisha",
+                "siteUrl": "https://anilist.co/studio/6570"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6259,
+                "name": "TOKYO MX",
+                "siteUrl": "https://anilist.co/studio/6259"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6616,
+                "name": "BS11",
+                "siteUrl": "https://anilist.co/studio/6616"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6222,
+                "name": "CloverWorks",
+                "siteUrl": "https://anilist.co/studio/6222"
+              },
+              "isMain": false
+            }
+          ]
+        },
+        "duration": 24,
+        "episodes": 12,
+        "synonyms": [
+          "Nigewaka",
+          "นายน้อยจอมโกยก้าวสู่เส้นทางแห่งวีรบุรุษ",
+          "Héroe fugitivo",
+          "Беглый самурай"
+        ],
+        "relations": {
+          "edges": [
+            {
+              "node": {
+                "id": 128666,
+                "title": {
+                  "native": "逃げ上手の若君"
+                }
+              },
+              "relationType": "ADAPTATION"
+            },
+            {
+              "node": {
+                "id": 179719,
+                "title": {
+                  "native": "鎌倉STYLE"
+                }
+              },
+              "relationType": "OTHER"
+            },
+            {
+              "node": {
+                "id": 182616,
+                "title": {
+                  "native": "逃げ上手の若君 第二期"
+                }
+              },
+              "relationType": "SEQUEL"
+            }
+          ]
+        },
+        "seasonInt": 243,
+        "startDate": {
+          "day": 6,
+          "year": 2024,
+          "month": 7
+        },
+        "coverImage": {
+          "color": "#f1860d",
+          "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx162896-hSMTVceb50GY.jpg",
+          "medium": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx162896-hSMTVceb50GY.jpg",
+          "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx162896-hSMTVceb50GY.jpg"
+        },
+        "popularity": 76991,
+        "seasonYear": 2024,
+        "bannerImage": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/162896-kcJr1VCSTrQ0.jpg",
+        "externalLinks": [
+          {
+            "id": 68445,
+            "url": "https://nigewaka.run/",
+            "site": "Official Site"
+          },
+          {
+            "id": 68446,
+            "url": "https://twitter.com/nigewaka_anime",
+            "site": "Twitter"
+          },
+          {
+            "id": 94660,
+            "url": "https://www.crunchyroll.com/series/GQWH0M19X/the-elusive-samurai",
+            "site": "Crunchyroll"
+          },
+          {
+            "id": 94790,
+            "url": "https://www.youtube.com/@MuseAsia/",
+            "site": "YouTube"
+          },
+          {
+            "id": 95269,
+            "url": "https://www.iq.com/album/the-elusive-samurai-2024-w0skb3wzb1?lang=en_us&sh_pltf=4",
+            "site": "iQIYI"
+          },
+          {
+            "id": 95601,
+            "url": "https://www.netflix.com/title/81907835",
+            "site": "Netflix"
+          },
+          {
+            "id": 97129,
+            "url": "https://x.com/_elusivesamurai",
+            "site": "Twitter"
+          }
+        ],
+        "countryOfOrigin": "JP",
+        "synonyms_chinese": []
+      },
+      "filename": "[SubsPlease] Nige Jouzu no Wakagimi - 09.5 (720p) [47A461D7].mkv",
+      "episode": 9.5,
+      "from": 16.35,
+      "at": 16.725,
+      "to": 18.143,
+      "duration": 1429.977,
+      "similarity": 0.6907505110198376,
+      "video": "https://api.trace.moe/video/IeIBoMnK7C44imzJwquIep",
+      "image": "https://api.trace.moe/image/IeIBoMnK7C44imzJwquIep"
+    },
+    {
+      "anilist": {
+        "id": 144770,
+        "type": "ANIME",
+        "idMal": 54793,
+        "title": {
+          "native": "BLOODY ESCAPE -地獄の逃走劇-",
+          "romaji": "BLOODY ESCAPE: Jigoku no Tousou Geki",
+          "chinese": "BLOODY ESCAPE -地獄的逃走劇-",
+          "english": "Bloody Escape: Bats out of Hell"
+        },
+        "format": "MOVIE",
+        "genres": ["Action", "Drama", "Supernatural"],
+        "season": "WINTER",
+        "source": "ORIGINAL",
+        "status": "FINISHED",
+        "endDate": {
+          "day": 5,
+          "year": 2024,
+          "month": 1
+        },
+        "isAdult": false,
+        "siteUrl": "https://anilist.co/anime/144770",
+        "studios": {
+          "edges": [
+            {
+              "node": {
+                "id": 6067,
+                "name": "POLYGON PICTURES",
+                "siteUrl": "https://anilist.co/studio/6067"
+              },
+              "isMain": true
+            },
+            {
+              "node": {
+                "id": 470,
+                "name": "GAGA",
+                "siteUrl": "https://anilist.co/studio/470"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 735,
+                "name": "Slow Curve",
+                "siteUrl": "https://anilist.co/studio/735"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 843,
+                "name": "BS Fuji",
+                "siteUrl": "https://anilist.co/studio/843"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 53,
+                "name": "Dentsu",
+                "siteUrl": "https://anilist.co/studio/53"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 169,
+                "name": "Fuji TV",
+                "siteUrl": "https://anilist.co/studio/169"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6669,
+                "name": "Rakuten",
+                "siteUrl": "https://anilist.co/studio/6669"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6421,
+                "name": "Crunchyroll",
+                "siteUrl": "https://anilist.co/studio/6421"
+              },
+              "isMain": false
+            }
+          ]
+        },
+        "duration": 97,
+        "episodes": 1,
+        "synonyms": [
+          "ブラッディエスケープ",
+          "BLOODY ESCAPE: Flight from Hell",
+          "ESTAB LIFE: Revengers' Road"
+        ],
+        "relations": {
+          "edges": [
+            {
+              "node": {
+                "id": 143289,
+                "title": {
+                  "native": "エスタブライフ グレイトエスケープ"
+                }
+              },
+              "relationType": "PREQUEL"
+            }
+          ]
+        },
+        "seasonInt": 241,
+        "startDate": {
+          "day": 5,
+          "year": 2024,
+          "month": 1
+        },
+        "coverImage": {
+          "color": "#f16b50",
+          "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx144770-t4BpclqKxnzM.jpg",
+          "medium": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx144770-t4BpclqKxnzM.jpg",
+          "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx144770-t4BpclqKxnzM.jpg"
+        },
+        "popularity": 2311,
+        "seasonYear": 2024,
+        "bannerImage": null,
+        "externalLinks": [
+          {
+            "id": 68610,
+            "url": "https://bloody-escape.com/",
+            "site": "Official Site"
+          },
+          {
+            "id": 68611,
+            "url": "https://twitter.com/BLOODY__ESCAPE",
+            "site": "Twitter"
+          },
+          {
+            "id": 68612,
+            "url": "https://www.crunchyroll.com/series/G4PH0WJNG/bloody-escape-bats-out-of-hell",
+            "site": "Crunchyroll"
+          }
+        ],
+        "countryOfOrigin": "JP",
+        "synonyms_chinese": []
+      },
+      "filename": "[SubsPlease] Bloody Escape - Jigoku no Tousou Geki (720p) [C6002CE3].mkv",
+      "episode": null,
+      "from": 262.387,
+      "at": 262.429,
+      "to": 262.471,
+      "duration": 5837.914,
+      "similarity": 0.6808198517444087,
+      "video": "https://api.trace.moe/video/qEr3jk6BtZBOOlCVz0XSkT",
+      "image": "https://api.trace.moe/image/qEr3jk6BtZBOOlCVz0XSkT"
+    },
+    {
+      "anilist": {
+        "id": 1735,
+        "type": "ANIME",
+        "idMal": 1735,
+        "title": {
+          "native": "NARUTO -ナルト- 疾風伝",
+          "romaji": "NARUTO: Shippuuden",
+          "chinese": "火影忍者疾風傳",
+          "english": "Naruto: Shippuden"
+        },
+        "format": "TV",
+        "genres": ["Action", "Adventure", "Comedy", "Drama", "Fantasy", "Supernatural"],
+        "season": "WINTER",
+        "source": "MANGA",
+        "status": "FINISHED",
+        "endDate": {
+          "day": 23,
+          "year": 2017,
+          "month": 3
+        },
+        "isAdult": false,
+        "siteUrl": "https://anilist.co/anime/1735",
+        "studios": {
+          "edges": [
+            {
+              "node": {
+                "id": 1,
+                "name": "Studio Pierrot",
+                "siteUrl": "https://anilist.co/studio/1"
+              },
+              "isMain": true
+            },
+            {
+              "node": {
+                "id": 16,
+                "name": "TV Tokyo",
+                "siteUrl": "https://anilist.co/studio/16"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 17,
+                "name": "Aniplex",
+                "siteUrl": "https://anilist.co/studio/17"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 50,
+                "name": "KSS",
+                "siteUrl": "https://anilist.co/studio/50"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 119,
+                "name": "Viz Media",
+                "siteUrl": "https://anilist.co/studio/119"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 211,
+                "name": "Rakuonsha",
+                "siteUrl": "https://anilist.co/studio/211"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 717,
+                "name": "TV Tokyo Music",
+                "siteUrl": "https://anilist.co/studio/717"
+              },
+              "isMain": false
+            }
+          ]
+        },
+        "duration": 23,
+        "episodes": 500,
+        "synonyms": [
+          "Naruto Shippuuden",
+          "Naruto Shippuden",
+          "נארוטו שיפודן",
+          "火影忍者 疾风传",
+          "นารูโตะ ตำนานวายุสลาตัน",
+          "ناروتو شيبودن",
+          "Наруто: Ураганные хроники"
+        ],
+        "relations": {
+          "edges": [
+            {
+              "node": {
+                "id": 20,
+                "title": {
+                  "native": "NARUTO -ナルト-"
+                }
+              },
+              "relationType": "PREQUEL"
+            },
+            {
+              "node": {
+                "id": 30011,
+                "title": {
+                  "native": "NARUTO -ナルト-"
+                }
+              },
+              "relationType": "ADAPTATION"
+            },
+            {
+              "node": {
+                "id": 2472,
+                "title": {
+                  "native": "劇場版 NARUTO -ナルト- 疾風伝"
+                }
+              },
+              "relationType": "SIDE_STORY"
+            },
+            {
+              "node": {
+                "id": 4437,
+                "title": {
+                  "native": "劇場版 NARUTO -ナルト- 疾風伝 絆"
+                }
+              },
+              "relationType": "SIDE_STORY"
+            },
+            {
+              "node": {
+                "id": 6325,
+                "title": {
+                  "native": "劇場版 NARUTO -ナルト- 疾風伝 火の意志を継ぐ者"
+                }
+              },
+              "relationType": "SIDE_STORY"
+            },
+            {
+              "node": {
+                "id": 8246,
+                "title": {
+                  "native": "劇場版 NARUTO -ナルト- 疾風伝 ザ・ロストタワー"
+                }
+              },
+              "relationType": "SIDE_STORY"
+            },
+            {
+              "node": {
+                "id": 10075,
+                "title": {
+                  "native": "NARUTO×UT"
+                }
+              },
+              "relationType": "OTHER"
+            },
+            {
+              "node": {
+                "id": 10589,
+                "title": {
+                  "native": "劇場版 NARUTO -ナルト- ブラッド・プリズン"
+                }
+              },
+              "relationType": "SIDE_STORY"
+            },
+            {
+              "node": {
+                "id": 13667,
+                "title": {
+                  "native": "ROAD TO NINJA -NARUTO THE MOVIE-"
+                }
+              },
+              "relationType": "SIDE_STORY"
+            },
+            {
+              "node": {
+                "id": 16870,
+                "title": {
+                  "native": "THE LAST -NARUTO THE MOVIE-"
+                }
+              },
+              "relationType": "SIDE_STORY"
+            },
+            {
+              "node": {
+                "id": 4134,
+                "title": {
+                  "native": "NARUTO -ナルト- 疾風伝 疾風! \"木ノ葉学園\"伝"
+                }
+              },
+              "relationType": "OTHER"
+            },
+            {
+              "node": {
+                "id": 12979,
+                "title": {
+                  "native": "NARUTOナルトSD ロック・リーの青春フルパワー忍伝"
+                }
+              },
+              "relationType": "OTHER"
+            },
+            {
+              "node": {
+                "id": 19511,
+                "title": {
+                  "native": "NARUTO -ナルト- 疾風伝 サニー・サイド・バトル!!!"
+                }
+              },
+              "relationType": "OTHER"
+            },
+            {
+              "node": {
+                "id": 21579,
+                "title": {
+                  "native": "BORUTO -NARUTO THE MOVIE- ナルトが火影になった日"
+                }
+              },
+              "relationType": "SEQUEL"
+            },
+            {
+              "node": {
+                "id": 87232,
+                "title": {
+                  "native": "NARUTO -ナルト- 真伝シリーズ"
+                }
+              },
+              "relationType": "ADAPTATION"
+            },
+            {
+              "node": {
+                "id": 97938,
+                "title": {
+                  "native": "BORUTO-ボルト- NARUTO NEXT GENERATIONS"
+                }
+              },
+              "relationType": "SEQUEL"
+            },
+            {
+              "node": {
+                "id": 10686,
+                "title": {
+                  "native": "NARUTO -ナルト- 炎の中忍試験! ナルトvs木ノ葉丸!!"
+                }
+              },
+              "relationType": "SIDE_STORY"
+            },
+            {
+              "node": {
+                "id": 115105,
+                "title": {
+                  "native": "Newsong"
+                }
+              },
+              "relationType": "OTHER"
+            },
+            {
+              "node": {
+                "id": 87230,
+                "title": {
+                  "native": "NARUTO秘伝シリーズ"
+                }
+              },
+              "relationType": "ADAPTATION"
+            },
+            {
+              "node": {
+                "id": 70549,
+                "title": {
+                  "native": "#MOVIE 9：ROAD TO NARUTO THE MOVIE"
+                }
+              },
+              "relationType": "ADAPTATION"
+            },
+            {
+              "node": {
+                "id": 155348,
+                "title": {
+                  "native": "ROAD OF NARUTO"
+                }
+              },
+              "relationType": "SUMMARY"
+            }
+          ]
+        },
+        "seasonInt": 71,
+        "startDate": {
+          "day": 15,
+          "year": 2007,
+          "month": 2
+        },
+        "coverImage": {
+          "color": "#e4865d",
+          "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx1735-kGfVm0YqCPcu.png",
+          "medium": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx1735-kGfVm0YqCPcu.png",
+          "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1735-kGfVm0YqCPcu.png"
+        },
+        "popularity": 559958,
+        "seasonYear": 2007,
+        "bannerImage": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/1735.jpg",
+        "externalLinks": [
+          {
+            "id": 4,
+            "url": "http://www.crunchyroll.com/naruto-shippuden",
+            "site": "Crunchyroll"
+          },
+          {
+            "id": 1686,
+            "url": "http://www.hulu.com/naruto-shippuden",
+            "site": "Hulu"
+          },
+          {
+            "id": 21853,
+            "url": "https://www.adultswim.com/videos/naruto-shippuden",
+            "site": "Adult Swim"
+          },
+          {
+            "id": 27009,
+            "url": "https://www.netflix.com/title/80000603",
+            "site": "Netflix"
+          },
+          {
+            "id": 41420,
+            "url": "https://www.bilibili.com/bangumi/media/md3287/",
+            "site": "Bilibili"
+          },
+          {
+            "id": 41421,
+            "url": "https://www.bilibili.tv/play/1005195",
+            "site": "Bilibili TV"
+          },
+          {
+            "id": 53981,
+            "url": "https://twitter.com/NARUTOtoBORUTO",
+            "site": "Twitter"
+          },
+          {
+            "id": 53982,
+            "url": "https://www.tv-tokyo.co.jp/anime/naruto/index2.html",
+            "site": "Official Site"
+          }
+        ],
+        "countryOfOrigin": "JP",
+        "synonyms_chinese": []
+      },
+      "filename": "[SOSG&52wy][Naruto_Shippuuden][347-348(127-128)][BIG5][x264_AAC][1280x720].mp4",
+      "episode": "127,128|347,348",
+      "from": 1545.8785,
+      "at": 1546.0037,
+      "to": 1546.1705,
+      "duration": 2704.938,
+      "similarity": 0.676834166283701,
+      "video": "https://api.trace.moe/video/Pl8Y3nrbUXQTrrt9pLyRBu8C",
+      "image": "https://api.trace.moe/image/Pl8Y3nrbUXQTrrt9pLyRBu8C"
+    },
+    {
+      "anilist": {
+        "id": 138060,
+        "type": "ANIME",
+        "idMal": 49357,
+        "title": {
+          "native": "スター・ウォーズ：ビジョンズ",
+          "romaji": "Star Wars: Visions",
+          "chinese": "Star Wars: Visions",
+          "english": "Star Wars: Visions"
+        },
+        "format": "ONA",
+        "genres": ["Action", "Adventure", "Sci-Fi"],
+        "season": "FALL",
+        "source": "ORIGINAL",
+        "status": "FINISHED",
+        "endDate": {
+          "day": 22,
+          "year": 2021,
+          "month": 9
+        },
+        "isAdult": false,
+        "siteUrl": "https://anilist.co/anime/138060",
+        "studios": {
+          "edges": [
+            {
+              "node": {
+                "id": 290,
+                "name": "Kinema Citrus",
+                "siteUrl": "https://anilist.co/studio/290"
+              },
+              "isMain": true
+            },
+            {
+              "node": {
+                "id": 803,
+                "name": "TRIGGER",
+                "siteUrl": "https://anilist.co/studio/803"
+              },
+              "isMain": true
+            },
+            {
+              "node": {
+                "id": 437,
+                "name": "Kamikaze Douga",
+                "siteUrl": "https://anilist.co/studio/437"
+              },
+              "isMain": true
+            },
+            {
+              "node": {
+                "id": 6142,
+                "name": "Geno Studio",
+                "siteUrl": "https://anilist.co/studio/6142"
+              },
+              "isMain": true
+            },
+            {
+              "node": {
+                "id": 4419,
+                "name": "Studio Colorido",
+                "siteUrl": "https://anilist.co/studio/4419"
+              },
+              "isMain": true
+            },
+            {
+              "node": {
+                "id": 10,
+                "name": "Production I.G",
+                "siteUrl": "https://anilist.co/studio/10"
+              },
+              "isMain": true
+            },
+            {
+              "node": {
+                "id": 6145,
+                "name": "Science SARU",
+                "siteUrl": "https://anilist.co/studio/6145"
+              },
+              "isMain": true
+            }
+          ]
+        },
+        "duration": 16,
+        "episodes": 9,
+        "synonyms": ["Star Wars ビジョンズ", "Gwiezdne wojny: Wizje"],
+        "relations": {
+          "edges": [
+            {
+              "node": {
+                "id": 148967,
+                "title": {
+                  "native": "スター・ウォーズ：ビジョンズ"
+                }
+              },
+              "relationType": "ADAPTATION"
+            },
+            {
+              "node": {
+                "id": 34814,
+                "title": {
+                  "native": "STAR WARS 新たなる希望"
+                }
+              },
+              "relationType": "OTHER"
+            },
+            {
+              "node": {
+                "id": 184642,
+                "title": {
+                  "native": "スターウォーズビジョンズ Volume 3"
+                }
+              },
+              "relationType": "SEQUEL"
+            }
+          ]
+        },
+        "seasonInt": 214,
+        "startDate": {
+          "day": 22,
+          "year": 2021,
+          "month": 9
+        },
+        "coverImage": {
+          "color": "#5d86e4",
+          "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx138060-8G02wer2Lsxo.jpg",
+          "medium": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx138060-8G02wer2Lsxo.jpg",
+          "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx138060-8G02wer2Lsxo.jpg"
+        },
+        "popularity": 39093,
+        "seasonYear": 2021,
+        "bannerImage": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/138060-enmBd394MF9Q.jpg",
+        "externalLinks": [
+          {
+            "id": 37106,
+            "url": "https://twitter.com/starwars",
+            "site": "Twitter"
+          },
+          {
+            "id": 38482,
+            "url": "https://www.disneyplus.com/series/star-wars-visions/5AiiTRJ7OaKg",
+            "site": "Disney Plus"
+          },
+          {
+            "id": 122978,
+            "url": "https://www.hulu.com/series/2bd9a5cd-ab23-40ec-b211-4c87f2e94528",
+            "site": "Hulu"
+          }
+        ],
+        "countryOfOrigin": "JP",
+        "synonyms_chinese": []
+      },
+      "filename": "[KTXP][Star War Visions][01][BIG5][AVC][720P].mp4",
+      "episode": 1,
+      "from": 473.208,
+      "at": 473.208,
+      "to": 477.917,
+      "duration": 781.418,
+      "similarity": 0.669671002556296,
+      "video": "https://api.trace.moe/video/ghmVYvriUXNZZVe23uWDk8",
+      "image": "https://api.trace.moe/image/ghmVYvriUXNZZVe23uWDk8"
+    },
+    {
+      "anilist": {
+        "id": 155011,
+        "type": "ANIME",
+        "idMal": 52976,
+        "title": {
+          "native": "ベルセルク 黄金時代篇 MEMORIAL EDITION",
+          "romaji": "Berserk: Ougon Jidai-hen - MEMORIAL EDITION",
+          "chinese": "烙印戰士 黃金時代篇 MEMORIAL EDITION",
+          "english": "Berserk: The Golden Age Arc - Memorial Edition"
+        },
+        "format": "TV",
+        "genres": ["Action", "Adventure", "Drama", "Fantasy", "Horror", "Supernatural"],
+        "season": "FALL",
+        "source": "MANGA",
+        "status": "FINISHED",
+        "endDate": {
+          "day": 25,
+          "year": 2022,
+          "month": 12
+        },
+        "isAdult": false,
+        "siteUrl": "https://anilist.co/anime/155011",
+        "studios": {
+          "edges": [
+            {
+              "node": {
+                "id": 13,
+                "name": "Studio 4°C",
+                "siteUrl": "https://anilist.co/studio/13"
+              },
+              "isMain": true
+            },
+            {
+              "node": {
+                "id": 17,
+                "name": "Aniplex",
+                "siteUrl": "https://anilist.co/studio/17"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 148,
+                "name": "Hakusensha",
+                "siteUrl": "https://anilist.co/studio/148"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 29,
+                "name": "VAP",
+                "siteUrl": "https://anilist.co/studio/29"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 7149,
+                "name": "Beyond C.",
+                "siteUrl": "https://anilist.co/studio/7149"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6431,
+                "name": "KDDI",
+                "siteUrl": "https://anilist.co/studio/6431"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 166,
+                "name": "Movic",
+                "siteUrl": "https://anilist.co/studio/166"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 795,
+                "name": "Yahoo! Japan",
+                "siteUrl": "https://anilist.co/studio/795"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6339,
+                "name": "Good Smile Company",
+                "siteUrl": "https://anilist.co/studio/6339"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 7297,
+                "name": "Rialto Entertainment",
+                "siteUrl": "https://anilist.co/studio/7297"
+              },
+              "isMain": false
+            }
+          ]
+        },
+        "duration": 26,
+        "episodes": 13,
+        "synonyms": ["Berserk : L'Âge d'or - Memorial Edition"],
+        "relations": {
+          "edges": [
+            {
+              "node": {
+                "id": 30002,
+                "title": {
+                  "native": "ベルセルク"
+                }
+              },
+              "relationType": "ADAPTATION"
+            },
+            {
+              "node": {
+                "id": 33,
+                "title": {
+                  "native": "剣風伝奇ベルセルク"
+                }
+              },
+              "relationType": "ALTERNATIVE"
+            },
+            {
+              "node": {
+                "id": 10218,
+                "title": {
+                  "native": "ベルセルク 黄金時代篇Ⅰ 覇王の卵"
+                }
+              },
+              "relationType": "ALTERNATIVE"
+            },
+            {
+              "node": {
+                "id": 12113,
+                "title": {
+                  "native": "ベルセルク 黄金時代篇Ⅱ ドルドレイ攻略"
+                }
+              },
+              "relationType": "ALTERNATIVE"
+            },
+            {
+              "node": {
+                "id": 12115,
+                "title": {
+                  "native": "ベルセルク 黄金時代篇Ⅲ 降臨"
+                }
+              },
+              "relationType": "ALTERNATIVE"
+            },
+            {
+              "node": {
+                "id": 21560,
+                "title": {
+                  "native": "ベルセルク"
+                }
+              },
+              "relationType": "SEQUEL"
+            }
+          ]
+        },
+        "seasonInt": 224,
+        "startDate": {
+          "day": 2,
+          "year": 2022,
+          "month": 10
+        },
+        "coverImage": {
+          "color": "#e4ae50",
+          "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx155011-dCGHIBUyI2km.jpg",
+          "medium": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx155011-dCGHIBUyI2km.jpg",
+          "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx155011-dCGHIBUyI2km.jpg"
+        },
+        "popularity": 16880,
+        "seasonYear": 2022,
+        "bannerImage": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/155011-0CqPtNTVPzNJ.jpg",
+        "externalLinks": [
+          {
+            "id": 58293,
+            "url": "https://crunchyroll.com/series/G24H1N8XX",
+            "site": "Crunchyroll"
+          },
+          {
+            "id": 58294,
+            "url": "https://berserk-me.com/",
+            "site": "Official Site"
+          },
+          {
+            "id": 58295,
+            "url": "https://twitter.com/berserk_mePR",
+            "site": "Twitter"
+          },
+          {
+            "id": 58326,
+            "url": "https://www.hulu.com/hub/anime",
+            "site": "Hulu"
+          },
+          {
+            "id": 58553,
+            "url": "https://www.bilibili.tv/en/media/2069402",
+            "site": "Bilibili TV"
+          }
+        ],
+        "countryOfOrigin": "JP",
+        "synonyms_chinese": []
+      },
+      "filename": "[Erai-raws] Berserk - Ougon Jidaihen - MEMORIAL EDITION - 06 [720p][Multiple Subtitle][E36A7379].mp4",
+      "episode": 6,
+      "from": 693.693,
+      "at": 693.8181,
+      "to": 693.9433,
+      "duration": 1440.078,
+      "similarity": 0.6632367003197763,
+      "video": "https://api.trace.moe/video/TMOrZD3C4EiSSaAZGudFIlD",
+      "image": "https://api.trace.moe/image/TMOrZD3C4EiSSaAZGudFIlD"
+    },
+    {
+      "anilist": {
+        "id": 114065,
+        "type": "ANIME",
+        "idMal": 40904,
+        "title": {
+          "native": "ぼくたちのリメイク",
+          "romaji": "Bokutachi no Remake",
+          "chinese": "我們的重製人生",
+          "english": "Remake Our Life!"
+        },
+        "format": "TV",
+        "genres": ["Drama", "Romance", "Slice of Life"],
+        "season": "SUMMER",
+        "source": "LIGHT_NOVEL",
+        "status": "FINISHED",
+        "endDate": {
+          "day": 25,
+          "year": 2021,
+          "month": 9
+        },
+        "isAdult": false,
+        "siteUrl": "https://anilist.co/anime/114065",
+        "studios": {
+          "edges": [
+            {
+              "node": {
+                "id": 91,
+                "name": "feel.",
+                "siteUrl": "https://anilist.co/studio/91"
+              },
+              "isMain": true
+            },
+            {
+              "node": {
+                "id": 6389,
+                "name": "bilibili",
+                "siteUrl": "https://anilist.co/studio/6389"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6584,
+                "name": "DMM pictures",
+                "siteUrl": "https://anilist.co/studio/6584"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 719,
+                "name": "Studio Mausu",
+                "siteUrl": "https://anilist.co/studio/719"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6608,
+                "name": "Bushiroad Music",
+                "siteUrl": "https://anilist.co/studio/6608"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6891,
+                "name": "Bushiroad Move",
+                "siteUrl": "https://anilist.co/studio/6891"
+              },
+              "isMain": false
+            }
+          ]
+        },
+        "duration": 24,
+        "episodes": 12,
+        "synonyms": ["Bokurema", "我们的重制人生", "ย้อนเวลา รีเมคชีวิต", "Ремейк нашей жизни!"],
+        "relations": {
+          "edges": [
+            {
+              "node": {
+                "id": 105819,
+                "title": {
+                  "native": "ぼくたちのリメイク"
+                }
+              },
+              "relationType": "ADAPTATION"
+            },
+            {
+              "node": {
+                "id": 105818,
+                "title": {
+                  "native": "ぼくたちのリメイク"
+                }
+              },
+              "relationType": "ALTERNATIVE"
+            }
+          ]
+        },
+        "seasonInt": 213,
+        "startDate": {
+          "day": 3,
+          "year": 2021,
+          "month": 7
+        },
+        "coverImage": {
+          "color": "#50aee4",
+          "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx114065-YPPyW7ZSxfYU.jpg",
+          "medium": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx114065-YPPyW7ZSxfYU.jpg",
+          "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx114065-YPPyW7ZSxfYU.jpg"
+        },
+        "popularity": 102377,
+        "seasonYear": 2021,
+        "bannerImage": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114065-uYQZSaIfMs8S.jpg",
+        "externalLinks": [
+          {
+            "id": 25334,
+            "url": "http://bokurema.com/",
+            "site": "Official Site"
+          },
+          {
+            "id": 25335,
+            "url": "https://twitter.com/bokurema_anime",
+            "site": "Twitter"
+          },
+          {
+            "id": 35235,
+            "url": "https://www.crunchyroll.com/series/GKEH2GZX9/remake-our-life",
+            "site": "Crunchyroll"
+          },
+          {
+            "id": 35242,
+            "url": "https://www.youtube.com/playlist?list=PLxSscENEp7Jjad7wjjOwOoFgbHC5ZXhtG",
+            "site": "YouTube"
+          },
+          {
+            "id": 35620,
+            "url": "https://www.iq.com/album/2an91mmcxs1",
+            "site": "iQ"
+          }
+        ],
+        "countryOfOrigin": "JP",
+        "synonyms_chinese": []
+      },
+      "filename": "[Ohys-Raws] Bokutachi no Remake - 02 (MX 1280x720 x264 AAC).mp4",
+      "episode": 2,
+      "from": 1040.91,
+      "at": 1041.62,
+      "to": 1042.88,
+      "duration": 1439.9786,
+      "similarity": 0.653365161372166,
+      "video": "https://api.trace.moe/video/EIMGgIPbXVSqqXbdFa1OR2a",
+      "image": "https://api.trace.moe/image/EIMGgIPbXVSqqXbdFa1OR2a"
+    },
+    {
+      "anilist": {
+        "id": 12113,
+        "type": "ANIME",
+        "idMal": 12113,
+        "title": {
+          "native": "ベルセルク 黄金時代篇Ⅱ ドルドレイ攻略",
+          "romaji": "Berserk: Ougon Jidai-hen II - Doldrey Kouryaku",
+          "chinese": "烙印戰士 黃金時代篇II 多爾多雷攻略戰",
+          "english": "Berserk: The Golden Age Arc II - The Battle for Doldrey"
+        },
+        "format": "MOVIE",
+        "genres": ["Action", "Adventure", "Drama", "Fantasy", "Horror", "Supernatural"],
+        "season": "SUMMER",
+        "source": "MANGA",
+        "status": "FINISHED",
+        "endDate": {
+          "day": 23,
+          "year": 2012,
+          "month": 6
+        },
+        "isAdult": false,
+        "siteUrl": "https://anilist.co/anime/12113",
+        "studios": {
+          "edges": [
+            {
+              "node": {
+                "id": 134,
+                "name": "Horipro",
+                "siteUrl": "https://anilist.co/studio/134"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 119,
+                "name": "Viz Media",
+                "siteUrl": "https://anilist.co/studio/119"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 595,
+                "name": "NYAV Post",
+                "siteUrl": "https://anilist.co/studio/595"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 795,
+                "name": "Yahoo! Japan",
+                "siteUrl": "https://anilist.co/studio/795"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 13,
+                "name": "Studio 4°C",
+                "siteUrl": "https://anilist.co/studio/13"
+              },
+              "isMain": true
+            },
+            {
+              "node": {
+                "id": 6771,
+                "name": "Selecta Visión",
+                "siteUrl": "https://anilist.co/studio/6771"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 29,
+                "name": "VAP",
+                "siteUrl": "https://anilist.co/studio/29"
+              },
+              "isMain": false
+            }
+          ]
+        },
+        "duration": 92,
+        "episodes": 1,
+        "synonyms": [
+          "Berserk Movie",
+          "Berserk Saga",
+          "Berserk: La Edad de Oro II - La Batalla por Doldrey"
+        ],
+        "relations": {
+          "edges": [
+            {
+              "node": {
+                "id": 10218,
+                "title": {
+                  "native": "ベルセルク 黄金時代篇Ⅰ 覇王の卵"
+                }
+              },
+              "relationType": "PREQUEL"
+            },
+            {
+              "node": {
+                "id": 12115,
+                "title": {
+                  "native": "ベルセルク 黄金時代篇Ⅲ 降臨"
+                }
+              },
+              "relationType": "SEQUEL"
+            },
+            {
+              "node": {
+                "id": 30002,
+                "title": {
+                  "native": "ベルセルク"
+                }
+              },
+              "relationType": "ADAPTATION"
+            },
+            {
+              "node": {
+                "id": 33,
+                "title": {
+                  "native": "剣風伝奇ベルセルク"
+                }
+              },
+              "relationType": "ALTERNATIVE"
+            },
+            {
+              "node": {
+                "id": 155011,
+                "title": {
+                  "native": "ベルセルク 黄金時代篇 MEMORIAL EDITION"
+                }
+              },
+              "relationType": "ALTERNATIVE"
+            }
+          ]
+        },
+        "seasonInt": 123,
+        "startDate": {
+          "day": 23,
+          "year": 2012,
+          "month": 6
+        },
+        "coverImage": {
+          "color": "#d6a15d",
+          "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx12113-cIF2NXNRX1iB.jpg",
+          "medium": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx12113-cIF2NXNRX1iB.jpg",
+          "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx12113-cIF2NXNRX1iB.jpg"
+        },
+        "popularity": 47240,
+        "seasonYear": 2012,
+        "bannerImage": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/12113-eHkNrFjDklRR.jpg",
+        "externalLinks": [
+          {
+            "id": 13106,
+            "url": "https://www.netflix.com/title/70276596",
+            "site": "Netflix"
+          }
+        ],
+        "countryOfOrigin": "JP",
+        "synonyms_chinese": [
+          "烙印勇士 黃金時代篇II 多爾多雷攻略戰",
+          "劍風傳奇 黃金時代篇II 多爾多雷攻略戰"
+        ]
+      },
+      "filename": "[Liuyun][Berserk Golden Age Arc II-The Battle For Doldrey][MOIVE][BIG5][720P].mp4",
+      "episode": null,
+      "from": 2704.0764,
+      "at": 2704.2014,
+      "to": 2704.3267,
+      "duration": 5565.418,
+      "similarity": 0.652350601495481,
+      "video": "https://api.trace.moe/video/aAnZxwbio8K0ZZ4jtD6MDAUM",
+      "image": "https://api.trace.moe/image/aAnZxwbio8K0ZZ4jtD6MDAUM"
+    },
+    {
+      "anilist": {
+        "id": 6974,
+        "type": "ANIME",
+        "idMal": 6974,
+        "title": {
+          "native": "世紀末オカルト学院",
+          "romaji": "Seikimatsu Occult Gakuin",
+          "chinese": "世紀末超自然學院",
+          "english": "Occult Academy"
+        },
+        "format": "TV",
+        "genres": ["Comedy", "Mystery", "Sci-Fi", "Supernatural"],
+        "season": "SUMMER",
+        "source": "ORIGINAL",
+        "status": "FINISHED",
+        "endDate": {
+          "day": 28,
+          "year": 2010,
+          "month": 9
+        },
+        "isAdult": false,
+        "siteUrl": "https://anilist.co/anime/6974",
+        "studios": {
+          "edges": [
+            {
+              "node": {
+                "id": 17,
+                "name": "Aniplex",
+                "siteUrl": "https://anilist.co/studio/17"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 27,
+                "name": "Xebec",
+                "siteUrl": "https://anilist.co/studio/27"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 561,
+                "name": "A-1 Pictures",
+                "siteUrl": "https://anilist.co/studio/561"
+              },
+              "isMain": true
+            },
+            {
+              "node": {
+                "id": 372,
+                "name": "NIS America Inc.",
+                "siteUrl": "https://anilist.co/studio/372"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 717,
+                "name": "TV Tokyo Music",
+                "siteUrl": "https://anilist.co/studio/717"
+              },
+              "isMain": false
+            }
+          ]
+        },
+        "duration": 24,
+        "episodes": 13,
+        "synonyms": ["Zaidanhoujin Occult Designer Gakuin", "Seikimatsu Occult Academy"],
+        "relations": {
+          "edges": [
+            {
+              "node": {
+                "id": 9220,
+                "title": {
+                  "native": "世紀末オカルト学院"
+                }
+              },
+              "relationType": "SIDE_STORY"
+            },
+            {
+              "node": {
+                "id": 53365,
+                "title": {
+                  "native": "世紀末オカルト学院"
+                }
+              },
+              "relationType": "ADAPTATION"
+            }
+          ]
+        },
+        "seasonInt": 103,
+        "startDate": {
+          "day": 6,
+          "year": 2010,
+          "month": 7
+        },
+        "coverImage": {
+          "color": "#f1e4c9",
+          "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx6974-s0FIJwdvyXj9.jpg",
+          "medium": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx6974-s0FIJwdvyXj9.jpg",
+          "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx6974-s0FIJwdvyXj9.jpg"
+        },
+        "popularity": 19213,
+        "seasonYear": 2010,
+        "bannerImage": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/6974-6q4P6iPxJNLi.jpg",
+        "externalLinks": [],
+        "countryOfOrigin": "JP",
+        "synonyms_chinese": []
+      },
+      "filename": "[ReinForce] Seikimatsu Occult Gakuin - 10 (BDRip 1920x1080 x264 FLAC).mp4",
+      "episode": 10,
+      "from": 689.2302,
+      "at": 689.2302,
+      "to": 689.9393,
+      "duration": 1453.0767,
+      "similarity": 0.6482114604875153,
+      "video": "https://api.trace.moe/video/q2xWjF2B6ZBOOlCVzwXl4b",
+      "image": "https://api.trace.moe/image/q2xWjF2B6ZBOOlCVzwXl4b"
+    },
+    {
+      "anilist": {
+        "id": 137653,
+        "type": "ANIME",
+        "idMal": 55809,
+        "title": {
+          "native": "仙逆",
+          "romaji": "Xian Ni",
+          "chinese": "仙逆",
+          "english": "Renegade Immortal"
+        },
+        "format": "ONA",
+        "genres": ["Action", "Adventure", "Drama", "Fantasy"],
+        "season": null,
+        "source": "OTHER",
+        "status": "RELEASING",
+        "endDate": {
+          "day": null,
+          "year": null,
+          "month": null
+        },
+        "isAdult": false,
+        "siteUrl": "https://anilist.co/anime/137653",
+        "studios": {
+          "edges": [
+            {
+              "node": {
+                "id": 6382,
+                "name": "Tencent Penguin Pictures",
+                "siteUrl": "https://anilist.co/studio/6382"
+              },
+              "isMain": false
+            },
+            {
+              "node": {
+                "id": 6448,
+                "name": "Build Dream",
+                "siteUrl": "https://anilist.co/studio/6448"
+              },
+              "isMain": true
+            }
+          ]
+        },
+        "duration": 23,
+        "episodes": null,
+        "synonyms": ["Pemberontak Abadi"],
+        "relations": {
+          "edges": [
+            {
+              "node": {
+                "id": 85986,
+                "title": {
+                  "native": "仙逆"
+                }
+              },
+              "relationType": "ALTERNATIVE"
+            },
+            {
+              "node": {
+                "id": 185121,
+                "title": {
+                  "native": "仙逆剧场版 神临之战"
+                }
+              },
+              "relationType": "SIDE_STORY"
+            }
+          ]
+        },
+        "seasonInt": null,
+        "startDate": {
+          "day": 25,
+          "year": 2023,
+          "month": 9
+        },
+        "coverImage": {
+          "color": "#f19350",
+          "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx137653-1wHbCVvABGOr.png",
+          "medium": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx137653-1wHbCVvABGOr.png",
+          "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx137653-1wHbCVvABGOr.png"
+        },
+        "popularity": 3956,
+        "seasonYear": null,
+        "bannerImage": null,
+        "externalLinks": [
+          {
+            "id": 36655,
+            "url": "https://weibo.com/u/6904550522",
+            "site": "Weibo"
+          },
+          {
+            "id": 36656,
+            "url": "https://v.qq.com/detail/t/mzc00200aaogpgh.html",
+            "site": "Tencent Video"
+          },
+          {
+            "id": 144357,
+            "url": "https://www.crunchyroll.com/series/GKEH2G0MN/renegade-immortal",
+            "site": "Crunchyroll"
+          }
+        ],
+        "countryOfOrigin": "CN",
+        "synonyms_chinese": []
+      },
+      "filename": "[SubsPlease] Renegade Immortal - 24 (720p) [70FCFC44].mkv",
+      "episode": 24,
+      "from": 1137.84,
+      "at": 1137.92,
+      "to": 1137.92,
+      "duration": 1403.135,
+      "similarity": 0.6454362757065717,
+      "video": "https://api.trace.moe/video/TITbZxXohEiSSaAZGgMweQT",
+      "image": "https://api.trace.moe/image/TITbZxXohEiSSaAZGgMweQT"
+    }
+  ]
+}

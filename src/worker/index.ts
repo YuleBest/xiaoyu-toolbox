@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import animeSearch from './routes/anime-search'
 import bilidown from './routes/bilidown'
 import dydown from './routes/dydown'
 import frankfurter from './routes/frankfurter'
@@ -9,6 +10,7 @@ import weather from './routes/weather'
 
 const app = new Hono().basePath('/api')
 
+app.route('/anime-search', animeSearch)
 app.route('/bilidown', bilidown)
 app.route('/dydown', dydown)
 app.route('/frankfurter', frankfurter)

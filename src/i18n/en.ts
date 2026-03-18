@@ -264,6 +264,43 @@ export default {
       usage:
         '1. Enter the title of the ancient poem in the search box.\n2. Pinyin initials will be used for quick retrieval from the database.\n3. Supports conversion between Simplified and Traditional Chinese.',
     },
+    'anime-search': {
+      title: 'What Anime',
+      subtitle: 'Search Anime by Image',
+      description: 'Find anime name, episode and timestamp from a screenshot via trace.moe.',
+      usage:
+        '1. Upload or drag an image.\n2. Wait for search results.\n3. View confidence, episode, time, and preview video.',
+    },
+  },
+
+  // === Anime Search ===
+  animeSearch: {
+    title: 'What Anime',
+    placeholder: 'Upload or drag image...',
+    uploading: 'Searching...',
+    searchFailed: 'Search failed',
+    noResults: 'No results found',
+    confidence: 'Confidence',
+    episode: 'Episode',
+    time: 'Time',
+    videoPreview: 'Preview',
+    nativeTitle: 'Native',
+    romajiTitle: 'Romaji',
+    englishTitle: 'English',
+    chineseTitle: 'Chinese',
+    openInAnilist: 'Open in AniList',
+    searchQuota: 'Quota',
+    quotaUsed: 'Used',
+    cutBorders: 'Cut Borders',
+    format: 'Format',
+    status: 'Status',
+    genres: 'Genres',
+    studio: 'Studio',
+    season: 'Season',
+    searchingSource: 'Searching Source',
+    analysing: 'Analysing frame with trace.moe engines...',
+    anilistInfo: 'AniList Info',
+    eps: 'EP',
   },
 
   // === Time Distance Page ===

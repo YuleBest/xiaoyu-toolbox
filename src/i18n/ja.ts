@@ -267,6 +267,44 @@ export default {
       usage:
         '1. 検索ボックスに古典詩のタイトルを入力します。\n2. ピンインの頭文字を使用して、データベースから迅速に検索します。\n3. 簡体字と繁体字の相互変換をサポートしています。',
     },
+    'anime-search': {
+      title: '画像でアニメ検索',
+      subtitle: 'スクリーンショットからアニメを特定',
+      description:
+        'アニメのスクリーンショットから、作品名、話数、正確なシーンの時間を特定します（trace.moe を使用）。',
+      usage:
+        '1. アニメのスクリーンショットをアップロードまたはドラッグします。\n2. 検索結果を待ちます。\n3. 作品名、話数、時間、プレビュー動画を確認できます。',
+    },
+  },
+
+  // === 画像でアニメ検索 ===
+  animeSearch: {
+    title: '画像でアニメ検索',
+    placeholder: '画像をアップロードまたはドラッグ...',
+    uploading: '検索中...',
+    searchFailed: '検索に失敗しました',
+    noResults: '結果が見つかりませんでした',
+    confidence: '一致度',
+    episode: '話数',
+    time: '時間点',
+    videoPreview: 'プレビュー',
+    nativeTitle: '原名',
+    romajiTitle: 'ローマ字',
+    englishTitle: '英名',
+    openInAnilist: 'AniList で開く',
+    searchQuota: '残額',
+    quotaUsed: '本日使用',
+    cutBorders: '黒枠を自動カット',
+    chineseTitle: '中国語名',
+    format: '形式',
+    status: '放送状態',
+    genres: 'カテゴリー',
+    studio: 'アニメーション制作',
+    season: '放送时期',
+    searchingSource: '検索元画像',
+    analysing: 'trace.moe で解析中...',
+    anilistInfo: 'AniList 詳細',
+    eps: '話',
   },
 
   // === Time Distance Page ===

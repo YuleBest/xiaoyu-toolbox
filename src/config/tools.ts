@@ -22,6 +22,7 @@ import {
   Volume2,
   CalendarDays,
   BookOpen,
+  Search,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -208,6 +209,19 @@ export const toolsData: Record<string, Tool[]> = {
       color: 'text-red-500',
       path: '/ncm-get-playlist',
       date: '2026-02-28',
+    },
+    {
+      id: 'anime-search',
+      title: 'tools.anime-search.title',
+      subtitle: 'tools.anime-search.subtitle',
+      description: 'tools.anime-search.description',
+      author: 'Yule',
+      usage: 'tools.anime-search.usage',
+      icon: Search,
+      color: 'text-indigo-500',
+      path: '/anime-search',
+      backEnd: 'https://trace.moe/',
+      date: '2026-03-18',
     },
   ],
   life: [
