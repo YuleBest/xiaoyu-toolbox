@@ -5,7 +5,7 @@ export default {
     all: '全部',
     back: '戻る',
     search: '検索',
-    searchTools: 'ツールを検索',
+    searchTools: '全 {count} 件のツールを検索',
     copy: 'コピー',
     copySuccess: 'コピーしました',
     copyFailed: 'コピーに失敗しました',
@@ -81,7 +81,7 @@ export default {
 
   // === Search Page ===
   search: {
-    placeholder: 'ツール、カテゴリ、キーワードで検索...',
+    placeholder: '全 {count} 件のツール、カテゴリ、キーワードで検索...',
     startTitle: 'キーワードを入力して検索',
     startDesc: 'ツール名や機能説明から検索できます。',
     emptyTitle: 'ツールが見つかりませんでした',

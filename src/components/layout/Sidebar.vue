@@ -3,7 +3,7 @@ import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { Search, Settings, PanelLeftClose, PanelLeftOpen, ChevronDown } from 'lucide-vue-next'
 import { mainNav, categories } from '@/config/nav'
-import { toolsData } from '@/config/tools'
+import { toolsData, allTools } from '@/config/tools'
 import { navigationStore, toggleSidebar } from '@/stores/navigation'
 
 import ModeToggle from '@/components/ModeToggle.vue'
@@ -95,7 +95,7 @@ const toggleCategory = (catId: string) => {
           class="text-[12.5px] text-muted-foreground/60 transition-all duration-300 whitespace-nowrap overflow-hidden flex-1"
           :class="[isCollapsed ? 'max-w-0 opacity-0 ml-0' : 'max-w-[110px] opacity-100 ml-2']"
         >
-          {{ $t('common.searchTools') }}...
+          {{ $t('common.searchTools', { count: allTools.length }) }}...
         </span>
       </div>
     </div>

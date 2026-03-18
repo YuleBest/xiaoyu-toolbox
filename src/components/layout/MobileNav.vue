@@ -3,6 +3,7 @@ import { ref, watch } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { Search, ChevronRight, Settings } from 'lucide-vue-next'
 import { mainNav, categories } from '@/config/nav'
+import { allTools } from '@/config/tools'
 import { navigationStore } from '@/stores/navigation'
 import ModeToggle from '@/components/ModeToggle.vue'
 import LanguageToggle from '@/components/LanguageToggle.vue'
@@ -120,7 +121,7 @@ const toggleMobileMenu = () => {
           />
           <input
             type="text"
-            :placeholder="$t('common.searchTools')"
+            :placeholder="$t('common.searchTools', { count: allTools.length })"
             class="w-full bg-muted/40 rounded-xl pl-11 pr-4 py-3 text-base font-medium outline-none border border-transparent focus:bg-background focus:border-blue-500/10 shadow-sm transition-all"
             readonly
             @click="

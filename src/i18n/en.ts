@@ -5,7 +5,7 @@ export default {
     all: 'All',
     back: 'Back',
     search: 'Search',
-    searchTools: 'Search',
+    searchTools: 'Search {count} tools',
     copy: 'Copy',
     copySuccess: 'Copied',
     copyFailed: 'Failed',
@@ -81,7 +81,7 @@ export default {
 
   // === Search Page ===
   search: {
-    placeholder: 'Search tools or keywords...',
+    placeholder: 'Search {count} tools or keywords...',
     startTitle: 'Type to search',
     startDesc: 'Find tools by name or description.',
     emptyTitle: 'No results',

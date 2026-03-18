@@ -67,7 +67,7 @@ const handleToolClick = (path: string) => {
             ref="searchInput"
             v-model="searchQuery"
             type="text"
-            :placeholder="$t('search.placeholder')"
+            :placeholder="$t('search.placeholder', { count: allTools.length })"
             class="w-full bg-muted/50 rounded-2xl pl-12 pr-12 py-3.5 text-lg font-normal outline-none border border-transparent focus:bg-background focus:border-blue-500 transition-all"
           />
           <button
