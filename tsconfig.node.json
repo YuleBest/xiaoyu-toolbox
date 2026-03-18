@@ -22,6 +22,6 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["vite.config.ts"],
+  "include": ["vite.config.ts", "./typed-router.d.ts"],
   "exclude": ["node_modules", "**/.old_project/**", "dist", ".git", "*.md"]
 }

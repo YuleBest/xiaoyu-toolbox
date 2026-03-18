@@ -1,5 +1,6 @@
 import { ViteSSG } from 'vite-ssg'
-import { routes } from 'vue-router/auto-routes' // 自动生成的路由依然能用
+import { routes, handleHotUpdate } from 'vue-router/auto-routes'
+
 import './style.css'
 import './assets/fonts.css'
 import App from './App.vue'
@@ -39,8 +40,6 @@ export const createApp = ViteSSG(
       router.beforeEach((to) => {
         nprogress.start()
 
-        // --- 兼容旧版 Hash URL ---
-        // 注意：这里必须放在 isClient 里，因为打包环境没有 window
         const hash = window.location.hash
         if (to.path === '/' && hash.startsWith('#/')) {
           const targetPath = hash.substring(1)
@@ -53,6 +52,11 @@ export const createApp = ViteSSG(
       router.afterEach(() => {
         nprogress.done()
       })
+
+      // 这将在运行时更新路由而无需重新加载页面
+      if (import.meta.hot) {
+        handleHotUpdate(router)
+      }
     }
   },
 )
