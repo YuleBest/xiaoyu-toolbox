@@ -22,7 +22,10 @@
 /robots.txt
   Cache-Control: public, max-age=0, must-revalidate
 
-/favicon.svg
+/favicon.*
+  Cache-Control: public, max-age=86400
+
+/apple-touch-icon.png
   Cache-Control: public, max-age=86400
 
 /database/*
