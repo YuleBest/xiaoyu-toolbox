@@ -27,3 +27,4 @@ build.txt
 .agents
 .dev.vars
 .env
+.github/prompts
