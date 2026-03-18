@@ -50,3 +50,19 @@ export function setLanguage(locale: SupportedLocale) {
 }
 
 export default i18n
+
+// HMR support for i18n
+if (import.meta.hot) {
+  const localeFiles = supportedLocales.map((l) => `./${l.code}.ts`)
+  import.meta.hot.accept(localeFiles, (newModules) => {
+    newModules.forEach((mod, i) => {
+      if (mod) {
+        const locale = supportedLocales[i]?.code
+        if (locale) {
+          i18n.global.setLocaleMessage(locale, mod.default)
+        }
+      }
+    })
+    console.log('[HMR] i18n messages updated')
+  })
+}

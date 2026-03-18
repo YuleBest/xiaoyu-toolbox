@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { ref, inject, computed } from 'vue'
+import { ref, inject, computed, shallowRef, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { createHighlighter } from 'shiki'
 
 const { t } = useI18n()
 import { Copy, Check, Trash2, ArrowRightLeft, FileJson, Upload, Download } from 'lucide-vue-next'
 import ToolContainer from '@/components/tool/ToolContainer.vue'
 import { allTools } from '@/config/tools'
 import yaml from 'js-yaml'
-import Prism from 'prismjs'
-import 'prismjs/components/prism-json'
-import 'prismjs/components/prism-yaml'
-import 'prismjs/themes/prism-tomorrow.css'
 
 const showToast = inject('showToast') as (
   msg: string,
@@ -34,14 +31,32 @@ const copiedJson = ref(false)
 const copiedYaml = ref(false)
 const isUpdating = ref(false)
 
+const highlighter = shallowRef<any>(null)
+const theme = 'tomorrow-night-eighties'
+
+onMounted(async () => {
+  highlighter.value = await createHighlighter({
+    themes: [theme],
+    langs: ['json', 'yaml'],
+  })
+})
+
 const highlightedJson = computed(() => {
-  if (!jsonText.value || !Prism.languages.json) return jsonText.value
-  return Prism.highlight(jsonText.value, Prism.languages.json, 'json')
+  if (!jsonText.value || !highlighter.value) return jsonText.value
+  return highlighter.value.codeToHtml(jsonText.value, {
+    lang: 'json',
+    theme,
+    structure: 'inline',
+  })
 })
 
 const highlightedYaml = computed(() => {
-  if (!yamlText.value || !Prism.languages.yaml) return yamlText.value
-  return Prism.highlight(yamlText.value, Prism.languages.yaml, 'yaml')
+  if (!yamlText.value || !highlighter.value) return yamlText.value
+  return highlighter.value.codeToHtml(yamlText.value, {
+    lang: 'yaml',
+    theme,
+    structure: 'inline',
+  })
 })
 
 const syncScroll = (type: 'json' | 'yaml') => {
