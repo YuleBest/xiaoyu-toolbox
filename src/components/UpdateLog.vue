@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, watchEffect } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { Clock, ChevronDown, ChevronUp } from 'lucide-vue-next'
@@ -27,13 +27,8 @@ const isLoading = ref(true)
 onMounted(async () => {
   try {
     const response = await fetch('/_commit.log.min.json')
-    console.log('[UpdateLog] Fetch Status:', response.status)
     if (response.ok) {
       commitData.value = await response.json()
-      console.log('[UpdateLog] Log data loaded:', commitData.value.length, 'entries.')
-      if (commitData.value.length > 0) {
-        console.log('[UpdateLog] Sample Path in JSON:', commitData.value[0]?.filePath)
-      }
     }
   } catch (error) {
     console.error('[UpdateLog] Failed to load commit logs:', error)
@@ -60,32 +55,6 @@ const currentFileName = computed(() => {
   // 提取最后一个斜线后的部分
   const baseName = pathString.split('/').pop()
   return baseName ? `${baseName}.vue` : 'index.vue'
-})
-
-// 调试所有可能的路径匹配相关属性
-watchEffect(() => {
-  if (!isLoading.value) {
-    const target = currentFileName.value.toLowerCase()
-    console.log('[UpdateLog] --- Matching Debug ---')
-    console.log('[UpdateLog] Route Path:', route.path)
-    console.log('[UpdateLog] Target FileName:', target)
-
-    const match = commitData.value.find((item) => {
-      const normalizedPath = item.filePath.replace(/\\/g, '/').toLowerCase()
-      return normalizedPath === target
-    })
-
-    if (match) {
-      console.log('[UpdateLog] Found match for', target, 'with', match.commits.length, 'commits.')
-    } else {
-      console.warn('[UpdateLog] No match found for', target)
-      // 辅助打印前 3 条以对照路径格式
-      console.log(
-        '[UpdateLog] First 3 keys in JSON:',
-        commitData.value.slice(0, 3).map((i) => i.filePath),
-      )
-    }
-  }
 })
 
 // 计算当前页面匹配的更新日志

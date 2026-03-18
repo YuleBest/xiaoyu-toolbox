@@ -7,73 +7,68 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import sitemapPlugin from './src/plugins/vite-plugin-sitemap'
-import { prismjsPlugin } from 'vite-plugin-prismjs'
 import { cloudflare } from '@cloudflare/vite-plugin'
 import { VueRouterAutoImports } from 'vue-router/unplugin'
 
-export default defineConfig({
-  plugins: [
-    vueRouter(),
-    vue({
-      include: [/\.vue$/],
-    }),
-    tailwindcss(),
-    prismjsPlugin({
-      languages: [
-        'javascript',
-        'typescript',
-        'css',
-        'html',
-        'json',
-        'yaml',
-        'python',
-        'bash',
-        'java',
-        'c',
-        'cpp',
-        'csharp',
-        'go',
-        'rust',
-      ],
-      theme: 'tomorrow',
-      css: true,
-    }),
-    sitemapPlugin(),
-    AutoImport({
-      imports: ['vue', VueRouterAutoImports],
-      dts: 'src/auto-imports.d.ts',
-    }),
-    Components({
-      dirs: ['src/components'],
-      extensions: ['vue'],
-      dts: 'src/components.d.ts',
-      deep: true,
-      include: [/\.vue$/, /\.vue\?vue/],
-    }),
-    process.env.npm_lifecycle_event !== 'build-only' && cloudflare(),
-  ],
+export default defineConfig(({ mode }) => {
+  return {
+    plugins: [
+      vueRouter(),
+      vue({
+        include: [/\.vue$/],
+      }),
+      tailwindcss(),
+      sitemapPlugin(),
+      AutoImport({
+        imports: ['vue', VueRouterAutoImports],
+        dts: !process.env.npm_lifecycle_event?.startsWith('build') && 'src/auto-imports.d.ts',
+      }),
+      Components({
+        dirs: ['src/components'],
+        extensions: ['vue'],
+        dts: !process.env.npm_lifecycle_event?.startsWith('build') && 'src/components.d.ts',
+        deep: true,
+        include: [/\.vue$/],
+      }),
+      !process.env.npm_lifecycle_event?.startsWith('build') && cloudflare(),
+    ],
 
-  ssgOptions: {
-    script: 'async',
-    formatting: 'minify',
-    onFinished() {
-      console.log('SSG 构建完成')
+    build: {
+      minify: mode === 'fast' ? false : 'oxc',
+      cssMinify: 'lightningcss',
+      sourcemap: false,
+      cssCodeSplit: true,
+      outDir: 'dist',
+      ssrManifest: true,
+      chunkSizeWarningLimit: 2000,
     },
-  },
 
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
+    ssgOptions: {
+      script: 'async',
+      formatting: 'minify',
+      onFinished() {
+        console.log('SSG 构建完成!')
+      },
     },
-  },
-  server: {
-    port: 5678,
-    host: '0.0.0.0',
-  },
-  build: {
-    sourcemap: false,
-    cssCodeSplit: true,
-    outDir: 'dist',
-    ssrManifest: true,
-  },
+
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      },
+    },
+
+    optimizeDeps: {
+      include: ['vue', 'vue-router', '@vueuse/core', 'axios', 'hono', 'lucide-vue-next'],
+      exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util'],
+    },
+
+    server: {
+      port: 5678,
+      host: '0.0.0.0',
+      watch: {
+        usePolling: true,
+      },
+      forwardConsole: true,
+    },
+  }
 })

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, inject, computed, onMounted, onUnmounted } from 'vue'
+import { ref, inject, computed, onMounted, onUnmounted, shallowRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStorage } from '@vueuse/core'
 import { Copy, Download, Upload } from 'lucide-vue-next'
 import ToolContainer from '@/components/tool/ToolContainer.vue'
 import { allTools } from '@/config/tools'
 import { toBlob, toPng } from 'html-to-image'
+import { createHighlighter } from 'shiki'
 
 // Components
 import { Button } from '@/components/ui/button'
@@ -36,7 +37,22 @@ const codeText = ref(`function hello(name) {
 hello('World');`)
 
 const selectedLanguage = useStorage('codeimg-language', 'javascript')
-const selectedTheme = useStorage('codeimg-theme', 'tomorrow')
+
+const themeMap: Record<string, string> = {
+  tomorrow: 'tomorrow-night',
+  okaidia: 'monokai',
+  coy: 'min-light',
+  solarizedLight: 'solarized-light',
+  twilight: 'nord',
+  dark: 'dark-plus',
+}
+
+const selectedTheme = useStorage('codeimg-theme', 'tomorrow-night')
+// 兼容旧主题名
+if (themeMap[selectedTheme.value]) {
+  selectedTheme.value = themeMap[selectedTheme.value]
+}
+
 const showWindowControls = useStorage('codeimg-window-controls', true)
 const showLineNumbers = useStorage('codeimg-line-numbers', false)
 const showShadow = useStorage('codeimg-shadow', true)
@@ -82,29 +98,29 @@ const languages = [
 ]
 
 const themes = [
-  { value: 'tomorrow', label: t('codeimg.themes.tomorrow') },
-  { value: 'okaidia', label: t('codeimg.themes.okaidia') },
-  { value: 'coy', label: t('codeimg.themes.coy') },
-  { value: 'solarizedLight', label: t('codeimg.themes.solarizedLight') },
-  { value: 'twilight', label: t('codeimg.themes.twilight') },
-  { value: 'dark', label: t('codeimg.themes.dark') },
+  { value: 'tomorrow-night', label: t('codeimg.themes.tomorrow') },
+  { value: 'monokai', label: t('codeimg.themes.okaidia') },
+  { value: 'min-light', label: t('codeimg.themes.coy') },
+  { value: 'solarized-light', label: t('codeimg.themes.solarizedLight') },
+  { value: 'nord', label: t('codeimg.themes.twilight') },
+  { value: 'dark-plus', label: t('codeimg.themes.dark') },
 ]
 
-const isLightTheme = computed(() => ['coy', 'solarizedLight'].includes(selectedTheme.value))
+const isLightTheme = computed(() => ['min-light', 'solarized-light'].includes(selectedTheme.value))
 
 const themeBackgroundClass = computed(() => {
   switch (selectedTheme.value) {
-    case 'coy':
-      return 'bg-[#fdfdfd]'
-    case 'solarizedLight':
+    case 'min-light':
+      return 'bg-[#ffffff]'
+    case 'solarized-light':
       return 'bg-[#fdf6e3]'
-    case 'tomorrow':
+    case 'tomorrow-night':
       return 'bg-[#1d1f21]'
-    case 'okaidia':
+    case 'monokai':
       return 'bg-[#272822]'
-    case 'twilight':
-      return 'bg-[#141414]'
-    case 'dark':
+    case 'nord':
+      return 'bg-[#2e3440]'
+    case 'dark-plus':
       return 'bg-[#1e1e1e]'
     default:
       return 'bg-[#1e1e1e]'
@@ -123,6 +139,7 @@ const currentBackground = computed(() => {
 })
 
 const highlightedCode = ref('')
+const highlighter = shallowRef<any>(null)
 
 const updateHighlightedCode = async () => {
   if (!codeText.value) {
@@ -130,21 +147,24 @@ const updateHighlightedCode = async () => {
     return
   }
 
-  const Prism = (await import('prismjs')).default
-
-  const langObj = Prism.languages[selectedLanguage.value] || Prism.languages.javascript
-
-  if (!langObj) {
-    highlightedCode.value = codeText.value
-    return
+  if (!highlighter.value) {
+    highlighter.value = await createHighlighter({
+      themes: themes.map((t) => t.value),
+      langs: languages.map((l) => l.value),
+    })
   }
 
-  let result = Prism.highlight(codeText.value, langObj, selectedLanguage.value)
+  let result = highlighter.value.codeToHtml(codeText.value, {
+    lang: selectedLanguage.value,
+    theme: selectedTheme.value,
+    structure: 'inline',
+  })
+
   if (showLineNumbers.value) {
     const lines = result.split('\n')
     const numPadding = String(lines.length).length
     result = lines
-      .map((line, index) => {
+      .map((line: string, index: number) => {
         const lineNum = String(index + 1).padStart(numPadding, ' ')
         return `<span class="inline-block box-border select-none text-muted-foreground/50 border-r border-border/50 text-right pr-4" style="width: calc(${numPadding + 1}ch + 16px); margin-left: calc(-${numPadding + 1}ch - 32px); margin-right: 16px;">${lineNum}</span>${line}`
       })
@@ -153,8 +173,7 @@ const updateHighlightedCode = async () => {
   highlightedCode.value = result
 }
 
-import { watch } from 'vue'
-watch([codeText, selectedLanguage, showLineNumbers], updateHighlightedCode, {
+watch([codeText, selectedLanguage, selectedTheme, showLineNumbers], updateHighlightedCode, {
   immediate: true,
 })
 
@@ -240,23 +259,6 @@ const handleFileUpload = (e: Event) => {
   if (fileInput.value) fileInput.value.value = ''
 }
 
-// Lazy load Prism CSS
-const loadThemeCss = async (theme: any) => {
-  if (!theme) return
-  const themeStr = theme.toString()
-  const id = 'prism-theme-link'
-  let link = document.getElementById(id) as HTMLLinkElement
-  if (!link) {
-    link = document.createElement('link')
-    link.id = id
-    link.rel = 'stylesheet'
-    document.head.appendChild(link)
-  }
-  // Simple CDN for dynamic loading
-  const themeName = themeStr === 'tomorrow' ? 'prism-tomorrow' : 'prism-' + themeStr.toLowerCase()
-  link.href = `https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/${themeName}.min.css`
-}
-
 const copyImage = async () => {
   if (!previewNode.value) return
   try {
@@ -313,7 +315,7 @@ const downloadImage = async () => {
 
 const resetDefaults = () => {
   selectedLanguage.value = 'javascript'
-  selectedTheme.value = 'tomorrow'
+  selectedTheme.value = 'tomorrow-night'
   showWindowControls.value = true
   showLineNumbers.value = false
   showShadow.value = true
@@ -372,7 +374,7 @@ const resetDefaults = () => {
 
               <div class="space-y-2">
                 <Label>{{ $t('codeimg.theme') }}</Label>
-                <Select v-model="selectedTheme" @update:model-value="loadThemeCss">
+                <Select v-model="selectedTheme">
                   <SelectTrigger>
                     <SelectValue :placeholder="$t('codeimg.theme')" />
                   </SelectTrigger>
@@ -682,12 +684,8 @@ const resetDefaults = () => {
 </template>
 
 <style>
-/* Base Prism Overrides to fit nicely */
-pre[class*='language-'] {
-  border-radius: 0 !important;
-}
-
-pre[class*='language-'].code-editor-font,
+/* Base Syntax Highlighting Overrides to fit nicely */
+pre.code-editor-font,
 textarea.code-editor-font {
   margin: 0 !important;
   border: 0 !important;
