@@ -6,9 +6,10 @@
 
 @theme inline {
   --font-sans:
-    'Google Sans Flex', -apple-system, BlinkMacSystemFont, 'Apple Color Emoji', 'SF Pro', 'Inter',
-    'SF Pro Icons', 'Helvetica Neue', Helvetica, Arial, sans-serif, 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
+    'Google Sans Flex', 'PingFang SC', 'PingFang TC', 'PingFang UI SC', 'PingFang UI TC',
+    -apple-system, sans-serif, BlinkMacSystemFont, 'Apple Color Emoji', 'SF Pro', 'Inter',
+    'SF Pro Icons', 'Helvetica Neue', Helvetica, Arial, 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
   --font-mono:
     'Google Sans Code', 'Fira Code', ui-monospace, -apple-system, BlinkMacSystemFont,
     'Apple Color Emoji', 'SF Pro', 'Inter', 'SF Pro Icons', 'Helvetica Neue', Helvetica, Arial,
