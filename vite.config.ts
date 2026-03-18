@@ -9,18 +9,15 @@ import Components from 'unplugin-vue-components/vite'
 import sitemapPlugin from './src/plugins/vite-plugin-sitemap'
 import { prismjsPlugin } from 'vite-plugin-prismjs'
 import { cloudflare } from '@cloudflare/vite-plugin'
+import { VueRouterAutoImports } from 'vue-router/unplugin'
 
 export default defineConfig({
   plugins: [
+    vueRouter(),
     vue({
       include: [/\.vue$/],
     }),
     tailwindcss(),
-    vueRouter({
-      routesFolder: 'src/pages',
-      extensions: ['.vue'],
-      dts: 'src/route-map.d.ts',
-    }),
     prismjsPlugin({
       languages: [
         'javascript',
@@ -43,7 +40,7 @@ export default defineConfig({
     }),
     sitemapPlugin(),
     AutoImport({
-      imports: ['vue', 'vue-router'],
+      imports: ['vue', VueRouterAutoImports],
       dts: 'src/auto-imports.d.ts',
     }),
     Components({

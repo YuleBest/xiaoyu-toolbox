@@ -1,5 +1,5 @@
 name = "xiaoyu-toolbox"
-compatibility_date = "2026-03-10"
+compatibility_date = "2026-03-01"
 '$schema' = "node_modules/wrangler/config-schema.json"
 compatibility_flags = ["nodejs_compat"]
 main = "src/worker/index.ts"
