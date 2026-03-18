@@ -722,6 +722,8 @@ export default {
     searching: '搜尋中...',
     searchFailed: '搜尋失敗',
     noResults: '暫無搜尋結果',
+    results: '搜尋結果',
+    lyricLine: '行歌詞',
     loading: '載入中...',
     loadFailed: '歌詞載入失敗',
     noLyric: '暫無歌詞',

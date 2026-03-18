@@ -712,6 +712,8 @@ export default {
     searching: '搜索中...',
     searchFailed: '搜索失败',
     noResults: '暂无搜索结果',
+    results: '搜索结果',
+    lyricLine: '行歌词',
     loading: '加载中...',
     loadFailed: '歌词加载失败',
     noLyric: '暂无歌词',

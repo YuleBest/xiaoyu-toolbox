@@ -929,4 +929,23 @@ export default {
     noResults: 'この日付のデータは記録されていません',
     rank: '万',
   },
+
+  lyric: {
+    searchPlaceholder: '曲名または歌手名で検索...',
+    searching: '検索中...',
+    searchFailed: '検索に失敗しました',
+    noResults: '検索結果がありません',
+    results: '検索結果',
+    loading: '読み込み中...',
+    loadFailed: '歌詞の読み込みに失敗しました',
+    noLyric: '歌詞がありません',
+    downloadLrc: 'LRCダウンロード',
+    copyLyric: '歌詞をコピー',
+    timeline: 'タイムライン',
+    lyricMode: 'テキストのみ',
+    singer: '歌手',
+    album: 'アルバム',
+    duration: '時間',
+    lyricLine: '行',
+  },
 }

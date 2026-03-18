@@ -295,7 +295,7 @@ const onSliderInput = (e: Event) => {
         >
           <div class="px-5 py-4 border-b border-muted/30">
             <h3 class="text-sm font-semibold text-foreground">
-              {{ $t('lyric.noResults') }}
+              {{ $t('lyric.results') }}
               <span class="text-muted-foreground font-normal ml-1"
                 >{{ searchResults.length }} 首</span
               >
@@ -403,7 +403,7 @@ const onSliderInput = (e: Event) => {
           <!-- Display Mode Toggle -->
           <div class="flex items-center justify-between px-2">
             <span class="text-sm text-muted-foreground"
-              >{{ parsedLyrics.length }} {{ $t('lyric.noResults') }}</span
+              >{{ parsedLyrics.length }} {{ $t('lyric.lyricLine') }}</span
             >
             <div class="flex items-center bg-muted/30 rounded-xl p-1 gap-0.5">
               <button
