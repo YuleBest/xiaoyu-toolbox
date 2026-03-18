@@ -17,8 +17,15 @@ export const createApp = ViteSSG(
     // 这里的 scrollBehavior 搬过来就行
     scrollBehavior(to, from, savedPosition) {
       if (to.path === from.path) return false
-      if (savedPosition) return savedPosition
-      return { top: 0, behavior: 'smooth' }
+      if (savedPosition) {
+        // 使用 Promise 解决过渡动画导致的滚动位置恢复失败
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(savedPosition)
+          }, 350) // 等待 transition 动画基本完成
+        })
+      }
+      return { top: 0 }
     },
   },
   ({ app, router, isClient }) => {
