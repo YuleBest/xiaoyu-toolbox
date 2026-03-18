@@ -5,7 +5,7 @@ export default {
     all: '全部',
     back: '返回',
     search: '搜尋',
-    searchTools: '搜尋工具',
+    searchTools: '搜尋 {count} 個工具',
     copy: '複製',
     copySuccess: '複製成功',
     copyFailed: '複製失敗',
@@ -81,7 +81,7 @@ export default {
 
   // === 搜尋頁 ===
   search: {
-    placeholder: '搜尋工具、分類或關鍵詞...',
+    placeholder: '搜尋 {count} 個工具、分類或關鍵詞...',
     startTitle: '輸入關鍵詞開始搜尋',
     startDesc: '您可以搜尋工具名稱、功能描述或子標題，快速找到您需要的工具。',
     emptyTitle: '未找到相關工具',
