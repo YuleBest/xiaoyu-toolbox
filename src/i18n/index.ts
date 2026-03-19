@@ -14,9 +14,11 @@ const getInitialLocale = () => {
   return 'zh-CN'
 }
 
+const initialLocale = getInitialLocale()
+
 const i18n = createI18n({
   legacy: false, // 使用 Composition API
-  locale: getInitialLocale(),
+  locale: initialLocale,
   fallbackLocale: 'zh-CN',
   messages: {
     'zh-CN': zhCN,
@@ -25,6 +27,11 @@ const i18n = createI18n({
     ja: ja,
   },
 })
+
+// 初始化时同步 HTML lang 属性
+if (typeof window !== 'undefined') {
+  document.documentElement.lang = initialLocale
+}
 
 /** 支持的语言列表 */
 export const supportedLocales = [
