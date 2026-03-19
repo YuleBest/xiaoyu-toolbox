@@ -2,7 +2,6 @@ import { ViteSSG } from 'vite-ssg'
 import { routes, handleHotUpdate } from 'vue-router/auto-routes'
 
 import './style.css'
-import './assets/fonts.css'
 import App from './App.vue'
 import i18n from './i18n'
 
