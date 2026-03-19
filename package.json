@@ -19,7 +19,7 @@
     "lint:oxlint-check": "oxlint .",
     "lint:eslint-check": "eslint . --cache",
     "type-check": "golar --build",
-    "format": "prettier --write --experimental-cli src/",
+    "format": "oxfmt src/",
     "readme": "tsx scripts/readme.ts",
     "commitlog": "tsx scripts/commitLog.ts"
   },
@@ -87,6 +87,7 @@
     "globals": "^17.3.0",
     "golar": "^0.0.15",
     "npm-run-all": "^4.1.5",
+    "oxfmt": "^0.41.0",
     "oxlint": "^1.51.0",
     "papaparse": "^5.5.3",
     "prettier": "^3.8.1",
