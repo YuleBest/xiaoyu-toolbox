@@ -10,7 +10,8 @@
   "explorer.fileNesting.patterns": {
     "tsconfig.json": "tsconfig.*.json, env.d.ts, typed-router.d.ts",
     "vite.config.*": "jsconfig*, vitest.config.*, cypress.config.*, playwright.config.*",
-    "package.json": "package-lock.json, pnpm*, .yarnrc*, yarn*, .eslint*, eslint*, .oxlint*, oxlint*, .oxfmt*, .prettier*, prettier*, .editorconfig, components.json, tailwind.config.*, wrangler.toml"
+    "package.json": "package-lock.json, pnpm*, .yarnrc*, yarn*, .eslint*, eslint*, .oxlint*, oxlint*, .oxfmt*, .prettier*, prettier*, .editorconfig, components.json, tailwind.config.*, .env",
+    "wrangler.toml": ".dev.vars"
   },
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
@@ -34,7 +35,10 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/bower_components": true,
-    "**/*.code-search": true
+    "**/*.code-search": true,
+    "**/node_modules": true,
+    "**/.wrangler": true,
+    "**/logs": true
   },
   "tailwindCSS.files.exclude": [
     "**/node_modules/**",
