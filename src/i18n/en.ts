@@ -123,153 +123,273 @@ export default {
     base64: {
       title: 'Base64',
       subtitle: 'Text ↔ Base64',
-      description: 'Convert text to Base64 and vice-versa, supports UTF-8.',
-      usage: 'Input on either side to convert automatically.',
+      description:
+        'Mutual conversion between text and Base64 encoding, supports UTF-8 Chinese and special characters to prevent garbled text. Ideal for data encoding, URL safe transmission, binary data text representation, and development debugging.',
+      usage:
+        'Input on either side to convert automatically. Click copy button to quickly copy content.',
     },
     'json-yaml': {
       title: 'JSON-YAML',
       subtitle: 'JSON ↔ YAML',
-      description: 'Fast format conversion with validation.',
+      description:
+        'Fast and convenient JSON and YAML format conversion tool with real-time validation and formatting. Ideal for configuration file conversion, API data format switching, development debugging, and various scenarios to improve work efficiency.',
+      usage:
+        'Paste JSON or YAML content and click convert button. Supports one-click copy and clear.',
     },
     playground: {
       title: 'Playground',
       subtitle: 'JS / TS Sandbox',
-      description: 'Interactive JavaScript/TypeScript environment in your browser.',
+      description:
+        'Online code playground based on Sandpack and Monaco Editor, supporting real-time preview of JavaScript/TypeScript code execution. No local environment configuration required, write, test, and debug code directly in the browser. Ideal for rapid prototyping, code snippet sharing, and learning programming.',
+      usage:
+        'Write code in the left editor, click run to see output in the log panel. Supports JS/TS environment switching.',
     },
     qrcode: {
       title: 'QR Code',
       subtitle: 'Generate & Scan',
-      description: 'Create custom QR codes or scan them from images.',
+      description:
+        'Quickly generate custom QR codes or recognize QR code content from images. Supports multiple content types (text, links, WiFi, email), error correction level adjustment, size and color customization, and download generated QR code images to meet various scenario needs.',
+      usage:
+        'Generate: Enter text in the "Generate" tab to preview QR code in real-time. Scan: Upload or drag QR code image in the "Scan" tab to get parsed content.',
     },
     exif: {
       title: 'EXIF Viewer',
       subtitle: 'Image Metadata',
-      description: 'View EXIF data: camera info, parameters, and GPS.',
+      description:
+        'Read and display image EXIF metadata including camera brand and model, shooting parameters (aperture, shutter, ISO), GPS location, shooting time and other detailed information. Supports common image formats, suitable for photography analysis, image traceability, and metadata viewing.',
+      usage:
+        'Upload image: Click "Select an image" button to choose local image file. View info: EXIF data is automatically parsed and displayed in the table below. Preview: Image preview is shown for verification.',
     },
     dydown: {
       title: 'Douyin Downloader',
       subtitle: 'No Watermark Download',
-      description: 'Parse Douyin links for clean video and author info.',
+      description:
+        'Parse Douyin share links to get watermark-free video direct links and author information. Supports watermark removal download, video cover extraction, and author info viewing. Ideal for content backup, secondary creation, and video素材collection.',
+      usage:
+        '1. Copy share link from Douyin app.\n2. Paste into input box and click "Parse".\n3. Get download link or download video directly.',
     },
     bilidown: {
       title: 'Bilibili Downloader',
       subtitle: 'Audio/Video Merger',
-      description: 'Parse Bilibili videos and merge streams in-browser via FFmpeg.',
+      description:
+        'Parse Bilibili video links to get audio and video direct streams. Built-in FFmpeg WASM engine supports one-click merging of video and audio in the browser. Filling Cookie can enable 1080P+ high-definition parsing. Ideal for Bilibili video downloading, high-quality video saving, and offline viewing.',
+      usage:
+        '1. Copy Bilibili video link (BV number).\n2. Paste into input box and click "Parse Now".\n3. If high-definition quality is needed, fill complete Cookie in advanced settings.\n4. Click "One-click Merge" to automatically merge and download mp4 file in browser.',
     },
     lyric: {
       title: 'Lyric Fetcher',
       subtitle: 'Search & Export',
-      description: 'Search for LRC lyrics and export them.',
+      description:
+        'Search for songs and get standard LRC format lyrics with download and copy support. Based on Kugou music data source providing massive lyric resources. Ideal for Karaoke production, music player lyric synchronization, lyric collection, and learning songs.',
+      usage:
+        '1. Enter song name or artist name to search.\n2. Select target song from search results.\n3. View lyrics content, supports downloading LRC file or copying lyrics text.',
     },
     weather: {
       title: 'Weather',
       subtitle: 'Global Forecast',
-      description: 'Real-time weather and forecasts worldwide via QWeather.',
+      description:
+        'Global weather query tool based on QWeather, supporting real-time weather, hourly forecasts, and future weather trends. Provides comprehensive information including temperature, humidity, wind speed, pressure, precipitation probability. Ideal for travel planning, life arrangements, and trip preparation.',
+      usage:
+        '1. Enter city name (supports Chinese pinyin or English) to search.\n2. Select correct city.\n3. View detailed weather information.\n\nTip: Due to using non-localized API, if you cannot find Chinese cities, try using pinyin. For example: beijing instead of 北京',
     },
     hok: {
       title: 'Honor of Kings',
       subtitle: 'Game Data Query',
-      description: 'Lookup heroes, items, and skills for Honor of Kings.',
+      description:
+        'Honor of Kings game data query tool, supports querying hero information, equipment attributes, and summoner skill details. Includes complete hero skin list, equipment effect descriptions, skill cooldown time and other detailed information. Ideal for players to understand game characters, equipment effects, and skill characteristics.',
+      usage:
+        '1. Select query category: Heroes, Equipment, or Summoner Skills.\n2. Use search box to quickly find with keywords.\n3. Hero query supports filtering by profession (Warrior, Mage, Tank, etc.).\n4. Equipment query supports filtering by type (Attack, Magic, Defense, etc.).\n5. Click hero card to view detailed information and skin list.',
     },
     reaction: {
       title: 'Reaction Test',
       subtitle: 'Speed Test',
-      description: 'Test your visual reaction speed in milliseconds.',
+      description:
+        'Test your visual reaction speed. When screen color turns green, click screen or press spacebar as fast as possible. Note: This test is for entertainment only, mouse or keyboard devices may introduce additional input latency. Ideal for fun challenges, self-assessment, and comparing reaction speeds with friends.',
+      usage:
+        '1. Click anywhere on screen or press spacebar to start test.\n2. Wait for screen to turn red, stay focused.\n3. Immediately click or press space when screen turns green!\n4. View your millisecond-level reaction data.',
     },
     jichacha: {
       title: 'JiChacha',
       subtitle: 'Device Specs',
-      description: 'Phone model and hardware specification lookup.',
+      description:
+        'Query detailed parameters, code names, market names and other information of mobile phone models. Supports global major brand phones, tablets, watches and other device queries, providing hardware specifications, release time, model aliases and other comprehensive data. A practical tool for selecting devices and comparing specifications.',
+      usage: 'Enter device keyword (e.g. iPhone 14, SM-S9180) to search',
+      searchPlaceholder: 'Model/Code/Alias...',
+      brands: 'Popular Brands',
+      totalModels: 'models',
+      noResults: 'No matching devices found',
+      filterType: 'Filter Type',
+      dtypes: {
+        mob: 'Mobile',
+        pad: 'Tablet',
+        tv: 'TV',
+        watch: 'Watch',
+        computer: 'Computer',
+        band: 'Band',
+        device: 'Partner Device',
+        pod: 'Pod',
+        tv_hub: 'TV Box',
+      },
     },
     mcpe: {
       title: 'MCPE Download',
       subtitle: 'Minecraft PE Versions',
-      description: 'Browse and download Minecraft PE versions (Beta/Release).',
+      description:
+        'Browse and download Minecraft PE (Minecraft Pocket Edition) all versions installer packages. Provides multiple channels download links including official release, beta, historical versions with version filtering and quick location. A convenient tool for Minecraft players to get game installation packages.',
+      usage:
+        '1. Filter needed version number through search box.\n2. Click version card to view or download installation packages from different channels.\n3. Note the difference between release and beta versions.',
     },
     'translator-ai': {
       title: 'Translator AI',
       subtitle: 'Chrome Built-in AI',
-      description: "Privacy-focused local translation using Chrome's native API.",
+      description:
+        '[Chrome 131+ only] Uses Chrome browser built-in Translator API for local translation. No need to upload text online, protects privacy and responds quickly. Supports multilingual translation, ideal for document translation, web content conversion, and cross-language learning. A perfect choice for privacy-conscious users.',
+      usage:
+        '1. Input or paste text to translate.\n2. Language detector automatically detects source language.\n3. Select target language (supports Chinese, English, Japanese, French, Russian, Spanish).\n4. Click "Translate" or wait for automatic translation result.',
     },
     codeimg: {
       title: 'Code to Image',
       subtitle: 'Code Screenshots',
-      description: 'Create beautiful, shareable code snippets.',
+      description:
+        'Generate beautiful code screenshots similar to Carbon, supporting multiple language highlighting, theme switching, custom backgrounds and window styles. Ideal for technical blog illustrations, social media sharing, code demonstrations, and teaching material production to make code presentation more beautiful and professional.',
+      usage:
+        '1. Input or paste code on the left.\n2. Adjust code language, theme, background color or gradient on the right.\n3. Click copy image or download image.',
     },
     hhsh: {
       title: 'Speak Nicely',
       subtitle: 'Network Abbrs',
-      description: 'Decode common Chinese internet abbreviations.',
+      description:
+        "Query meanings of common Chinese pinyin abbreviation acronyms like awsl, xswl, yyds etc. Supports submitting new entries. Ideal for understanding internet slang, social media communication, internet culture learning, and daily web surfing. Helps you understand young people's jargon.",
+      usage:
+        '1. Enter pinyin abbreviation in input box.\n2. Click query to get possible meaning analysis.\n3. If not in frequency database, you can help complete translation.\nAPI Source: https://lab.magiconch.com',
     },
     exchange: {
       title: 'Currency',
       subtitle: 'Real-time Rates',
-      description: 'Live exchange rates and historical trends.',
+      description:
+        'Real-time exchange rate query tool based on Frankfurter API, supporting conversion queries between major global currencies and historical exchange rate viewing. Ideal for international travel, cross-border e-commerce, foreign exchange investment, overseas shopping and other scenarios, providing accurate currency conversion reference.',
+      usage:
+        '1. Select base currency and target currency.\n2. Enter amount to see converted value in real-time.\n3. Switch date to query historical exchange rates for specific dates.\n4. Supports viewing real-time quotes of multiple currencies compared to base currency.',
     },
     length: {
       title: 'Length',
       subtitle: 'Unit Converter',
-      description: 'Convert between metric, imperial, and traditional units.',
+      description:
+        'Supports bidirectional real-time conversion of common metric, imperial, and traditional units. Covers meters, kilometers, centimeters, millimeters, miles, feet, inches, zhang, chi, cun and other common units. Ideal for engineering calculations, homework, travel planning, and daily unit conversion needs.',
+      usage:
+        '1. Select source and target units from the two dropdown menus above.\n2. Enter length value in the input box corresponding to the source unit.\n3. Target unit and all common unit conversion panel below will update results instantly.',
     },
     'phone-number': {
       title: 'Phone Locator',
       subtitle: 'Carrier & Region',
-      description: 'Offline lookup for Chinese phone number regions.',
+      description:
+        'Query phone number归属地information including province, city, and carrier. Pure offline database, no network requests required. Database from https://github.com/zxc7563598/php-mobile-locator, MIT License. Ideal for caller ID verification, spam call identification, and phone number information lookup.',
+      usage:
+        '1. Enter 11-digit mobile phone number.\n2. Click query or press Enter.\n3. View number归属地information (province, city, carrier).',
     },
     bvav: {
       title: 'BV/AV Converter',
       subtitle: 'Bilibili IDs',
-      description: 'Convert Bilibili BV IDs to AV and vice versa.',
+      description:
+        'Convert Bilibili video BV numbers to AV numbers, or AV numbers to BV numbers. Pure frontend operation, no network requests required. Ideal for Bilibili users to share videos, link conversion, API calls, and video management. A must-have tool for Bilibili enthusiasts.',
+      usage:
+        '1. Enter BV number (e.g. BV17x411w7KC) or AV number (e.g. 170001 or av170001).\n2. Click convert button or press Enter.\n3. View conversion result, supports one-click copy.',
     },
     'weibo-hot': {
       title: 'Weibo Hot',
       subtitle: 'Trending Topics',
-      description: 'View real-time and historical Weibo hot searches.',
+      description:
+        'Get Weibo hot search ranking data for specified date, supports filtering by number of items and viewing original links. Ideal for public opinion monitoring, hot topic tracking, content creation, and social media analysis. Helps understand全网hot topics and discussion trends.',
+      usage:
+        "1. By default shows today's hot search ranking (top 50 items).\n2. Click date selector at top to view historical hot searches.\n3. Adjust displayed items count from dropdown list.\n4. Click hot search card to go directly to that topic's Weibo hot search page.",
+      dateSelect: 'Select Date',
+      historical: 'Time Machine',
+      displayCount: 'Display Count',
+      show50: 'Top 50',
+      show100: 'Top 100',
+      show150: 'Top 150',
+      showAll: 'All',
+      loading: 'Fetching data...',
+      fetchFailed: 'Failed to fetch hot search or no data for this date',
+      noResults: 'No hot search data recorded for this date',
+      rank: '万',
     },
     period: {
       title: 'Period',
       subtitle: 'Cycle Calculator',
-      description: 'Track and predict menstrual cycle phases.',
+      description:
+        "Calculate menstrual cycle indicators: menstrual period, follicular phase, ovulation day, ovulation period, fertile window, and luteal phase. Based on standard 28-day cycle only. Ideal for women's health management, fertility planning, physiological cycle tracking, and self-health monitoring to understand body patterns.",
+      usage:
+        "1. By default uses first day of last menstrual period as day 1 of this month.\n2. Can modify last menstrual period date via date selector at top.\n3. Intuitively view each phase's days, range, and corresponding dates.",
+      lastPeriod: 'Last Menstrual Period',
+      selectDate: 'Select Date',
+      today: 'Back to Today',
+      phases: {
+        menstrual: 'Menstrual Period',
+        follicular: 'Follicular Phase',
+        ovulationDay: 'Ovulation Day',
+        ovulation: 'Ovulation Period',
+        fertileWindow: 'Fertile Window',
+        luteal: 'Luteal Phase',
+      },
+      phaseDesc: {
+        menstrual: 'Days 1-5, 5 days total',
+        follicular: 'Days 6-13, 8 days total',
+        ovulationDay: 'Day 14, 1 day',
+        ovulation: 'Days 9-18, 5 days before to 4 days after ovulation',
+        fertileWindow: 'Days 9-15, 5 days before to 1 day after ovulation',
+        luteal: 'Days 15-28, 14 days total',
+      },
+      legend: 'Legend & Description',
+      notice:
+        'Note: This tool calculates based on standard 28-day cycle for reference only, not for medical or contraceptive purposes. A menstrual cycle refers to the period from the first day of one menstruation to the first day of the next menstruation.',
     },
     'time-distance': {
       title: 'Time Distance',
       subtitle: 'Date Interval Calculator',
-      description: 'Calculate the time distance between two selected dates, down to seconds.',
+      description:
+        'Calculate the time distance between two selected dates, down to seconds. Ideal for anniversary countdown, project cycle calculation, age calculation, time planning and other scenarios. Accurate to days, hours, minutes, and seconds to help master time intervals.',
       usage:
-        '1. Select a start time and an end time.\n2. Automatically calculate and display the difference in days, hours, minutes, and seconds.',
+        '1. Select start time and end time.\n2. Automatically calculate and display the difference in days, hours, minutes, and seconds.',
     },
     'ncm-get-playlist': {
       title: 'NCM Playlist',
       subtitle: 'Link to List',
-      description: 'Export all songs and artists from Netease playlists.',
+      description:
+        'Enter Netease Cloud Music playlist link or ID to get all song names and artist information in the playlist. Break through default interface restrictions to extract full data. Ideal for playlist backup, music organization, song discovery, and playlist migration to help you get complete playlist content.',
+      usage:
+        '1. Copy Netease Cloud Music playlist share link or extract numeric ID.\n2. Paste into input box and click fetch button.\n3. View complete playlist songs and artist list, supports one-click copy of all text results.',
     },
     'hok-voices': {
       title: 'HOK Voices',
       subtitle: 'Hero Voice Lines',
       description:
-        'Listen to all hero voice lines from Honor of Kings, organized by hero and skin.',
+        'Collects all hero skin voice lines from Honor of Kings including lobby, movement, skill, interaction and all other voice lines. Supports online playback, filtering by hero and skin. Ideal for Honor of Kings players to appreciate game voices, understand hero characteristics, create secondary content, and study game culture.',
       usage:
-        '1. Click a hero to select it.\n2. Optionally pick a skin.\n3. Click any voice line to play it.\n4. Click again to pause or switch lines.\n5. Use the search box to filter by text.',
+        '1. Click hero name to select hero.\n2. If hero has multiple skins, further select skin.\n3. Click any voice line card to play corresponding voice.\n4. Click again or click other voice line to pause/switch.\n5. Enter keywords in search box to filter by voice line text.',
     },
     'statutory-holidays': {
       title: 'Statutory Holidays',
       subtitle: '2026 China Holidays',
-      description: 'Check the 2026 Chinese statutory holidays and alternative working days.',
-      usage: 'Directly view the holiday schedules and alternative working days for each holiday.',
+      description:
+        'View 2026 Chinese statutory holidays and alternative working day arrangements. Ideal for travel planning, leave requests, vacation planning, and work-life coordination. Understand holiday schedules in advance to make reasonable use of holidays.',
+      usage: "Directly view each holiday's vacation time and alternative working day arrangements.",
     },
     poetry: {
       title: 'Chinese Poetry',
       subtitle: 'Massive Ancient Poetry Search',
-      description: 'Quickly search massive Chinese ancient poetry.',
+      description:
+        'Quickly search massive Chinese ancient poetry. Includes Tang poetry, Song ci, Yuan qu and other classic works, supports searching by poem title, author, and dynasty. Ideal for poetry learning, cultural research, teaching references, and traditional culture appreciation to experience the beauty of Chinese poetry.',
       usage:
-        '1. Enter the title of the ancient poem in the search box.\n2. Pinyin initials will be used for quick retrieval from the database.\n3. Supports conversion between Simplified and Traditional Chinese.',
+        '1. Enter ancient poem title in search box.\n2. Pinyin initials will be used for quick retrieval from database.\n3. Supports conversion between Simplified and Traditional Chinese.',
     },
     'anime-search': {
       title: 'What Anime',
       subtitle: 'Search Anime by Image',
-      description: 'Find anime name, episode and timestamp from a screenshot via trace.moe.',
+      description:
+        'Upload animation screenshot to quickly find corresponding anime name, episode and precise timestamp via trace.moe API. Ideal for anime fans to identify unknown animations, find screenshot sources, discover classic works, and anime research to accurately locate video clips.',
       usage:
-        '1. Upload or drag an image.\n2. Wait for search results.\n3. View confidence, episode, time, and preview video.',
+        '1. Upload or drag an animation screenshot.\n2. Automatically start search (or manually click search).\n3. View search results including confidence, episode, timestamp and video preview.',
     },
   },
 
