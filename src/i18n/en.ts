@@ -120,6 +120,22 @@ export default {
 
   // === Tools List ===
   tools: {
+    adoc: {
+      title: 'Admin Division Code',
+      subtitle: 'Mainland China Administrative Divisions',
+      description:
+        'Query Mainland China province, city, county, and street level administrative division codes. Supports hierarchical selection and keyword search to quickly locate target areas and get complete administrative division codes.',
+      usage:
+        '1. Use dropdown menus to select province, city, county, and street sequentially.\n2. Or use search box to enter keywords for quick location.\n3. View full address path and division code after selection.',
+    },
+    'url-encode': {
+      title: 'URL Encode',
+      subtitle: 'URL Encoding & Decoding',
+      description:
+        'Encode strings to URL encoding or decode URL encoded text. Supports full URL encoding (encodeURIComponent).',
+      usage:
+        '1. Encode: Enter text on the left, URL encoded result appears on the right.\n2. Decode: Enter URL encoded string on the right, decoded text appears on the left.\n3. Click copy button to quickly copy content.',
+    },
     base64: {
       title: 'Base64',
       subtitle: 'Text ↔ Base64',
@@ -430,6 +446,42 @@ export default {
     distance: 'Distance',
     resultStr: '{days} d {hours} h {minutes} m {seconds} s',
     skipWeekend: 'Skip Weekends',
+  },
+
+  // === URL Encode Page ===
+  urlEncode: {
+    source: 'Source',
+    encoded: 'URL Encoded',
+    encodeError: 'Encode Error',
+    decodeError: 'Decode Error',
+    copySource: 'Copy Source',
+    copyEncoded: 'Copy Encoded',
+    inputPlaceholder: 'Enter text to encode...',
+    encodedPlaceholder: 'Enter URL encoded string to decode...',
+    tip: 'Dual-mode: Input text on the left to encode, URL encoded string on the right to decode.',
+    mode: 'Mode',
+    modeComponent: 'Full Encoding',
+    modeUri: 'URI Only',
+    modeTip:
+      "Full Encoding (encodeURIComponent): Encodes all special characters, ideal for URL parameter values. URI Only (encodeURI): Preserves URL structure characters {'{'}:/?#[]@{'}'} etc., ideal for complete URLs.",
+  },
+
+  // === Administrative Division Code Page ===
+  adoc: {
+    searchPlaceholder: 'Search division name or code...',
+    province: 'Province',
+    city: 'City',
+    district: 'District',
+    street: 'Street/Town',
+    selectProvince: 'Select province',
+    selectCity: 'Select city',
+    selectDistrict: 'Select district',
+    selectStreet: 'Select street',
+    selectedInfo: 'Selected Division',
+    fullPath: 'Full Path',
+    divisionCode: 'Division Code',
+    loadFailed: 'Data loading failed, please refresh',
+    tip: 'Tip: Use the search box for quick location, or select sequentially via the 4-level cascading dropdowns. Copy full path and division code after selection.',
   },
 
   // === Base64 Page ===

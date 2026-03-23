@@ -121,6 +121,22 @@ export default {
 
   // === 工具列表 ===
   tools: {
+    adoc: {
+      title: '行政區劃代碼',
+      subtitle: '中國大陸行政區劃查詢',
+      description:
+        '查詢中國大陸省、市、縣、街道四級行政區劃代碼。支援分級選擇和關鍵詞搜索，快速定位目標區域並獲取完整的行政區劃代碼。',
+      usage:
+        '1. 通過下拉選單依次選擇省、市、縣、街道進行分級查詢。\n2. 或使用搜索框輸入關鍵詞快速定位行政區劃。\n3. 選擇後顯示完整地址路徑和行政區劃代碼。',
+    },
+    'url-encode': {
+      title: 'URL 編碼',
+      subtitle: 'URL 編碼與解碼',
+      description:
+        '將字串進行 URL 編碼，或將 URL 編碼後的文本進行解碼。支援完整 URL 編碼（encodeURIComponent）。',
+      usage:
+        '1. 編碼：在左側輸入原文，右側自動顯示 URL 編碼結果。\n2. 解碼：在右側輸入 URL 編碼字串，左側自動顯示解碼後的原文。\n3. 點擊複製按鈕可快速複製內容。',
+    },
     base64: {
       title: 'Base64 轉換',
       subtitle: '文本與 Base64 互轉',
@@ -430,6 +446,42 @@ export default {
     distance: '相距時間',
     resultStr: '{days} 天 {hours} 小時 {minutes} 分鐘 {seconds} 秒',
     skipWeekend: '跳過週末',
+  },
+
+  // === URL 編碼頁面 ===
+  urlEncode: {
+    source: '原文',
+    encoded: 'URL 編碼',
+    encodeError: '編碼錯誤',
+    decodeError: '解碼錯誤',
+    copySource: '複製原文',
+    copyEncoded: '複製編碼',
+    inputPlaceholder: '在此輸入需要編碼的內容...',
+    encodedPlaceholder: '在此輸入 URL 編碼字串進行解碼...',
+    tip: '提示: 本工具支援雙向轉換。在左側輸入原文會自動進行 URL 編碼；在右側輸入 URL 編碼字串會自動進行解碼。',
+    mode: '編碼模式',
+    modeComponent: '完整編碼',
+    modeUri: '僅非法字元',
+    modeTip:
+      "完整編碼 (encodeURIComponent): 編碼所有特殊字元，適用於 URL 參數值。僅非法字元 (encodeURI): 保留 URL 結構字元 {'{'}:/?#[]@{'}'} 等，適用於完整 URL。",
+  },
+
+  // === 行政區劃代碼頁面 ===
+  adoc: {
+    searchPlaceholder: '搜索行政區劃名稱或代碼...',
+    province: '省級',
+    city: '市級',
+    district: '區/縣級',
+    street: '鄉鎮/街道',
+    selectProvince: '請選擇省份',
+    selectCity: '請選擇城市',
+    selectDistrict: '請選擇區縣',
+    selectStreet: '請選擇街道',
+    selectedInfo: '已選行政區劃',
+    fullPath: '完整路徑',
+    divisionCode: '行政區劃代碼',
+    loadFailed: '資料載入失敗，請重新整理頁面',
+    tip: '提示: 可透過頂部搜索框快速定位行政區劃，或透過四級聯動下拉選單逐級選擇。選擇後可複製完整路徑和行政區劃代碼。',
   },
 
   // === Base64 頁面 ===
