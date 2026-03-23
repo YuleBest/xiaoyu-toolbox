@@ -25,6 +25,7 @@ build.txt
 .wrangler
 .eslintcache
 .agents
+.codebuddy
 .dev.vars
 .env
 .github/prompts

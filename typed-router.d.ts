@@ -40,6 +40,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/adoc': RouteRecordInfo<
+      '/adoc',
+      '/adoc',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/anime-search': RouteRecordInfo<
       '/anime-search',
       '/anime-search',
@@ -236,6 +243,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/url-encode': RouteRecordInfo<
+      '/url-encode',
+      '/url-encode',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/weather': RouteRecordInfo<
       '/weather',
       '/weather',
@@ -272,6 +286,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/about.vue': {
       routes:
         | '/about'
+      views:
+        | never
+    }
+    'src/pages/adoc.vue': {
+      routes:
+        | '/adoc'
       views:
         | never
     }
@@ -440,6 +460,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/translator-ai.vue': {
       routes:
         | '/translator-ai'
+      views:
+        | never
+    }
+    'src/pages/url-encode.vue': {
+      routes:
+        | '/url-encode'
       views:
         | never
     }

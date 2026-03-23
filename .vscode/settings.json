@@ -1,7 +1,7 @@
 {
   "files.associations": {
     "*.css": "tailwindcss",
-    "dist/**/**": "plaintext"
+    "dist/**/**": "plaintext",
   },
   "css.validate": false,
   "scss.validate": false,
@@ -11,13 +11,13 @@
     "tsconfig.json": "tsconfig.*.json, env.d.ts, typed-router.d.ts",
     "vite.config.*": "jsconfig*, vitest.config.*, cypress.config.*, playwright.config.*",
     "package.json": "package-lock.json, pnpm*, .yarnrc*, yarn*, .eslint*, eslint*, .oxlint*, oxlint*, .oxfmt*, .prettier*, prettier*, .editorconfig, components.json, tailwind.config.*, .env",
-    "wrangler.toml": ".dev.vars"
+    "wrangler.toml": ".dev.vars",
   },
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
+    "source.fixAll": "explicit",
   },
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "oxc.oxc-vscode",
   "search.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -26,7 +26,7 @@
     "**/Thumbs.db": true,
     "**/node_modules": true,
     "**/bower_components": true,
-    "**/*.code-search": true
+    "**/*.code-search": true,
   },
   "files.exclude": {
     "**/.git": true,
@@ -38,26 +38,26 @@
     "**/*.code-search": true,
     "**/node_modules": true,
     "**/.wrangler": true,
-    "**/logs": true
+    "**/logs": true,
   },
   "tailwindCSS.files.exclude": [
     "**/node_modules/**",
     "**/.git/**",
     "**/dist/**",
     "**/build/**",
-    "**/.cache/**"
+    "**/.cache/**",
   ],
   "tailwindCSS.lint.cssConflict": "ignore",
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "vscode.json-language-features",
     "editor.tabSize": 2,
-    "editor.insertSpaces": true
+    "editor.insertSpaces": true,
   },
   "[vue]": {
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "never",
-      "source.fixAll.oxc": "explicit"
-    }
+      "source.fixAll.oxc": "explicit",
+    },
   },
-  "js/ts.tsdk.path": "node_modules\\typescript\\lib"
+  "js/ts.tsdk.path": "node_modules\\typescript\\lib",
 }

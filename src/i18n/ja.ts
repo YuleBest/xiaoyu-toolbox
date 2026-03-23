@@ -121,6 +121,22 @@ export default {
 
   // === Tools List ===
   tools: {
+    adoc: {
+      title: '行政区画コード',
+      subtitle: '中国大陸行政区画検索',
+      description:
+        '中国大陸の省、市、県、街道の4レベル行政区画コードを検索。階層選択とキーワード検索に対応し、対象エリアを素早く特定して完全な行政区画コードを取得。',
+      usage:
+        '1. ドロップダウンメニューで省、市、県、街道を順番に選択。\n2. または検索ボックスにキーワードを入力して素早く検索。\n3. 選択後に完全な住所パスと行政区画コードが表示されます。',
+    },
+    'url-encode': {
+      title: 'URL エンコード',
+      subtitle: 'URL エンコードとデコード',
+      description:
+        '文字列を URL エンコード、または URL エンコードされたテキストをデコードします。完全な URL エンコード（encodeURIComponent）に対応。',
+      usage:
+        '1. エンコード：左側にテキストを入力すると、右側に URL エンコード結果が表示されます。\n2. デコード：右側に URL エンコード文字列を入力すると、左側にデコードされたテキストが表示されます。\n3. コピーボタンをクリックして素早くコンテンツをコピー可能。',
+    },
     base64: {
       title: 'Base64 変換',
       subtitle: 'テキストと Base64 の相互変換',
@@ -431,6 +447,42 @@ export default {
     distance: '時間距離',
     resultStr: '{days} 日 {hours} 時間 {minutes} 分 {seconds} 秒',
     skipWeekend: '週末をスキップ',
+  },
+
+  // === URL Encode Page ===
+  urlEncode: {
+    source: '原文',
+    encoded: 'URL エンコード',
+    encodeError: 'エンコードエラー',
+    decodeError: 'デコードエラー',
+    copySource: '原文をコピー',
+    copyEncoded: 'エンコードをコピー',
+    inputPlaceholder: 'エンコードするテキストを入力...',
+    encodedPlaceholder: 'デコードするURLエンコード文字列を入力...',
+    tip: 'ヒント: 双方向変換に対応しています。左に入力するとエンコード、右に入力するとデコードされます。',
+    mode: 'エンコードモード',
+    modeComponent: '完全エンコード',
+    modeUri: 'URIのみ',
+    modeTip:
+      "完全エンコード (encodeURIComponent): すべての特殊文字をエンコード、URLパラメータ値に最適。URIのみ (encodeURI): URL構造文字 {'{'}:/?#[]@{'}'} など) を保持、完全なURLに最適。",
+  },
+
+  // === Administrative Division Code Page ===
+  adoc: {
+    searchPlaceholder: '行政区画名またはコードを検索...',
+    province: '省級',
+    city: '市級',
+    district: '区/県級',
+    street: '町/街道',
+    selectProvince: '省を選択',
+    selectCity: '市を選択',
+    selectDistrict: '区県を選択',
+    selectStreet: '街道を選択',
+    selectedInfo: '選択した行政区画',
+    fullPath: '完全パス',
+    divisionCode: '行政区画コード',
+    loadFailed: 'データの読み込みに失敗しました。ページを更新してください',
+    tip: 'ヒント: 検索ボックスで素早く検索するか、4段階連動ドロップダウンで順番に選択できます。選択後に完全パスと行政区画コードをコピー可能。',
   },
 
   // === Base64 Page ===

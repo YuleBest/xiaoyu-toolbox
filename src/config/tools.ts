@@ -23,6 +23,8 @@ import {
   CalendarDays,
   BookOpen,
   Search,
+  Link,
+  MapPin,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -58,6 +60,30 @@ export const hots = [
 
 export const toolsData: Record<string, Tool[]> = {
   dev: [
+    {
+      id: 'adoc',
+      title: 'tools.adoc.title',
+      subtitle: 'tools.adoc.subtitle',
+      description: 'tools.adoc.description',
+      author: 'Yule',
+      usage: 'tools.adoc.usage',
+      icon: MapPin,
+      color: 'text-emerald-500',
+      path: '/adoc',
+      date: '2026-03-23',
+    },
+    {
+      id: 'url-encode',
+      title: 'tools.url-encode.title',
+      subtitle: 'tools.url-encode.subtitle',
+      description: 'tools.url-encode.description',
+      author: 'Yule',
+      usage: 'tools.url-encode.usage',
+      icon: Link,
+      color: 'text-cyan-500',
+      path: '/url-encode',
+      date: '2026-03-23',
+    },
     {
       id: 'base64',
       title: 'tools.base64.title',
