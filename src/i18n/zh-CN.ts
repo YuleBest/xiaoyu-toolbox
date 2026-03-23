@@ -137,6 +137,14 @@ export default {
       usage:
         '1. 编码：在左侧输入原文，右侧自动显示 URL 编码结果。\n2. 解码：在右侧输入 URL 编码字符串，左侧自动显示解码后的原文。\n3. 点击复制按钮可快速复制内容。',
     },
+    unicode: {
+      title: 'Unicode 编解码',
+      subtitle: 'Unicode 编码与解码',
+      description:
+        '将字符串转换为 Unicode 编码（\\uXXXX），或将 Unicode 编码文本还原为原文。支持各种字符编码。',
+      usage:
+        '1. 编码：在左侧输入原文，右侧自动显示 Unicode 编码结果。\n2. 解码：在右侧输入 Unicode 编码字符串（如 \\u4f60\\u597d），左侧自动显示解码后的原文。\n3. 点击复制按钮可快速复制内容。',
+    },
     base64: {
       title: 'Base64 转换',
       subtitle: '文本与 Base64 互转',
@@ -463,6 +471,19 @@ export default {
     modeUri: '仅非法字符',
     modeTip:
       "完整编码 (encodeURIComponent): 编码所有特殊字符，适用于 URL 参数值。仅非法字符 (encodeURI): 保留 URL 结构字符 {'{'}:/?#[]{'@'}{'}'} 等，适用于完整 URL。",
+  },
+
+  // === Unicode 页面 ===
+  unicode: {
+    source: '原文',
+    encoded: 'Unicode 编码',
+    encodeError: '编码错误',
+    decodeError: '解码错误',
+    copySource: '复制原文',
+    copyEncoded: '复制编码',
+    inputPlaceholder: '在此输入需要编码的内容...',
+    encodedPlaceholder: '在此输入 Unicode 编码字符串进行解码...',
+    tip: '提示: 本工具支持双向转换。在左侧输入原文会自动进行 Unicode 编码；在右侧输入 Unicode 编码字符串会自动进行解码。',
   },
 
   // === 行政区划代码页面 ===

@@ -25,6 +25,7 @@ import {
   Search,
   Link,
   MapPin,
+  Hash,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -82,6 +83,18 @@ export const toolsData: Record<string, Tool[]> = {
       icon: Link,
       color: 'text-cyan-500',
       path: '/url-encode',
+      date: '2026-03-23',
+    },
+    {
+      id: 'unicode',
+      title: 'tools.unicode.title',
+      subtitle: 'tools.unicode.subtitle',
+      description: 'tools.unicode.description',
+      author: 'Yule',
+      usage: 'tools.unicode.usage',
+      icon: Hash,
+      color: 'text-blue-400',
+      path: '/unicode',
       date: '2026-03-23',
     },
     {
