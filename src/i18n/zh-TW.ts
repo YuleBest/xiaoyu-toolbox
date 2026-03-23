@@ -463,7 +463,7 @@ export default {
     modeComponent: '完整編碼',
     modeUri: '僅非法字元',
     modeTip:
-      "完整編碼 (encodeURIComponent): 編碼所有特殊字元，適用於 URL 參數值。僅非法字元 (encodeURI): 保留 URL 結構字元 {'{'}:/?#[]@{'}'} 等，適用於完整 URL。",
+      "完整編碼 (encodeURIComponent): 編碼所有特殊字元，適用於 URL 參數值。僅非法字元 (encodeURI): 保留 URL 結構字元 {'{'}:/?#[]{'@'}{'}'} 等，適用於完整 URL。",
   },
 
   // === 行政區劃代碼頁面 ===

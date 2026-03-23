@@ -463,7 +463,7 @@ export default {
     modeComponent: 'Full Encoding',
     modeUri: 'URI Only',
     modeTip:
-      "Full Encoding (encodeURIComponent): Encodes all special characters, ideal for URL parameter values. URI Only (encodeURI): Preserves URL structure characters {'{'}:/?#[]@{'}'} etc., ideal for complete URLs.",
+      "Full Encoding (encodeURIComponent): Encodes all special characters, ideal for URL parameter values. URI Only (encodeURI): Preserves URL structure characters {'{'}:/?#[]{'@'}{'}'} etc., ideal for complete URLs.",
   },
 
   // === Administrative Division Code Page ===

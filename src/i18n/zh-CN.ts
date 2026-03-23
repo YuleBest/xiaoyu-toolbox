@@ -462,7 +462,7 @@ export default {
     modeComponent: '完整编码',
     modeUri: '仅非法字符',
     modeTip:
-      "完整编码 (encodeURIComponent): 编码所有特殊字符，适用于 URL 参数值。仅非法字符 (encodeURI): 保留 URL 结构字符 {'{'}:/?#[]@{'}'} 等，适用于完整 URL。",
+      "完整编码 (encodeURIComponent): 编码所有特殊字符，适用于 URL 参数值。仅非法字符 (encodeURI): 保留 URL 结构字符 {'{'}:/?#[]{'@'}{'}'} 等，适用于完整 URL。",
   },
 
   // === 行政区划代码页面 ===
