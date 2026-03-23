@@ -142,6 +142,7 @@ const highlightedCode = ref('')
 const highlighter = shallowRef<any>(null)
 
 const updateHighlightedCode = async () => {
+  if (import.meta.env.SSR) return
   if (!codeText.value) {
     highlightedCode.value = ''
     return
@@ -173,9 +174,7 @@ const updateHighlightedCode = async () => {
   highlightedCode.value = result
 }
 
-watch([codeText, selectedLanguage, selectedTheme, showLineNumbers], updateHighlightedCode, {
-  immediate: true,
-})
+watch([codeText, selectedLanguage, selectedTheme, showLineNumbers], updateHighlightedCode)
 
 // --- Methods ---
 const handleInput = (e: Event) => {
@@ -236,6 +235,7 @@ onMounted(() => {
     resizeObserver.observe(previewContainerRef.value)
     previewContainerRect.value.width = previewContainerRef.value.clientWidth
   }
+  updateHighlightedCode()
 })
 
 onUnmounted(() => {

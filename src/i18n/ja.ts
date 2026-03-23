@@ -464,7 +464,7 @@ export default {
     modeComponent: '完全エンコード',
     modeUri: 'URIのみ',
     modeTip:
-      "完全エンコード (encodeURIComponent): すべての特殊文字をエンコード、URLパラメータ値に最適。URIのみ (encodeURI): URL構造文字 {'{'}:/?#[]@{'}'} など) を保持、完全なURLに最適。",
+      "完全エンコード (encodeURIComponent): すべての特殊文字をエンコード、URLパラメータ値に最適。URIのみ (encodeURI): URL構造文字 {'{'}:/?#[]{'@'}{'}'} など) を保持、完全なURLに最適。",
   },
 
   // === Administrative Division Code Page ===
