@@ -243,6 +243,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/unicode': RouteRecordInfo<
+      '/unicode',
+      '/unicode',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/url-encode': RouteRecordInfo<
       '/url-encode',
       '/url-encode',
@@ -460,6 +467,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/translator-ai.vue': {
       routes:
         | '/translator-ai'
+      views:
+        | never
+    }
+    'src/pages/unicode.vue': {
+      routes:
+        | '/unicode'
       views:
         | never
     }

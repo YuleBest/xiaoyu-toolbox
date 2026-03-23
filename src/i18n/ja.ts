@@ -137,6 +137,14 @@ export default {
       usage:
         '1. エンコード：左側にテキストを入力すると、右側に URL エンコード結果が表示されます。\n2. デコード：右側に URL エンコード文字列を入力すると、左側にデコードされたテキストが表示されます。\n3. コピーボタンをクリックして素早くコンテンツをコピー可能。',
     },
+    unicode: {
+      title: 'Unicode 変換',
+      subtitle: 'Unicode エンコードとデコード',
+      description:
+        '文字列を Unicode エスケープシーケンス（\\uXXXX）に変換したり、元に戻したりします。',
+      usage:
+        '1. エンコード：左側にテキストを入力すると、右側に Unicode 変換結果が表示されます。\n2. デコード：右側に Unicode 文字列（例：\\u4f60\\u597d）を入力すると、左側に元のテキストが表示されます。\n3. コピーボタンをクリックして素早くコンテンツをコピー可能。',
+    },
     base64: {
       title: 'Base64 変換',
       subtitle: 'テキストと Base64 の相互変換',
@@ -465,6 +473,19 @@ export default {
     modeUri: 'URIのみ',
     modeTip:
       "完全エンコード (encodeURIComponent): すべての特殊文字をエンコード、URLパラメータ値に最適。URIのみ (encodeURI): URL構造文字 {'{'}:/?#[]{'@'}{'}'} など) を保持、完全なURLに最適。",
+  },
+
+  // === Unicode Page ===
+  unicode: {
+    source: '原文',
+    encoded: 'Unicode 変換',
+    encodeError: 'エンコードエラー',
+    decodeError: 'デコードエラー',
+    copySource: '原文をコピー',
+    copyEncoded: 'エンコードをコピー',
+    inputPlaceholder: 'エンコードするテキストを入力...',
+    encodedPlaceholder: 'デコードする Unicode 文字列を入力...',
+    tip: 'ヒント: 双方向変換に対応しています。左に入力するとエンコード、右に入力するとデコードされます。',
   },
 
   // === Administrative Division Code Page ===

@@ -136,6 +136,14 @@ export default {
       usage:
         '1. Encode: Enter text on the left, URL encoded result appears on the right.\n2. Decode: Enter URL encoded string on the right, decoded text appears on the left.\n3. Click copy button to quickly copy content.',
     },
+    unicode: {
+      title: 'Unicode Encode/Decode',
+      subtitle: 'Unicode Encoding & Decoding',
+      description:
+        'Convert strings to Unicode escape sequences (\\uXXXX) or restore Unicode encoded text to the original text.',
+      usage:
+        '1. Encode: Enter text on the left, Unicode encoded result appears on the right.\n2. Decode: Enter Unicode encoded string on the right (e.g., \\u4f60\\u597d), decoded text appears on the left.\n3. Click copy button to quickly copy content.',
+    },
     base64: {
       title: 'Base64',
       subtitle: 'Text ↔ Base64',
@@ -464,6 +472,19 @@ export default {
     modeUri: 'URI Only',
     modeTip:
       "Full Encoding (encodeURIComponent): Encodes all special characters, ideal for URL parameter values. URI Only (encodeURI): Preserves URL structure characters {'{'}:/?#[]{'@'}{'}'} etc., ideal for complete URLs.",
+  },
+
+  // === Unicode Page ===
+  unicode: {
+    source: 'Source',
+    encoded: 'Unicode Encoded',
+    encodeError: 'Encode Error',
+    decodeError: 'Decode Error',
+    copySource: 'Copy Source',
+    copyEncoded: 'Copy Encoded',
+    inputPlaceholder: 'Enter text to encode...',
+    encodedPlaceholder: 'Enter Unicode encoded string to decode...',
+    tip: 'Dual-mode: Input text on the left to encode, Unicode encoded string on the right to decode.',
   },
 
   // === Administrative Division Code Page ===
