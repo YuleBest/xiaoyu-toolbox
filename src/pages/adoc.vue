@@ -401,7 +401,7 @@ const clearSelection = () => {
             </label>
             <Select
               :model-value="selectedProvince?.code"
-              @update:model-value="(code: string) => {
+              @update:model-value="(code) => {
                 selectedProvince = code ? treeData.find(p => p.code === code) || null : null
               }"
             >
@@ -431,7 +431,7 @@ const clearSelection = () => {
             <Select
               :model-value="selectedCity?.code"
               :disabled="!selectedProvince"
-              @update:model-value="(code: string) => {
+              @update:model-value="(code) => {
                 selectedCity = code ? cityOptions.find(c => c.code === code) || null : null
               }"
             >
@@ -461,7 +461,7 @@ const clearSelection = () => {
             <Select
               :model-value="selectedDistrict?.code"
               :disabled="!selectedCity"
-              @update:model-value="(code: string) => {
+              @update:model-value="(code) => {
                 selectedDistrict = code ? districtOptions.find(d => d.code === code) || null : null
               }"
             >
@@ -491,7 +491,7 @@ const clearSelection = () => {
             <Select
               :model-value="selectedStreet?.code"
               :disabled="!selectedDistrict"
-              @update:model-value="(code: string) => {
+              @update:model-value="(code) => {
                 selectedStreet = code ? streetOptions.find(s => s.code === code) || null : null
               }"
             >

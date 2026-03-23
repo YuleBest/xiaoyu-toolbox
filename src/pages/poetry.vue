@@ -6,7 +6,7 @@ import { pinyin } from 'pinyin-pro'
 import * as OpenCC from 'opencc-js'
 
 import { allTools } from '@/config/tools'
-import { Search, Languages } from 'lucide-vue-next'
+import { Search, Languages, BookOpen } from 'lucide-vue-next'
 
 const { t, locale } = useI18n()
 const tool = allTools.find((t) => t.id === 'poetry')!
