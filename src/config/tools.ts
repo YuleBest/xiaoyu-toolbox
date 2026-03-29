@@ -47,7 +47,7 @@ export interface Tool {
 export const default_license = 'MIT License'
 export const default_copyright = ''
 
-export const tops = ['codeimg', 'hhsh', 'exchange', 'length']
+export const tops = ['ncm-get-playlist', 'hhsh', 'exchange', 'length']
 
 export const hots = [
   'ncm-get-playlist',
