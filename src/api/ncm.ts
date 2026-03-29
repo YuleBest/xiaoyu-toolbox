@@ -24,6 +24,40 @@ export interface NcmPlaylistResponse {
   code?: number
 }
 
+export interface NcmPlaylistDetail {
+  id: number
+  name: string
+  coverImgUrl: string
+  description: string | null
+  playCount: number
+  trackCount: number
+  tags: string[]
+  creator: {
+    nickname: string
+    avatarUrl: string
+  }
+}
+
+export interface NcmPlaylistDetailResponse {
+  playlist: NcmPlaylistDetail
+  code?: number
+}
+
+export const getPlaylistDetail = async (id: string | number): Promise<NcmPlaylistDetail | null> => {
+  try {
+    const res = await request.get<NcmPlaylistDetailResponse>(
+      `https://ncmapi.yule.ink/playlist/detail?id=${id}`,
+    )
+    if (res.data?.playlist) {
+      return res.data.playlist
+    }
+    return null
+  } catch (error) {
+    console.error('Failed to fetch NCM playlist detail', error)
+    throw error
+  }
+}
+
 export const getPlaylistTracks = async (
   id: string | number,
   limit: number = 200,
@@ -31,7 +65,7 @@ export const getPlaylistTracks = async (
 ): Promise<NcmSong[]> => {
   try {
     const res = await request.get<NcmPlaylistResponse>(
-      `https://ncm.api.yule.ink/playlist/track/all?id=${id}&limit=${limit}&offset=${offset}`,
+      `https://ncmapi.yule.ink/playlist/track/all?id=${id}&limit=${limit}&offset=${offset}`,
     )
     if (res.data?.songs) {
       return res.data.songs
