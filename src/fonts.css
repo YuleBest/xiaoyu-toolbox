@@ -1,6 +1,7 @@
 /* cyrillic */
 @font-face {
   font-family: 'Geist';
+  font-display: swap;
   font-style: normal;
   font-weight: 100 900;
   src: url(/fonts/gyByhwUxId8gMEwYGFWfOw.woff2) format('woff2');
@@ -9,6 +10,7 @@
 /* latin-ext */
 @font-face {
   font-family: 'Geist';
+  font-display: swap;
   font-style: normal;
   font-weight: 100 900;
   src: url(/fonts/gyByhwUxId8gMEwSGFWfOw.woff2) format('woff2');
@@ -17,6 +19,7 @@
 /* latin */
 @font-face {
   font-family: 'Geist';
+  font-display: swap;
   font-style: normal;
   font-weight: 100 900;
   src: url(/fonts/gyByhwUxId8gMEwcGFU.woff2) format('woff2');
@@ -25,6 +28,7 @@
 /* adlam */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: italic;
   font-weight: 300 800;
   src: url(/fonts/pxiZyogzv91QhV44Z_GQBHsGf5PuWEtUz06tnvM.woff2) format('woff2');
@@ -33,6 +37,7 @@
 /* canadian-aboriginal */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: italic;
   font-weight: 300 800;
   src: url(/fonts/pxiZyogzv91QhV44Z_GQBHsGf5PuWEtUgk6tnvM.woff2) format('woff2');
@@ -41,6 +46,7 @@
 /* cherokee */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: italic;
   font-weight: 300 800;
   src: url(/fonts/pxiZyogzv91QhV44Z_GQBHsGf5PuWEtUvk6tnvM.woff2) format('woff2');
@@ -49,6 +55,7 @@
 /* math */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: italic;
   font-weight: 300 800;
   src: url(/fonts/pxiZyogzv91QhV44Z_GQBHsGf5PuWEtU0U6tnvM.woff2) format('woff2');
@@ -57,6 +64,7 @@
 /* old-permic */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: italic;
   font-weight: 300 800;
   src: url(/fonts/pxiZyogzv91QhV44Z_GQBHsGf5PuWEtUwU6tnvM.woff2) format('woff2');
@@ -65,6 +73,7 @@
 /* symbols */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: italic;
   font-weight: 300 800;
   src: url(/fonts/pxiZyogzv91QhV44Z_GQBHsGf5PuWEtUw06tnvM.woff2) format('woff2');
@@ -73,6 +82,7 @@
 /* symbols2 */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: italic;
   font-weight: 300 800;
   src: url(/fonts/pxiZyogzv91QhV44Z_GQBHsGf5PuWEtUF2-Io8pO.woff2) format('woff2');
@@ -81,6 +91,7 @@
 /* syriac */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: italic;
   font-weight: 300 800;
   src: url(/fonts/pxiZyogzv91QhV44Z_GQBHsGf5PuWEtU3k6tnvM.woff2) format('woff2');
@@ -89,6 +100,7 @@
 /* vietnamese */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: italic;
   font-weight: 300 800;
   src: url(/fonts/pxiZyogzv91QhV44Z_GQBHsGf5PuWEtUok6tnvM.woff2) format('woff2');
@@ -97,6 +109,7 @@
 /* latin-ext */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: italic;
   font-weight: 300 800;
   src: url(/fonts/pxiZyogzv91QhV44Z_GQBHsGf5PuWEtUo06tnvM.woff2) format('woff2');
@@ -105,6 +118,7 @@
 /* latin */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: italic;
   font-weight: 300 800;
   src: url(/fonts/pxiZyogzv91QhV44Z_GQBHsGf5PuWEtUrU6t.woff2) format('woff2');
@@ -113,6 +127,7 @@
 /* adlam */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: normal;
   font-weight: 300 800;
   src: url(/fonts/pxifyogzv91QhV44Z_GQBHsGf5PuWCxkr1ap.woff2) format('woff2');
@@ -121,6 +136,7 @@
 /* canadian-aboriginal */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: normal;
   font-weight: 300 800;
   src: url(/fonts/pxifyogzv91QhV44Z_GQBHsGf5PuWGFkr1ap.woff2) format('woff2');
@@ -129,6 +145,7 @@
 /* cherokee */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: normal;
   font-weight: 300 800;
   src: url(/fonts/pxifyogzv91QhV44Z_GQBHsGf5PuWF1kr1ap.woff2) format('woff2');
@@ -137,6 +154,7 @@
 /* math */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: normal;
   font-weight: 300 800;
   src: url(/fonts/pxifyogzv91QhV44Z_GQBHsGf5PuWDJkr1ap.woff2) format('woff2');
@@ -145,6 +163,7 @@
 /* old-permic */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: normal;
   font-weight: 300 800;
   src: url(/fonts/pxifyogzv91QhV44Z_GQBHsGf5PuWCJkr1ap.woff2) format('woff2');
@@ -153,6 +172,7 @@
 /* symbols */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: normal;
   font-weight: 300 800;
   src: url(/fonts/pxifyogzv91QhV44Z_GQBHsGf5PuWCBkr1ap.woff2) format('woff2');
@@ -161,6 +181,7 @@
 /* symbols2 */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: normal;
   font-weight: 300 800;
   src: url(/fonts/pxifyogzv91QhV44Z_GQBHsGf5PuWPRFimuQpw.woff2) format('woff2');
@@ -169,6 +190,7 @@
 /* syriac */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: normal;
   font-weight: 300 800;
   src: url(/fonts/pxifyogzv91QhV44Z_GQBHsGf5PuWD1kr1ap.woff2) format('woff2');
@@ -177,6 +199,7 @@
 /* vietnamese */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: normal;
   font-weight: 300 800;
   src: url(/fonts/pxifyogzv91QhV44Z_GQBHsGf5PuWEFkr1ap.woff2) format('woff2');
@@ -185,6 +208,7 @@
 /* latin-ext */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: normal;
   font-weight: 300 800;
   src: url(/fonts/pxifyogzv91QhV44Z_GQBHsGf5PuWEBkr1ap.woff2) format('woff2');
@@ -193,6 +217,7 @@
 /* latin */
 @font-face {
   font-family: 'Google Sans Code';
+  font-display: swap;
   font-style: normal;
   font-weight: 300 800;
   src: url(/fonts/pxifyogzv91QhV44Z_GQBHsGf5PuWE5krw.woff2) format('woff2');
