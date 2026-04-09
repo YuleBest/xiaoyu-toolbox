@@ -567,7 +567,7 @@ export default {
   // === Markdown Table ↔ CSV Page ===
   markdownTableCsv: {
     loadExample: 'Load Example',
-    mdPlaceholder: 'Paste Markdown table here, e.g.:\n| Name | Age |\n|---|---|\n| Alice | 25 |',
+    mdPlaceholder: 'Paste Markdown table content here...',
     csvPlaceholder: 'Paste CSV content here, e.g.:\nName,Age\nAlice,25',
   },
 

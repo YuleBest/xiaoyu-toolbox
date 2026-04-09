@@ -568,7 +568,7 @@ export default {
   // === Markdown Table 與 CSV 互轉頁面 ===
   markdownTableCsv: {
     loadExample: '載入範例',
-    mdPlaceholder: '在此貼上 Markdown 表格，例如：\n| 姓名 | 年齡 |\n|---|---|\n| 張三 | 25 |',
+    mdPlaceholder: '在此貼上 Markdown 表格內容...',
     csvPlaceholder: '在此貼上 CSV 內容，例如：\n姓名,年齡\n張三,25',
   },
 
