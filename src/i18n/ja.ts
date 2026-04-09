@@ -569,8 +569,7 @@ export default {
   // === Markdown Table ↔ CSV ページ ===
   markdownTableCsv: {
     loadExample: 'サンプルを読み込む',
-    mdPlaceholder:
-      'Markdown テーブルを貼り付けてください，例：\n| 名前 | 年齢 |\n|---|---|\n| 山田 | 25 |',
+    mdPlaceholder: 'Markdown テーブルをここに貼り付け...',
     csvPlaceholder: 'CSV を貼り付けてください，例：\n名前,年齢\n山田,25',
   },
 
