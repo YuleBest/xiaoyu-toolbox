@@ -67,7 +67,6 @@ async function run() {
 
       // Check if cache is valid
       if (cachedEntry && cachedEntry.commits[0]?.hash === latestHash) {
-        console.log(`[commitLog] ${normalizedPath}: Cache hit (${latestHash})`)
         results.push(cachedEntry)
         continue
       }

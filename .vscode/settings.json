@@ -1,7 +1,7 @@
 {
   "files.associations": {
     "*.css": "tailwindcss",
-    "dist/**/**": "plaintext",
+    "public/database/**/*.json": "plaintext",
   },
   "css.validate": false,
   "scss.validate": false,
@@ -24,9 +24,12 @@
     "**/.hg": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
-    "**/node_modules": true,
     "**/bower_components": true,
     "**/*.code-search": true,
+    "**/node_modules": true,
+    "**/.wrangler": true,
+    "**/logs": true,
+    "**/dist": true,
   },
   "files.exclude": {
     "**/.git": true,
@@ -39,6 +42,14 @@
     "**/node_modules": true,
     "**/.wrangler": true,
     "**/logs": true,
+    "pnpm-lock.yaml": true,
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/.vite/**": true,
   },
   "tailwindCSS.files.exclude": [
     "**/node_modules/**",
@@ -61,4 +72,7 @@
   },
   "js/ts.tsdk.path": "node_modules\\typescript\\lib",
   "tailwindCSS.lint.suggestCanonicalClasses": "ignore",
+  "js/ts.tsserver.automaticTypeAcquisition.enabled": false,
+  "editor.minimap.enabled": false,
+  "breadcrumbs.enabled": false,
 }
