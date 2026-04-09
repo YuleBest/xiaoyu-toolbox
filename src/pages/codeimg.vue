@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, inject, computed, onMounted, onUnmounted, shallowRef } from 'vue'
+import { ref, watch, inject, computed, onMounted, onUnmounted, shallowRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStorage } from '@vueuse/core'
 import { Copy, Download, Upload } from 'lucide-vue-next'
