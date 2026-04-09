@@ -227,7 +227,7 @@ const isCollapsed = ref(true)
               <span class="label-uppercase">{{ $t('base64.source') }}</span>
               <span
                 v-if="sourceText || currentFileName"
-                class="text-[10px] bg-muted/50 px-1.5 py-0.5 rounded text-muted-foreground/70 font-medium whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]"
+                class="text-[10px] bg-muted/50 px-1.5 py-0.5 rounded text-muted-foreground/70 font-medium whitespace-nowrap overflow-hidden text-ellipsis max-w-50"
               >
                 {{ sourceStats.label }}: {{ sourceStats.value }}
               </span>
@@ -248,13 +248,13 @@ const isCollapsed = ref(true)
               v-if="!currentFileName"
               v-model="sourceText"
               :placeholder="$t('base64.inputPlaceholder')"
-              class="flex-1 min-h-[160px] h-[28vh] md:h-80"
+              class="flex-1 min-h-40 h-[28vh] md:h-80"
             ></textarea>
 
             <!-- File Info Card -->
             <div
               v-else
-              class="w-full h-[28vh] min-h-[220px] md:h-80 bg-blue-500/5 border border-dashed border-blue-500/20 rounded-3xl flex flex-col items-center justify-center p-4 md:p-6 text-center space-y-3 md:space-y-4 group transition-all"
+              class="w-full h-[28vh] min-h-55 md:h-80 bg-blue-500/5 border border-dashed border-blue-500/20 rounded-3xl flex flex-col items-center justify-center p-4 md:p-6 text-center space-y-3 md:space-y-4 group transition-all"
             >
               <div class="p-4 bg-blue-500/10 rounded-2xl">
                 <File class="h-8 w-8 text-blue-500" />
@@ -320,7 +320,7 @@ const isCollapsed = ref(true)
           <div class="relative flex-1 group">
             <template v-if="base64Stats.chars > 10000">
               <div
-                class="w-full h-[28vh] min-h-[220px] md:h-80 bg-card/30 border border-muted/80 rounded-3xl flex flex-col items-center justify-center p-8 text-center space-y-4"
+                class="w-full h-[28vh] min-h-55 md:h-80 bg-card/30 border border-muted/80 rounded-3xl flex flex-col items-center justify-center p-8 text-center space-y-4"
               >
                 <div class="p-4 bg-amber-500/10 rounded-full">
                   <EyeOff class="h-8 w-8 text-amber-500" />

@@ -161,6 +161,14 @@ export default {
       usage:
         '1. 貼上 JSON 或 YAML 內容。\n2. 點擊轉換按鈕即可進行格式轉換。\n3. 支援一鍵複製和清空。',
     },
+    'markdown-table-csv': {
+      title: 'Markdown Table - CSV 互转',
+      subtitle: 'Markdown 表格與 CSV 互轉',
+      description:
+        '在 Markdown 表格格式與 CSV（逗號分隔值）格式之間進行雙向轉換。支援即時聯動、檔案上傳/下載，適用於文件撰寫、資料整理與表格格式轉換等場景。',
+      usage:
+        '1. 在左側貼上 Markdown 表格，右側自動產生對應的 CSV 內容；或在右側貼上 CSV，左側自動產生 Markdown 表格。\n2. 點擊「載入範例」可快速體驗。\n3. 支援上傳檔案、下載結果、一鍵複製。',
+    },
     playground: {
       title: 'JS 演練場',
       subtitle: '瀏覽器內的 JS / TS 沙盒',
@@ -407,6 +415,14 @@ export default {
       usage:
         '1. 在搜尋框中輸入古詩詞的名稱。\n2. 拼音首字母將用於快速從資料庫中檢索。\n3. 支持簡繁體互相轉換。',
     },
+    'china-demographics': {
+      title: '中國大陸人口',
+      subtitle: '1949 - 2025 齊全人口數據',
+      description:
+        '直觀展示中國大陸 1949 年至 2025 年的人口變化。包含年末總人口、出生數、死亡數、自然增長數及對應年度的各項千分比率，配合多維度統計圖表展示。',
+      usage:
+        '1. 頁面頂部展示最新年度的關鍵指標。\n2. 點擊不同圖表標籤可切換「總人口趨勢」、「出生與死亡」、「增長率」三種圖表視圖。\n3. 滑動滑鼠至圖表任意位置可查看具體數據。\n4. 頁面底部提供完整的歷年數據表格。',
+    },
     'anime-search': {
       title: '以圖搜番',
       subtitle: '基於圖片搜尋動畫出處',
@@ -547,6 +563,13 @@ export default {
     formatSuccess: '格式化成功',
     formatError: 'JSON 格式錯誤，無法格式化',
     tip: '提示: 本工具支援雙向即時轉換、匯入和檔案匯出。語法錯誤時下方會有詳細提示。',
+  },
+
+  // === Markdown Table 與 CSV 互轉頁面 ===
+  markdownTableCsv: {
+    loadExample: '載入範例',
+    mdPlaceholder: '在此貼上 Markdown 表格，例如：\n| 姓名 | 年齡 |\n|---|---|\n| 張三 | 25 |',
+    csvPlaceholder: '在此貼上 CSV 內容，例如：\n姓名,年齡\n張三,25',
   },
 
   // === 二維碼頁面 ===
@@ -804,6 +827,45 @@ export default {
     langTrad: '繁體',
   },
 
+  // === 中國大陸人口 ===
+  chinaDemographics: {
+    population: '年末總人口',
+    births: '出生人數',
+    deaths: '死亡人數',
+    naturalGrowth: '自然增長',
+    birthRate: '出生率',
+    deathRate: '死亡率',
+    naturalGrowthRate: '自然增長率',
+    unitBillion: '億',
+    unitWan: '萬',
+    yearSuffix: '年',
+    tabPopulation: '總人口趨勢',
+    tabBirthsDeath: '出生與死亡',
+    tabRates: '增長率',
+    tableTitle: '歷年數據詳情',
+    tableSource: '數據來源：中國國家統計局',
+    downloadJson: '下載 JSON',
+    downloadCsv: '下載 CSV',
+    colYear: '年份',
+    colPopulation: '年末總人口（萬）',
+    colBirths: '出生數（萬）',
+    colDeaths: '死亡數（萬）',
+    colNaturalGrowth: '自然增長（萬）',
+    colBirthRate: '出生率（‰）',
+    colDeathRate: '死亡率（‰）',
+    colNaturalGrowthRate: '自然增長率（‰）',
+    tableNote:
+      '人口為年末總人口（單位：萬人）；出生數、死亡數、自然增長數單位均為萬人；出生率、死亡率、自然增長率單位均為‰（千分之）。',
+    milestone: {
+      peak: '人口峰值',
+      peakDesc: '{year} 年年末總人口達 {pop} 億，為新中國成立以來最高值。',
+      negGrowth: '首次自然負增長',
+      negGrowthDesc: '2022 年自然增長率為 -0.60‰，是自 1960 年以來首次出現負增長。',
+      lowBirth: '出生人數新低',
+      lowBirthDesc: '2025 年出生人數 792 萬，出生率 5.63‰，均創歷史新低。',
+    },
+  },
+
   // === 歌詞 ===
   lyric: {
     searchPlaceholder: '搜尋歌名或歌手...',
@@ -836,9 +898,11 @@ export default {
     exportCsv: '匯出 CSV',
     exportJson: '匯出 JSON',
     fetchRange: '獲取範圍',
-    rangeHelp: '設定獲取歌單中歌曲的起始和結束位置。例如 0 - 200 表示獲取第 1 到第 200 首，100 - 300 表示跳過前 100 首，獲取接下來的 200 首。',
+    rangeHelp:
+      '設定獲取歌單中歌曲的起始和結束位置。例如 0 - 200 表示獲取第 1 到第 200 首，100 - 300 表示跳過前 100 首，獲取接下來的 200 首。',
     chunkSize: '單次獲取數',
-    chunkHelp: '為了防止網絡波動和接口限制，程序會分批次獲取數據。建議保持默認值（50-100）。若遇到請求頻繁，可調低此數值。',
+    chunkHelp:
+      '為了防止網絡波動和接口限制，程序會分批次獲取數據。建議保持默認值（50-100）。若遇到請求頻繁，可調低此數值。',
     errChunkSizeGTLimit: '單次獲取數不能大於獲取數量',
     errChunkSizeGT200: '單次獲取數最大不能超過 200',
     errLimitGT3000: '為防止卡頓，每次獲取數量最大不能超過 3000',

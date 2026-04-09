@@ -160,6 +160,14 @@ export default {
       usage:
         '1. 粘贴 JSON 或 YAML 内容。\n2. 点击转换按钮即可进行格式转换。\n3. 支持一键复制和清空。',
     },
+    'markdown-table-csv': {
+      title: 'Markdown Table - CSV 互转',
+      subtitle: 'Markdown 表格与 CSV 互转',
+      description:
+        '在 Markdown 表格格式与 CSV（逗号分隔值）格式之间进行双向转换。支持实时联动、文件上传/下载，适用于文档编写、数据整理与表格格式转换等场景。',
+      usage:
+        '1. 在左侧粘贴 Markdown 表格，右侧自动生成对应的 CSV 内容；或在右侧粘贴 CSV，左侧自动生成 Markdown 表格。\n2. 点击「加载示例」可快速体验。\n3. 支持上传文件、下载结果、一键复制。',
+    },
     playground: {
       title: 'JS 演练场',
       subtitle: '浏览器内的 JS / TS 沙盒',
@@ -414,6 +422,14 @@ export default {
       usage:
         '1. 在搜索框中输入古诗词的名称。\n2. 拼音首字母将用于快速从数据库中检索。\n3. 支持简繁体互相转换。',
     },
+    'china-demographics': {
+      title: '中国大陆人口',
+      subtitle: '1949 - 2025 齐全人口数据',
+      description:
+        '直观展示中国大陆 1949 年至 2025 年的人口变化。包含年末总人口、出生数、死亡数、自然增长数及对应年度的各项千分比率，配合多维度统计图表展示。',
+      usage:
+        '1. 页面顶部展示最新年度的关键指标。\n2. 点击不同图表标签可切换“总人口趋势”、“出生与死亡”、“増长率”三种图表视图。\n3. 滑动鼠标到图表任意位置可查看具体数据。\n4. 页面底部提供完整的历年数据表格。',
+    },
   },
 
   // === 以图搜番 ===
@@ -546,6 +562,13 @@ export default {
     formatSuccess: '格式化成功',
     formatError: 'JSON 格式错误，无法格式化',
     tip: '提示: 本工具支持双向实时转换、导入和文件导出。语法错误时下方会有详细提示。',
+  },
+
+  // === Markdown Table 与 CSV 互转页面 ===
+  markdownTableCsv: {
+    loadExample: '加载示例',
+    mdPlaceholder: '在此粘贴 Markdown 表格，例如：\n| 姓名 | 年龄 |\n|---|---|\n| 张三 | 25 |',
+    csvPlaceholder: '在此粘贴 CSV 内容，例如：\n姓名,年龄\n张三,25',
   },
 
   // === 二维码页面 ===
@@ -825,9 +848,11 @@ export default {
     exportCsv: '导出 CSV',
     exportJson: '导出 JSON',
     fetchRange: '获取范围',
-    rangeHelp: '设定获取歌单中歌曲的起始和结束位置。例如 0 - 200 表示获取第 1 到第 200 首，100 - 300 表示跳过前 100 首，获取接下来的 200 首。',
+    rangeHelp:
+      '设定获取歌单中歌曲的起始和结束位置。例如 0 - 200 表示获取第 1 到第 200 首，100 - 300 表示跳过前 100 首，获取接下来的 200 首。',
     chunkSize: '单次获取数',
-    chunkHelp: '为了防止网络波动和接口限制，程序会分批次获取数据。建议保持默认值（50-100）。若遇到请求频繁，可调低此数值。',
+    chunkHelp:
+      '为了防止网络波动和接口限制，程序会分批次获取数据。建议保持默认值（50-100）。若遇到请求频繁，可调低此数值。',
     errChunkSizeGTLimit: '单次获取数不能大于获取数量',
     errChunkSizeGT200: '单次获取数最大不能超过200',
     errLimitGT3000: '为防止卡顿，每次获取数量最大不能超过3000',
@@ -926,6 +951,45 @@ export default {
     langOriginal: '原文',
     langSimp: '简体',
     langTrad: '繁体',
+  },
+
+  // === 中国大陆人口 ===
+  chinaDemographics: {
+    population: '年末总人口',
+    births: '出生人数',
+    deaths: '死亡人数',
+    naturalGrowth: '自然增长',
+    birthRate: '出生率',
+    deathRate: '死亡率',
+    naturalGrowthRate: '自然增长率',
+    unitBillion: '亿',
+    unitWan: '万',
+    yearSuffix: '年',
+    tabPopulation: '总人口趋势',
+    tabBirthsDeath: '出生与死亡',
+    tabRates: '増长率',
+    tableTitle: '历年数据详情',
+    tableSource: '数据来源：中国国家统计局',
+    downloadJson: '下载 JSON',
+    downloadCsv: '下载 CSV',
+    colYear: '年份',
+    colPopulation: '年末总人口（万）',
+    colBirths: '出生数（万）',
+    colDeaths: '死亡数（万）',
+    colNaturalGrowth: '自然增长（万）',
+    colBirthRate: '出生率（‰）',
+    colDeathRate: '死亡率（‰）',
+    colNaturalGrowthRate: '自然增长率（‰）',
+    tableNote:
+      '人口为年末总人口（单位：万人）；馋出生数、死亡数、自然增长数单位均为万人；出生率、死亡率、自然增长率单位均为‰（千分之）。',
+    milestone: {
+      peak: '人口峰値',
+      peakDesc: '{year} 年年末总人口达 {pop} 亿，为新中国成立以来最高值。',
+      negGrowth: '首次自然负增长',
+      negGrowthDesc: '2022 年自然增长率为 -0.60‰，是自 1960 年以来首次出现负增长。',
+      lowBirth: '出生人数新低',
+      lowBirthDesc: '2025 年出生人数 792 万，出生率 5.63‰，均创新低。',
+    },
   },
 
   // === Playground ===

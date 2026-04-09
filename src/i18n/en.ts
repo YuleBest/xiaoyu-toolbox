@@ -160,6 +160,14 @@ export default {
       usage:
         'Paste JSON or YAML content and click convert button. Supports one-click copy and clear.',
     },
+    'markdown-table-csv': {
+      title: 'Markdown Table - CSV 互转',
+      subtitle: 'Markdown Table & CSV Converter',
+      description:
+        'Bidirectional conversion between Markdown table format and CSV (comma-separated values). Supports real-time sync, file upload/download. Ideal for documentation writing, data processing and table format conversion.',
+      usage:
+        '1. Paste a Markdown table on the left to generate CSV on the right, or paste CSV on the right to generate a Markdown table on the left.\n2. Click "Load Example" to try it out.\n3. Supports file upload, result download, and one-click copy.',
+    },
     playground: {
       title: 'Playground',
       subtitle: 'JS / TS Sandbox',
@@ -407,6 +415,14 @@ export default {
       usage:
         '1. Enter ancient poem title in search box.\n2. Pinyin initials will be used for quick retrieval from database.\n3. Supports conversion between Simplified and Traditional Chinese.',
     },
+    'china-demographics': {
+      title: 'China Mainland Demographics',
+      subtitle: 'Population Data 1949 - 2025',
+      description:
+        'Visualize the demographic changes of mainland China from 1949 to 2025. Includes year-end total population, births, deaths, natural growth, and corresponding per-mille rates with multi-dimensional charts.',
+      usage:
+        '1. Top cards show the latest year key indicators.\n2. Switch chart tabs to view population trend, births & deaths, or growth rates.\n3. Hover over the chart to see specific data.\n4. A complete historical data table is at the bottom.',
+    },
     'anime-search': {
       title: 'What Anime',
       subtitle: 'Search Anime by Image',
@@ -546,6 +562,13 @@ export default {
     formatSuccess: 'Formatted',
     formatError: 'Invalid JSON',
     tip: 'Supports real-time bidirectional conversion and file operations.',
+  },
+
+  // === Markdown Table ↔ CSV Page ===
+  markdownTableCsv: {
+    loadExample: 'Load Example',
+    mdPlaceholder: 'Paste Markdown table here, e.g.:\n| Name | Age |\n|---|---|\n| Alice | 25 |',
+    csvPlaceholder: 'Paste CSV content here, e.g.:\nName,Age\nAlice,25',
   },
 
   // === QR Code Page ===
@@ -857,6 +880,47 @@ export default {
     langTrad: 'Traditional',
   },
 
+  // === China Mainland Demographics ===
+  chinaDemographics: {
+    population: 'Total Population',
+    births: 'Births',
+    deaths: 'Deaths',
+    naturalGrowth: 'Natural Growth',
+    birthRate: 'Birth Rate',
+    deathRate: 'Death Rate',
+    naturalGrowthRate: 'Natural Growth Rate',
+    unitBillion: 'B',
+    unitWan: '0k',
+    yearSuffix: '',
+    tabPopulation: 'Population Trend',
+    tabBirthsDeath: 'Births & Deaths',
+    tabRates: 'Growth Rates',
+    tableTitle: 'Historical Data',
+    tableSource: 'Source: National Bureau of Statistics of China',
+    downloadJson: 'Download JSON',
+    downloadCsv: 'Download CSV',
+    colYear: 'Year',
+    colPopulation: 'Population (10k)',
+    colBirths: 'Births (10k)',
+    colDeaths: 'Deaths (10k)',
+    colNaturalGrowth: 'Natural Growth (10k)',
+    colBirthRate: 'Birth Rate (\u2030)',
+    colDeathRate: 'Death Rate (\u2030)',
+    colNaturalGrowthRate: 'Natural Growth Rate (\u2030)',
+    tableNote:
+      'Population is year-end total (unit: 10,000 persons). Births, deaths and natural growth are in 10,000 persons. Rates are per mille (\u2030).',
+    milestone: {
+      peak: 'Population Peak',
+      peakDesc:
+        'Year-end population reached {pop} billion in {year}, the highest since the founding of the PRC.',
+      negGrowth: 'First Negative Growth',
+      negGrowthDesc:
+        'Natural growth rate was -0.60\u2030 in 2022, the first negative growth since 1960.',
+      lowBirth: 'Record Low Births',
+      lowBirthDesc: '2025 births: 7.92 million, birth rate 5.63\u2030, both at historic lows.',
+    },
+  },
+
   // === Playground ===
   playground: {
     run: 'Run',
@@ -1146,9 +1210,11 @@ export default {
     exportCsv: 'CSV',
     exportJson: 'JSON',
     fetchRange: 'Fetch Range',
-    rangeHelp: 'Set the start and end positions. e.g., 0 - 200 fetches 1st to 200th songs. 100 - 300 skips the first 100 and gets the next 200.',
+    rangeHelp:
+      'Set the start and end positions. e.g., 0 - 200 fetches 1st to 200th songs. 100 - 300 skips the first 100 and gets the next 200.',
     chunkSize: 'Chunk',
-    chunkHelp: 'To avoid API limits, data is fetched in chunks. 50-100 is recommended. Lower this if you face rate limiting.',
+    chunkHelp:
+      'To avoid API limits, data is fetched in chunks. 50-100 is recommended. Lower this if you face rate limiting.',
     errChunkSizeGTLimit: 'Chunk > limit',
     errChunkSizeGT200: 'Chunk > 200',
     errLimitGT3000: 'Limit > 3000',
