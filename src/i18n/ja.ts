@@ -161,6 +161,14 @@ export default {
       usage:
         'JSON または YAML コンテンツを貼り付けて変換ボタンをクリックするだけで変換できます。ワンクリックコピーとクリアもサポート。',
     },
+    'markdown-table-csv': {
+      title: 'Markdown Table - CSV 互转',
+      subtitle: 'Markdown 表 ↔ CSV 変換',
+      description:
+        'Markdown テーブル形式と CSV（カンマ区切り）形式の双方向変換ツール。リアルタイム連動とファイルのアップロード/ダウンロードに対応。ドキュメント作成やデータ整理に最適です。',
+      usage:
+        '1. 左側に Markdown テーブルを貼り付けると右側に CSV が自動生成されます。逆に右側に CSV を貼り付けると左側に Markdown テーブルが生成されます。\n2.「サンプルを読み込む」ボタンでサンプルデータを試せます。\n3. ファイルのアップロード・ダウンロード・コピーに対応しています。',
+    },
     playground: {
       title: 'JS プレイグラウンド',
       subtitle: 'ブラウザ内 JS / TS サンドボックス',
@@ -408,6 +416,14 @@ export default {
       usage:
         '1. 検索ボックスに古典詩のタイトルを入力。\n2. ピンインの頭文字を使用してデータベースから迅速に検索。\n3. 簡体字と繁体字の相互変換をサポート。',
     },
+    'china-demographics': {
+      title: '中国本土の人口',
+      subtitle: '人口データ 1949～2025',
+      description:
+        '中国本土の 1949 年から 2025 年までの人口変化を直観的に表示。年末総人口、出生数、死亡数、自然増加数および各年度の各種千分比率を多次元グラフで表示します。',
+      usage:
+        '1. ページ上部に最新年の主要指標を表示。\n2. タブを切り替えて「総人口」「出生・死亡」「増加率」の 3 種類のグラフを閲覧。\n3. グラフ上にホバーすると具体的なデータを確認できます。\n4. ページ下部に全年度のデータ表を提供。',
+    },
     'anime-search': {
       title: '画像でアニメ検索',
       subtitle: 'スクリーンショットからアニメを特定',
@@ -548,6 +564,14 @@ export default {
     formatSuccess: '整形しました',
     formatError: '不正なJSON形式です',
     tip: 'ヒント: リアルタイム変換とファイルの読み書きに対応しています。',
+  },
+
+  // === Markdown Table ↔ CSV ページ ===
+  markdownTableCsv: {
+    loadExample: 'サンプルを読み込む',
+    mdPlaceholder:
+      'Markdown テーブルを貼り付けてください，例：\n| 名前 | 年齢 |\n|---|---|\n| 山田 | 25 |',
+    csvPlaceholder: 'CSV を貼り付けてください，例：\n名前,年齢\n山田,25',
   },
 
   // === QR Code Page ===
@@ -862,6 +886,45 @@ export default {
     langTrad: '繁体字',
   },
 
+  // === 中国本土の人口 ===
+  chinaDemographics: {
+    population: '年末総人口',
+    births: '出生数',
+    deaths: '死亡数',
+    naturalGrowth: '自然増加数',
+    birthRate: '出生率',
+    deathRate: '死亡率',
+    naturalGrowthRate: '自然増加率',
+    unitBillion: '億',
+    unitWan: '万',
+    yearSuffix: '年',
+    tabPopulation: '総人口推移',
+    tabBirthsDeath: '出生・死亡',
+    tabRates: '増加率',
+    tableTitle: '歴年データ',
+    tableSource: '出典：中国国家統計局',
+    downloadJson: 'JSON をダウンロード',
+    downloadCsv: 'CSV をダウンロード',
+    colYear: '年度',
+    colPopulation: '年末総人口（万）',
+    colBirths: '出生数（万）',
+    colDeaths: '死亡数（万）',
+    colNaturalGrowth: '自然増加（万）',
+    colBirthRate: '出生率（‰）',
+    colDeathRate: '死亡率（‰）',
+    colNaturalGrowthRate: '自然増加率（‰）',
+    tableNote:
+      '人口は年末総人口（単位：万人）。出生数・死亡数・自然増加数は万人単位。各比率は千分率（‰）。',
+    milestone: {
+      peak: '人口ピーク',
+      peakDesc: '{year} 年の年末総人口は {pop} 億人に達し、新中国成立以来最高値を記録。',
+      negGrowth: '初の自然減少',
+      negGrowthDesc: '2022 年の自然増加率は -0.60‰で、1960 年以来初めてマイナスになりました。',
+      lowBirth: '出生数史上最低',
+      lowBirthDesc: '2025 年の出生数は 792 万人、出生率 5.63‰で、ともに史上最低。',
+    },
+  },
+
   // === Playground ===
   playground: {
     run: '実行',
@@ -1146,14 +1209,17 @@ export default {
     parsing: '取得中...',
     parseFailed: '取得に失敗しました。公開プレイリストであるか確認してください。',
     copySongs: '曲リストをコピー',
-    copyConfirm: '曲数が多いため、コピーすると動作が重くなる可能性があります。そのままコピーしますか？',
+    copyConfirm:
+      '曲数が多いため、コピーすると動作が重くなる可能性があります。そのままコピーしますか？',
     exportTxt: 'TXT をエクスポート',
     exportCsv: 'CSV をエクスポート',
     exportJson: 'JSON をエクスポート',
     fetchRange: '取得範囲',
-    rangeHelp: '取得する楽曲の開始位置と終了位置を設定します。例：0 - 200 は1曲目から200曲目までを取得、100 - 300 は最初の100曲をスキップして次の200曲を取得します。',
+    rangeHelp:
+      '取得する楽曲の開始位置と終了位置を設定します。例：0 - 200 は1曲目から200曲目までを取得、100 - 300 は最初の100曲をスキップして次の200曲を取得します。',
     chunkSize: '1回の取得数',
-    chunkHelp: 'ネットワークやAPIの制限を回避するため、データを分割して取得します。通常は 50-100 を推奨します。',
+    chunkHelp:
+      'ネットワークやAPIの制限を回避するため、データを分割して取得します。通常は 50-100 を推奨します。',
     errChunkSizeGTLimit: '1回の取得数は取得総数を超えることはできません',
     errChunkSizeGT200: '1回の取得数は200を超えることはできません',
     errLimitGT3000: '動作を軽くするため、取得数は最大3000に制限されています',

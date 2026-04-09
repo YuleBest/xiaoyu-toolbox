@@ -18,9 +18,7 @@ const encodeMode = ref<'component' | 'uri'>('component')
 // Encode: Text -> URL Encoded
 const encode = (text: string): string => {
   try {
-    return encodeMode.value === 'component'
-      ? encodeURIComponent(text)
-      : encodeURI(text)
+    return encodeMode.value === 'component' ? encodeURIComponent(text) : encodeURI(text)
   } catch {
     return t('urlEncode.encodeError')
   }
@@ -101,14 +99,22 @@ const clearAll = () => {
         <div class="flex items-center gap-2 bg-muted/50 rounded-lg p-1">
           <button
             class="px-3 py-1.5 text-sm rounded-md transition-colors"
-            :class="encodeMode === 'component' ? 'bg-background shadow-sm font-medium' : 'text-muted-foreground hover:text-foreground'"
+            :class="
+              encodeMode === 'component'
+                ? 'bg-background shadow-sm font-medium'
+                : 'text-muted-foreground hover:text-foreground'
+            "
             @click="encodeMode = 'component'"
           >
             {{ $t('urlEncode.modeComponent') }}
           </button>
           <button
             class="px-3 py-1.5 text-sm rounded-md transition-colors"
-            :class="encodeMode === 'uri' ? 'bg-background shadow-sm font-medium' : 'text-muted-foreground hover:text-foreground'"
+            :class="
+              encodeMode === 'uri'
+                ? 'bg-background shadow-sm font-medium'
+                : 'text-muted-foreground hover:text-foreground'
+            "
             @click="encodeMode = 'uri'"
           >
             {{ $t('urlEncode.modeUri') }}

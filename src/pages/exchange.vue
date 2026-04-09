@@ -330,7 +330,7 @@ watch(baseCurrency, (newBase) => {
             </label>
             <div class="flex gap-2">
               <div
-                class="flex-1 min-w-0 bg-muted/20 border border-muted/50 rounded-2xl px-4 py-3 text-xl font-bold text-important flex items-center min-h-[52px] font-mono"
+                class="flex-1 min-w-0 bg-muted/20 border border-muted/50 rounded-2xl px-4 py-3 text-xl font-bold text-important flex items-center min-h-13 font-mono"
               >
                 <Loader2 v-if="loading" class="h-5 w-5 animate-spin text-blue-500" />
                 <span v-else>{{ convertedValue }}</span>

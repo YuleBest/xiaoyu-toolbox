@@ -255,7 +255,9 @@ const exportJson = () => {
               <span class="hidden sm:inline">{{ $t('ncm-get-playlist.fetchRange') }}</span>
               <span class="sm:hidden">范围</span>
             </label>
-            <div class="flex items-center bg-background border border-muted rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-blue-500/30 transition-all">
+            <div
+              class="flex items-center bg-background border border-muted rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-blue-500/30 transition-all"
+            >
               <input
                 v-model.number="offset"
                 type="number"
@@ -288,7 +290,7 @@ const exportJson = () => {
           </div>
 
           <!-- Help Button -->
-          <button 
+          <button
             class="p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted rounded-full transition-colors shrink-0"
             @click="showHelp = true"
           >
@@ -389,12 +391,22 @@ const exportJson = () => {
               </div>
             </div>
 
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground mt-1">
-              <span class="flex items-center gap-1.5 bg-muted/20 px-2.5 py-1 rounded-lg border border-muted/10">
+            <div
+              class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground mt-1"
+            >
+              <span
+                class="flex items-center gap-1.5 bg-muted/20 px-2.5 py-1 rounded-lg border border-muted/10"
+              >
                 <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                {{ $t('ncm-get-playlist.playCount', { count: (playlistDetail.playCount / 10000).toFixed(1) }) }}
+                {{
+                  $t('ncm-get-playlist.playCount', {
+                    count: (playlistDetail.playCount / 10000).toFixed(1),
+                  })
+                }}
               </span>
-              <span class="flex items-center gap-1.5 bg-muted/20 px-2.5 py-1 rounded-lg border border-muted/10">
+              <span
+                class="flex items-center gap-1.5 bg-muted/20 px-2.5 py-1 rounded-lg border border-muted/10"
+              >
                 <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
                 {{ $t('ncm-get-playlist.trackCount', { count: playlistDetail.trackCount }) }}
               </span>
@@ -588,13 +600,13 @@ const exportJson = () => {
               {{ $t('common.tips') }}
             </h3>
           </div>
-          
+
           <div class="space-y-4 text-sm leading-relaxed">
             <div class="bg-muted/30 p-4 rounded-2xl">
               <p class="font-bold text-foreground mb-1">{{ $t('ncm-get-playlist.fetchRange') }}</p>
               <p class="text-muted-foreground">{{ $t('ncm-get-playlist.rangeHelp') }}</p>
             </div>
-            
+
             <div class="bg-muted/30 p-4 rounded-2xl">
               <p class="font-bold text-foreground mb-1">{{ $t('ncm-get-playlist.chunkSize') }}</p>
               <p class="text-muted-foreground">{{ $t('ncm-get-playlist.chunkHelp') }}</p>

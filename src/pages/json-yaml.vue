@@ -290,7 +290,7 @@ const formatJson = () => {
               'border-destructive/50 focus-within:border-destructive': jsonError,
             }"
           >
-            <div class="relative flex-1 min-h-[300px] h-[45vh] md:h-[600px]">
+            <div class="relative flex-1 min-h-75 h-[45vh] md:h-150">
               <pre
                 ref="jsonPreRef"
                 class="absolute inset-0 p-5 md:p-6 text-[13px] md:text-[14px] font-mono pointer-events-none overflow-hidden whitespace-pre-wrap break-all m-0! bg-transparent! border-none!"
@@ -358,7 +358,7 @@ const formatJson = () => {
               'border-destructive/50 focus-within:border-destructive': yamlError,
             }"
           >
-            <div class="relative flex-1 min-h-[300px] h-[45vh] md:h-[600px]">
+            <div class="relative flex-1 min-h-75 h-[45vh] md:h-150">
               <pre
                 ref="yamlPreRef"
                 class="absolute inset-0 p-5 md:p-6 text-[13px] md:text-[14px] font-mono pointer-events-none overflow-hidden whitespace-pre-wrap break-all m-0! bg-transparent! border-none!"

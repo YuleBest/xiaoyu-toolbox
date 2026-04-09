@@ -281,7 +281,7 @@ onMounted(async () => {
         <div v-if="loading" class="flex justify-center py-6">
           <Loader2 class="h-6 w-6 text-blue-500 animate-spin" />
         </div>
-        <div v-else class="max-h-[320px] overflow-y-auto pr-1 custom-scrollbar">
+        <div v-else class="max-h-80 overflow-y-auto pr-1 custom-scrollbar">
           <div class="grid grid-cols-5 sm:grid-cols-7 md:grid-cols-9 lg:grid-cols-11 gap-2 p-px">
             <button
               v-for="hero in filteredHeroList"

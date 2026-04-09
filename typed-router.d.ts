@@ -82,6 +82,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/china-demographics': RouteRecordInfo<
+      '/china-demographics',
+      '/china-demographics',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/codeimg': RouteRecordInfo<
       '/codeimg',
       '/codeimg',
@@ -155,6 +162,13 @@ declare module 'vue-router/auto-routes' {
     '/lyric': RouteRecordInfo<
       '/lyric',
       '/lyric',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/markdown-table-csv': RouteRecordInfo<
+      '/markdown-table-csv',
+      '/markdown-table-csv',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -332,6 +346,12 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'src/pages/china-demographics.vue': {
+      routes:
+        | '/china-demographics'
+      views:
+        | never
+    }
     'src/pages/codeimg.vue': {
       routes:
         | '/codeimg'
@@ -395,6 +415,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/lyric.vue': {
       routes:
         | '/lyric'
+      views:
+        | never
+    }
+    'src/pages/markdown-table-csv.vue': {
+      routes:
+        | '/markdown-table-csv'
       views:
         | never
     }

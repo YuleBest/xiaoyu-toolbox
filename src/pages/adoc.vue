@@ -55,12 +55,7 @@ const copiedCode = ref(false)
 const copiedPath = ref(false)
 
 // Flatten tree for search
-const flattenTree = (
-  nodes: AreaNode[],
-  level: number,
-  path: string[],
-  results: SearchResult[]
-) => {
+const flattenTree = (nodes: AreaNode[], level: number, path: string[], results: SearchResult[]) => {
   for (const node of nodes) {
     const currentPath = [...path, node.name]
     results.push({
@@ -117,12 +112,15 @@ onMounted(loadData)
 // Find node by name in children
 const findNodeByName = (nodes: AreaNode[], name: string): AreaNode | null => {
   const normalizedName = name.trim()
-  return nodes.find(n => n.name === normalizedName) || null
+  return nodes.find((n) => n.name === normalizedName) || null
 }
 
 // Handle region parameter: region=广东省,肇庆市,广宁县
 const handleRegionParam = async (regionStr: string) => {
-  const parts = regionStr.split(/[,，]/).map(s => s.trim()).filter(Boolean)
+  const parts = regionStr
+    .split(/[,，]/)
+    .map((s) => s.trim())
+    .filter(Boolean)
   if (parts.length === 0) return
 
   // Try to match each level sequentially
@@ -266,7 +264,7 @@ watch(searchQuery, () => {
 const findNodePath = (
   nodes: AreaNode[],
   targetCode: string,
-  path: AreaNode[]
+  path: AreaNode[],
 ): AreaNode[] | null => {
   for (const node of nodes) {
     if (node.code === targetCode) {
@@ -401,9 +399,11 @@ const clearSelection = () => {
             </label>
             <Select
               :model-value="selectedProvince?.code"
-              @update:model-value="(code) => {
-                selectedProvince = code ? treeData.find(p => p.code === code) || null : null
-              }"
+              @update:model-value="
+                (code) => {
+                  selectedProvince = code ? treeData.find((p) => p.code === code) || null : null
+                }
+              "
             >
               <SelectTrigger class="w-full">
                 <SelectValue :placeholder="$t('adoc.selectProvince')" />
@@ -431,9 +431,11 @@ const clearSelection = () => {
             <Select
               :model-value="selectedCity?.code"
               :disabled="!selectedProvince"
-              @update:model-value="(code) => {
-                selectedCity = code ? cityOptions.find(c => c.code === code) || null : null
-              }"
+              @update:model-value="
+                (code) => {
+                  selectedCity = code ? cityOptions.find((c) => c.code === code) || null : null
+                }
+              "
             >
               <SelectTrigger class="w-full">
                 <SelectValue :placeholder="$t('adoc.selectCity')" />
@@ -461,9 +463,13 @@ const clearSelection = () => {
             <Select
               :model-value="selectedDistrict?.code"
               :disabled="!selectedCity"
-              @update:model-value="(code) => {
-                selectedDistrict = code ? districtOptions.find(d => d.code === code) || null : null
-              }"
+              @update:model-value="
+                (code) => {
+                  selectedDistrict = code
+                    ? districtOptions.find((d) => d.code === code) || null
+                    : null
+                }
+              "
             >
               <SelectTrigger class="w-full">
                 <SelectValue :placeholder="$t('adoc.selectDistrict')" />
@@ -491,9 +497,11 @@ const clearSelection = () => {
             <Select
               :model-value="selectedStreet?.code"
               :disabled="!selectedDistrict"
-              @update:model-value="(code) => {
-                selectedStreet = code ? streetOptions.find(s => s.code === code) || null : null
-              }"
+              @update:model-value="
+                (code) => {
+                  selectedStreet = code ? streetOptions.find((s) => s.code === code) || null : null
+                }
+              "
             >
               <SelectTrigger class="w-full">
                 <SelectValue :placeholder="$t('adoc.selectStreet')" />

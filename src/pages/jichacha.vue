@@ -622,7 +622,7 @@ onMounted(() => {
             </div>
             <div class="flex items-center gap-2 mt-1.5">
               <span
-                class="px-1.5 py-0.5 rounded-[4px] text-[10px] bg-muted text-muted-foreground font-bold uppercase tracking-wide"
+                class="px-1.5 py-0.5 rounded-lg text-[10px] bg-muted text-muted-foreground font-bold uppercase tracking-wide"
               >
                 {{ shortBrand(model.brand) }}
               </span>
@@ -673,7 +673,7 @@ onMounted(() => {
               >
                 <!-- Brand Tag -->
                 <span
-                  class="px-1.5 py-0.5 rounded-[4px] text-[10px] font-bold bg-muted/60 text-foreground/70 uppercase tracking-wide border border-muted"
+                  class="px-1.5 py-0.5 rounded-lg text-[10px] font-bold bg-muted/60 text-foreground/70 uppercase tracking-wide border border-muted"
                 >
                   {{ shortBrand(model.brand) }}
                 </span>
@@ -681,7 +681,7 @@ onMounted(() => {
                 <!-- Dtype Tag -->
                 <span
                   v-if="model.dtype"
-                  class="px-1.5 py-0.5 rounded-[4px] text-[10px] font-bold bg-blue-500/10 text-blue-600 border border-blue-500/20 tracking-wide uppercase"
+                  class="px-1.5 py-0.5 rounded-lg text-[10px] font-bold bg-blue-500/10 text-blue-600 border border-blue-500/20 tracking-wide uppercase"
                 >
                   {{ $t(`tools.jichacha.dtypes.${model.dtype}`) }}
                 </span>

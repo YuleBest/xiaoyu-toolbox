@@ -26,6 +26,7 @@ import {
   Link,
   MapPin,
   Hash,
+  Users,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -120,6 +121,18 @@ export const toolsData: Record<string, Tool[]> = {
       color: 'text-indigo-500',
       path: '/json-yaml',
       date: '2026-01-02',
+    },
+    {
+      id: 'markdown-table-csv',
+      title: 'tools.markdown-table-csv.title',
+      subtitle: 'tools.markdown-table-csv.subtitle',
+      description: 'tools.markdown-table-csv.description',
+      author: 'Yule',
+      usage: 'tools.markdown-table-csv.usage',
+      icon: FileType,
+      color: 'text-teal-500',
+      path: '/markdown-table-csv',
+      date: '2026-04-09',
     },
     {
       id: 'playground',
@@ -403,6 +416,20 @@ export const toolsData: Record<string, Tool[]> = {
       color: 'text-emerald-600',
       path: '/poetry',
       date: '2026-03-07',
+    },
+    {
+      id: 'china-demographics',
+      title: 'tools.china-demographics.title',
+      subtitle: 'tools.china-demographics.subtitle',
+      description: 'tools.china-demographics.description',
+      author: 'Yule',
+      usage: 'tools.china-demographics.usage',
+      icon: Users,
+      color: 'text-red-500',
+      path: '/china-demographics',
+      date: '2026-04-09',
+      license: 'CC BY 4.0',
+      copyright: '数据来源：中国国家统计局，基于 CC BY 4.0 授权使用。',
     },
   ],
   game: [
