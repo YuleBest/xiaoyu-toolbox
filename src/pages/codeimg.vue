@@ -47,10 +47,14 @@ const themeMap: Record<string, string> = {
   dark: 'dark-plus',
 }
 
-const selectedTheme = useStorage('codeimg-theme', 'tomorrow-night')
-// 兼容旧主题名
-if (themeMap[selectedTheme.value]) {
-  selectedTheme.value = themeMap[selectedTheme.value]
+const selectedTheme = useStorage('codeimg-theme', 'one-dark-pro')
+// 兼容旧主题名（含已废弃的 tomorrow-night）
+const legacyThemeMap: Record<string, string> = {
+  'tomorrow-night': 'one-dark-pro',
+  ...themeMap,
+}
+if (legacyThemeMap[selectedTheme.value]) {
+  selectedTheme.value = legacyThemeMap[selectedTheme.value]
 }
 
 const showWindowControls = useStorage('codeimg-window-controls', true)
@@ -98,7 +102,7 @@ const languages = [
 ]
 
 const themes = [
-  { value: 'tomorrow-night', label: t('codeimg.themes.tomorrow') },
+  { value: 'one-dark-pro', label: t('codeimg.themes.tomorrow') },
   { value: 'monokai', label: t('codeimg.themes.okaidia') },
   { value: 'min-light', label: t('codeimg.themes.coy') },
   { value: 'solarized-light', label: t('codeimg.themes.solarizedLight') },
@@ -114,8 +118,8 @@ const themeBackgroundClass = computed(() => {
       return 'bg-[#ffffff]'
     case 'solarized-light':
       return 'bg-[#fdf6e3]'
-    case 'tomorrow-night':
-      return 'bg-[#1d1f21]'
+    case 'one-dark-pro':
+      return 'bg-[#282c34]'
     case 'monokai':
       return 'bg-[#272822]'
     case 'nord':

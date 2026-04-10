@@ -78,7 +78,7 @@ const runCode = () => {
       }
 
       window.parent.postMessage({ type: 'done' }, '*');
-    <${''}script>
+    </${''}script>
     </body>
     </html>
   `
