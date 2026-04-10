@@ -303,6 +303,14 @@ export default {
       usage:
         '1. 在左侧输入或粘贴代码。\n2. 在右侧调整代码语言、主题、背景颜色或渐变。\n3. 点击复制图片或下载图片。',
     },
+    mbti: {
+      title: 'MBTI 人格测试',
+      subtitle: '探索你的 16 型人格',
+      description:
+        '通过 100 道科学题目，分析你在外向/内向、实感/直觉、思维/情感、判断/知觉四个维度的偏好，得出专属你的 MBTI 16 型人格结果。题目每次随机排列，结果客观中立。',
+      usage:
+        '1. 点击"开始测试"进入题目（共 100 题）。\n2. 根据真实感受选择 A 或 B，无需过多思考，选第一反应。\n3. 所有题目完成后自动展示你的人格类型及四维度分析。',
+    },
     hhsh: {
       title: '好好说话',
       subtitle: '拼音首字母缩写释义',
@@ -1318,5 +1326,25 @@ export default {
     levelVeryLoudEg: '工厂机器',
     levelDangerous: '危险',
     levelDangerousEg: '喷气飞机起飞',
+  },
+
+  // === MBTI 人格测试 ===
+  mbti: {
+    introTitle: 'MBTI 人格测试',
+    introSubtitle: '探索你的 16 型人格',
+    introDesc:
+      '认真作答每一道题，选择最符合你真实状态的选项，不要按"理想中的自己"作答，结果才会更准确。',
+    statQuestions: '道题目',
+    statMinutes: '分钟',
+    statTypes: '种人格',
+    start: '开始测试',
+    questionNum: '第 {n} 题 / 共 {total} 题',
+    answered: '已作答',
+    prev: '上一题',
+    hint: '选择后自动进入下一题',
+    resultYourType: '你的 MBTI 类型',
+    dimensionTitle: '四维度分析',
+    restart: '重新测试',
+    copyResult: '复制结果',
   },
 }
