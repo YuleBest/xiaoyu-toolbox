@@ -30,6 +30,7 @@ import {
   Users,
   UserCircle,
   Mic,
+  Brain,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -304,6 +305,18 @@ export const toolsData: Record<string, Tool[]> = {
     },
   ],
   life: [
+    {
+      id: 'mbti',
+      title: 'tools.mbti.title',
+      subtitle: 'tools.mbti.subtitle',
+      description: 'tools.mbti.description',
+      author: 'Yule',
+      usage: 'tools.mbti.usage',
+      icon: Brain,
+      color: 'text-violet-500',
+      path: '/mbti',
+      date: '2026-04-10',
+    },
     {
       id: 'hhsh',
       title: 'tools.hhsh.title',

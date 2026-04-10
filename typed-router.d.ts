@@ -180,6 +180,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/mbti': RouteRecordInfo<
+      '/mbti',
+      '/mbti',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/mcpe': RouteRecordInfo<
       '/mcpe',
       '/mcpe',
@@ -448,6 +455,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/markdown-table-csv.vue': {
       routes:
         | '/markdown-table-csv'
+      views:
+        | never
+    }
+    'src/pages/mbti.vue': {
+      routes:
+        | '/mbti'
       views:
         | never
     }
