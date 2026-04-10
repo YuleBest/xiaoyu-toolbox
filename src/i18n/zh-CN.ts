@@ -279,6 +279,14 @@ export default {
       usage:
         '1. 输入或粘贴需要翻译的文本。\n2. 语言检测器会自动识别源语言。\n3. 选择目标语言（支持中、英、日、法、俄、西）。\n4. 点击“翻译”或等待自动翻译结果。',
     },
+    'password-gen': {
+      title: '强密码生成器',
+      subtitle: '自定义安全密码生成',
+      description:
+        '基于浏览器内置 crypto API 的密码生成器，支持自定义密码长度（4～128 位）、字符类型（大写、小写、数字、符号）、排除易混淆字符，以及批量生成多条密码。所有生成过程均在本地完成，不上传任何数据，安全可靠。',
+      usage:
+        '1. 拖动滑块设置密码长度。\n2. 勾选需要包含的字符类型。\n3. 可选：排除易混淆字符（如 l、1、I、O、0）。\n4. 点击「生成」按钮或调整参数时自动生成新密码。\n5. 点击「复制」按钮复制单条密码，或「全部复制」批量复制。',
+    },
     codeimg: {
       title: '代码图片生成',
       subtitle: '将代码转换为精美的图片',
@@ -1256,5 +1264,28 @@ export default {
     size640: '大图（640×640）',
     sizeHD: '高清（640×640）',
     openInBrowser: '在浏览器中打开',
+  },
+
+  // === 强密码生成器 ===
+  passwordGen: {
+    settings: '生成设置',
+    length: '密码长度',
+    uppercase: '大写字母 (A-Z)',
+    lowercase: '小写字母 (a-z)',
+    numbers: '数字 (0-9)',
+    symbols: '特殊符号',
+    excludeAmbiguous: '排除易混淆字符',
+    customSymbols: '自定义符号集',
+    customSymbolsPlaceholder: '输入要使用的符号字符',
+    count: '生成数量',
+    generate: '重新生成',
+    copyAll: '全部复制',
+    showPasswords: '显示密码',
+    hidePasswords: '隐藏密码',
+    strength: '密码强度',
+    strengthWeak: '弱',
+    strengthMedium: '中',
+    strengthStrong: '强',
+    invalidCharset: '请至少选择一种字符类型',
   },
 }

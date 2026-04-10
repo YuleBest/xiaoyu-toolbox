@@ -28,9 +28,7 @@ if (typeof window !== 'undefined') {
 }
 
 /** 支持的语言列表 */
-export const supportedLocales = [
-  { code: 'zh-CN', label: '简体中文' },
-] as const
+export const supportedLocales = [{ code: 'zh-CN', label: '简体中文' }] as const
 
 export type SupportedLocale = (typeof supportedLocales)[number]['code']
 

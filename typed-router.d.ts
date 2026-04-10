@@ -187,6 +187,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/password-gen': RouteRecordInfo<
+      '/password-gen',
+      '/password-gen',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/period': RouteRecordInfo<
       '/period',
       '/period',
@@ -440,6 +447,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/ncm-get-playlist.vue': {
       routes:
         | '/ncm-get-playlist'
+      views:
+        | never
+    }
+    'src/pages/password-gen.vue': {
+      routes:
+        | '/password-gen'
       views:
         | never
     }
