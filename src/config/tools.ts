@@ -27,6 +27,7 @@ import {
   MapPin,
   Hash,
   Users,
+  UserCircle,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -430,6 +431,18 @@ export const toolsData: Record<string, Tool[]> = {
       date: '2026-04-09',
       license: 'CC BY 4.0',
       copyright: '数据来源：中国国家统计局，基于 CC BY 4.0 授权使用。',
+    },
+    {
+      id: 'qq-avatar',
+      title: 'tools.qq-avatar.title',
+      subtitle: 'tools.qq-avatar.subtitle',
+      description: 'tools.qq-avatar.description',
+      author: 'Yule',
+      usage: 'tools.qq-avatar.usage',
+      icon: UserCircle,
+      color: 'text-sky-500',
+      path: '/qq-avatar',
+      date: '2026-04-10',
     },
   ],
   game: [
