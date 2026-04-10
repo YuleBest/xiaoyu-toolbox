@@ -192,6 +192,14 @@ export default {
       usage:
         '1. 上传图片：点击"选择一张图片"按钮，选择本地图片文件。\n2. 查看信息：上传后自动解析 EXIF 数据，并在下方表格中显示。\n3. 预览：会显示图片预览，方便核对。',
     },
+    decibel: {
+      title: '分贝仪',
+      subtitle: '实时麦克风音量检测',
+      description:
+        '使用麦克风实时监测环境音量，以分贝（dB）为单位显示当前声音强度，并提供峰值记录和平均值统计。附有声音等级参考表，适用于录音场景评估、噪音检测和环境监控。',
+      usage:
+        '1. 点击"开始检测"按钮，浏览器会请求麦克风权限。\n2. 授权后，仪表实时显示当前环境分贝值。\n3. 顶部为实时分贝数值，进度条右侧的竖线为峰值标记。\n4. 点击"停止"结束检测，峰值和平均值保持显示。',
+    },
     dydown: {
       title: '抖音视频解析',
       subtitle: '无水印视频下载',
@@ -1287,5 +1295,28 @@ export default {
     strengthMedium: '中',
     strengthStrong: '强',
     invalidCharset: '请至少选择一种字符类型',
+  },
+
+  // === 分贝仪 ===
+  decibel: {
+    start: '开始检测',
+    stop: '停止检测',
+    peak: '峰值',
+    average: '平均值',
+    chart: '实时波形',
+    reference: '声音等级参考',
+    permissionDenied: '麦克风权限被拒绝，请在浏览器设置中允许访问麦克风后重试。',
+    levelQuiet: '非常安静',
+    levelQuietEg: '图书馆、深夜',
+    levelNormal: '安静',
+    levelNormalEg: '安静的办公室',
+    levelMedium: '适中',
+    levelMediumEg: '普通对话',
+    levelLoud: '较吵',
+    levelLoudEg: '繁忙街道',
+    levelVeryLoud: '很吵',
+    levelVeryLoudEg: '工厂机器',
+    levelDangerous: '危险',
+    levelDangerousEg: '喷气飞机起飞',
   },
 }
