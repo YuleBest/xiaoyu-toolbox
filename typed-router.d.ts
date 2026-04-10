@@ -96,6 +96,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/decibel': RouteRecordInfo<
+      '/decibel',
+      '/decibel',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/dydown': RouteRecordInfo<
       '/dydown',
       '/dydown',
@@ -369,6 +376,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/codeimg.vue': {
       routes:
         | '/codeimg'
+      views:
+        | never
+    }
+    'src/pages/decibel.vue': {
+      routes:
+        | '/decibel'
       views:
         | never
     }

@@ -29,6 +29,7 @@ import {
   Hash,
   Users,
   UserCircle,
+  Mic,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -209,6 +210,18 @@ export const toolsData: Record<string, Tool[]> = {
       color: 'text-rose-500',
       path: '/exif',
       date: '2026-01-26',
+    },
+    {
+      id: 'decibel',
+      title: 'tools.decibel.title',
+      subtitle: 'tools.decibel.subtitle',
+      description: 'tools.decibel.description',
+      author: 'Yule',
+      usage: 'tools.decibel.usage',
+      icon: Mic,
+      color: 'text-rose-500',
+      path: '/decibel',
+      date: '2026-04-10',
     },
     {
       id: 'dydown',
