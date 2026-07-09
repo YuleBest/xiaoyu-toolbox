@@ -47,6 +47,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/alarm': RouteRecordInfo<
+      '/alarm',
+      '/alarm',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/anime-search': RouteRecordInfo<
       '/anime-search',
       '/anime-search',
@@ -341,6 +348,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/adoc.vue': {
       routes:
         | '/adoc'
+      views:
+        | never
+    }
+    'src/pages/alarm.vue': {
+      routes:
+        | '/alarm'
       views:
         | never
     }
