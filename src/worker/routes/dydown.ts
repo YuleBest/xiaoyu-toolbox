@@ -62,7 +62,7 @@ app.get('/download', async (c) => {
 
   if (!videoId) return c.text('Missing videoId', 400)
 
-  const playUrl = `https://www.iesdouyin.com/aweme/v1/play/?video_id=${videoId}&ratio=1080p&line=0`
+  const playUrl = `https://aweme.snssdk.com/aweme/v1/play/?video_id=${videoId}&ratio=1080p&line=0`
 
   const upstream = await fetch(playUrl, {
     redirect: 'follow',
@@ -94,7 +94,7 @@ app.get('/preview', async (c) => {
 
   if (!videoId) return c.text('Missing videoId', 400)
 
-  const playUrl = `https://www.iesdouyin.com/aweme/v1/play/?video_id=${videoId}&ratio=1080p&line=0`
+  const playUrl = `https://aweme.snssdk.com/aweme/v1/play/?video_id=${videoId}&ratio=1080p&line=0`
 
   const upstream = await fetch(playUrl, {
     redirect: 'follow',
