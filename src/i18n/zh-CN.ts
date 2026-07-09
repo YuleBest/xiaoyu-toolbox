@@ -232,6 +232,14 @@ export default {
       usage:
         '1. 输入城市名称（支持中文拼音或英文）进行搜索。\n2. 选择正确的城市。\n3. 查看详细的天气信息。\n\nTip: 由于使用非本土化接口，搜索不到国内城市时，可尝试使用拼音。例如：beijing 代替北京',
     },
+    alarm: {
+      title: '气象预警',
+      subtitle: '中央气象台全国气象预警查询',
+      description:
+        '查询中央气象台发布的全国气象预警信息。支持按省份、预警类型（台风、暴雨、寒潮等）和预警级别（蓝/黄/橙/红）筛选，提供预警列表和详细文本内容，帮助及时了解各地灾害性天气预警。',
+      usage:
+        '1. 默认展示最新全国预警列表，可翻页浏览。\n2. 使用筛选栏按省份、预警类型或预警级别筛选。\n3. 使用搜索框在当前列表中搜索预警标题。\n4. 点击预警条目查看详细预警内容和防御指南。',
+    },
     hok: {
       title: '王者荣耀查询',
       subtitle: '英雄装备技能查询',
@@ -1326,6 +1334,29 @@ export default {
     levelVeryLoudEg: '工厂机器',
     levelDangerous: '危险',
     levelDangerousEg: '喷气飞机起飞',
+  },
+
+  // === 气象预警 ===
+  alarm: {
+    latest: '最新预警',
+    refresh: '刷新',
+    filter: '筛选',
+    provinceLabel: '省份',
+    typeLabel: '类型',
+    levelLabel: '级别',
+    selectProvince: '请选择省份',
+    selectType: '请选择类型',
+    selectLevel: '请选择级别',
+    searchPlaceholder: '在列表中搜索...',
+    prevPage: '上一页',
+    nextPage: '下一页',
+    pageInfo: '第 {current} 页 / 共 {total} 页',
+    totalCount: '共 {count} 条',
+    noResults: '暂无预警信息',
+    loadFailed: '预警信息加载失败',
+    detailTitle: '预警详情',
+    detailLoadFailed: '预警详情加载失败',
+    close: '关闭',
   },
 
   // === MBTI 人格测试 ===

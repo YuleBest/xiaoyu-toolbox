@@ -31,6 +31,7 @@ import {
   UserCircle,
   Mic,
   Brain,
+  TriangleAlert,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -359,6 +360,19 @@ export const toolsData: Record<string, Tool[]> = {
       path: '/weather',
       backEnd: 'https://open-meteo.com/',
       date: '2026-01-20',
+    },
+    {
+      id: 'alarm',
+      title: 'tools.alarm.title',
+      subtitle: 'tools.alarm.subtitle',
+      description: 'tools.alarm.description',
+      author: 'Yule',
+      usage: 'tools.alarm.usage',
+      icon: TriangleAlert,
+      color: 'text-red-500',
+      path: '/alarm',
+      backEnd: 'https://www.nmc.cn/',
+      date: '2026-07-10',
     },
     {
       id: 'exchange',

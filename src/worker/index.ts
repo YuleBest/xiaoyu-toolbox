@@ -7,6 +7,7 @@ import getmcpe from './routes/getmcpe'
 import hhsh from './routes/hhsh'
 import lyric from './routes/lyric'
 import weather from './routes/weather'
+import alarm from './routes/alarm'
 
 const app = new Hono().basePath('/api')
 
@@ -18,5 +19,6 @@ app.route('/getmcpe', getmcpe)
 app.route('/hhsh', hhsh)
 app.route('/lyric', lyric)
 app.route('/weather', weather)
+app.route('/alarm', alarm)
 
 export default app
