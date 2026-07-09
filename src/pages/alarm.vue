@@ -176,16 +176,6 @@ async function openDetail(item: AlarmItem) {
   }
 }
 
-function levelColor(level: string): string {
-  const map: Record<string, string> = {
-    蓝色: 'bg-blue-500',
-    黄色: 'bg-yellow-500',
-    橙色: 'bg-orange-500',
-    红色: 'bg-red-600',
-  }
-  return map[level] || 'bg-muted-foreground'
-}
-
 function levelBadge(level: string): string {
   const map: Record<string, string> = {
     蓝色: 'text-sky-600',
