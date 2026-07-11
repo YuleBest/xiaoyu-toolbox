@@ -310,10 +310,14 @@ const onSliderInput = (e: Event) => {
               <div
                 class="h-11 w-11 rounded-xl bg-linear-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center shrink-0 border border-blue-500/10 group-hover:border-blue-500/30 group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all"
               >
-                <Music class="h-5 w-5 text-blue-500/60 group-hover:text-blue-500 transition-colors" />
+                <Music
+                  class="h-5 w-5 text-blue-500/60 group-hover:text-blue-500 transition-colors"
+                />
               </div>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold text-foreground truncate group-hover:text-blue-500 transition-colors">
+                <p
+                  class="text-sm font-semibold text-foreground truncate group-hover:text-blue-500 transition-colors"
+                >
                   {{ song.title }}
                 </p>
                 <p class="text-xs text-muted-foreground truncate mt-1">
@@ -433,7 +437,9 @@ const onSliderInput = (e: Event) => {
 
             <!-- Progress Slider -->
             <div class="space-y-2">
-              <div class="flex items-center justify-between text-[11px] text-muted-foreground font-mono">
+              <div
+                class="flex items-center justify-between text-[11px] text-muted-foreground font-mono"
+              >
                 <span>{{ formatDuration(currentTime) }}</span>
                 <span>{{ formatDuration(selectedSong?.duration || 0) }}</span>
               </div>
