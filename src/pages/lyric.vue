@@ -227,17 +227,15 @@ const onSliderInput = (e: Event) => {
 <template>
   <ToolContainer :tool="tool">
     <template #actions>
-      <div class="flex items-center gap-2">
+      <div v-if="parsedLyrics.length > 0" class="flex items-center gap-2">
         <button
-          v-if="parsedLyrics.length > 0"
-          class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-all active:scale-95"
+          class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-background border border-muted text-foreground hover:bg-muted rounded-xl transition-all active:scale-95"
           @click="copyLyric"
         >
           <Copy class="h-4 w-4" />
           <span class="hidden sm:inline">{{ $t('lyric.copyLyric') }}</span>
         </button>
         <button
-          v-if="parsedLyrics.length > 0"
           class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 rounded-xl transition-all active:scale-95"
           @click="downloadLyric"
         >
@@ -301,32 +299,46 @@ const onSliderInput = (e: Event) => {
               >
             </h3>
           </div>
-          <div class="divide-y divide-muted/20 max-h-[400px] overflow-y-auto">
+          <div class="divide-y divide-muted/20 max-h-[420px] overflow-y-auto">
             <button
               v-for="song in searchResults"
               :key="song.hash"
-              class="w-full px-5 py-4 flex items-center gap-4 text-left hover:bg-muted/10 transition-colors group"
+              class="w-full px-5 py-4 flex items-center gap-4 text-left hover:bg-muted/20 transition-all group"
               @click="handleGetLyric(song)"
             >
+              <!-- Album Art Placeholder -->
+              <div
+                class="h-11 w-11 rounded-xl bg-linear-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center shrink-0 border border-blue-500/10 group-hover:border-blue-500/30 group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all"
+              >
+                <Music class="h-5 w-5 text-blue-500/60 group-hover:text-blue-500 transition-colors" />
+              </div>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-foreground truncate">
+                <p class="text-sm font-semibold text-foreground truncate group-hover:text-blue-500 transition-colors">
                   {{ song.title }}
                 </p>
-                <p class="text-xs text-muted-foreground truncate mt-0.5">
-                  {{ song.artist }} · {{ song.album }} ·
-                  {{ formatDuration(song.duration) }}
+                <p class="text-xs text-muted-foreground truncate mt-1">
+                  {{ song.artist }}
+                  <span v-if="song.album" class="mx-1.5 opacity-40">·</span>
+                  {{ song.album }}
                 </p>
               </div>
-              <ChevronRight
-                class="h-4 w-4 text-muted-foreground/40 group-hover:text-foreground group-hover:translate-x-0.5 transition-all shrink-0"
-              />
+              <div class="flex items-center gap-3 shrink-0">
+                <span
+                  class="text-[11px] font-mono text-muted-foreground/50 bg-muted/30 px-2 py-0.5 rounded-md"
+                >
+                  {{ formatDuration(song.duration) }}
+                </span>
+                <ChevronRight
+                  class="h-4 w-4 text-muted-foreground/30 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all"
+                />
+              </div>
             </button>
           </div>
         </div>
       </Transition>
 
       <!-- Loading Lyric -->
-      <div v-if="loadingLyric" class="flex items-center justify-center gap-3 py-12">
+      <div v-if="loadingLyric" class="flex items-center justify-center gap-3 py-16">
         <div
           class="h-5 w-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"
         ></div>
@@ -336,56 +348,92 @@ const onSliderInput = (e: Event) => {
       <!-- Lyric Display -->
       <Transition name="slide">
         <div v-if="parsedLyrics.length > 0 && !loadingLyric" class="space-y-5">
-          <!-- Song Info Header -->
-          <div class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6">
-            <div class="flex items-center gap-4 mb-4">
-              <div class="flex-1 min-w-0">
-                <h3 class="text-lg font-bold text-foreground truncate">
+          <!-- Song Info & Control Card -->
+          <div class="bg-card/30 border border-muted/80 rounded-3xl p-5 md:p-6 space-y-5">
+            <!-- Header: Title + Back -->
+            <div class="flex items-start gap-3">
+              <div
+                class="h-12 w-12 rounded-2xl bg-linear-to-br from-pink-500/20 to-blue-500/20 flex items-center justify-center shrink-0 border border-pink-500/10"
+              >
+                <Music class="h-6 w-6 text-pink-500/70" />
+              </div>
+              <div class="flex-1 min-w-0 pt-0.5">
+                <h3 class="text-base font-bold text-foreground truncate">
                   {{ selectedSong?.title }}
                 </h3>
-                <p class="text-sm text-muted-foreground truncate">
-                  {{ selectedSong?.artist }} · {{ selectedSong?.album }}
+                <p class="text-sm text-muted-foreground truncate mt-0.5">
+                  {{ selectedSong?.artist }}
+                  <span v-if="selectedSong?.album" class="mx-1 opacity-40">·</span>
+                  {{ selectedSong?.album }}
                 </p>
               </div>
               <button
-                class="text-xs text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-xl hover:bg-muted/30 transition-all shrink-0"
+                class="text-xs text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-xl hover:bg-muted/30 transition-all shrink-0 flex items-center gap-1"
                 @click="backToResults"
               >
+                <ChevronRight class="h-3.5 w-3.5 rotate-180" />
                 {{ $t('common.back') }}
               </button>
             </div>
 
-            <!-- Metadata Chips -->
-            <div
-              v-if="lyricMetadata && (lyricMetadata.ar || lyricMetadata.al || lyricMetadata.by)"
-              class="flex flex-wrap gap-2 mb-5"
-            >
-              <span
-                v-if="lyricMetadata.ar"
-                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-blue-500/10 text-blue-500 text-xs font-medium"
-              >
-                <User class="h-3 w-3" />
-                {{ lyricMetadata.ar }}
-              </span>
-              <span
-                v-if="lyricMetadata.al"
-                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-purple-500/10 text-purple-500 text-xs font-medium"
-              >
-                <Disc3 class="h-3 w-3" />
-                {{ lyricMetadata.al }}
-              </span>
-              <span
-                v-if="lyricMetadata.by"
-                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-500 text-xs font-medium"
-              >
-                <Pen class="h-3 w-3" />
-                词：{{ lyricMetadata.by }}
-              </span>
+            <!-- Metadata Chips + Controls Row -->
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div class="flex flex-wrap gap-2">
+                <span
+                  v-if="lyricMetadata?.ar"
+                  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-500/10 text-blue-500 text-[11px] font-medium"
+                >
+                  <User class="h-3 w-3" />
+                  {{ lyricMetadata.ar }}
+                </span>
+                <span
+                  v-if="lyricMetadata?.al"
+                  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-500 text-[11px] font-medium"
+                >
+                  <Disc3 class="h-3 w-3" />
+                  {{ lyricMetadata.al }}
+                </span>
+                <span
+                  v-if="lyricMetadata?.by"
+                  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-500 text-[11px] font-medium"
+                >
+                  <Pen class="h-3 w-3" />
+                  词：{{ lyricMetadata.by }}
+                </span>
+              </div>
+
+              <!-- Display Mode Toggle -->
+              <div class="flex items-center bg-muted/40 rounded-xl p-1 gap-0.5">
+                <button
+                  class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
+                  :class="
+                    displayMode === 'timeline'
+                      ? 'bg-background text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground'
+                  "
+                  @click="displayMode = 'timeline'"
+                >
+                  <Clock class="h-3.5 w-3.5" />
+                  <span class="hidden sm:inline">{{ $t('lyric.timeline') }}</span>
+                </button>
+                <button
+                  class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
+                  :class="
+                    displayMode === 'plain'
+                      ? 'bg-background text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground'
+                  "
+                  @click="displayMode = 'plain'"
+                >
+                  <AlignLeft class="h-3.5 w-3.5" />
+                  <span class="hidden sm:inline">{{ $t('lyric.lyricMode') }}</span>
+                </button>
+              </div>
             </div>
 
             <!-- Progress Slider -->
             <div class="space-y-2">
-              <div class="flex items-center justify-between text-xs text-muted-foreground">
+              <div class="flex items-center justify-between text-[11px] text-muted-foreground font-mono">
                 <span>{{ formatDuration(currentTime) }}</span>
                 <span>{{ formatDuration(selectedSong?.duration || 0) }}</span>
               </div>
@@ -394,112 +442,80 @@ const onSliderInput = (e: Event) => {
                 :value="currentTime"
                 :max="selectedSong?.duration || 0"
                 step="0.1"
-                class="w-full h-1.5 bg-muted rounded-full appearance-none cursor-pointer accent-blue-500 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:bg-blue-500 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:hover:scale-125 [&::-webkit-slider-thumb]:transition-transform"
+                class="w-full h-1.5 bg-muted rounded-full appearance-none cursor-pointer accent-blue-500 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:bg-blue-500 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:hover:scale-125 [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:shadow-md"
                 @input="onSliderInput"
               />
             </div>
           </div>
 
-          <!-- Display Mode Toggle -->
-          <div class="flex items-center justify-between px-2">
-            <span class="text-sm text-muted-foreground"
-              >{{ parsedLyrics.length }} {{ $t('lyric.lyricLine') }}</span
-            >
-            <div class="flex items-center bg-muted/30 rounded-xl p-1 gap-0.5">
-              <button
-                class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
-                :class="
-                  displayMode === 'timeline'
-                    ? 'bg-background text-foreground'
-                    : 'text-muted-foreground hover:text-foreground'
-                "
-                @click="displayMode = 'timeline'"
-              >
-                <Clock class="h-3.5 w-3.5" />
-                {{ $t('lyric.timeline') }}
-              </button>
-              <button
-                class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
-                :class="
-                  displayMode === 'plain'
-                    ? 'bg-background text-foreground'
-                    : 'text-muted-foreground hover:text-foreground'
-                "
-                @click="displayMode = 'plain'"
-              >
-                <AlignLeft class="h-3.5 w-3.5" />
-                {{ $t('lyric.lyricMode') }}
-              </button>
-            </div>
-          </div>
-
-          <!-- Lyric Content -->
+          <!-- Lyric Content Card -->
           <div
             ref="lyricContainer"
-            class="bg-card/30 border border-muted/80 rounded-3xl overflow-hidden max-h-[500px] overflow-y-auto scroll-smooth"
+            class="bg-card/30 border border-muted/80 rounded-3xl overflow-hidden"
           >
+            <!-- Card Header -->
+            <div class="px-5 py-3 border-b border-muted/20 flex items-center justify-between">
+              <span class="text-xs text-muted-foreground font-medium">
+                {{ parsedLyrics.length }} {{ $t('lyric.lyricLine') }}
+              </span>
+            </div>
+
             <!-- Timeline Mode -->
-            <div v-if="displayMode === 'timeline'" class="p-4 md:p-5 space-y-0.5">
-              <div
-                v-for="(line, index) in parsedLyrics"
-                :key="index"
-                :ref="
-                  (el) => {
-                    if (el) lineRefs[index] = el as HTMLElement
-                  }
-                "
-                class="flex items-start gap-3 px-3 py-2.5 rounded-xl transition-all duration-300"
-                :class="{
-                  'bg-blue-500/8': isCurrentLine(index),
-                }"
-              >
-                <span
-                  class="font-mono text-[12px] font-semibold min-w-[60px] shrink-0 text-center px-2 py-0.5 rounded-md transition-all duration-300"
-                  :class="
-                    isCurrentLine(index)
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-muted/50 text-muted-foreground/60'
+            <div
+              v-if="displayMode === 'timeline'"
+              ref="lyricContainer"
+              class="max-h-[460px] overflow-y-auto scroll-smooth"
+            >
+              <div class="p-3 md:p-4 space-y-0.5">
+                <div
+                  v-for="(line, index) in parsedLyrics"
+                  :key="index"
+                  :ref="
+                    (el) => {
+                      if (el) lineRefs[index] = el as HTMLElement
+                    }
                   "
+                  class="flex items-start gap-3 px-3 py-2.5 rounded-xl transition-all duration-300"
+                  :class="{
+                    'bg-blue-500/8 border border-blue-500/10': isCurrentLine(index),
+                  }"
                 >
-                  {{ line.time }}
-                </span>
-                <span
-                  class="text-[14px] leading-relaxed transition-all duration-300"
-                  :class="isCurrentLine(index) ? 'text-blue-500 font-bold' : 'text-foreground/70'"
-                >
-                  {{ line.text }}
-                </span>
+                  <span
+                    class="font-mono text-[11px] font-semibold min-w-[56px] shrink-0 text-center px-2 py-0.5 rounded-md transition-all duration-300"
+                    :class="
+                      isCurrentLine(index)
+                        ? 'bg-blue-500 text-white shadow-sm'
+                        : 'bg-muted/40 text-muted-foreground/50'
+                    "
+                  >
+                    {{ line.time }}
+                  </span>
+                  <span
+                    class="text-[14px] leading-relaxed transition-all duration-300"
+                    :class="
+                      isCurrentLine(index)
+                        ? 'text-blue-600 dark:text-blue-400 font-semibold'
+                        : 'text-foreground/75'
+                    "
+                  >
+                    {{ line.text }}
+                  </span>
+                </div>
               </div>
             </div>
 
             <!-- Plain Text Mode -->
-            <div v-else class="p-5 md:p-6 space-y-1">
-              <p
-                v-for="(line, index) in parsedLyrics"
-                :key="index"
-                class="text-[14px] leading-loose text-foreground/80"
-              >
-                {{ line.text }}
-              </p>
+            <div v-else class="max-h-[460px] overflow-y-auto scroll-smooth">
+              <div class="p-5 md:p-6 space-y-1.5">
+                <p
+                  v-for="(line, index) in parsedLyrics"
+                  :key="index"
+                  class="text-[14px] leading-loose text-foreground/80"
+                >
+                  {{ line.text }}
+                </p>
+              </div>
             </div>
-          </div>
-
-          <!-- Action Buttons (mobile-friendly) -->
-          <div class="flex flex-col sm:flex-row gap-3">
-            <button
-              class="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-background border border-muted text-foreground rounded-2xl font-medium transition-all hover:bg-muted active:scale-[0.98]"
-              @click="downloadLyric"
-            >
-              <Download class="h-4 w-4" />
-              {{ $t('lyric.downloadLrc') }}
-            </button>
-            <button
-              class="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-background border border-muted text-foreground rounded-2xl font-medium transition-all hover:bg-muted active:scale-[0.98]"
-              @click="copyLyric"
-            >
-              <Copy class="h-4 w-4" />
-              {{ $t('lyric.copyLyric') }}
-            </button>
           </div>
         </div>
       </Transition>
