@@ -161,7 +161,7 @@ export default {
         '1. 粘贴 JSON 或 YAML 内容。\n2. 点击转换按钮即可进行格式转换。\n3. 支持一键复制和清空。',
     },
     'markdown-table-csv': {
-      title: 'Markdown Table - CSV 互转',
+      title: '表格互转',
       subtitle: 'Markdown 表格与 CSV 互转',
       description:
         '在 Markdown 表格格式与 CSV（逗号分隔值）格式之间进行双向转换。支持实时联动、文件上传/下载，适用于文档编写、数据整理与表格格式转换等场景。',
