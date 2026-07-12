@@ -32,6 +32,7 @@ import {
   Mic,
   Brain,
   TriangleAlert,
+  Dumbbell,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -306,6 +307,19 @@ export const toolsData: Record<string, Tool[]> = {
     },
   ],
   life: [
+    {
+      id: 'exercises',
+      title: 'tools.exercises.title',
+      subtitle: 'tools.exercises.subtitle',
+      description: 'tools.exercises.description',
+      author: 'Yule',
+      usage: 'tools.exercises.usage',
+      icon: Dumbbell,
+      color: 'text-orange-500',
+      path: '/exercises',
+      date: '2026-07-13',
+      license: '© Gym visual — https://gymvisual.com/',
+    },
     {
       id: 'mbti',
       title: 'tools.mbti.title',

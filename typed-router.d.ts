@@ -124,6 +124,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/exercises': RouteRecordInfo<
+      '/exercises',
+      '/exercises',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/exif': RouteRecordInfo<
       '/exif',
       '/exif',
@@ -414,6 +421,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/exchange.vue': {
       routes:
         | '/exchange'
+      views:
+        | never
+    }
+    'src/pages/exercises.vue': {
+      routes:
+        | '/exercises'
       views:
         | never
     }
