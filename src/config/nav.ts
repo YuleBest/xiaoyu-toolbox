@@ -7,6 +7,7 @@ import {
   Swords,
   CloudSun,
   ChartBar,
+  GraduationCap,
 } from 'lucide-vue-next'
 import type { Component } from 'vue'
 
@@ -54,6 +55,12 @@ export const categories: CategoryItem[] = [
     id: 'stats',
     name: 'categories.stats',
     icon: ChartBar,
+    color: 'text-blue-400',
+  },
+  {
+    id: 'learn',
+    name: 'categories.learn',
+    icon: GraduationCap,
     color: 'text-blue-400',
   },
 ]
