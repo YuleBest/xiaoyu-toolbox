@@ -489,6 +489,14 @@ export default {
       usage:
         '1. 页面顶部展示最新年度的 GDP、GNI 和人均 GDP 关键指标。\n2. 点击不同图表标签可切换“GDP & GNI 趋势”和“人均 GDP 趋势”两种图表视图。\n3. 滑动鼠标到图表任意位置可查看具体数据。\n4. 页面底部提供完整的历年数据表格。',
     },
+    'world-population': {
+      title: '世界人口数量',
+      subtitle: '实时世界人口计数器',
+      description:
+        '基于联合国最新预测数据的实时世界人口计数器。动态显示当前全球人口总数、今年累积出生和死亡人数，数据每 50 毫秒刷新一次，模拟世界人口的实时变化，直观呈现全球人口增长。',
+      usage:
+        '1. 页面顶部显示当前世界总人口（大字醒目）。\n2. 下方三个卡片分别展示今年累积出生、死亡和净增人数。\n3. 所有数字均为实时动态计算，每 50 毫秒更新一次。\n4. 每张卡片底部显示每秒平均出生/死亡人数参考。',
+    },
     'qq-avatar': {
       title: 'QQ 头像获取',
       subtitle: '通过 QQ 号获取头像链接',
@@ -1171,6 +1179,23 @@ export default {
       perCapita10kDesc:
         '2019 年人均国内生产总值突破 1 万美元，达 71,453 元，标志经济发展迈上新台阶。',
     },
+  },
+
+  // === 世界人口 ===
+  worldPopulation: {
+    currentPopulation: '当前世界总人口',
+    birthsThisYear: '今年出生',
+    deathsThisYear: '今年死亡',
+    netGrowthThisYear: '今年净增',
+    perSecond: '约 {n} 人/秒',
+    netGrowthRate: '年化增长率 {rate}%',
+    liveUpdate: '实时动态计算 · 每 50 毫秒刷新',
+    historyChartTitle: '世界人口历史趋势',
+    historySource: '历史数据来源：联合国经济和社会事务部人口司《世界人口展望 2024》。',
+    realtimeChartTitle: '实时人口趋势',
+    realtimeChartSubtitle: '每秒刷新',
+    dataSource:
+      '数据来源：联合国经济和社会事务部人口司《世界人口展望 2024》。基准人口基于 2026 年预测数据，年出生/死亡数为估算值。',
   },
 
   // === Playground ===

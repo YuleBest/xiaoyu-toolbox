@@ -341,6 +341,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/world-population': RouteRecordInfo<
+      '/world-population',
+      '/world-population',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
   }
 
   /**
@@ -621,6 +628,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/weibo-hot.vue': {
       routes:
         | '/weibo-hot'
+      views:
+        | never
+    }
+    'src/pages/world-population.vue': {
+      routes:
+        | '/world-population'
       views:
         | never
     }
