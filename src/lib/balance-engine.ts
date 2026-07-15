@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 // 化学方程式配平引擎 — 高斯消元法
 
@@ -86,7 +87,7 @@ function solveMatrix(matrix: number[][]): number[] | null {
     }
   }
 
-  const result = new Array(cols).fill(0)
+  const result = Array.from({ length: cols }, () => 0)
   const pivotCols: number[] = []
   for (let r = 0; r < Math.min(rows, cols); r++) {
     for (let c = 0; c < cols; c++) {
@@ -130,7 +131,7 @@ export function balanceEquation(reactants: Compound[], products: Compound[]): nu
 
   const matrix: number[][] = []
   for (const elem of elements) {
-    const row = new Array(numVars + 1).fill(0)
+    const row = Array.from({ length: numVars + 1 }, () => 0)
     for (let i = 0; i < reactants.length; i++) row[i] = reactants[i].elements[elem] || 0
     for (let i = 0; i < products.length; i++)
       row[reactants.length + i] = -(products[i].elements[elem] || 0)
