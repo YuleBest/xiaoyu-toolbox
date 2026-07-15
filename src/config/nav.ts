@@ -6,6 +6,7 @@ import {
   Activity,
   Swords,
   CloudSun,
+  ChartBar,
 } from 'lucide-vue-next'
 import type { Component } from 'vue'
 
@@ -49,4 +50,10 @@ export const categories: CategoryItem[] = [
     color: 'text-blue-400',
   },
   { id: 'game', name: 'categories.game', icon: Swords, color: 'text-blue-400' },
+  {
+    id: 'stats',
+    name: 'categories.stats',
+    icon: ChartBar,
+    color: 'text-blue-400',
+  },
 ]

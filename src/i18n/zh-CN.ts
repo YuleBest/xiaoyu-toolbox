@@ -54,6 +54,7 @@ export default {
     media: '多媒体工具',
     life: '生活查询',
     game: '游戏工具',
+    stats: '数据统计',
   },
 
   // === 主题 ===
@@ -471,6 +472,14 @@ export default {
         '直观展示中国大陆 1949 年至 2025 年的人口变化。包含年末总人口、出生数、死亡数、自然增长数及对应年度的各项千分比率，配合多维度统计图表展示。',
       usage:
         '1. 页面顶部展示最新年度的关键指标。\n2. 点击不同图表标签可切换“总人口趋势”、“出生与死亡”、“増长率”三种图表视图。\n3. 滑动鼠标到图表任意位置可查看具体数据。\n4. 页面底部提供完整的历年数据表格。',
+    },
+    'china-gdp': {
+      title: '中国 GDP',
+      subtitle: '1952 - 2025 国内生产总值数据',
+      description:
+        '直观展示中国 1952 年至 2025 年的国内生产总值（GDP）、国民总收入（GNI）及人均国内生产总值变化趋势，配合多维度统计图表展示。',
+      usage:
+        '1. 页面顶部展示最新年度的 GDP、GNI 和人均 GDP 关键指标。\n2. 点击不同图表标签可切换“GDP & GNI 趋势”和“人均 GDP 趋势”两种图表视图。\n3. 滑动鼠标到图表任意位置可查看具体数据。\n4. 页面底部提供完整的历年数据表格。',
     },
     'qq-avatar': {
       title: 'QQ 头像获取',
@@ -1057,6 +1066,37 @@ export default {
       negGrowthDesc: '2022 年自然增长率为 -0.60‰，是自 1960 年以来首次出现负增长。',
       lowBirth: '出生人数新低',
       lowBirthDesc: '2025 年出生人数 792 万，出生率 5.63‰，均创新低。',
+    },
+  },
+
+  // === 中国 GDP ===
+  chinaGdp: {
+    gdp: '国内生产总值',
+    gni: '国民总收入',
+    gdpPerCapita: '人均国内生产总值',
+    unitTrillion: '万亿',
+    unitHundredMillion: '亿',
+    unitYuanPerPerson: '元/人',
+    unitYuan: '元',
+    yearSuffix: '年',
+    tabGdpGni: 'GDP & GNI 趋势',
+    tabPerCapita: '人均 GDP 趋势',
+    tableTitle: '历年数据详情',
+    tableSource: '数据来源：中国国家统计局',
+    downloadJson: '下载 JSON',
+    downloadCsv: '下载 CSV',
+    colYear: '年份',
+    colGni: '国民总收入（亿元）',
+    colGdp: '国内生产总值（亿元）',
+    colGdpPerCapita: '人均国内生产总值（元/人）',
+    tableNote:
+      '国民总收入与国内生产总值单位均为亿元；人均国内生产总值单位为元/人。数据按当年价格计算。',
+    milestone: {
+      gdpFirst: 'GDP 突破百万亿',
+      gdpFirstDesc: '2020 年国内生产总值首次突破 100 万亿元大关，达 103.49 万亿元。',
+      perCapita10k: '人均 GDP 突破 1 万美元',
+      perCapita10kDesc:
+        '2019 年人均国内生产总值突破 1 万美元，达 71,453 元，标志经济发展迈上新台阶。',
     },
   },
 
