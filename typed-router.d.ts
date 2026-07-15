@@ -47,6 +47,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/ai-nitpicker': RouteRecordInfo<
+      '/ai-nitpicker',
+      '/ai-nitpicker',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/alarm': RouteRecordInfo<
       '/alarm',
       '/alarm',
@@ -376,6 +383,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/adoc.vue': {
       routes:
         | '/adoc'
+      views:
+        | never
+    }
+    'src/pages/ai-nitpicker.vue': {
+      routes:
+        | '/ai-nitpicker'
       views:
         | never
     }

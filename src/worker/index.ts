@@ -9,6 +9,7 @@ import lyric from './routes/lyric'
 import weather from './routes/weather'
 import alarm from './routes/alarm'
 import cron from './routes/cron'
+import nitpicker from './routes/nitpicker'
 
 const app = new Hono().basePath('/api')
 
@@ -22,5 +23,6 @@ app.route('/lyric', lyric)
 app.route('/weather', weather)
 app.route('/alarm', alarm)
 app.route('/cron', cron)
+app.route('/nitpicker', nitpicker)
 
 export default app
