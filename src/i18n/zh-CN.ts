@@ -1055,6 +1055,10 @@ export default {
     copyExpression: '复制表达式',
     copied: '已复制',
     cronTips: '支持标准 5 位 Cron 表达式（分 时 日 月 周）',
+    aiGenerate: 'AI 自然语言生成',
+    aiPlaceholder: '用自然语言描述定时任务，如"每周一早上9点"...',
+    aiGenerateBtn: '生成',
+    aiGenerating: '生成中...',
     fields: {
       minute: '分',
       hour: '时',

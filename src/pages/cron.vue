@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Clock, ChevronDown, Copy, Check, Info } from 'lucide-vue-next'
+import { Clock, ChevronDown, Copy, Check, Info, Sparkles } from 'lucide-vue-next'
 import ToolContainer from '@/components/tool/ToolContainer.vue'
 import { allTools } from '@/config/tools'
 
@@ -11,6 +11,46 @@ const tool = allTools.find((r) => r.id === 'cron')!
 // ========== Cron 表达式 ==========
 const expression = ref('0 0 * * *')
 const exprParts = ref(['0', '0', '*', '*', '*'])
+
+// ========== AI 生成 ==========
+const aiPrompt = ref('')
+const aiLoading = ref(false)
+const aiError = ref('')
+
+async function generateWithAI() {
+  const prompt = aiPrompt.value.trim()
+  if (!prompt) return
+
+  aiLoading.value = true
+  aiError.value = ''
+
+  try {
+    const res = await fetch('/api/cron/ai-generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt }),
+    })
+
+    const data = await res.json()
+
+    if (!res.ok || data.error) {
+      aiError.value = data.error || '生成失败，请重试'
+      return
+    }
+
+    if (data.expression) {
+      expression.value = data.expression
+      exprParts.value = parseExpr(data.expression)
+      aiPrompt.value = ''
+    } else {
+      aiError.value = 'AI 未能生成有效表达式'
+    }
+  } catch {
+    aiError.value = '网络错误，请检查连接后重试'
+  } finally {
+    aiLoading.value = false
+  }
+}
 
 // 解析 expression 到各字段
 function parseExpr(expr: string): string[] {
@@ -256,17 +296,6 @@ const fieldLabels = computed(() => [
   t('cron.fields.dayOfWeek'),
 ])
 
-const DOW_NAMES: Record<number, string> = {
-  0: 'Sun',
-  1: 'Mon',
-  2: 'Tue',
-  3: 'Wed',
-  4: 'Thu',
-  5: 'Fri',
-  6: 'Sat',
-  7: 'Sun',
-}
-
 // ========== 复制 ==========
 const copied = ref(false)
 function copyExpression() {
@@ -290,6 +319,49 @@ function formatDate(date: Date): string {
 }
 
 // ========== 人类可读描述 ==========
+// 中文星期名
+const DOW_CN: Record<number, string> = {
+  0: '周日',
+  1: '周一',
+  2: '周二',
+  3: '周三',
+  4: '周四',
+  5: '周五',
+  6: '周六',
+  7: '周日',
+}
+
+// 格式化范围字符串，如 "1-5" → "一至五"，"1,3,5" → "一、三、五"
+function formatDowCn(raw: string): string {
+  // 处理范围: 1-5 → 周一至周五
+  const rangeMatch = raw.match(/^(\d+)-(\d+)$/)
+  if (rangeMatch) {
+    const from = DOW_CN[Number(rangeMatch[1])]?.replace('周', '') || rangeMatch[1]
+    const to = DOW_CN[Number(rangeMatch[2])]?.replace('周', '') || rangeMatch[2]
+    return `周${from}至周${to}`
+  }
+  // 处理列表: 1,3,5 → 周一、周三、周五
+  if (raw.includes(',')) {
+    return raw
+      .split(',')
+      .map((d) => DOW_CN[Number(d)] || d)
+      .join('、')
+  }
+  // 处理步长: */2 → 每隔一天
+  if (raw.startsWith('*/')) {
+    const n = Number.parseInt(raw.slice(2), 10)
+    return `每${n}天`
+  }
+  return DOW_CN[Number(raw)] || raw
+}
+
+// 格式化时间 HH:MM
+function formatTimeStr(minPart: string, hourPart: string): string {
+  const padMin = minPart === '*' ? '00' : minPart.padStart(2, '0')
+  const padHour = hourPart === '*' ? '00' : hourPart.padStart(2, '0')
+  return `${padHour}:${padMin}`
+}
+
 const humanReadable = computed(() => {
   const minPart = exprParts.value[0] || '*'
   const hourPart = exprParts.value[1] || '*'
@@ -297,8 +369,7 @@ const humanReadable = computed(() => {
   const monthPart = exprParts.value[3] || '*'
   const dowPart = exprParts.value[4] || '*'
 
-  const parts: string[] = []
-
+  // 每分钟
   if (
     minPart === '*' &&
     hourPart === '*' &&
@@ -306,48 +377,77 @@ const humanReadable = computed(() => {
     monthPart === '*' &&
     dowPart === '*'
   ) {
-    return t('cron.description.everyMinute')
+    return '每分钟执行一次'
   }
 
-  // 分钟
-  if (minPart === '*') {
-    parts.push(t('cron.description.everyMin'))
-  } else if (minPart.startsWith('*/')) {
-    parts.push(t('cron.description.everyNMin', { n: minPart.slice(2) }))
-  } else {
-    parts.push(`${t('cron.description.atMin')} ${minPart}`)
+  // 仅分钟有步长，其余全 *: */5 * * * *
+  if (
+    minPart.startsWith('*/') &&
+    hourPart === '*' &&
+    domPart === '*' &&
+    monthPart === '*' &&
+    dowPart === '*'
+  ) {
+    const n = minPart.slice(2)
+    return `每${n}分钟执行一次`
   }
 
-  // 小时
-  if (hourPart === '*') {
-    // skip
-  } else if (hourPart.startsWith('*/')) {
-    parts.push(t('cron.description.everyNHour', { n: hourPart.slice(2) }))
-  } else {
-    parts.push(`${hourPart}${t('cron.description.hour')}`)
+  // 仅小时有步长，其余全 *: 0 */2 * * *
+  if (hourPart.startsWith('*/') && domPart === '*' && monthPart === '*' && dowPart === '*') {
+    const n = hourPart.slice(2)
+    const time = formatTimeStr(minPart, '0')
+    return `每${n}小时的第${time}执行`
   }
 
-  // 日
-  if (domPart !== '*') {
-    if (domPart.startsWith('*/')) {
-      parts.push(t('cron.description.everyNDay', { n: domPart.slice(2) }))
+  // 固定分钟，其余全 * : 0 * * * * → 每小时整点 / 30 * * * * → 每小时第30分
+  if (hourPart === '*' && domPart === '*' && monthPart === '*' && dowPart === '*') {
+    if (minPart === '0') return '每小时整点执行'
+    return `每小时的第${minPart}分执行`
+  }
+
+  // 构建"何时"部分
+  const whenParts: string[] = []
+  const monthSet = monthPart !== '*'
+
+  // 月份 + 日期（日+周 组合）
+  const domSet = domPart !== '*'
+  const dowSet = dowPart !== '*'
+
+  if (monthSet && domSet) {
+    // 同时指定月和日: "1月1日"
+    whenParts.push(`${monthPart}月${domPart}日`)
+  } else if (monthSet) {
+    // 仅指定月: "1月"
+    whenParts.push(`${monthPart}月`)
+  } else if (domSet) {
+    // 仅指定日: "每月1日"
+    whenParts.push(`每月${domPart}日`)
+  }
+
+  if (dowSet) {
+    // 尝试美化星期: 1-5 → 工作日, 0,6 → 周末
+    if (dowPart === '1-5' || dowPart === '1,2,3,4,5') {
+      whenParts.push('工作日')
+    } else if (dowPart === '0,6' || dowPart === '6,0') {
+      whenParts.push('周末')
     } else {
-      parts.push(`${domPart}${t('cron.description.day')}`)
+      whenParts.push(formatDowCn(dowPart))
     }
   }
 
-  // 月
-  if (monthPart !== '*') {
-    parts.push(`${monthPart}${t('cron.description.month')}`)
+  // 时间
+  const time = formatTimeStr(minPart, hourPart)
+
+  // 组合
+  if (whenParts.length === 0) {
+    // 仅指定时间，每天: 0 9 * * *
+    if (time === '00:00') return '每天零点执行'
+    if (time === '12:00') return '每天正午执行'
+    return `每天 ${time} 执行`
   }
 
-  // 星期
-  if (dowPart !== '*') {
-    const dows = dowPart.split(',').map((d) => DOW_NAMES[Number(d)] || d)
-    parts.push(`${dows.join(',')}`)
-  }
-
-  return parts.join(' ')
+  const when = whenParts.join(' ')
+  return `${when} ${time} 执行`
 })
 </script>
 
@@ -402,7 +502,36 @@ const humanReadable = computed(() => {
           </div>
         </div>
 
-        <!-- 人类可读描述 -->
+        <!-- AI 自然语言生成 -->
+        <div class="border-t pt-4">
+          <p class="text-xs text-muted-foreground mb-2 flex items-center gap-1.5">
+            <Sparkles class="h-3.5 w-3.5" />
+            {{ $t('cron.aiGenerate') }}
+          </p>
+          <div class="flex gap-2">
+            <input
+              v-model="aiPrompt"
+              type="text"
+              :placeholder="$t('cron.aiPlaceholder')"
+              class="flex-1 h-9 px-3 text-sm bg-muted/30 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/50 transition-all"
+              :disabled="aiLoading"
+              @keydown.enter="generateWithAI"
+            />
+            <button
+              class="inline-flex items-center gap-1.5 px-4 h-9 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity disabled:opacity-50"
+              :disabled="aiLoading || !aiPrompt.trim()"
+              @click="generateWithAI"
+            >
+              <span
+                v-if="aiLoading"
+                class="h-3.5 w-3.5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin"
+              />
+              <Sparkles v-else class="h-3.5 w-3.5" />
+              {{ aiLoading ? $t('cron.aiGenerating') : $t('cron.aiGenerateBtn') }}
+            </button>
+          </div>
+          <p v-if="aiError" class="text-xs text-red-500 mt-1.5">{{ aiError }}</p>
+        </div>
         <div
           v-if="humanReadable && !cronError"
           class="flex items-start gap-2 bg-emerald-500/5 border border-emerald-500/15 rounded-lg px-3 py-2"
