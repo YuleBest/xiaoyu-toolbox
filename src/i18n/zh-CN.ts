@@ -306,6 +306,14 @@ export default {
       usage:
         '1. 拖动滑块设置密码长度。\n2. 勾选需要包含的字符类型。\n3. 可选：排除易混淆字符（如 l、1、I、O、0）。\n4. 点击「生成」按钮或调整参数时自动生成新密码。\n5. 点击「复制」按钮复制单条密码，或「全部复制」批量复制。',
     },
+    cron: {
+      title: 'Cron 表达式',
+      subtitle: 'Cron 表达式生成与解析',
+      description:
+        '在线 Cron 表达式生成与解析工具。支持可视化快速生成常用 Cron 表达式，实时预览未来 10 次执行时间。适用于定时任务配置、Linux crontab 编写、CI/CD 调度计划等多种场景，帮助开发者快速验证 Cron 表达式。',
+      usage:
+        '1. 使用快捷预设快速生成常用 Cron 表达式。\n2. 或在 5 个字段输入框中手动输入各字段值（分 时 日 月 周）。\n3. 实时查看未来 10 次执行的具体时间。\n4. 点击复制按钮复制完整表达式。',
+    },
     codeimg: {
       title: '代码图片生成',
       subtitle: '将代码转换为精美的图片',
@@ -1028,6 +1036,67 @@ export default {
       '收录 1324 个专业健身动作，涵盖背部、胸部、肩部、腿部、腰部等全身肌群。每个动作配有图解和详细步骤说明，支持按部位和器材筛选，适合健身爱好者参考和制定训练计划。',
     usage:
       '1. 选择身体部位和/或器材进行筛选。\n2. 也可在搜索框中输入动作名称查找。\n3. 点击动作卡片查看详细步骤图解。\n4. 浏览更多动作可点击"加载更多"。',
+  },
+
+  // === Cron 表达式 ===
+  cron: {
+    expression: 'Cron 表达式',
+    format: '格式',
+    formatHint: '分 时 日 月 周',
+    quickPresets: '快捷预设',
+    everyValue: '每',
+    every: '每',
+    nextExecutions: '未来执行时间',
+    showingNext: '展示未来 {count} 次执行',
+    next: '下次',
+    noUpcoming: '暂无可执行的未来时间',
+    noMatch: '无法匹配到有效执行时间',
+    invalidExpression: '表达式格式不正确',
+    copyExpression: '复制表达式',
+    copied: '已复制',
+    cronTips: '支持标准 5 位 Cron 表达式（分 时 日 月 周）',
+    fields: {
+      minute: '分',
+      hour: '时',
+      dayOfMonth: '日',
+      month: '月',
+      dayOfWeek: '周',
+    },
+    presets: {
+      everyMinute: '每分钟',
+      every5Min: '每5分钟',
+      every30Min: '每30分钟',
+      everyHour: '每小时',
+      everyDay: '每天0点',
+      everyWeek: '每周日0点',
+      everyMonth: '每月1号0点',
+      everyYear: '每年1月1日0点',
+      workday9am: '工作日9点',
+      workday6pm: '工作日18点',
+    },
+    description: {
+      everyMinute: '每分钟执行一次',
+      everyMin: '每分钟',
+      everyNMin: '每 {n} 分钟',
+      atMin: '第',
+      everyNHour: '每 {n} 小时',
+      hour: '点',
+      everyNDay: '每 {n} 天',
+      day: '日',
+      month: '月',
+    },
+    yes: '是',
+    syntaxReference: 'Cron 语法参考',
+    ref: {
+      field: '字段',
+      required: '必填',
+      range: '取值范围',
+      special: '特殊字符',
+      asterisk: '匹配所有值',
+      comma: '列出多个值（如 1,3,5）',
+      hyphen: '定义一个范围（如 1-5）',
+      slash: '定义步长（如 */5 表示每5个单位）',
+    },
   },
 
   // === 中国大陆人口 ===

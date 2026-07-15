@@ -188,6 +188,18 @@ export const toolsData: Record<string, Tool[]> = {
       path: '/password-gen',
       date: '2026-04-10',
     },
+    {
+      id: 'cron',
+      title: 'tools.cron.title',
+      subtitle: 'tools.cron.subtitle',
+      description: 'tools.cron.description',
+      author: 'Yule',
+      usage: 'tools.cron.usage',
+      icon: Clock,
+      color: 'text-amber-500',
+      path: '/cron',
+      date: '2026-07-16',
+    },
   ],
   media: [
     {
