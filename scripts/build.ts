@@ -3,7 +3,7 @@ import { spawnSync } from 'node:child_process'
 const start = Date.now()
 
 const result = spawnSync(
-  'pnpm run-s commitlog && pnpm run-p lint type-check && pnpm run build-only',
+  'pnpm run-s commitlog && pnpm run-p lint type-check readme && pnpm run build-only',
   { stdio: 'inherit', shell: true },
 )
 
