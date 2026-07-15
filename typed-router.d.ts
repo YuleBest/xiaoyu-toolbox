@@ -96,6 +96,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/china-gdp': RouteRecordInfo<
+      '/china-gdp',
+      '/china-gdp',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/codeimg': RouteRecordInfo<
       '/codeimg',
       '/codeimg',
@@ -397,6 +404,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/china-demographics.vue': {
       routes:
         | '/china-demographics'
+      views:
+        | never
+    }
+    'src/pages/china-gdp.vue': {
+      routes:
+        | '/china-gdp'
       views:
         | never
     }
