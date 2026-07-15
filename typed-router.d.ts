@@ -110,6 +110,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/cron': RouteRecordInfo<
+      '/cron',
+      '/cron',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/decibel': RouteRecordInfo<
       '/decibel',
       '/decibel',
@@ -416,6 +423,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/codeimg.vue': {
       routes:
         | '/codeimg'
+      views:
+        | never
+    }
+    'src/pages/cron.vue': {
+      routes:
+        | '/cron'
       views:
         | never
     }
