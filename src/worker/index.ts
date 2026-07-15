@@ -8,6 +8,7 @@ import hhsh from './routes/hhsh'
 import lyric from './routes/lyric'
 import weather from './routes/weather'
 import alarm from './routes/alarm'
+import cron from './routes/cron'
 
 const app = new Hono().basePath('/api')
 
@@ -20,5 +21,6 @@ app.route('/hhsh', hhsh)
 app.route('/lyric', lyric)
 app.route('/weather', weather)
 app.route('/alarm', alarm)
+app.route('/cron', cron)
 
 export default app
