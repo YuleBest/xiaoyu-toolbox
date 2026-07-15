@@ -20,8 +20,8 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
   },
   "include": ["vite.config.ts", "./typed-router.d.ts", "scripts/**/*.ts"],
-  "exclude": ["node_modules", "**/.old_project/**", "dist", ".git", "*.md"]
+  "exclude": ["node_modules", "**/.old_project/**", "dist", ".git", "*.md"],
 }
