@@ -557,6 +557,18 @@ export const toolsData: Record<string, Tool[]> = {
   ],
   game: [
     {
+      id: 'ai-nitpicker',
+      title: 'tools.ai-nitpicker.title',
+      subtitle: 'tools.ai-nitpicker.subtitle',
+      description: 'tools.ai-nitpicker.description',
+      author: 'Yule',
+      usage: 'tools.ai-nitpicker.usage',
+      icon: Swords,
+      color: 'text-rose-500',
+      path: '/ai-nitpicker',
+      date: '2026-07-16',
+    },
+    {
       id: 'hok',
       title: 'tools.hok.title',
       subtitle: 'tools.hok.subtitle',
