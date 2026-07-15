@@ -33,6 +33,7 @@ import {
   Brain,
   TriangleAlert,
   Dumbbell,
+  Globe,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -538,6 +539,20 @@ export const toolsData: Record<string, Tool[]> = {
       date: '2026-07-15',
       license: 'CC BY 4.0',
       copyright: '数据来源：中国国家统计局，基于 CC BY 4.0 授权使用。',
+    },
+    {
+      id: 'world-population',
+      title: 'tools.world-population.title',
+      subtitle: 'tools.world-population.subtitle',
+      description: 'tools.world-population.description',
+      author: 'Yule',
+      usage: 'tools.world-population.usage',
+      icon: Globe,
+      color: 'text-blue-500',
+      path: '/world-population',
+      date: '2026-07-16',
+      license: 'CC BY 4.0',
+      copyright: '数据来源：联合国经济和社会事务部人口司，基于 CC BY 4.0 授权使用。',
     },
   ],
   game: [
