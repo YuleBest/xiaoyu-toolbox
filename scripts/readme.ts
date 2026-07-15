@@ -54,7 +54,7 @@ if (startIndex !== -1 && endIndex !== -1 && startIndex < endIndex) {
   fs.writeFileSync(readmePath, newContent, 'utf-8')
 
   try {
-    execSync(`npx prettier --write "${readmePath}"`)
+    execSync(`pnpm exec prettier --write "${readmePath}"`)
     console.log('README.md updated and formatted successfully!')
   } catch (error) {
     console.error('Failed to format README.md:', error)
