@@ -34,6 +34,7 @@ import {
   TriangleAlert,
   Dumbbell,
   Globe,
+  FlaskConical,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -617,6 +618,20 @@ export const toolsData: Record<string, Tool[]> = {
       path: '/mcpe',
       backEnd: '/api/getmcpe',
       date: '2026-02-21',
+    },
+  ],
+  learn: [
+    {
+      id: 'balance',
+      title: 'tools.balance.title',
+      subtitle: 'tools.balance.subtitle',
+      description: 'tools.balance.description',
+      author: 'Yule',
+      usage: 'tools.balance.usage',
+      icon: FlaskConical,
+      color: 'text-emerald-500',
+      path: '/balance',
+      date: '2026-07-16',
     },
   ],
 }

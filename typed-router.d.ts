@@ -68,6 +68,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/balance': RouteRecordInfo<
+      '/balance',
+      '/balance',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/base64': RouteRecordInfo<
       '/base64',
       '/base64',
@@ -401,6 +408,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/anime-search.vue': {
       routes:
         | '/anime-search'
+      views:
+        | never
+    }
+    'src/pages/balance.vue': {
+      routes:
+        | '/balance'
       views:
         | never
     }
