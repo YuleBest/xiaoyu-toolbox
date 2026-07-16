@@ -22,15 +22,36 @@ function lcmOfArray(nums: number[]): number {
   return result
 }
 
+/** 展开括号中的基团：Al2(SO4)3 → Al2S3O12 */
+function expandGroups(raw: string): string {
+  // 匹配 (元素组)后跟可选数字
+  const re = /\(([^)]+)\)(\d*)/g
+  return raw.replace(re, (_, inner: string, num: string) => {
+    const multiplier = num ? parseInt(num, 10) : 1
+    // 解析内部元素并乘以倍数
+    const elemRe = /([A-Z][a-z]?)(\d*)/g
+    let expanded = ''
+    let m
+    while ((m = elemRe.exec(inner)) !== null) {
+      const count = m[2] ? parseInt(m[2], 10) : 1
+      expanded += m[1] + (count * multiplier || '')
+    }
+    return expanded
+  })
+}
+
 /** 解析单个化合物，如 "C2H5OH" → {C:2, H:6, O:1} */
 export function parseCompound(raw: string): Compound | null {
   // 拒绝以数字开头的输入（用户可能误加了系数）
   if (/^\d/.test(raw)) return null
 
+  // 展开括号基团：Al2(SO4)3 → Al2S3O12
+  const expanded = expandGroups(raw)
+
   const elements: Record<string, number> = {}
   const re = /([A-Z][a-z]?)(\d*)/g
   let match
-  while ((match = re.exec(raw)) !== null) {
+  while ((match = re.exec(expanded)) !== null) {
     const elem = match[1]
     const count = match[2] ? parseInt(match[2], 10) : 1
     elements[elem] = (elements[elem] || 0) + count

@@ -157,7 +157,7 @@ const examples = [
   'Fe + Cl2 = FeCl3',
   'Al + O2 = Al2O3',
   'NaOH + HCl = NaCl + H2O',
-  'KMnO4 + HCl = KCl + MnCl2 + Cl2 + H2O',
+  'Al + H2SO4 = Al2(SO4)3 + H2',
 ]
 
 function loadExample(example: string) {
