@@ -35,6 +35,7 @@ import {
   Dumbbell,
   Globe,
   FlaskConical,
+  Trophy,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -557,6 +558,18 @@ export const toolsData: Record<string, Tool[]> = {
     },
   ],
   game: [
+    {
+      id: 'world-cup_2026',
+      title: 'tools.world-cup_2026.title',
+      subtitle: 'tools.world-cup_2026.subtitle',
+      description: 'tools.world-cup_2026.description',
+      author: 'Yule',
+      usage: 'tools.world-cup_2026.usage',
+      icon: Trophy,
+      color: 'text-amber-500',
+      path: '/world-cup_2026',
+      date: '2026-07-20',
+    },
     {
       id: 'ai-nitpicker',
       title: 'tools.ai-nitpicker.title',

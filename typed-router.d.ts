@@ -355,6 +355,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/world-cup_2026': RouteRecordInfo<
+      '/world-cup_2026',
+      '/world-cup_2026',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/world-population': RouteRecordInfo<
       '/world-population',
       '/world-population',
@@ -654,6 +661,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/weibo-hot.vue': {
       routes:
         | '/weibo-hot'
+      views:
+        | never
+    }
+    'src/pages/world-cup_2026.vue': {
+      routes:
+        | '/world-cup_2026'
       views:
         | never
     }
