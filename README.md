@@ -1,3 +1,6 @@
+
+</think>
+
 <div align="center">
 
 # <img src="./public/favicon.svg" width="25" /> 小于工具箱
@@ -105,6 +108,7 @@ git clone https://github.com/YuleBest/xiaoyu-toolbox.git
 cd xiaoyu-toolbox
 pnpm install
 pnpm run build  # 构建项目
+pnpm run preview # 预览构建结果
 pnpm run dev    # 开发模式
 ```
 
