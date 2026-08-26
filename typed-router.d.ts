@@ -138,6 +138,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/deepseek-pricing': RouteRecordInfo<
+      '/deepseek-pricing',
+      '/deepseek-pricing',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/dydown': RouteRecordInfo<
       '/dydown',
       '/dydown',
@@ -475,6 +482,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/decibel.vue': {
       routes:
         | '/decibel'
+      views:
+        | never
+    }
+    'src/pages/deepseek-pricing.vue': {
+      routes:
+        | '/deepseek-pricing'
       views:
         | never
     }

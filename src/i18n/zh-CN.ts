@@ -315,6 +315,14 @@ export default {
       usage:
         '1. 使用快捷预设快速生成常用 Cron 表达式。\n2. 或在 5 个字段输入框中手动输入各字段值（分 时 日 月 周）。\n3. 实时查看未来 10 次执行的具体时间。\n4. 点击复制按钮复制完整表达式。',
     },
+    'deepseek-pricing': {
+      title: 'DeepSeek 价格',
+      subtitle: 'DeepSeek API 峰谷价格速览',
+      description:
+        '直观展示 DeepSeek API 的当前官方价格，区分峰谷时段、缓存命中输入、缓存未命中输入和输出 Token 费用。',
+      usage:
+        '1. 查看峰时与谷时的 API 价格表。\n2. 对比缓存命中、缓存未命中输入及输出 Token 的单价。\n3. 通过官网链接核对最新定价。',
+    },
     'world-cup_2026': {
       title: '2026 世界杯',
       subtitle: '2026 美加墨世界杯赛程',
@@ -1134,6 +1142,31 @@ export default {
       hyphen: '定义一个范围（如 1-5）',
       slash: '定义步长（如 */5 表示每5个单位）',
     },
+  },
+
+  // === DeepSeek API 定价 ===
+  deepseekPricing: {
+    sourceTitle: 'DeepSeek API 官方定价',
+    sourceDescription: '本页依据 DeepSeek 官方定价页面整理，实际计费请以官网为准。',
+    viewOfficialPricing: '查看官方定价',
+    pricingUnit: '人民币元 / 百万 Tokens',
+    peak: '峰时',
+    offPeak: '谷时',
+    peakPeriod: '周一至周五 09:00 - 12:00、14:00 - 18:00（北京时间）',
+    offPeakPeriod: '其余时段，价格为峰时的一半',
+    cacheHitInput: '缓存命中输入',
+    cacheMissInput: '缓存未命中输入',
+    output: '输出',
+    pricingTable: '模型价格',
+    currentPeriod: '当前计费时段',
+    currentTime: '当前北京时间',
+    currentPricing: '当前价格',
+    refreshedEveryMinute: '每分钟自动刷新',
+    model: '模型',
+    modelNote: '均支持思考和非思考模式，默认使用思考模式',
+    billingTitle: '计费说明',
+    billingDescription: '按输入和输出 Token 总量计费；视觉实验模型的图片会先转换为 Token，再与文本一同计费。',
+    noEffectiveDate: '官方页面未提供价格生效日期。',
   },
 
   // === 中国大陆人口 ===

@@ -38,6 +38,7 @@
 | [代码图片生成](https://tool.yule.ink/codeimg)            | 将代码转换为精美的图片         | 生成类似 Carbon 的精美代码截图，支持多种语言高亮、主题切换、自定义背景和窗口样式。适用于技术博客配图、社交媒体分享、代码演示和教学材料制作，让代码展示更加美观专业。                                    |
 | [强密码生成器](https://tool.yule.ink/password-gen)       | 自定义安全密码生成             | 基于浏览器内置 crypto API 的密码生成器，支持自定义密码长度（4～128 位）、字符类型（大写、小写、数字、符号）、排除易混淆字符，以及批量生成多条密码。所有生成过程均在本地完成，不上传任何数据，安全可靠。 |
 | [Cron 表达式](https://tool.yule.ink/cron)                | Cron 表达式生成与解析          | 在线 Cron 表达式生成与解析工具。支持可视化快速生成常用 Cron 表达式，实时预览未来 10 次执行时间。适用于定时任务配置、Linux crontab 编写、CI/CD 调度计划等多种场景，帮助开发者快速验证 Cron 表达式。      |
+| [DeepSeek 价格](https://tool.yule.ink/deepseek-pricing)  | DeepSeek API 峰谷价格速览      | 直观展示 DeepSeek API 的当前官方价格，区分峰谷时段、缓存命中输入、缓存未命中输入和输出 Token 费用。                                                                                                     |
 
 ### 多媒体工具
 

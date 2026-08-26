@@ -203,6 +203,20 @@ export const toolsData: Record<string, Tool[]> = {
       path: '/cron',
       date: '2026-07-16',
     },
+    {
+      id: 'deepseek-pricing',
+      title: 'tools.deepseek-pricing.title',
+      subtitle: 'tools.deepseek-pricing.subtitle',
+      description: 'tools.deepseek-pricing.description',
+      author: 'Yule',
+      usage: 'tools.deepseek-pricing.usage',
+      icon: Brain,
+      color: 'text-cyan-500',
+      path: '/deepseek-pricing',
+      date: '2026-08-27',
+      license: 'DeepSeek API Pricing',
+      copyright: '数据来源：DeepSeek 官方定价页面',
+    },
   ],
   media: [
     {
