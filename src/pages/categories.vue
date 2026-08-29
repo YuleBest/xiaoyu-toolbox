@@ -5,7 +5,9 @@ import { categories } from '@/config/nav'
 import { toolsData } from '@/config/tools'
 import { useIntersectionObserver } from '@vueuse/core'
 import { navigationStore, setActiveCategory } from '@/stores/navigation'
+import { toolLayout } from '@/stores/layout'
 import ToolCard from '@/components/tool/ToolCard.vue'
+import ToolRow from '@/components/tool/ToolRow.vue'
 
 const route = useRoute()
 
@@ -98,9 +100,18 @@ watch(
         </div>
 
         <div
-          class="grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-3 md:gap-6"
+          :class="
+            toolLayout === 'list'
+              ? 'flex flex-col gap-3 md:gap-4'
+              : 'grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-3 md:gap-6'
+          "
         >
-          <ToolCard v-for="tool in toolsData[cat.id] || []" :key="tool.id" :tool="tool" />
+          <component
+            :is="toolLayout === 'list' ? ToolRow : ToolCard"
+            v-for="tool in toolsData[cat.id] || []"
+            :key="tool.id"
+            :tool="tool"
+          />
         </div>
       </section>
     </div>

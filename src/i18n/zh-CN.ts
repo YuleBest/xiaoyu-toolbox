@@ -76,6 +76,13 @@ export default {
     ja: '日本語',
   },
 
+  // === 排列方式 ===
+  layout: {
+    label: '排列方式',
+    grid: '方格',
+    list: '列表',
+  },
+
   home: {
     favorites: '收藏的工具',
     featured: '精选推荐',

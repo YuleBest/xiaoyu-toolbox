@@ -4,7 +4,9 @@ import { useRouter } from 'vue-router'
 import { ChevronRight, Search } from 'lucide-vue-next'
 import { allTools, hots, tops } from '@/config/tools'
 import { favoriteIds } from '@/stores/favorites'
+import { toolLayout } from '@/stores/layout'
 import ToolCard from '@/components/tool/ToolCard.vue'
+import ToolRow from '@/components/tool/ToolRow.vue'
 
 const router = useRouter()
 
@@ -47,9 +49,18 @@ const latestTools = computed(() =>
       </div>
 
       <div
-        class="grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-3 md:gap-6"
+        :class="
+          toolLayout === 'list'
+            ? 'flex flex-col gap-3 md:gap-4'
+            : 'grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-3 md:gap-6'
+        "
       >
-        <ToolCard v-for="tool in favoriteTools" :key="'fav-' + tool.id" :tool="tool" />
+        <component
+          :is="toolLayout === 'list' ? ToolRow : ToolCard"
+          v-for="tool in favoriteTools"
+          :key="'fav-' + tool.id"
+          :tool="tool"
+        />
       </div>
     </section>
 
@@ -65,9 +76,18 @@ const latestTools = computed(() =>
       </div>
 
       <div
-        class="grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-3 md:gap-6"
+        :class="
+          toolLayout === 'list'
+            ? 'flex flex-col gap-3 md:gap-4'
+            : 'grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-3 md:gap-6'
+        "
       >
-        <ToolCard v-for="tool in topTools" :key="tool.id" :tool="tool" />
+        <component
+          :is="toolLayout === 'list' ? ToolRow : ToolCard"
+          v-for="tool in topTools"
+          :key="tool.id"
+          :tool="tool"
+        />
       </div>
     </section>
 
@@ -83,9 +103,18 @@ const latestTools = computed(() =>
       </div>
 
       <div
-        class="grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-3 md:gap-6"
+        :class="
+          toolLayout === 'list'
+            ? 'flex flex-col gap-3 md:gap-4'
+            : 'grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-3 md:gap-6'
+        "
       >
-        <ToolCard v-for="tool in hotTools" :key="tool.id" :tool="tool" />
+        <component
+          :is="toolLayout === 'list' ? ToolRow : ToolCard"
+          v-for="tool in hotTools"
+          :key="tool.id"
+          :tool="tool"
+        />
       </div>
     </section>
 
@@ -98,9 +127,18 @@ const latestTools = computed(() =>
       </div>
 
       <div
-        class="grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-3 md:gap-6"
+        :class="
+          toolLayout === 'list'
+            ? 'flex flex-col gap-3 md:gap-4'
+            : 'grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-3 md:gap-6'
+        "
       >
-        <ToolCard v-for="tool in latestTools" :key="tool.id" :tool="tool" />
+        <component
+          :is="toolLayout === 'list' ? ToolRow : ToolCard"
+          v-for="tool in latestTools"
+          :key="tool.id"
+          :tool="tool"
+        />
       </div>
     </section>
   </div>
