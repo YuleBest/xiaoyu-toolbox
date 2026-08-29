@@ -37,7 +37,7 @@ import { Github, Mail, Globe } from 'lucide-vue-next'
           {{ $t('footer.email') }}
         </a>
         <a
-          href="https://blog.yule.ink"
+          href="https://blog.yule.best"
           target="_blank"
           class="flex items-center gap-1.5 text-[12.5px] font-medium hover:text-blue-500 transition-colors group"
         >
