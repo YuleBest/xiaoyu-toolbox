@@ -36,6 +36,7 @@ import {
   Globe,
   FlaskConical,
   Trophy,
+  Palette,
 } from 'lucide-vue-next'
 
 export interface Tool {
@@ -216,6 +217,18 @@ export const toolsData: Record<string, Tool[]> = {
       date: '2026-08-27',
       license: 'DeepSeek API Pricing',
       copyright: '数据来源：DeepSeek 官方定价页面',
+    },
+    {
+      id: 'color-convert',
+      title: 'tools.color-convert.title',
+      subtitle: 'tools.color-convert.subtitle',
+      description: 'tools.color-convert.description',
+      author: 'Yule',
+      usage: 'tools.color-convert.usage',
+      icon: Palette,
+      color: 'text-pink-500',
+      path: '/color-convert',
+      date: '2026-08-30',
     },
   ],
   media: [

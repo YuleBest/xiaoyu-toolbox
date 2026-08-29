@@ -25,20 +25,21 @@
 
 ### 开发工具
 
-| 标题                                                     | 副标题                         | 简介                                                                                                                                                                                                    |
-| -------------------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [行政区划代码](https://tool.yule.ink/adoc)               | 中国大陆行政区划查询           | 查询中国大陆省、市、县、街道四级行政区划代码。支持分级选择和关键词搜索，快速定位目标区域并获取完整的行政区划代码。                                                                                      |
-| [URL 编码](https://tool.yule.ink/url-encode)             | URL 编码与解码                 | 将字符串进行 URL 编码，或将 URL 编码后的文本进行解码。支持完整 URL 编码（encodeURIComponent）。                                                                                                         |
-| [Unicode 编解码](https://tool.yule.ink/unicode)          | Unicode 编码与解码             | 将字符串转换为 Unicode 编码（\uXXXX），或将 Unicode 编码文本还原为原文。支持各种字符编码。                                                                                                              |
-| [Base64 转换](https://tool.yule.ink/base64)              | 文本与 Base64 互转             | 文本与 Base64 编码的相互转换，支持 UTF-8 中文与特殊字符，防止乱码。                                                                                                                                     |
-| [JSON-YAML 转换](https://tool.yule.ink/json-yaml)        | 配置文件格式互转               | 方便快捷的 JSON 与 YAML 格式互转工具，支持实时校验、格式化美化、语法高亮显示。适用于配置文件转换、API 数据格式切换、开发调试等多种场景，提高工作效率。                                                  |
-| [表格互转](https://tool.yule.ink/markdown-table-csv)     | Markdown 表格与 CSV 互转       | 在 Markdown 表格格式与 CSV（逗号分隔值）格式之间进行双向转换。支持实时联动、文件上传/下载，适用于文档编写、数据整理与表格格式转换等场景。                                                               |
-| [JS 演练场](https://tool.yule.ink/playground)            | 浏览器内的 JS / TS 沙盒        | 基于 Sandpack 和 Monaco Editor 的在线代码演练场，支持实时预览 JavaScript/TypeScript 代码运行效果。无需本地环境配置，直接在浏览器中编写、测试和调试代码，适合快速原型验证、代码片段分享和学习编程。      |
-| [翻译 (Builtin AI)](https://tool.yule.ink/translator-ai) | 基于 Chrome 内置 AI 的翻译工具 | [仅限 Chrome 131+ 版本] 利用 Chrome 浏览器内置的 Translator API 进行本地翻译。无需联网上传文本，保护隐私且响应迅速。支持多语言互译，适合文档翻译、网页内容转换和跨语言学习，是注重隐私用户的理想选择。  |
-| [代码图片生成](https://tool.yule.ink/codeimg)            | 将代码转换为精美的图片         | 生成类似 Carbon 的精美代码截图，支持多种语言高亮、主题切换、自定义背景和窗口样式。适用于技术博客配图、社交媒体分享、代码演示和教学材料制作，让代码展示更加美观专业。                                    |
-| [强密码生成器](https://tool.yule.ink/password-gen)       | 自定义安全密码生成             | 基于浏览器内置 crypto API 的密码生成器，支持自定义密码长度（4～128 位）、字符类型（大写、小写、数字、符号）、排除易混淆字符，以及批量生成多条密码。所有生成过程均在本地完成，不上传任何数据，安全可靠。 |
-| [Cron 表达式](https://tool.yule.ink/cron)                | Cron 表达式生成与解析          | 在线 Cron 表达式生成与解析工具。支持可视化快速生成常用 Cron 表达式，实时预览未来 10 次执行时间。适用于定时任务配置、Linux crontab 编写、CI/CD 调度计划等多种场景，帮助开发者快速验证 Cron 表达式。      |
-| [DeepSeek 价格](https://tool.yule.ink/deepseek-pricing)  | DeepSeek API 峰谷价格速览      | 直观展示 DeepSeek API 的当前官方价格，区分峰谷时段、缓存命中输入、缓存未命中输入和输出 Token 费用。                                                                                                     |
+| 标题                                                     | 副标题                          | 简介                                                                                                                                                                                                    |
+| -------------------------------------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [行政区划代码](https://tool.yule.ink/adoc)               | 中国大陆行政区划查询            | 查询中国大陆省、市、县、街道四级行政区划代码。支持分级选择和关键词搜索，快速定位目标区域并获取完整的行政区划代码。                                                                                      |
+| [URL 编码](https://tool.yule.ink/url-encode)             | URL 编码与解码                  | 将字符串进行 URL 编码，或将 URL 编码后的文本进行解码。支持完整 URL 编码（encodeURIComponent）。                                                                                                         |
+| [Unicode 编解码](https://tool.yule.ink/unicode)          | Unicode 编码与解码              | 将字符串转换为 Unicode 编码（\uXXXX），或将 Unicode 编码文本还原为原文。支持各种字符编码。                                                                                                              |
+| [Base64 转换](https://tool.yule.ink/base64)              | 文本与 Base64 互转              | 文本与 Base64 编码的相互转换，支持 UTF-8 中文与特殊字符，防止乱码。                                                                                                                                     |
+| [JSON-YAML 转换](https://tool.yule.ink/json-yaml)        | 配置文件格式互转                | 方便快捷的 JSON 与 YAML 格式互转工具，支持实时校验、格式化美化、语法高亮显示。适用于配置文件转换、API 数据格式切换、开发调试等多种场景，提高工作效率。                                                  |
+| [表格互转](https://tool.yule.ink/markdown-table-csv)     | Markdown 表格与 CSV 互转        | 在 Markdown 表格格式与 CSV（逗号分隔值）格式之间进行双向转换。支持实时联动、文件上传/下载，适用于文档编写、数据整理与表格格式转换等场景。                                                               |
+| [JS 演练场](https://tool.yule.ink/playground)            | 浏览器内的 JS / TS 沙盒         | 基于 Sandpack 和 Monaco Editor 的在线代码演练场，支持实时预览 JavaScript/TypeScript 代码运行效果。无需本地环境配置，直接在浏览器中编写、测试和调试代码，适合快速原型验证、代码片段分享和学习编程。      |
+| [翻译 (Builtin AI)](https://tool.yule.ink/translator-ai) | 基于 Chrome 内置 AI 的翻译工具  | [仅限 Chrome 131+ 版本] 利用 Chrome 浏览器内置的 Translator API 进行本地翻译。无需联网上传文本，保护隐私且响应迅速。支持多语言互译，适合文档翻译、网页内容转换和跨语言学习，是注重隐私用户的理想选择。  |
+| [代码图片生成](https://tool.yule.ink/codeimg)            | 将代码转换为精美的图片          | 生成类似 Carbon 的精美代码截图，支持多种语言高亮、主题切换、自定义背景和窗口样式。适用于技术博客配图、社交媒体分享、代码演示和教学材料制作，让代码展示更加美观专业。                                    |
+| [强密码生成器](https://tool.yule.ink/password-gen)       | 自定义安全密码生成              | 基于浏览器内置 crypto API 的密码生成器，支持自定义密码长度（4～128 位）、字符类型（大写、小写、数字、符号）、排除易混淆字符，以及批量生成多条密码。所有生成过程均在本地完成，不上传任何数据，安全可靠。 |
+| [Cron 表达式](https://tool.yule.ink/cron)                | Cron 表达式生成与解析           | 在线 Cron 表达式生成与解析工具。支持可视化快速生成常用 Cron 表达式，实时预览未来 10 次执行时间。适用于定时任务配置、Linux crontab 编写、CI/CD 调度计划等多种场景，帮助开发者快速验证 Cron 表达式。      |
+| [DeepSeek 价格](https://tool.yule.ink/deepseek-pricing)  | DeepSeek API 峰谷价格速览       | 直观展示 DeepSeek API 的当前官方价格，区分峰谷时段、缓存命中输入、缓存未命中输入和输出 Token 费用。                                                                                                     |
+| [色码提取转换](https://tool.yule.ink/color-convert)      | HEX RGB HSL HSV CMYK 互转与取色 | 支持 HEX、RGB、HSL、HSV、CMYK 五种颜色格式的实时互转，可上传图片点击任意位置取色，或通过颜色板选择颜色。                                                                                                |
 
 ### 多媒体工具
 

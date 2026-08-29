@@ -124,6 +124,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/color-convert': RouteRecordInfo<
+      '/color-convert',
+      '/color-convert',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/cron': RouteRecordInfo<
       '/cron',
       '/cron',
@@ -470,6 +477,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/codeimg.vue': {
       routes:
         | '/codeimg'
+      views:
+        | never
+    }
+    'src/pages/color-convert.vue': {
+      routes:
+        | '/color-convert'
       views:
         | never
     }

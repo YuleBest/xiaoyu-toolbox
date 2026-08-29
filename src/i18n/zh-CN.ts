@@ -331,6 +331,14 @@ export default {
       usage:
         '1. 查看峰时与谷时的 API 价格表。\n2. 对比缓存命中、缓存未命中输入及输出 Token 的单价。\n3. 通过官网链接核对最新定价。',
     },
+    'color-convert': {
+      title: '色码提取转换',
+      subtitle: 'HEX RGB HSL HSV CMYK 互转与取色',
+      description:
+        '支持 HEX、RGB、HSL、HSV、CMYK 五种颜色格式的实时互转，可上传图片点击任意位置取色，或通过颜色板选择颜色。',
+      usage:
+        '1. 在任一格式的输入框中修改数值，其余格式实时同步。\n2. 通过颜色板或原生取色器选择颜色。\n3. 上传图片后点击图片任意位置，即可提取该像素颜色。',
+    },
     'world-cup_2026': {
       title: '2026 世界杯',
       subtitle: '2026 美加墨世界杯赛程',
@@ -1175,6 +1183,38 @@ export default {
     billingTitle: '计费说明',
     billingDescription: '按输入和输出 Token 总量计费；视觉实验模型的图片会先转换为 Token，再与文本一同计费。',
     noEffectiveDate: '官方页面未提供价格生效日期。',
+  },
+
+  // === 色码提取转换 ===
+  colorConvert: {
+    preview: '颜色预览',
+    copy: '复制',
+    copied: '已复制',
+    hex: 'HEX',
+    rgb: 'RGB',
+    hsl: 'HSL',
+    hsv: 'HSV',
+    cmyk: 'CMYK',
+    r: 'R',
+    g: 'G',
+    b: 'B',
+    h: 'H',
+    s: 'S',
+    l: 'L',
+    v: 'V',
+    c: 'C',
+    m: 'M',
+    y: 'Y',
+    k: 'K',
+    palette: '颜色板',
+    picker: '选择颜色',
+    presets: '预设颜色',
+    imagePick: '图片取色',
+    upload: '上传图片',
+    replace: '更换图片',
+    uploadHint: '点击上传或拖入图片，然后在图片上点击任意位置取色',
+    pickHint: '点击图片上的任意位置提取颜色',
+    picked: '取色结果',
   },
 
   // === 中国大陆人口 ===
