@@ -81,6 +81,7 @@ export default {
     featured: '精选推荐',
     hot: '热门使用',
     latest: '最新发布',
+    heroTitle: '从这里开始',
   },
 
   // === 搜索页 ===
