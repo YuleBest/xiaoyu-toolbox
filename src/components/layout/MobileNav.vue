@@ -7,6 +7,7 @@ import { allTools } from '@/config/tools'
 import { navigationStore } from '@/stores/navigation'
 import ModeToggle from '@/components/ModeToggle.vue'
 import LanguageToggle from '@/components/LanguageToggle.vue'
+import LayoutToggle from '@/components/LayoutToggle.vue'
 
 const isMobileMenuOpen = ref(false)
 const isSettingsOpen = ref(false)
@@ -36,7 +37,7 @@ const toggleMobileMenu = () => {
     class="md:hidden fixed top-0 w-full z-50 border-b overflow-hidden mobile-nav-transition"
     :class="[isSettingsOpen && !isMobileMenuOpen ? 'rounded-b-2xl' : '']"
     :style="{
-      height: isMobileMenuOpen ? '100dvh' : isSettingsOpen ? '320px' : '64px',
+      height: isMobileMenuOpen ? '100dvh' : isSettingsOpen ? '400px' : '64px',
       backgroundColor: isMobileMenuOpen
         ? 'var(--card)'
         : 'color-mix(in srgb, var(--card), transparent 20%)',
@@ -102,6 +103,11 @@ const toggleMobileMenu = () => {
         <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-muted/30">
           <span class="text-[13px] font-medium text-muted-foreground">{{ $t('lang.label') }}</span>
           <LanguageToggle />
+        </div>
+        <!-- Arrangement -->
+        <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-muted/30">
+          <span class="text-[13px] font-medium text-muted-foreground">{{ $t('layout.label') }}</span>
+          <LayoutToggle />
         </div>
       </div>
     </div>
