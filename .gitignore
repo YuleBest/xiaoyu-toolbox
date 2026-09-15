@@ -13,6 +13,7 @@ dist-ssr
 .vite-ssg-temp
 *.local
 build.txt
+public/_commit.log.min.json
 
 # Editor directories and files
 .idea
