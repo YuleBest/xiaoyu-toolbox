@@ -19,6 +19,7 @@
     "type-check": "golar --build",
     "format": "oxfmt src/",
     "readme": "tsx scripts/readme.ts",
+    "pull-data": "tsx scripts/pull-data.ts",
     "commitlog": "tsx scripts/commitLog.ts"
   },
   "dependencies": {

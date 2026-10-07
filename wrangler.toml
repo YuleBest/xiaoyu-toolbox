@@ -6,8 +6,13 @@ main = "src/worker/index.ts"
 
 [assets]
 directory = "dist"
+binding = "ASSETS"
 not_found_handling = "single-page-application"
-run_worker_first = [ "/api/*" ]
+run_worker_first = [ "/api/*", "/database/*", "/__scheduled" ]
+
+[[r2_buckets]]
+bucket_name = "xiaoyu-toolbox-data"
+binding = "DATA"
 
 [[kv_namespaces]]
 id = "7d9e399b548e4a5691d34feb6030dbc7"
@@ -20,6 +25,9 @@ database_id = "9b27749f-5199-40cb-b5cb-28df0b35abfd"
 
 [vars]
 GIT_CHECKOUT_DEPTH = 0
+
+[triggers]
+crons = ["27 * * * *"]
 
 [observability]
 enabled = true

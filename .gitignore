@@ -31,3 +31,7 @@ public/_commit.log.min.json
 .dev.vars
 .env
 .github/prompts
+
+# 运行时数据：由 GitHub Actions 同步到 R2 / GetHOK 仓库，本地用 pnpm pull-data 拉取
+public/database/jichacha/
+public/database/hok/
