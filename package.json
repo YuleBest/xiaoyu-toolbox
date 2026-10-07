@@ -108,18 +108,5 @@
     "wait-on": "^9.0.4",
     "wrangler": "^4.71.0"
   },
-  "pnpm": {
-    "overrides": {
-      "vite": "^8.0.0"
-    },
-    "onlyBuiltDependencies": [
-      "@parcel/watcher",
-      "esbuild",
-      "maplibre-gl",
-      "sharp",
-      "vue-demi",
-      "workerd"
-    ]
-  },
-  "packageManager": "pnpm@10.30.0+sha512.2b5753de015d480eeb88f5b5b61e0051f05b4301808a82ec8b840c9d2adf7748eb352c83f5c1593ca703ff1017295bc3fdd3119abb9686efc96b9fcb18200937"
+  "packageManager": "pnpm@12.9.1+sha512.06b055fff5cd20dc12781de173ced3310ce0951bf2ec620211a16045d5444d5c93a663210764ef29a653a610459ba0368f0e74f84d80c54723cf95aae7bc0d6d"
 }
